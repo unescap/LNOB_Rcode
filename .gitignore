@@ -1,0 +1,70 @@
+
+
+# History files
+**.Rproj.user
+**.Rhistory
+**.Rapp.history
+**.RData
+**.Ruserdata
+.Rproj.user
+*.Rproj
+**.DS_Store
+
+# ignore all log
+**.log
+**.pdf
+**.png
+/.git7**
+
+# ignore folders: ** to include everything in between e.g. a/**/c = /a/this/and/this/b
+/dat_download/**
+/output/**
+/resultsSent/**
+/output_caste/**
+/dhs_Rdata/**
+/mics_Rdata/**
+/.Rproj.user/**
+
+# Example code in package build process
+*-Ex.R
+
+# Output files from R CMD build
+/*.tar.gz
+
+# Output files from R CMD check
+/*.Rcheck/
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
+
+# knitr and R markdown default cache directories
+*_cache/
+/cache/
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# R Environment Variables
+.Renviron
+
+# pkgdown site
+docs/
+
+# translation temp files
+po/*~
+.Rproj.user
+
+#a personal file that will not be commited
+eclac-standard.Rproj
+Config*.R
+
+# this file
+# .gitignore
+
+# excel file
+*.xlsx
