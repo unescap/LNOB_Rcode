@@ -72,7 +72,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   else if (rv=="AdolescentBirthRate") datause<- AdolescentBirthRate(df, dataList, k)
   else if (rv=="FinancialInclusion") datause<- FinancialInclusion(df, dataList, k)
   else if (rv=="Covid1") datause<- Covid1(df, dataList, k, svnm)  
-  else if (rv=="Covid2") datause<- Covid2(df, dataList, k)   
+  else if (rv=="Covid2") datause<- Covid2(df, dataList, k, svnm)   
   else if (rv=="Covid") datause<- Covid(df, dataList, k, svnm)    # to be defined
   else if (rv=="HandWashPR") datause<- HandWash(df, dataList, k)
   else if (rv=="SafeSanitationPR") datause<- SafeSanitation(df, dataList, k, svnm)
@@ -306,14 +306,15 @@ SafeSanitation<-function(datause, dataList, k, svnm){
 }
 
 
-HouseholdBasic<-function(datause, dataList){
-  
+HouseholdBasic<-function(datause, dataList, svnm){
+  print("household basic")
+  print(svnm)
   waterK<-match(dataList$VarName[dataList$NickName=="CleanWater"], colnames(datause))
   if(is.na(waterK)){
     print("No water variable for housebasic")
     return(NULL)
   }
-  datause<- CleanWater(datause, waterK, svnm)
+  datause<- CleanWater(datause, dataList, waterK, svnm)
   datause$var2tab1<-datause$var2tab
   
   sanitationK<-match(dataList$VarName[dataList$NickName=="SafeSanitation"], colnames(datause))
@@ -321,7 +322,7 @@ HouseholdBasic<-function(datause, dataList){
     print("No sanitation variable for housebasic")
     return(NULL)
   }
-  datause<- SafeSanitation(datause, dataList, sanitationK)
+  datause<- SafeSanitation(datause, dataList, sanitationK, svnm)
   datause$var2tab2<-datause$var2tab
   
   electricityK<-match(dataList$VarName[dataList$NickName=="AccessElectricity"], colnames(datause))
@@ -383,7 +384,7 @@ Land<-function(datause, dataList, k){
 }
 
 
-MultiDeprivation<-function(datause, dataList, k){
+MultiDeprivation<-function(datause, dataList, k, svnm){
   return(NULL)     #### no definition yet
 }
 
@@ -954,6 +955,7 @@ BankAccount<-function(datause, dataList, k){
 
 HandWash<-function(datause, dataList, k){
   datause$var2tab<- 0
+  print(k)
   datause[, k]<-as.numeric(as.character(datause[, k]))
   max_i<-max(datause[datause[,k]!=9,k])
 
@@ -961,30 +963,34 @@ HandWash<-function(datause, dataList, k){
   if(max_i==5) place<-(datause[,k]<=2)
   
   wV<-dataList$VarName[dataList$NickName == "HandWashWater"]
-  wk<-match(wV, colnames(datause))
+  wk<-match(wV, colnames(datause), nomatch = 0)
+  
   sV<-dataList$VarName[dataList$NickName == "HandWashSoap"]
-  sk<-match(sV, colnames(datause))
+  sk<-match(sV, colnames(datause), nomatch = 0)
 
   sV<-dataList$VarName[dataList$NickName == "HandWashSoap2"]
-  sk2<-match(sV, colnames(datause))
+  sk2<-match(sV, colnames(datause), nomatch = 0)
 
   sV<-dataList$VarName[dataList$NickName == "HandWashSoap3"]
-  sk3<-match(sV, colnames(datause))
+  sk3<-match(sV, colnames(datause), nomatch = 0)
 
   sV<-dataList$VarName[dataList$NickName == "HandWashSoap4"]
-  sk4<-match(sV, colnames(datause))
+  sk4<-match(sV, colnames(datause), nomatch = 0)
  
-  water<-(datause[, wk]==1)
-  if(length(unique(datause[, sk]))>1) soap<-(datause[, sk]==1)
+  if(wk>0) water<-(datause[, wk]==1)
+  else print("no info on water for washing hands")
+  if(sk>0 & length(unique(datause[, sk]))>1) soap<-(datause[, sk]==1)
   else soap<-rep(FALSE, nrow(datause))
-  if(!is.na(sk2))
+  if(sk2>0)
     if(length(unique(datause[, sk2]))>1) soap<- (soap | (datause[, sk2]==1))
-  if(!is.na(sk3))
+  if(sk3>0)
     if(length(unique(datause[, sk3]))>1) soap<- (soap | (datause[, sk3]==1))
-  if(!is.na(sk4))
+  if(sk4>0)
     if(length(unique(datause[, sk4]))>1) soap<-(soap | (datause[, sk4]==1))
   
   datause$var2tab[place & water & soap] <-1
+  
+  print(table(datause$var2tab))
   return(datause)
 }
 
@@ -1055,11 +1061,18 @@ datause<-BasicWater(datause, dataList, k, svnm)
 print("Basic Water: ")
 print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
 datause$basicwater<-datause$var2tab
-k<-match(dataList$VarName[dataList$NickName=="HandWash"], colnames(datause))
-datause<-HandWash(datause, dataList, k) 
-print("Hand Wash: ")
-print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
 
+k<-match(dataList$VarName[dataList$NickName=="HandWashPR"], colnames(datause), nomatch = 0)
+
+if(k>0) {
+  datause<-HandWash(datause, dataList, k) 
+  print("Hand Wash: ")
+  print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
+}
+else {
+  print("No information on handwash")
+  return(NULL)
+}
 datause$var2tab<-datause$basicwater * datause$learning * datause$var2tab
 print("Covid 1: ")
 print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
@@ -1088,8 +1101,8 @@ WallRoof<-function(datause, dataList){
 }
 
 
-Covid2<-function(datause, dataList, k){
-  datause<-Covid1(datause, dataList, k)
+Covid2<-function(datause, dataList, k, svnm){
+  datause<-Covid1(datause, dataList, k, svnm)
   print("Covid1 :")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   datause$covid1<-datause$var2tab
@@ -1104,7 +1117,7 @@ Covid2<-function(datause, dataList, k){
   #look for k
   ssV<-dataList$VarName[dataList$NickName=="SafeSanitation"]
   k<-match(ssV, colnames(datause))
-  datause<-SafeSanitation(datause, dataList, k)
+  datause<-SafeSanitation(datause, dataList, k, svnm)
   print("SafeSanitation :")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   print(table(datause$covid1, datause$var2tab))
@@ -1149,7 +1162,7 @@ Covid<-function(datause, dataList, k, svnm){
   #look for k
   ssV<-dataList$VarName[dataList$NickName=="SafeSanitationPR"]
   k<-match(ssV, colnames(datause))
-  datause<-SafeSanitation(datause, dataList, k)
+  datause<-SafeSanitation(datause, dataList, k, svnm)
   print("SafeSanitation :")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
 

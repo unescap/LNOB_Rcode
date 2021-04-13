@@ -63,7 +63,7 @@ logger <- create.logger(logfile = logger_location, level = 'DEBUG')
 run_together<-function(csv_folder, original_data_folder, output_folder, country_code, version_code, year_code, mrversion_code=NULL,
                        prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE)
 {
-
+  svnm<-paste(country_code, version_code, sep="")
   # Reading DHSstandard.csv file. 
   print(paste(csv_folder, csvfile_name, ".csv", sep=""))
   meta_data<-read.table(paste(csv_folder, csvfile_name, ".csv", sep=""), sep=",", header=T, colClasses="character")
@@ -71,7 +71,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   # Type of Datasets: IR, HR, PR, MR.
   dataSet<-unique(meta_data$DataSet)
   dataSet<-dataSet[!dataSet=="MR"]
-  dataSet<-c("IR")
+  dataSet<-c("PR")
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
   for(ds in dataSet) {
@@ -136,8 +136,9 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # unique_responseList<-c("Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR")
     # unique_responseList<-c("InternetUse")
     # unique_responseList<-c("CleanWater", "SafeSanitation")
-    unique_responseList<-c("ProfessionalHelp")
-    svnm<-paste(country_code, version_code, sep="")
+    # unique_responseList<-c("PhysicalViolence")
+    
+    # unique_responseList<-c("Covid1")
     #Modified for YW
     for(rv in unique_responseList) {
       
@@ -259,11 +260,15 @@ csvfile_name4 <- "DHSstandardKH61"
 csvfile_name5 <- "DHSstandardIA52"
 csvfile_name6 <- "DHSstandardIA71"
 
+# MV 71 
+run_together(csv_folder, data_folder, output_folder, "MV","71", "2016", NULL, NULL, csvfile_name2, TRUE, FALSE)
+
+
 # checking professional help
-run_together(csv_folder, data_folder, output_folder, "BD","61", "2014", NULL, NULL, csvfile_name2, TRUE, FALSE)
-run_together(csv_folder, data_folder, output_folder, "ID","63", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE)
-run_together(csv_folder, data_folder, output_folder, "ID","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE)
-run_together(csv_folder, data_folder, output_folder, "TJ","70", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE)
+# run_together(csv_folder, data_folder, output_folder, "BD","61", "2014", NULL, NULL, csvfile_name2, TRUE, FALSE)
+# run_together(csv_folder, data_folder, output_folder, "ID","63", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE)
+# run_together(csv_folder, data_folder, output_folder, "ID","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE)
+# run_together(csv_folder, data_folder, output_folder, "TJ","70", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE)
 
 
 # checking water and sanitation
