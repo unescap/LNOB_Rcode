@@ -61,7 +61,7 @@ logger <- create.logger(logfile = logger_location, level = 'DEBUG')
 # variable indicators (response/independent), recoding
 
 run_together<-function(csv_folder, original_data_folder, output_folder, country_code, version_code, year_code, mrversion_code=NULL,
-                       prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE)
+                       prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE, region=FALSE)
 {
   svnm<-paste(country_code, version_code, sep="")
   # Reading DHSstandard.csv file. 
@@ -71,7 +71,9 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   # Type of Datasets: IR, HR, PR, MR.
   dataSet<-unique(meta_data$DataSet)
   dataSet<-dataSet[!dataSet=="MR"]
-  dataSet<-c("PR")
+  
+  # specify data set for debugginh
+  # dataSet<-c("PR")
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
   for(ds in dataSet) {
@@ -137,8 +139,10 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # unique_responseList<-c("InternetUse")
     # unique_responseList<-c("CleanWater", "SafeSanitation")
     # unique_responseList<-c("PhysicalViolence")
-    
     # unique_responseList<-c("Covid1")
+    
+    
+    
     #Modified for YW
     for(rv in unique_responseList) {
       
@@ -207,6 +211,17 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
         ## get_data() is defined in DHS_get_data.R file, it caculates the response variable and creat a 0-1 variable in 
         ## datause$var2tab
 
+        country_ISO<-iso_code(country_code)
+        if(country_ISO=="NotFound") {
+          print("ISO code not found, using the DHS country code instead")
+          country_ISO<-country_code
+        }
+        
+        formula_string<-paste("var2tab", paste(indvar, collapse=" + "), sep=" ~ ")
+        title_string<-paste(rv, paste(indvar, collapse=" + "), sep=" ~ ")
+        
+        print(formula_string)
+        
         k<-match("Caste", colnames(datause))  
         
         if(caste==TRUE & length(k)==0) {
@@ -214,18 +229,26 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
           print("Caste information not available")
           print("Please rerun the program without Caste")
           
-        } else {
+        } else if(region) {
+          regionList<-unique(datause$RegionName)
+          for (rg in regionList){
+            datause1<-datause[datause$RegionName==rg, ]
+            country_code1<-paste(rg, country_ISO, sep = ", ")
+            #### Construct and Write Decision Tree to output folder
+            write_tree(datause1, country_code1, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder)
+            
+            #### Construct and Write HOI and dis-similarity index calculation to output folder
+            write_HOI_D(datause1, country_code1, year_code, title_string, indvar, ds_output_folder, filename)
+            
+            #### Construct and Write Logistic Regression to output folder 
+            write_glm(datause1, rtp,  country_code1, year_code, title_string, indvar, ds_output_folder, filename)
+          }
+        }
+        else {
           
           # Constructing the formula string and title for the models 
-          formula_string<-paste("var2tab", paste(indvar, collapse=" + "), sep=" ~ ")
-          title_string<-paste(rv, paste(indvar, collapse=" + "), sep=" ~ ")
 
-          print(formula_string)
-          country_ISO<-iso_code(country_code)
-          if(country_ISO=="NotFound") {
-            print("ISO code not found, using the DHS country code instead")
-            country_ISO<-country_code
-          }
+
           #### Construct and Write Decision Tree to output folder
           write_tree(datause, country_ISO, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder)
 
@@ -261,7 +284,7 @@ csvfile_name5 <- "DHSstandardIA52"
 csvfile_name6 <- "DHSstandardIA71"
 
 # MV 71 
-run_together(csv_folder, data_folder, output_folder, "MV","71", "2016", NULL, NULL, csvfile_name2, TRUE, FALSE)
+run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, TRUE)
 
 
 # checking professional help
