@@ -72,14 +72,22 @@ cal_HOI_shapley<-function(datause, vm)
   Overall_D<-cal_D(datause, vm)
   HOI<-(1-Overall_D)*Overall_Mean
   result<-c("mean", Overall_Mean, "HOI",  HOI, "D", Overall_D)
+  
+  oneRecord = list(
+      mean = Overall_Mean,
+      HOI = HOI,
+      D = Overall_D
+    )
+  
   for(a in vm){
     na<-vm[-match(a, vm)]
     Da<-cal_Da(datause, a, na)
     Pa<-Da/Overall_D
     result<-c(result, a, Pa)
+    oneRecord[[ a ]] <- Pa
   }
 
-  return(result)
+  return(list(result, toJSON(oneRecord, auto_unbox = TRUE)))
 }
 
 #cal_HOI_shapley(datause, vm)

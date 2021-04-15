@@ -3,7 +3,7 @@
 
 write_tree <- function(datause, country_code2, year_code, 
                        title_string, formula_string, sub_string, 
-                       rv, rtp, filename,  caste, output_folder) {
+                       rv, rtp, filename,  caste, output_folder, use_version) {
   
   # Build Model
   sub_string<-NULL
@@ -13,7 +13,7 @@ write_tree <- function(datause, country_code2, year_code,
   
   source1<-"DHS"
   tree_stat<- catch_error(build_tree(output_folder, country_code2, year_code,  datause, source1, rv, rtp,
-                                     formula_string, title_string, sub_string, filename, e=caste, region = FALSE))
+                                     formula_string, title_string, sub_string, filename, e=caste, region = FALSE, use_version))
   
   
   
@@ -37,34 +37,34 @@ write_tree <- function(datause, country_code2, year_code,
 }
 
 write_HOI_D <- function(datause, country_code2, year_code, title_string,
-                        indvar, output_folder, filename) {
+                        indvar, output_folder, filename, use_version) {
   
   # Calculate 
   pass_message <- "Successfully calculated HOI and D"
-  result<-catch_error(cal_HOI_shapley(datause, indvar))
+  two_results<-catch_error(cal_HOI_shapley(datause, indvar, use_version))
+  result<-  two_results[1]
+
+    result<-c(country_code2, year_code,  title_string, result)
+    result$source<-"DHS"
   
-  result<-c(country_code2, year_code,  title_string, result)
-  result$source<-"DHS"
+    if (!is.null(result)) info(logger, paste(pass_message))
   
-  if (!is.null(result)) { 
-    
-    info(logger, paste(pass_message))
-    
-  }
+    print(paste("md",filename,".Rdata", sep=""))
+    # Saving object as .Rdata file for Shiny output
+     resave(result, file = paste("md",filename,".Rdata", sep=""))
   
-  print(paste("md",filename,".Rdata", sep=""))
-  # Saving object as .Rdata file for Shiny output
-  resave(result, file = paste("md",filename,".Rdata", sep=""))
-  
-  # Write to output 
-  pass_message <- "Successfully wrote D.csv"
-  catch_error(write.table(t(result), file=paste(output_folder, "D.csv", sep=""),
+    # Write to output 
+    pass_message <- "Successfully wrote D.csv"
+    catch_error(write.table(t(result), file=paste(output_folder, "D.csv", sep=""),
                           sep=",", append = TRUE,   col.names = F, row.names = F)) 
+  
+    result<-  two_results[2]
+    if(use_version==3)  DHS_TBD_WriteDindex(output_folder, title_string, country_code, version_code, rv, result)
   
 }
 
 write_glm <- function(datause, rtp, country_code2, year_code, title_string, 
-                      indvar, output_folder, filename) {
+                      indvar, output_folder, filename, use_version) {
   
   # Build Logistic Regression model 
   
@@ -93,6 +93,7 @@ write_glm <- function(datause, rtp, country_code2, year_code, title_string,
                                sep=",", append = TRUE,   col.names = T, row.names = T, na="")) #catch_error() 
   
   print("glm result written")
+  if(use_version==3) DHS_TBD_Writeglm(s.glm, output_folder, title_string, country_code, version_code)
 }
 
 # List of formula components 
@@ -170,7 +171,7 @@ region <- function(output_folder, country_code, version_code,
       tree_stat<- catch_error(build_tree(output_folder, country_code, version_code, 
                                          datause_region, rv,
                                          formula_string, title_string, sub_string, 
-                                         e=caste, filename, region))
+                                         e=caste, filename, region, use_version))
       
       if (!is.null(tree_stat)) { 
         

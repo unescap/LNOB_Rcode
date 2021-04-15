@@ -53,9 +53,7 @@ logger <- create.logger(logfile = logger_location, level = 'DEBUG')
 ### Read DHSKey.csv: this contains the corresponding country_code and version_code for a
 # country and year. Example: "Afghanisation 2015" has country_code "AF" and version_code "70".
 
-# csvfile_name0 <- "DHSKey"
-# DHSKey <-read.table(paste(source_folder, csvfile_name0, ".csv", sep=""), sep=",", header=T, colClasses="character")
-# as.data.frame(DHSKey)
+
 
 ### Main function: runs all the other functions 
 # reading in a csv file with columnes: data type, variable names, variable type (categorical or numeric), 
@@ -85,6 +83,18 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   
   # originally in lines 44-60, 80-86, 99-101 are moved to the DHS_TBD file and run here when use_version is 3
   if(use_version==3) {
+    
+    csvfile_name0 <- "DHSKey"
+    
+    if(! exists(paste(csv_folder, csvfile_name0,sep=""))) {
+      print("DHSKey.csv not available, TBD version can not run,  please consult user manual, create a config file and define r_folder in it")
+      stop()
+    }
+    else {
+    
+    DHSKey <-read.table(paste(csv_folder, csvfile_name0, ".csv", sep=""), sep=",", header=T, colClasses="character")
+    as.data.frame(DHSKey)
+    }
     
     if(! exists(paste(r_folder,"DHS_TBD.R",sep=""))) {
       print("DHS_TBD.R not available, TBD version can not run,  please consult user manual, create a config file and define r_folder in it")
@@ -260,28 +270,27 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
             datause1<-datause[datause$RegionName==rg, ]
             country_code1<-paste(rg, country_ISO, sep = ", ")
             #### Construct and Write Decision Tree to output folder
-            write_tree(datause1, country_code1, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder)
+            write_tree(datause1, country_code1, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder, use_version)
             
             #### Construct and Write HOI and dis-similarity index calculation to output folder
-            write_HOI_D(datause1, country_code1, year_code, title_string, indvar, ds_output_folder, filename)
+            write_HOI_D(datause1, country_code1, year_code, title_string, indvar, ds_output_folder, filename, use_version)
             
             #### Construct and Write Logistic Regression to output folder 
-            write_glm(datause1, rtp,  country_code1, year_code, title_string, indvar, ds_output_folder, filename)
+            write_glm(datause1, rtp,  country_code1, year_code, title_string, indvar, ds_output_folder, filename, use_version)
           }
         }
         else {
           
           # Constructing the formula string and title for the models 
 
-
           #### Construct and Write Decision Tree to output folder
-          write_tree(datause, country_ISO, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder)
+          write_tree(datause, country_ISO, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder, use_version)
 
           #### Construct and Write HOI and dis-similarity index calculation to output folder
-          write_HOI_D(datause, country_ISO, year_code, title_string, indvar, ds_output_folder, filename)
+          write_HOI_D(datause, country_ISO, year_code, title_string, indvar, ds_output_folder, filename, use_version)
           
           #### Construct and Write Logistic Regression to output folder 
-          write_glm(datause, rtp,  country_ISO, year_code, title_string, indvar, ds_output_folder, filename)
+          write_glm(datause, rtp,  country_ISO, year_code, title_string, indvar, ds_output_folder, filename, use_version)
 
           #### Construct model for each region. 
           # region(output_folder, country_code, version_code,
@@ -292,6 +301,9 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
         }
       } 
     }
+    
+    if(use_version==3)
+      DHS_TBD_mainfunction(DHSKey)
     message <- paste("END OF SCRIPT.") 
     print(message)
     info(logger, message)

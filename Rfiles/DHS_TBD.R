@@ -1,13 +1,17 @@
 
 ##### First appeared in DHS_main_functions.R
 ##### START OF TBD codes #####
-  source(paste(source_folder,"http_request.R",sep=""))
 
-  treeDataRequest <<- list()
-  dIndexDataRequest <<- list()
-  logitDataRequest <<- list()
-  regionTreeDataRequest <<- list()
-  regionDIndexRequest <<- list()
+if(! exists(paste(r_folder,"http_request.R",sep=""))) {
+  print("http_request.R not available, TBD version can not run,  please consult user manual, create a config file and define r_folder in it")
+  stop()
+} else source(paste(r_folder,"http_request.R",sep=""))
+
+treeDataRequest <<- list()
+dIndexDataRequest <<- list()
+logitDataRequest <<- list()
+regionTreeDataRequest <<- list()
+regionDIndexRequest <<- list()
 ##### END OF TBD codes #####
 
 
@@ -20,31 +24,32 @@ insert_indicator <- function(request_body){
   result <- http_post(endpoint, request_body)
   print(c('RESULT', result))
 }
-  
-  ##### START OF TBD codes #####
-  assign("treeDataRequest", list(), envir = .GlobalEnv)
-  assign("dIndexDataRequest", list(), envir = .GlobalEnv)
-  assign("logitDataRequest", list(), envir = .GlobalEnv)
-  assign("regionTreeDataRequest", list(), envir = .GlobalEnv)
-  assign("regionDIndexRequest", list(), envir = .GlobalEnv)
-  ##### END OF TBD codes #####
-  
-  
-  indicator_list <- list()
-  
-  ##### START OF TBD codes #####
-  indicator = list(
-    name = rv,
-    field_label = rv,
-    field_title = rv,
-    field_indicator_type = responseList$IndicatorType[responseList$NickName==rv]
-  )
-  indicator_list<-append(indicator_list, list(indicator))
-  ##### END OF TBD codes #####
-  
-  
-  
-  
+
+##### START OF TBD codes #####
+assign("treeDataRequest", list(), envir = .GlobalEnv)
+assign("dIndexDataRequest", list(), envir = .GlobalEnv)
+assign("logitDataRequest", list(), envir = .GlobalEnv)
+assign("regionTreeDataRequest", list(), envir = .GlobalEnv)
+assign("regionDIndexRequest", list(), envir = .GlobalEnv)
+##### END OF TBD codes #####
+
+
+indicator_list <- list()
+
+##### START OF TBD codes #####
+indicator = list(
+  name = rv,
+  field_label = rv,
+  field_title = rv,
+  field_indicator_type = responseList$IndicatorType[responseList$NickName==rv]
+)
+indicator_list<-append(indicator_list, list(indicator))
+##### END OF TBD codes #####
+
+#### this function was used towards the end of TBD version of run_together
+#### results saved in global enviroment and pushed to somewhere
+
+DHS_TBD_mainfunction<-function(DHSKey){
   ####### last chunk of TBD codes in main functions r code
   ##### START OF TBD codes #####
   if (to_store_result_in_drupal) {
@@ -280,3 +285,71 @@ insert_indicator <- function(request_body){
     ##########
   }
   ##### END OF TBD codes #####
+}
+
+
+##### following functions were originally in various places of the write/analysis functions
+DHS_TBD_Writeglm<-function(s.glm, output_folder, title_string, country_code, version_code)
+  
+{
+  
+  ##### START OF TBD codes #####
+  logitList = list();
+  for (r in 1:nrow(s.glm)) {
+    oneLogit = list()
+    oneLogit["indicator"] = row.names(s.glm)[r];
+    for (c in 1:ncol(s.glm)){
+      oneLogit[[colnames(s.glm)[c]]] = s.glm[r,c]
+    }
+    logitList <- append(logitList, list(oneLogit))
+  }
+  # print(toJSON(logitList, auto_unbox = TRUE))
+  
+  one_logit_data = list(
+    type = "logit",
+    field_survey_type = "DHS",
+    field_dataset = basename(output_folder),
+    title = title_string,
+    field_geo = country_code,
+    field_year = version_code,
+    field_data = toJSON(logitList, auto_unbox = TRUE)
+  )
+  assign("logitDataRequest", append(logitDataRequest, list(one_logit_data)), envir = .GlobalEnv)
+}
+
+
+
+### used in write_HOI_D function
+DHS_TBD_WriteDindex<-function(output_folder, title_string, country_code, version_code, rv, result){
+  one_d_data = list(
+    type = "d_index",
+    field_survey_type = "DHS",
+    field_dataset = basename(output_folder),
+    title = title_string,
+    field_geo = country_code,
+    field_year = version_code,
+    field_indicator = rv,
+    field_data = toString(result)
+  )
+  # request_body = list(one_d_data)
+  assign("dIndexDataRequest", append(dIndexDataRequest, list(one_d_data)), envir = .GlobalEnv)
+  
+}
+
+
+#### used in build_tree function
+DHS_TBD_WriteTree<-function(data2, source_folder, country_code, version_code, Response_var){
+  allTreeJson <- toJSON(data2, flatten = TRUE)
+  one_tree_data = list(
+    type = "tree_data",
+    field_survey_type = "DHS",
+    field_dataset = basename(source_folder),
+    title = paste(country_code,Response_var,version_code, sep = " "),
+    field_geo = country_code,
+    field_year = version_code,
+    field_indicator = Response_var,
+    field_data = toString(allTreeJson)
+  )
+  # print(one_tree_data)
+  assign("treeDataRequest", append(treeDataRequest, list(one_tree_data)), envir = .GlobalEnv)
+}
