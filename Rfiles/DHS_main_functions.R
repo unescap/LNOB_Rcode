@@ -116,9 +116,8 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # File name: Example ~ MVIR71FL.
     ### here line 119 for TDB code for picking up data file names
     if(use_version==1) filename<-paste(country_code, ds, version_code, "FL", sep="")
-    else {
-      filename<-basename(dir(country_data_folder, pattern = paste(country_code, ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
-    }
+    else filename<-basename(dir(country_data_folder, pattern = paste(country_code, ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
+
     
     # Printing current iteration of datatype.  
     message <- paste("## File name: ", filename, "  ############################")
@@ -129,16 +128,17 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     info(logger, message) 
     
     ### Read the datafile downloaded from DHS into R with columns specified in DHSstandard.csv (in meta_data).
-    
+  
+    if(ds=="PR") {
+      if(!is.null(prversion_code)) {
+        if(use_version==1) filename<-paste(country_code, ds, prversion_code, "FL", sep="")
+        else filename<-basename(dir(country_data_folder, pattern = paste(country_code, ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
+      }
+    }
 
-    
     # Example: ./dat_download/Afghanistan 2015/AFIR70FL/AFIR70FL.DCF
     data_path = paste(data_folder, filename, sep="/")
     
-    if(ds=="PR") {
-      if(!is.null(prversion_code)) filename<-paste(country_code, ds, prversion_code, "FL", sep="")
-    }
-
     df<-importDHSDAT(data_path, Flag_New, dataList$VarName)
     
     # Scale the Sample Weight values by factor of 1000000.
