@@ -214,7 +214,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
           # Example: ./dat_download/Afghanisatan 2015/
           data_path <- country_data_folder 
           if(is.null(mrversion_code)) mrversion_code<-version_code
-          datause <- merge_mr(mr_ds, meta_data, datause, dataList, country_code, mrversion_code, data_path, rv, indvar, svnm, eth, caste, Flag_New) 
+          datause <- merge_mr(mr_ds, meta_data, datause, dataList, country_code, mrversion_code, data_path, rv, indvar, svnm, eth, caste, Flag_New, use_version) 
           if(nrow(datause)>n0) indvar<-c(indvar, "Sex")
         }
       
@@ -227,7 +227,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
           data_path <- country_data_folder 
         
           if(is.null(prversion_code)) prversion_code<-version_code
-          datause <- merge_pr(pr_ds, meta_data, datause, dataList, country_code, prversion_code, data_path, rv, indvar, svnm, eth, caste, Flag_New)
+          datause <- merge_pr(pr_ds, meta_data, datause, dataList, country_code, prversion_code, data_path, rv, indvar, svnm, eth, caste, Flag_New, use_version)
           print("data merge done")
 
         } 
@@ -309,7 +309,9 @@ csvfile_name5 <- "DHSstandardIA52"
 csvfile_name6 <- "DHSstandardIA71"
 
 # MV 71 
-run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, TRUE)
+run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE)
+
+# run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, TRUE)
 
 
 # checking professional help

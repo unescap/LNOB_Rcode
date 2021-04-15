@@ -1534,11 +1534,12 @@ scale_sample_weight <- function(df, swV) {
   
 }
 
-merge_mr <- function(mr_ds, meta_data, datause, dataList, country_code, version_code, data_folder, rv, indvar, svnm, eth, caste, Flag_New) {
+merge_mr <- function(mr_ds, meta_data, datause, dataList, country_code, version_code, data_folder, rv, indvar, svnm, eth, caste, Flag_New, use_version) {
   
   mrdataList<-meta_data[meta_data$DataSet==mr_ds, ]
   swV<-mrdataList$VarName[mrdataList$NickName=="SampleWeight"]
-  filename<-paste(country_code, mr_ds, version_code, "FL", sep="")
+  if(use_version==1) filename<-paste(country_code, mr_ds, version_code, "FL", sep="")
+  else   filename<-basename(dir(data_folder, pattern = paste(country_code, mr_ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
   if(file.exists(paste(paste(data_folder, filename, sep="/"), ".DCF", sep=""))){
   
     #modified for YW
@@ -1578,11 +1579,12 @@ add_reglist<-function(country_code, version_code, datause, meta_data, dataList, 
 
 
 
-merge_pr <- function(pr_ds, meta_data,datause, dataList, country_code, version_code, data_folder, rv, indvar, svnm, eth, caste, Flag_New) {
+merge_pr <- function(pr_ds, meta_data,datause, dataList, country_code, version_code, data_folder, rv, indvar, svnm, eth, caste, Flag_New, use_version) {
   
   prdataList<-meta_data[meta_data$DataSet==pr_ds, ]
   swV<-prdataList$VarName[prdataList$NickName=="SampleWeight"]
-  filename<-paste(country_code, pr_ds, version_code, "FL", sep="")
+  if(use_version==1) filename<-paste(country_code, pr_ds, version_code, "FL", sep="")
+  else   filename<-basename(dir(data_folder, pattern = paste(country_code, pr_ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
   print(filename)
 
   prdf<-importDHSDAT(paste(data_folder, filename, sep="/"), Flag_New, prdataList$VarName)
