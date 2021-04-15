@@ -43,6 +43,7 @@ if(! exists("r_folder")) {
 source(paste(r_folder,"DHSReadDatLib.R",sep=""))
 source(paste(r_folder,"DHSShapleyValue.R",sep=""))
 source(paste(r_folder,"DHS_get_data.R",sep=""))
+source(paste(r_folder,"DHS_output.R",sep=""))
 source(paste(r_folder,"DHSTreeAndLogistic.R",sep=""))
 
 ### Create logger
@@ -60,8 +61,13 @@ logger <- create.logger(logfile = logger_location, level = 'DEBUG')
 # reading in a csv file with columnes: data type, variable names, variable type (categorical or numeric), 
 # variable indicators (response/independent), recoding
 
+# add use version for different purposes.
+# 1 for development and debugging (default)
+# 2 for validation on sharepoint, different input data structures
+# 3 for TBD code (for now, better to be separated later)
+
 run_together<-function(csv_folder, original_data_folder, output_folder, country_code, version_code, year_code, mrversion_code=NULL,
-                       prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE, region=FALSE)
+                       prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE, region=FALSE, use_version=1)
 {
   svnm<-paste(country_code, version_code, sep="")
   # Reading DHSstandard.csv file. 
@@ -76,6 +82,18 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   # dataSet<-c("PR")
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
+  
+  # originally in lines 44-60, 80-86, 99-101 are moved to the DHS_TBD file and run here when use_version is 3
+  if(use_version==3) {
+    
+    if(! exists(paste(r_folder,"DHS_TBD.R",sep=""))) {
+      print("DHS_TBD.R not available, TBD version can not run,  please consult user manual, create a config file and define r_folder in it")
+      stop()
+    }
+    else source(paste(r_folder,"DHS_TBD.R",sep=""))
+  }
+  
+  
   for(ds in dataSet) {
     
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
@@ -87,8 +105,20 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     dataList<-meta_data[meta_data$DataSet==ds, ]
     swV<-dataList$VarName[dataList$NickName=="SampleWeight"]
     
+    # Example: ./dat_download/Afghanistan 2015/
+    country_data_folder<-country_data(original_data_folder, country_code, version_code, use_version)
+    print(country_data_folder)
+    # Example: ./dat_download/Afghanistan 2015/AFIR70FL/
+    # data_folder <- paste(country_data_folder, paste(filename, "/", sep = ""), sep="")
+    data_folder<-country_data_folder
+    
+    
     # File name: Example ~ MVIR71FL.
-    filename<-paste(country_code, ds, version_code, "FL", sep="")
+    ### here line 119 for TDB code for picking up data file names
+    if(use_version==1) filename<-paste(country_code, ds, version_code, "FL", sep="")
+    else {
+      filename<-basename(dir(country_data_folder, pattern = paste(country_code, ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
+    }
     
     # Printing current iteration of datatype.  
     message <- paste("## File name: ", filename, "  ############################")
@@ -100,12 +130,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     
     ### Read the datafile downloaded from DHS into R with columns specified in DHSstandard.csv (in meta_data).
     
-    # Example: ./dat_download/Afghanistan 2015/
-    country_data_folder<-country_data(original_data_folder, country_code, version_code)
-    print(country_data_folder)
-    # Example: ./dat_download/Afghanistan 2015/AFIR70FL/
-    # data_folder <- paste(country_data_folder, paste(filename, "/", sep = ""), sep="")
-    data_folder<-country_data_folder
+
     
     # Example: ./dat_download/Afghanistan 2015/AFIR70FL/AFIR70FL.DCF
     data_path = paste(data_folder, filename, sep="/")
