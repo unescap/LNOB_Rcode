@@ -41,7 +41,7 @@ write_HOI_D <- function(datause, country_code2, year_code, title_string,
   
   # Calculate 
   pass_message <- "Successfully calculated HOI and D"
-  two_results<-catch_error(cal_HOI_shapley(datause, indvar, use_version))
+  two_results<-catch_error(cal_HOI_shapley(datause, indvar))
   result<-  two_results[1]
 
     result<-c(country_code2, year_code,  title_string, result)
@@ -58,8 +58,11 @@ write_HOI_D <- function(datause, country_code2, year_code, title_string,
     catch_error(write.table(t(result), file=paste(output_folder, "D.csv", sep=""),
                           sep=",", append = TRUE,   col.names = F, row.names = F)) 
   
-    result<-  two_results[2]
-    if(use_version==3)  DHS_TBD_WriteDindex(output_folder, title_string, country_code, version_code, rv, result)
+   
+    if(use_version==3)  {
+      result<-toJSON(two_results[2], auto_unbox = TRUE)
+      DHS_TBD_WriteDindex(output_folder, title_string, country_code, version_code, rv, result)
+    }
   
 }
 

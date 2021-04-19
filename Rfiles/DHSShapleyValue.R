@@ -87,7 +87,7 @@ cal_HOI_shapley<-function(datause, vm)
     oneRecord[[ a ]] <- Pa
   }
 
-  return(list(result, toJSON(oneRecord, auto_unbox = TRUE)))
+  return(list(result, oneRecord))
 }
 
 #cal_HOI_shapley(datause, vm)

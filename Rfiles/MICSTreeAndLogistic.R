@@ -1,6 +1,6 @@
 
 build_tree<-function(source_folder, country_code, version_code, datause, Response_var, datatype, formula_string, 
-                     title_string, sub_string=NULL, filename, e=FALSE, region = FALSE){  
+                     title_string, sub_string=NULL, filename, e=FALSE, region = FALSE, use_version){  
   
 
   print(source_folder)
@@ -48,6 +48,7 @@ build_tree<-function(source_folder, country_code, version_code, datause, Respons
   write.table(data2, paste(source_folder, "ALLTrees.csv", sep=""), sep=",", 
               col.names = FALSE  , row.names = FALSE, append = TRUE)
   
+  if(use_version==3) MICS_TBD_WriteTree(data2, source_folder, country_code, version_code, Response_var)
   
   if(!is.null(treefit$splits)) {  
     frame1<-treefit$frame

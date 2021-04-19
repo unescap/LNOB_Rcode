@@ -183,6 +183,8 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
       
       rtp<-unique(responseList$DataType[responseList$NickName==rv])
 
+      if(use_version==3) indicator_list<- DHS_TBD_app_indicator(rv, responseList$IndicatorType[responseList$NickName==rv], indicator_list)
+      
       # Printing current iteration of response variable. 
       message <- paste("Random variable: ", rv, "  ------------------")
       print(message)
@@ -264,7 +266,9 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
           print("Caste information not available")
           print("Please rerun the program without Caste")
           
-        } else if(region) {
+        } 
+        
+        if(region) {
           regionList<-unique(datause$RegionName)
           for (rg in regionList){
             datause1<-datause[datause$RegionName==rg, ]

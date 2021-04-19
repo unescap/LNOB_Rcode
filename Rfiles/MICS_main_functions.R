@@ -62,8 +62,10 @@ csv_folder<-paste(source_folder, "MICScsv/", sep="")
 
 
 #  source(paste(r_folder,"MICS_education.R",sep="")) this file must be run to get informaiton on education for a new survey
+#  source(paste(r_folder,"MICS_LanguageReligionEthnicity.R",sep="")) this file must be run to get informaiton on religion, ethnicity/language for a new survey
 source(paste(r_folder,"MICSShapleyValue.R",sep=""))
 source(paste(r_folder,"MICS_get_data.R",sep=""))
+source(paste(r_folder,"MICS_output.R",sep=""))
 source(paste(r_folder,"MICS_Unmet_Need.R",sep=""))
 source(paste(r_folder,"MICSTreeAndLogistic.R",sep=""))
 
@@ -81,11 +83,14 @@ logger <- create.logger(logfile = logger_location, level = 'DEBUG')
 
 
 run_together<-function(csv_folder, data_folder, output_folder, country_code, version_code,  csvfile_name, education_name, 
-                       religion_name=NULL,  religion=FALSE, region_flag=FALSE, Flag_New=TRUE)
+                       religion_name=NULL,  religion=FALSE, region_flag=FALSE, Flag_New=TRUE, use_version=1)
 {
 
   # Reading MICSstandard.csv file. 
 
+  if(use_version==3){
+    source(paste(source_folder,"MICS_TBD.R",sep=""))
+  }
   csvfile_name<-paste(country_code, version_code, csvfile_name, sep="")
 
   meta_data<-read.table(paste(csv_folder, csvfile_name, ".csv", sep=""), sep=",", header=T, colClasses="character", nrows=300)
@@ -223,6 +228,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     rn<-nrow(responseList)
     for(i in c(1:rn)){
 
+      
       # Printing current iteration of response variable. 
       rv<-responseList$NickName[i]
       rtp<-responseList$DataType[i]
@@ -233,6 +239,9 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       print(message)
       info(logger, message)
       
+      
+      if (use_version==3) indicator_list<-MICS_TBD_app_indicator(rv, responseList$IndicatorType[i], indicator_list)
+        
       # Change Rdata output folder: Example ~ /mics_Rdata/HealthInsurance/mdAFHR70FL.Rdata 
       # Note: if you want to organise by Country --> Response Variable just need to add one level up. 
       rv_Rdata_folder <- rv_Rdata(mics_Rdata_folder, rv)
@@ -270,8 +279,6 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
         # if mn exists and response variable name in it has been found
         # we assume the mn and wm has the same education labels and religion ethnicity language labels
         
-        if(region_flag) indvar<-c(indvar, "REGION")
-
         formula_string<-paste("var2tab", paste(indvar, collapse=" + "), sep=" ~ ")
         title_string<-paste(rv, paste(indvar, collapse=" + "), sep=" ~ ")
 
@@ -279,18 +286,37 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
         #### add a data type parameter, if numeric, we use a different criterion
         sub_string<-NULL
         country_ISO<-country_ISO(country_code)
-        write_tree(datause, country_ISO, version_code,
-                   title_string, formula_string, sub_string, rv, rtp, religion, ds_output_folder, ds, filename)
+        
+        if(region_flag) {
+          regionList<-unique(datause$Region)
+          for (rg in regionList){
+            datause1<-datause[datause$Region==rg, ]
+            country_code1<-paste(rg, country_ISO, sep = ", ")
+            #### Construct and Write Decision Tree to output folder
+            write_tree(datause1, country_code1, version_code, title_string, formula_string, sub_string, rv, rtp,  religion, ds_output_folder,  ds, filename, use_version)
+            
+            #### Construct and Write HOI and dis-similarity index calculation to output folder
+            write_HOI_D(datause1, country_code1, version_code, title_string, indvar, ds_output_folder, filename, use_version)
+            
+            #### Construct and Write Logistic Regression to output folder 
+            write_glm(datause1, rtp,  country_code1, version_code, title_string, indvar, ds_output_folder, filename, use_version)
+          }
+        }
+        else{
+          write_tree(datause, country_ISO, version_code,
+                   title_string, formula_string, sub_string, rv, rtp, religion, ds_output_folder, ds, filename, use_version)
 
 
         #### HOI and dis-similarity index calculation
         #### not sure if this works for numeric
-        write_HOI_D(datause, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
+          write_HOI_D(datause, country_ISO, version_code, title_string, indvar, ds_output_folder, filename, use_version)
 
         #### logistic regression
         #### have to use lm for numeric here
-        write_glm(datause, rtp, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
+          write_glm(datause, rtp, country_ISO, version_code, title_string, indvar, ds_output_folder, filename, use_version)
 
+        }
+        
         #### Construct model for each region.
         # region(output_folder, country_code, version_code,
         #        datause, rv,
@@ -299,6 +325,9 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
         
         # write_crosstab(datause, country_code, version_code, title_string, indvar, ds_output_folder, filename)
 
+        
+        if(use_version==3) MICS_TBD_mainfunction(indicator_list)
+        
       }
      }
   }

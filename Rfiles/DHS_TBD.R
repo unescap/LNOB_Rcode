@@ -36,15 +36,19 @@ assign("regionDIndexRequest", list(), envir = .GlobalEnv)
 
 indicator_list <- list()
 
-##### START OF TBD codes #####
-indicator = list(
-  name = rv,
-  field_label = rv,
-  field_title = rv,
-  field_indicator_type = responseList$IndicatorType[responseList$NickName==rv]
-)
-indicator_list<-append(indicator_list, list(indicator))
-##### END OF TBD codes #####
+
+
+DHS_TBD_app_indicator<-function(rv, it, indicator_list){
+  indicator = list(
+    name = rv,
+    field_label = rv,
+    field_title = rv,
+    field_indicator_type = it
+  )
+  return(append(indicator_list, list(indicator)))
+}
+
+
 
 #### this function was used towards the end of TBD version of run_together
 #### results saved in global enviroment and pushed to somewhere
