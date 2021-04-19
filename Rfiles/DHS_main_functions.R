@@ -36,7 +36,7 @@ r_folder<-paste(source_folder, "Rfiles/", sep="")
 csv_folder<-paste(source_folder, "DHScsv/", sep="")
 
 
-if(! exists("r_folder")) {
+if(! dir.exists(r_folder)) {
   print("r_folder not defined, please consult user manual, create a config file and define r_folder in it")
   stop()
 }
@@ -82,16 +82,20 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   # dataSet<-c("PR")
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
+  if(use_version>1) {
+  csvfile_name0 <- "DHSKey"
+  DHSKey <-read.table(paste(csv_folder, csvfile_name0, ".csv", sep=""), sep=",", header=T, colClasses="character")
+  as.data.frame(DHSKey)
+  }
   
   # originally in lines 44-60, 80-86, 99-101 are moved to the DHS_TBD file and run here when use_version is 3
-  if(use_version==3) {
-    
-    if(! exists(paste(r_folder,"DHS_TBD.R",sep=""))) {
-      print("DHS_TBD.R not available, TBD version can not run,  please consult user manual, create a config file and define r_folder in it")
-      stop()
-    }
-    else source(paste(r_folder,"DHS_TBD.R",sep=""))
-  }
+  # if(use_version==3) {
+  #   if(! exists(paste(r_folder,"DHS_TBD.R",sep=""))) {
+  #     print("DHS_TBD.R not available, TBD version can not run,  please consult user manual, create a config file and define r_folder in it")
+  #     stop()
+  #   }
+  #   else source(paste(r_folder,"DHS_TBD.R",sep=""))
+  # }
   
   
   for(ds in dataSet) {
