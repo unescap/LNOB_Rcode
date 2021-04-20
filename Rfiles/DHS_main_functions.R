@@ -35,7 +35,6 @@ library(stringr)
 r_folder<-paste(source_folder, "Rfiles/", sep="")
 csv_folder<-paste(source_folder, "DHScsv/", sep="")
 
-
 if(! exists("r_folder")) {
   print("r_folder not defined, please consult user manual, create a config file and define r_folder in it")
   stop()
@@ -53,7 +52,13 @@ logger <- create.logger(logfile = logger_location, level = 'DEBUG')
 ### Read DHSKey.csv: this contains the corresponding country_code and version_code for a
 # country and year. Example: "Afghanisation 2015" has country_code "AF" and version_code "70".
 
-
+##### START OF TBD codes #####
+treeDataRequest <<- list()
+dIndexDataRequest <<- list()
+logitDataRequest <<- list()
+regionTreeDataRequest <<- list()
+regionDIndexRequest <<- list()
+##### END OF TBD codes #####
 
 ### Main function: runs all the other functions 
 # reading in a csv file with columnes: data type, variable names, variable type (categorical or numeric), 
@@ -77,16 +82,16 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   dataSet<-dataSet[!dataSet=="MR"]
   
   # specify data set for debugginh
-  # dataSet<-c("PR")
+  dataSet<-c("IR")
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
-  
+
   # originally in lines 44-60, 80-86, 99-101 are moved to the DHS_TBD file and run here when use_version is 3
   if(use_version==3) {
     
     csvfile_name0 <- "DHSKey"
     
-    if(! exists(paste(csv_folder, csvfile_name0,sep=""))) {
+    if(! file.exists(paste(csv_folder, csvfile_name0, ".csv", sep=""))) {
       print("DHSKey.csv not available, TBD version can not run,  please consult user manual, create a config file and define r_folder in it")
       stop()
     }
@@ -95,14 +100,17 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     DHSKey <-read.table(paste(csv_folder, csvfile_name0, ".csv", sep=""), sep=",", header=T, colClasses="character")
     as.data.frame(DHSKey)
     }
-    
-    if(! exists(paste(r_folder,"DHS_TBD.R",sep=""))) {
+  }
+  ##### START OF TBD codes #####
+  if(use_version == 3) {
+    if(! file.exists(paste(r_folder,"DHS_TBD.R",sep=""))) {
       print("DHS_TBD.R not available, TBD version can not run,  please consult user manual, create a config file and define r_folder in it")
       stop()
     }
     else source(paste(r_folder,"DHS_TBD.R",sep=""))
   }
-  
+  ##### END OF TBD codes #####
+
   
   for(ds in dataSet) {
     
@@ -147,7 +155,8 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     }
 
     # Example: ./dat_download/Afghanistan 2015/AFIR70FL/AFIR70FL.DCF
-    data_path = paste(data_folder, filename, sep="/")
+    data_path <- country_data_specification(data_folder, filename)
+    # data_path = paste(data_folder, filename, sep="/")
     
     df<-importDHSDAT(data_path, Flag_New, dataList$VarName)
     
@@ -173,15 +182,27 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # unique_responseList<-c("Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR")
     # unique_responseList<-c("InternetUse")
     # unique_responseList<-c("CleanWater", "SafeSanitation")
-    # unique_responseList<-c("PhysicalViolence")
+    unique_responseList<-c("InternetUse")
     # unique_responseList<-c("Covid1")
-    
-    
     
     #Modified for YW
     for(rv in unique_responseList) {
       
       rtp<-unique(responseList$DataType[responseList$NickName==rv])
+      
+      ##### START OF TBD codes #####
+      if (use_version == 3) {
+        
+        indicator = list(
+          name = rv,
+          field_label = rv,
+          field_title = rv,
+          field_indicator_type = responseList$IndicatorType[responseList$NickName==rv]
+        )
+        indicator_list<-append(indicator_list, list(indicator))
+        
+      }
+      ##### END OF TBD codes #####
 
       # Printing current iteration of response variable. 
       message <- paste("Random variable: ", rv, "  ------------------")
@@ -282,12 +303,12 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
         else {
           
           # Constructing the formula string and title for the models 
-
+          
           #### Construct and Write Decision Tree to output folder
           write_tree(datause, country_ISO, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder, use_version)
 
           #### Construct and Write HOI and dis-similarity index calculation to output folder
-          write_HOI_D(datause, country_ISO, year_code, title_string, indvar, ds_output_folder, filename, use_version)
+          write_HOI_D(datause, country_ISO, year_code, title_string, indvar, ds_output_folder, filename, use_version, rv)
           
           #### Construct and Write Logistic Regression to output folder 
           write_glm(datause, rtp,  country_ISO, year_code, title_string, indvar, ds_output_folder, filename, use_version)
@@ -302,12 +323,21 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
       } 
     }
     
-    if(use_version==3)
-      DHS_TBD_mainfunction(DHSKey)
-    message <- paste("END OF SCRIPT.") 
-    print(message)
-    info(logger, message)
+    ##### START OF TBD codes #####
+    if (to_store_result_in_drupal) {
+      # insert_indicator(indicator_list)
+    }
+    ##### END OF TBD codes #####
   }
+  
+  ##### START OF TBD codes #####
+  if(use_version==3) { DHS_TBD_mainfunction(DHSKey) }
+  ##### END OF TBD codes #####
+  
+  # Messag to indicate end of script. 
+  message <- paste("END OF SCRIPT.") 
+  print(message)
+  info(logger, message)
 }
 
 #######################################################################################
@@ -322,6 +352,8 @@ csvfile_name6 <- "DHSstandardIA71"
 
 # MV 71 
 run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE)
+run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, 
+             3)
 
 # run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, TRUE)
 

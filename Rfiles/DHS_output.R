@@ -37,7 +37,7 @@ write_tree <- function(datause, country_code2, year_code,
 }
 
 write_HOI_D <- function(datause, country_code2, year_code, title_string,
-                        indvar, output_folder, filename, use_version) {
+                        indvar, output_folder, filename, use_version, rv) {
   
   # Calculate 
   pass_message <- "Successfully calculated HOI and D"
@@ -59,7 +59,7 @@ write_HOI_D <- function(datause, country_code2, year_code, title_string,
                           sep=",", append = TRUE,   col.names = F, row.names = F)) 
   
     result<-  two_results[2]
-    if(use_version==3)  DHS_TBD_WriteDindex(output_folder, title_string, country_code, version_code, rv, result)
+    if(use_version==3)  DHS_TBD_WriteDindex(output_folder, title_string, country_code2, year_code, rv, result)
   
 }
 
@@ -93,7 +93,7 @@ write_glm <- function(datause, rtp, country_code2, year_code, title_string,
                                sep=",", append = TRUE,   col.names = T, row.names = T, na="")) #catch_error() 
   
   print("glm result written")
-  if(use_version==3) DHS_TBD_Writeglm(s.glm, output_folder, title_string, country_code, version_code)
+  if(use_version==3) DHS_TBD_Writeglm(s.glm, output_folder, title_string, country_code2, year_code)
 }
 
 # List of formula components 

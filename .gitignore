@@ -18,6 +18,7 @@
 
 # ignore folders: ** to include everything in between e.g. a/**/c = /a/this/and/this/b
 /dat_download/**
+/sav_download/**
 /output/**
 /resultsSent/**
 /output_caste/**

@@ -1,24 +1,16 @@
 
 ##### First appeared in DHS_main_functions.R
 ##### START OF TBD codes #####
-
-if(! exists(paste(r_folder,"http_request.R",sep=""))) {
+if(! file.exists(paste(r_folder,"http_request.R",sep=""))) {
   print("http_request.R not available, TBD version can not run,  please consult user manual, create a config file and define r_folder in it")
   stop()
 } else source(paste(r_folder,"http_request.R",sep=""))
-
-treeDataRequest <<- list()
-dIndexDataRequest <<- list()
-logitDataRequest <<- list()
-regionTreeDataRequest <<- list()
-regionDIndexRequest <<- list()
 ##### END OF TBD codes #####
-
 
 #### previously defined in DHS_main_functions
 #### seems not to be used any more
-insert_indicator <- function(request_body){
-  ## insert to drupal
+insert_indicator <- function(request_body) {
+  ## insert to drupal 
   print(c('INSERT INDICATOR:'))
   endpoint <- "taxonomy/indicator/terms/upsert"
   result <- http_post(endpoint, request_body)
@@ -33,18 +25,7 @@ assign("regionTreeDataRequest", list(), envir = .GlobalEnv)
 assign("regionDIndexRequest", list(), envir = .GlobalEnv)
 ##### END OF TBD codes #####
 
-
 indicator_list <- list()
-
-##### START OF TBD codes #####
-indicator = list(
-  name = rv,
-  field_label = rv,
-  field_title = rv,
-  field_indicator_type = responseList$IndicatorType[responseList$NickName==rv]
-)
-indicator_list<-append(indicator_list, list(indicator))
-##### END OF TBD codes #####
 
 #### this function was used towards the end of TBD version of run_together
 #### results saved in global enviroment and pushed to somewhere
@@ -52,6 +33,7 @@ indicator_list<-append(indicator_list, list(indicator))
 DHS_TBD_mainfunction<-function(DHSKey){
   ####### last chunk of TBD codes in main functions r code
   ##### START OF TBD codes #####
+  browser()
   if (to_store_result_in_drupal) {
     # print(paste("Outside of loop: Tree Data for ", ds))
     # print(length(treeDataRequest))
