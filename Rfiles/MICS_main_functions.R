@@ -170,7 +170,9 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       regList<-unique(religion_data$NickName)
       #### first, if religion information exists in hh dataset, as indicated in the relidionMICS.csv, not in other datasets, we have to add it
       religionVar<-dataList$VarName[dataList$NickName=="Religion"]
-      k<-match(religionVar, colnames(df), nomatch = 0)
+      if(length(religionVar)>0) k<-match(religionVar, colnames(df), nomatch = 0)
+      else k<-0
+      print(c("reglist", regList))
       k1<-length(intersect(c("Religion"), regList))
       if(k==0 & k1>0){
         df<-add_reglist(country_code, version_code, df, meta_data, dataList, c("Religion"), religion_data)
@@ -218,7 +220,8 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     # responseList<-dataList[dataList$NickName %in% c("SecondaryEducation2035", "HigherEducation2535", "SecondaryEducation35plus") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("EarlyEducation25", "EarlyEducation35") & dataList$IndicatorType=="ResponseV", ]
     
-    responseList<-dataList[dataList$NickName %in% c("CleanWater") & dataList$IndicatorType=="ResponseV", ]
+    # responseList<-dataList[dataList$NickName %in% c("CleanWater") & dataList$IndicatorType=="ResponseV", ]
+    responseList<-dataList[dataList$NickName %in% c("CleanFuel") & dataList$IndicatorType=="ResponseV", ]
     
     rn<-nrow(responseList)
     for(i in c(1:rn)){
@@ -344,9 +347,10 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
 # }
 
 #### clean water
-run_together(csv_folder, data_folder, output_folder, "Kazakhstan", "2010",  csvfile_name, edcationcsv)
-run_together(csv_folder, data_folder, output_folder, "Mongolia", "2018",  csvfile_name, edcationcsv)
-run_together(csv_folder, data_folder, output_folder, "Turkmenistan", "2015",  csvfile_name, edcationcsv)
+# run_together(csv_folder, data_folder, output_folder, "Kazakhstan", "2010",  csvfile_name, edcationcsv)
+# run_together(csv_folder, data_folder, output_folder, "Mongolia", "2018",  csvfile_name, edcationcsv)
+run_together(csv_folder, data_folder, output_folder, "Mongolia", "2018",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Turkmenistan", "2015",  csvfile_name, edcationcsv)
 
 ### education indicators
 # run_together(csv_folder, data_folder, output_folder, "Kazakhstan", "2010",  csvfile_name, edcationcsv)
