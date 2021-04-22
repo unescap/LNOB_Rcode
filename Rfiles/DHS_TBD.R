@@ -27,9 +27,18 @@ assign("regionDIndexRequest", list(), envir = .GlobalEnv)
 
 indicator_list <- list()
 
+DHS_TBD_app_indicator < -function(rv, it, indicator_list){
+  indicator = list(
+    name = rv,
+    field_label = rv,
+    field_title = rv,
+    field_indicator_type = it
+  )
+  return(append(indicator_list, list(indicator)))
+}
+
 #### this function was used towards the end of TBD version of run_together
 #### results saved in global enviroment and pushed to somewhere
-
 DHS_TBD_mainfunction<-function(DHSKey){
   ####### last chunk of TBD codes in main functions r code
   ##### START OF TBD codes #####
