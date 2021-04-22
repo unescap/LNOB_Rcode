@@ -58,12 +58,19 @@ write_HOI_D <- function(datause, country_code2, year_code, title_string,
   catch_error(write.table(t(result), file=paste(output_folder, "D.csv", sep=""),
                         sep=",", append = TRUE,   col.names = F, row.names = F)) 
   
+  ### SAM ###
+  
+  # This section may be wrong: TBD had this code previously
+  # toString(cal_HOI_shapley_json(datause, indvar))
+  
+  ### SAM END ###
+  
   # result<-  two_results[2]
   # if(use_version==3)  DHS_TBD_WriteDindex(output_folder, title_string, country_code2, year_code, rv, result)
 
   if(use_version==3) {
     result<-toJSON(two_results[2], auto_unbox = TRUE)
-    DHS_TBD_WriteDindex(output_folder, title_string, country_code, version_code, rv, result)
+    DHS_TBD_WriteDindex(output_folder, title_string, country_code2, year_code, rv, result)
   }
 }
 
@@ -128,7 +135,6 @@ construct_formula <- function(indvar_list) {
 }
 
 
-# not sure this is the right way to do region
 # Region 
 region <- function(output_folder, country_code, version_code, 
                    datause, rv,
@@ -175,7 +181,7 @@ region <- function(output_folder, country_code, version_code,
       tree_stat<- catch_error(build_tree(output_folder, country_code, version_code, 
                                          datause_region, rv,
                                          formula_string, title_string, sub_string, 
-                                         e=caste, filename, region, use_version))
+                                         e=caste, filename, region))
       
       if (!is.null(tree_stat)) { 
         
@@ -202,13 +208,42 @@ region <- function(output_folder, country_code, version_code,
                                  method="anova", control = rpart.control(cp = cp_chosen/nrow(datause_region), maxdepth=6, 
                                                                          minbucket =nrow(datause_region)/minb_chosen)))
     
-    # Append treefit raw model for .Rdata 
-    region_treefit[[region]] <- as.party(treefit)     
+    
     
     pass_message <- "Successfully built Tree"
     if (!is.null(treefit)) { 
+      # Append treefit raw model for .Rdata 
+      region_treefit[[region]] <- as.party(treefit)
       
       info(logger, paste(pass_message))
+      
+      ##### START OF TBD codes #####
+      # print('treefit')
+      # print(treefit)
+      # print('region treefit')
+      # print(region_treefit)
+      data2 <- get_tree(treefit)
+      # print('data2')
+      # print(data2)
+      
+      allTreeJson <- toJSON(data2, flatten = TRUE)
+      one_region_tree_data = list(
+        type = "region_tree_data",
+        field_survey_type = "DHS",
+        field_dataset = basename(output_folder),
+        title = title_string,
+        field_region = region,
+        field_formula = formula_string,
+        field_geo = country_code,
+        field_year = version_code,
+        field_indicator = rv,
+        field_data = toString(allTreeJson)
+      )
+      # print(one_region_tree_data)
+      assign("regionTreeDataRequest", append(regionTreeDataRequest, list(one_region_tree_data)), envir = .GlobalEnv)
+      
+      # stop("get a region treefit!", call. = FALSE)
+      ##### END OF TBD codes #####
       
     }
     
@@ -223,8 +258,25 @@ region <- function(output_folder, country_code, version_code,
     
     pass_message <- "Successfully calculated HOI and D"
     if (!is.null(result)) { 
-      
       info(logger, paste(pass_message))
+      ##### START OF TBD codes #####
+      one_region_d_data = list(
+        type = "region_d_index",
+        field_survey_type = "DHS",
+        field_dataset = gsub("FL","",gsub(version_code,"",gsub(country_code,"",filename))),
+        title = title_string,
+        field_region = region,
+        field_geo = country_code,
+        field_year = version_code,
+        field_indicator = rv,
+        field_data = toString(cal_HOI_shapley_json(datause_region, indvar)),
+        moderation_state = "draft"
+      )
+      # print(paste(gsub(version_code,"",gsub(country_code,"",filename))))
+      # print(one_region_d_data)
+      # stop('one_region_d_data')
+      assign("regionDIndexRequest", append(regionDIndexRequest, list(one_region_d_data)), envir = .GlobalEnv)
+      ##### END OF TBD codes #####
       
     }
     
@@ -286,7 +338,6 @@ region <- function(output_folder, country_code, version_code,
     resave(region_glm, file = paste(region_filename, ".Rdata", sep=""))
   }
 }
-
 
 
 # Catch error: production version 

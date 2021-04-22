@@ -318,14 +318,16 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
           write_glm(datause, rtp,  country_ISO, year_code, title_string, indvar, ds_output_folder, filename, use_version)
 
           #### Construct model for each region. 
-          # region(output_folder, country_code, version_code,
-          #        datause, rv,
-          #        formula_string, title_string, sub_string,
-          #        caste, filename, indvar)
+          if (use_version == 3) {
+            # region(output_folder, country_code, version_code,
+            #        datause, rv,
+            #        formula_string, title_string, sub_string,
+            #        caste, filename, indvar)
+          }
           
-        }
-      } 
-    }
+        }     
+      }       
+    }      
     
     ##### START OF TBD codes #####
     if (to_store_result_in_drupal) {
@@ -347,12 +349,12 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
 #######################################################################################
 
 # for financial inclusiion
-csvfile_name1 <-"DHSstandard_unmet"
-csvfile_name2 <-"DHSstandard"
-csvfile_name3 <- "DHSstandardKH71"
-csvfile_name4 <- "DHSstandardKH61"
-csvfile_name5 <- "DHSstandardIA52"
-csvfile_name6 <- "DHSstandardIA71"
+csvfile_name1 <-"DHSstandard_unmet"         
+csvfile_name2 <-"DHSstandard"         
+csvfile_name3 <- "DHSstandardKH71"            
+csvfile_name4 <- "DHSstandardKH61"            
+csvfile_name5 <- "DHSstandardIA52"           
+csvfile_name6 <- "DHSstandardIA71"           
 
 # MV 71 
 run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE)

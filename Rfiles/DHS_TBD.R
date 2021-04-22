@@ -27,7 +27,7 @@ assign("regionDIndexRequest", list(), envir = .GlobalEnv)
 
 indicator_list <- list()
 
-DHS_TBD_app_indicator < -function(rv, it, indicator_list){
+DHS_TBD_app_indicator <- function(rv, it, indicator_list){
   indicator = list(
     name = rv,
     field_label = rv,
@@ -281,7 +281,6 @@ DHS_TBD_mainfunction<-function(DHSKey){
 
 ##### following functions were originally in various places of the write/analysis functions
 DHS_TBD_Writeglm<-function(s.glm, output_folder, title_string, country_code, version_code)
-  
 {
   
   ##### START OF TBD codes #####
@@ -308,8 +307,6 @@ DHS_TBD_Writeglm<-function(s.glm, output_folder, title_string, country_code, ver
   assign("logitDataRequest", append(logitDataRequest, list(one_logit_data)), envir = .GlobalEnv)
 }
 
-
-
 ### used in write_HOI_D function
 DHS_TBD_WriteDindex<-function(output_folder, title_string, country_code, version_code, rv, result){
   one_d_data = list(
@@ -326,7 +323,6 @@ DHS_TBD_WriteDindex<-function(output_folder, title_string, country_code, version
   assign("dIndexDataRequest", append(dIndexDataRequest, list(one_d_data)), envir = .GlobalEnv)
   
 }
-
 
 #### used in build_tree function
 DHS_TBD_WriteTree<-function(data2, source_folder, country_code, version_code, Response_var){
