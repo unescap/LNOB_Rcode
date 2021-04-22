@@ -66,5 +66,9 @@ Config*.R
 # this file
 # .gitignore
 
+# anything starts with ignore
+ignore*.*
+
+
 # excel file
 *.xlsx
