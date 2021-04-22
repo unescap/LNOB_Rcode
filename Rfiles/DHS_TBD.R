@@ -33,7 +33,7 @@ indicator_list <- list()
 DHS_TBD_mainfunction<-function(DHSKey){
   ####### last chunk of TBD codes in main functions r code
   ##### START OF TBD codes #####
-  browser()
+
   if (to_store_result_in_drupal) {
     # print(paste("Outside of loop: Tree Data for ", ds))
     # print(length(treeDataRequest))
