@@ -82,6 +82,8 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   # dataSet<-c("PR")
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
+  
+  
   if(use_version>1) {
   csvfile_name0 <- "DHSKey"
   DHSKey <-read.table(paste(csv_folder, csvfile_name0, ".csv", sep=""), sep=",", header=T, colClasses="character")
@@ -304,113 +306,6 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
 
 #######################################################################################
 
-# for financial inclusiion
-csvfile_name1 <-"DHSstandard_unmet"
-csvfile_name2 <-"DHSstandard"
-csvfile_name3 <- "DHSstandardKH71"
-csvfile_name4 <- "DHSstandardKH61"
-csvfile_name5 <- "DHSstandardIA52"
-csvfile_name6 <- "DHSstandardIA71"
-
-# MV 71 
-run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE)
-
-# run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, TRUE)
-
-
-# checking professional help
-# run_together(csv_folder, data_folder, output_folder, "BD","61", "2014", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "ID","63", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "ID","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TJ","70", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE)
-
-
-# checking water and sanitation
-# run_together(csv_folder, data_folder, output_folder, "AM","61", "2010", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "KH","61", "2010", NULL, NULL, csvfile_name4, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "ID","63", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "ID","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TJ","61", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TJ","70", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE)
-
-
-# cambodia 2014 and india 2015 run tests 
-# run_together(csv_folder, data_folder, output_folder, "IA","52", NULL, NULL, csvfile_name5, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "KH","61", NULL, NULL, csvfile_name4, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "IA","71", mrversion_code="74", NULL, csvfile_name6, TRUE, TRUE)
-
-#covid runs
-# run_together(csv_folder, data_folder, output_folder, "AF","70", "2015", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "AM","71", "2016", "72", NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "BD","70", "2014", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "KH","72", "2014", NULL, NULL, csvfile_name3, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "MM","71", "2016", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "NP","7H", "2016", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "PK","71", "2018", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "PG","70", "2018", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "PH","70", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TJ","70", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TL","71", "2016", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "ID","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, TRUE)
-
-# run_together(csv_folder, data_folder, output_folder, "AF","70", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "AM","61", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "AM","71", "72", NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "AZ","52", NULL, NULL, csvfile_name1, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "BD","61", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "BD","70", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "KH","72", NULL, NULL, csvfile_name3, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "KY","61", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "MV","71", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "MM","71", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "NP","61", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "NP","7H", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "PK","61", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "PK","71", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "PG","70", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "PH","61", NULL, "62", csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "PH","70", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TJ","61", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TJ","70", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TL","61", NULL, NULL, csvfile_name1, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TL","71", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TR","61", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "ID","63", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "ID","71", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "KH","61", NULL, NULL, csvfile_name4, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "IA","71", NULL, NULL, csvfile_name2, TRUE, FALSE)
-
-
-#######################################################################################
-# run_together(csv_folder, data_folder, output_folder, "AF","70", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "AM","61", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "AM","71", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "AZ","52", NULL, NULL, csvfile_name1, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "BD","61", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "BD","70", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "KH","72", NULL, NULL, csvfile_name3, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "KY","61", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "MV","71", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "MM","71", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "NP","61", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "NP","7H", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "PK","61", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "PK","71", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "PG","70", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "PH","61", NULL, "62", csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "PH","70", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TJ","61", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TJ","70", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TL","61", NULL, NULL, csvfile_name1, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TL","71", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "TR","61", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "ID","63", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "ID","71", NULL, NULL, csvfile_name2, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "KH","61", NULL, NULL, csvfile_name4, TRUE, FALSE)
-# run_together(csv_folder, data_folder, output_folder, "IA","71", NULL, NULL, csvfile_name2, TRUE, FALSE)
 
 #######################################################################################
 

@@ -31,8 +31,12 @@ write_tree <- function(datause, country_code2, year_code,
   
   # Write to output  
   pass_message <- "Successfully wrote Tree.csv"
-  catch_error(write.table(tree_stat, file=paste(output_folder, "Tree.csv", sep=""),
+  writefile<-paste(output_folder, "Tree.csv", sep="")
+  if(file.exists(writefile)) 
+    catch_error(write.table(tree_stat, writefile,
                           sep=",", append = TRUE,   col.names = F, row.names = F))
+  else catch_error(write.table(tree_stat, writefile,
+                               sep=",", append = F,   col.names = T, row.names = F))
   
 }
 
@@ -58,8 +62,11 @@ write_HOI_D <- function(datause, country_code2, year_code, title_string,
   
   # Write to output 
   pass_message <- "Successfully wrote D.csv"
-  catch_error(write.table(t(result), file=paste(output_folder, "D.csv", sep=""),
-                          sep=",", append = TRUE,   col.names = F, row.names = F)) 
+  writefile<-paste(output_folder, "D.csv", sep="")
+  if(file.exists(writefile)) catch_error(write.table(t(result), writefile,
+                               sep=",", append = TRUE,   col.names = F, row.names = F)) 
+  else   catch_error(write.table(t(result), writefile,
+                          sep=",", append = F,   col.names = T, row.names = F)) 
   
 }
 

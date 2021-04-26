@@ -179,8 +179,8 @@ HV214,Wall,PR,Factor,WallRoof,
 HV215,Roof,PR,Factor,WallRoof,
 HV216,NotCrowdedPR,PR,Factor,ResponseV,
 HV009,NumberMember,PR,Factor,NotCrowded,
-HV208,Covid1,PR,Factor,ResponseV,# telvision data
-HV208,Covid2,PR,Factor,ResponseV,# telvision data
+HV208,Covid1,PR,Factor,ResponseV0,# telvision data
+HV208,Covid2,PR,Factor,ResponseV0,# telvision data
 HV208,Covid,PR,Factor,ResponseV,# telvision data
 HV105,aGroupPR,PR,INT,IndependentV,
 HV109,EducationPR,PR,Factor,IndependentV,

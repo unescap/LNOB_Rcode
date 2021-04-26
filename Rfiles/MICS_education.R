@@ -1,8 +1,11 @@
 library(data.table)
 library(foreign)
 
-source(paste(source_folder,"MICS_get_data.R",sep=""))
 
+csv_folder<-paste(source_folder, "MICScsv/", sep="")
+r_folder<-paste(source_folder, "Rfiles/", sep="")
+
+source(paste(r_folder,"MICS_get_data.R",sep=""))
 # Run this function before run_togther(.) to pre-process education variables. 
 run_together_edu<-function(source_folder, data_folder, output_folder, country_code, version_code,  csvfile_name, Flag_New=TRUE, religion=FALSE)
 {
@@ -59,7 +62,7 @@ csvfile_name<-"MICS"
 # run_together_edu(source_folder, data_folder, output_folder, "Lao", "2017",  csvfile_name)
 # run_together_edu(source_folder, data_folder, output_folder, "Mongolia", "2013",  csvfile_name)
 # run_together_edu(source_folder, data_folder, output_folder, "Turkmenistan", "2015",  csvfile_name)
- run_together_edu(source_folder, data_folder, output_folder, "Vietnam", "2010",  csvfile_name)
+# run_together_edu(source_folder, data_folder, output_folder, "Vietnam", "2010",  csvfile_name)
 # run_together_edu(source_folder, data_folder, output_folder, "VietNam", "2013",  csvfile_name)
 
 # run_together_edu(source_folder, data_folder, output_folder, "Turkmenistan", "2015",  csvfile_name)
@@ -96,7 +99,10 @@ csvfile_name<-"MICS"
 
  
  # checking water code
- df<-importMICSdata(data_folder,  "Turkmenistan", "2015", "hh", "WS1", la=TRUE)
- print(table(df))
- df<-importMICSdata(data_folder,  "Turkmenistan", "2015", "hh", "WS1", la=FALSE)
- print(table(df))
+ # df<-importMICSdata(data_folder,  "Turkmenistan", "2015", "hh", "WS1", la=TRUE)
+ # print(table(df))
+ # df<-importMICSdata(data_folder,  "Turkmenistan", "2015", "hh", "WS1", la=FALSE)
+ # print(table(df))
+
+
+run_together_edu(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name)

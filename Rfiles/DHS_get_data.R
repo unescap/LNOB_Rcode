@@ -618,7 +618,14 @@ ProfessionalHelp<-function(datause, dataList, svnm){
   pa3V<-dataList$VarName[dataList$NickName=="ProfessionalAssitance3"]
   pa3K<-match(pa3V, colnames(datause), nomatch = 0)
   
+  datause$var2tab<- rep(0, nrow(datause))
+  y<-"1"
   
+  if(pa1K>0) t1<-grepl(y, as.character(datause[, pa1K]))
+  if(pa2K>0) t2<-grepl(y, as.character(datause[, pa2K]))
+  if(pa3K>0) t3<-grepl(y, as.character(datause[, pa3K]))
+  
+  if(svnm %in% c("TJ70", "ID71", "ID63", "BD61")){
   pa4V<-dataList$VarName[dataList$NickName=="ProfessionalAssitance4"]
   pa4K<-match(pa4V, colnames(datause), nomatch = 0)
   
@@ -628,24 +635,22 @@ ProfessionalHelp<-function(datause, dataList, svnm){
   pa6V<-dataList$VarName[dataList$NickName=="ProfessionalAssitance6"]
   pa6K<-match(pa6V, colnames(datause), nomatch = 0)
   
+  
+  if(pa4K>0) t4<-grepl(y, as.character(datause[, pa4K]))
+  if(pa5K>0) t5<-grepl(y, as.character(datause[, pa5K]))
+  if(pa6K>0) t6<-grepl(y, as.character(datause[, pa6K]))
+  }
+  if(svnm %in% c("BD61")){
   pa7V<-dataList$VarName[dataList$NickName=="ProfessionalAssitance7"]
   pa7K<-match(pa7V, colnames(datause), nomatch = 0)
+  if(pa7K>0) t7<-grepl(y, as.character(datause[, pa7K]))
+  }
   
   if(pa1K==0 & pa2K==0 & pa3K==0 ){
     print("No delivery method information found")
     return(NULL)
   }
   
-  datause$var2tab<- rep(0, nrow(datause))
-  y<-"1"
-  
-  if(pa1K>0) t1<-grepl(y, as.character(datause[, pa1K]))
-  if(pa2K>0) t2<-grepl(y, as.character(datause[, pa2K]))
-  if(pa3K>0) t3<-grepl(y, as.character(datause[, pa3K]))
-  if(pa4K>0) t4<-grepl(y, as.character(datause[, pa4K]))
-  if(pa5K>0) t5<-grepl(y, as.character(datause[, pa5K]))
-  if(pa6K>0) t6<-grepl(y, as.character(datause[, pa6K]))
-  if(pa7K>0) t7<-grepl(y, as.character(datause[, pa7K]))
   
   if(svnm %in% c("BD61"))
     datause$var2tab[t1 | t2 | t3 | t4 | t5 | t6 | t7] <- 1
@@ -957,6 +962,11 @@ HandWash<-function(datause, dataList, k){
   datause$var2tab<- 0
   print(k)
   datause[, k]<-as.numeric(as.character(datause[, k]))
+  
+  if(length(datause[!is.na(datause[,k]),k])==0){
+    print("No data on place to wash hands, return Null")
+    return(NULL)
+  }
   max_i<-max(datause[datause[,k]!=9,k])
 
   if(max_i==4) place<-(datause[,k]==1)
@@ -1056,7 +1066,7 @@ datause<-Learning(datause, dataList)
 print("Learning: ")
 print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
 datause$learning<-datause$var2tab
-k<-match(dataList$VarName[dataList$NickName=="BasicWater"], colnames(datause))
+k<-match(dataList$VarName[dataList$NickName=="BasicWaterPR"], colnames(datause))
 datause<-BasicWater(datause, dataList, k, svnm)
 print("Basic Water: ")
 print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
@@ -1066,6 +1076,7 @@ k<-match(dataList$VarName[dataList$NickName=="HandWashPR"], colnames(datause), n
 
 if(k>0) {
   datause<-HandWash(datause, dataList, k) 
+  if(is.null(datause)) return(NULL)
   print("Hand Wash: ")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
 }
@@ -1102,20 +1113,23 @@ WallRoof<-function(datause, dataList){
 
 
 Covid2<-function(datause, dataList, k, svnm){
+
   datause<-Covid1(datause, dataList, k, svnm)
+  if(is.null(datause)) return(NULL)
   print("Covid1 :")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   datause$covid1<-datause$var2tab
   #look for k
-  ncV<-dataList$VarName[dataList$NickName=="NotCrowded"]
-  k<-match(ncV, colnames(datause))
+
+  ncV<-dataList$VarName[dataList$NickName=="NotCrowdedPR"]
+  k<-match(ncV, colnames(datause), nomatch = 0)
   datause<-NotCrowded(datause, dataList, k)
   print("Not crowded :")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   print(table(datause$covid1, datause$var2tab))
   datause$notcrowded<-datause$var2tab
   #look for k
-  ssV<-dataList$VarName[dataList$NickName=="SafeSanitation"]
+  ssV<-dataList$VarName[dataList$NickName=="SafeSanitationPR"]
   k<-match(ssV, colnames(datause))
   datause<-SafeSanitation(datause, dataList, k, svnm)
   print("SafeSanitation :")
@@ -1137,16 +1151,23 @@ Covid2<-function(datause, dataList, k, svnm){
   
 Covid<-function(datause, dataList, k, svnm){
   datause<-Learning(datause, dataList)
+  if(is.null(datause)) return(NULL)
   print("Learning: ")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   datause$learning<-datause$var2tab
   k<-match(dataList$VarName[dataList$NickName=="WaterOnsitePR"], colnames(datause))
   datause<-WaterOnsitePR(datause, dataList, k, svnm)
+  if(is.null(datause)) return(NULL)
   print("Water on site: ")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   datause$WaterOnsitePR<-datause$var2tab
-  k<-match(dataList$VarName[dataList$NickName=="HandWashPR"], colnames(datause))
+  k<-match(dataList$VarName[dataList$NickName=="HandWashPR"], colnames(datause), nomatch = 0)
+  if(k==0) {
+    print("No handwash information, return NULL")
+    return(NULL)
+  }
   datause<-HandWash(datause, dataList, k) 
+  if(is.null(datause)) return(NULL)
   print("Hand Wash: ")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   datause$HandWash<-datause$var2tab
@@ -1155,6 +1176,7 @@ Covid<-function(datause, dataList, k, svnm){
   ncV<-dataList$VarName[dataList$NickName=="NotCrowdedPR"]
   k<-match(ncV, colnames(datause))
   datause<-NotCrowded(datause, dataList, k)
+  if(is.null(datause)) return(NULL)
   print("Not crowded :")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
 

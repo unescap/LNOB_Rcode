@@ -165,10 +165,11 @@ attributesMICSdata<-function(data_folder, country_code, year_code, csv_folder, c
  # attributesMICSdata(data_folder,  "Thailand", "2012", csv_folder, csvfile_name)
  # attributesMICSdata(data_folder, "Vietnam", "2010", csv_folder, csvfile_name)
  
-attributesMICSdata(data_folder, "Kazakhstan", "2010", csv_folder, csvfile_name)
-attributesMICSdata(data_folder, "Mongolia", "2013", csv_folder, csvfile_name)
+# attributesMICSdata(data_folder, "Kazakhstan", "2010", csv_folder, csvfile_name)
+# attributesMICSdata(data_folder, "Mongolia", "2013", csv_folder, csvfile_name)
  
- 
+attributesMICSdata(data_folder, "Afghanistan", "2010", csv_folder, csvfile_name)
+attributesMICSdata(data_folder,  "Thailand", "2015", csv_folder, csvfile_name)
  
 #attributesMICSdata(data_folder, "Nepal", "2019", csv_folder, csvfile_name)
 
