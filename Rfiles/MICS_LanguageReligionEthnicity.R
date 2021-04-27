@@ -1,7 +1,10 @@
 library(data.table)
 library(foreign)
 
-source(paste(source_folder,"MICS_get_data.R",sep=""))
+csv_folder<-paste(source_folder, "MICScsv/", sep="")
+r_folder<-paste(source_folder, "Rfiles/", sep="")
+
+source(paste(r_folder,"MICS_get_data.R",sep=""))
 
 # Run this function before run_togther(.) to pre-process education variables. 
 run_together_rel<-function(source_folder, data_folder, output_folder, country_code, version_code,  csvfile_name, Flag_New=TRUE, religion=FALSE)
@@ -11,8 +14,9 @@ run_together_rel<-function(source_folder, data_folder, output_folder, country_co
   meta_data<-read.table(paste(source_folder, csvfile_name, ".csv", sep=""), sep=",", header=T, colClasses="character")
   rvList<-c("Religion", "Ethnicity", "Language")
   dataSet<-unique(meta_data$DataSet)
-  dataSet<-dataSet[dataSet!="DataSet"]
-
+  # dataSet<-dataSet[dataSet!="DataSet"]
+  dataSet<-"hh"
+  
   for(rv in rvList){
   for(ds in dataSet){
     print("----------------------------------")
@@ -24,7 +28,11 @@ run_together_rel<-function(source_folder, data_folder, output_folder, country_co
         else if ( dataList$VarName=="" | dataList$VarName=="NA" | is.na(dataList$VarName)) print(paste(rv, "does not exist in the data"))
       else {
          df<-importMICSdata(data_folder, country_code, version_code, ds, unique(dataList$VarName))
-         if(!is.null(df)) print(table(df)/length(df)*100)
+         if(!is.null(df)) {
+           print("·································")
+           print(c(country_code, version_code, rv))
+           print(table(df)/length(df)*100)
+         }
          df<-importMICSdata(data_folder, country_code, version_code, ds, unique(dataList$VarName), la=TRUE)
          if(!is.null(df)) print(table(df)/length(df)*100)
       }
@@ -34,8 +42,17 @@ run_together_rel<-function(source_folder, data_folder, output_folder, country_co
 
 csvfile_name<-"MICS"
 
+run_together_rel(csv_folder, data_folder, output_folder,"Afghanistan",	"2010",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Bhutan",	"2010",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder,"Kazakhstan",	"2010",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder,"Kyrgyzstan",	"2014",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Lao",	"2011",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder,"Mongolia",	"2013",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder,"Thailand",	"2012",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder,"Vietnam",	"2010",  csvfile_name)
 
-run_together_rel(source_folder, data_folder, output_folder, "Bhutan", "2010",  csvfile_name)
+
+# run_together_rel(source_folder, data_folder, output_folder, "Bhutan", "2010",  csvfile_name)
 # run_together_rel(source_folder, data_folder, output_folder, "Kyrgyzstan", "2018",  csvfile_name)
 # run_together_rel(source_folder, data_folder, output_folder, "Georgia", "2018",  csvfile_name)
 

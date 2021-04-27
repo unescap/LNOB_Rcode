@@ -100,7 +100,7 @@ Province,hl,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
 Covid1,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
 Covid2,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
 EducationHL,hl,highest,level,education,ED5A,no,or23,IndependentV,Factor,ED4A,1 var names found
-aGroup,hl,age,,,HL6,no,Only,IndependentV,numeric,HL6,"More than one columns, usual name chosen"
+aGroupHL,hl,age,,,HL6,no,Only,IndependentV,numeric,HL6,"More than one columns, usual name chosen"
 NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType,VarName,Search_result
 EarlyChildBearing,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
 NoEarlyChildbearing,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default

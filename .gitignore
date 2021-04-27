@@ -24,6 +24,7 @@
 /dhs_Rdata/**
 /mics_Rdata/**
 /.Rproj.user/**
+/results_sent/**
 
 # Example code in package build process
 *-Ex.R

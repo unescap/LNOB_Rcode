@@ -11,6 +11,11 @@ unmet_need<-function(datause, dataList){
     
   }
 
+  k<-match("WantChild", colnames(datause), nomatch = 0)
+  if(k==0) datause$WantChild<-99
+  k<-match("WantChild2", colnames(datause), nomatch = 0)
+  if(k==0) datause$WantChild2<-99
+  
   datause<-datause[datause$InterviewComplete==1, ]   # interview completed
   datause$UnmetNeed<-NA
 
@@ -54,6 +59,7 @@ unmet_need<-function(datause, dataList){
   wantedlast<-rep(0, nrow(datause))
   cond0<-!is.na(datause$PregnantNow) & datause$PregnantNow==1 &!is.na(datause$WantChild)
 
+  k<-match("WantChild", colnames(datause), nomatch = 0)
   datause$WantChild[is.na(datause$WantChild)]<-99
   datause$WantedLater[is.na(datause$WantedLater)]<-99
   wantedlast[cond0]<-datause$WantChild[cond0]

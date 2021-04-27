@@ -79,7 +79,8 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   dataSet<-dataSet[!dataSet=="MR"]
   
   # specify data set for debugginh
-  # dataSet<-c("PR")
+  # dataSet<-c("PR", "IR")
+  # dataSet<-c("IR")
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
   
@@ -172,7 +173,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # unique_responseList<-c("PhysicalViolence")
     # unique_responseList<-c("Covid1")
     
-    
+    # unique_responseList<-c("NoPhysicalViolence", "NoSexualPhysicalViolence")
     
     #Modified for YW
     for(rv in unique_responseList) {
@@ -266,10 +267,10 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
             datause1<-datause[datause$RegionName==rg, ]
             country_code1<-paste(rg, country_ISO, sep = ", ")
             #### Construct and Write Decision Tree to output folder
-            write_tree(datause1, country_code1, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder)
-            
-            #### Construct and Write HOI and dis-similarity index calculation to output folder
-            write_HOI_D(datause1, country_code1, year_code, title_string, indvar, ds_output_folder, filename)
+            # write_tree(datause1, country_code1, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder)
+            # 
+            # #### Construct and Write HOI and dis-similarity index calculation to output folder
+            # write_HOI_D(datause1, country_code1, year_code, title_string, indvar, ds_output_folder, filename)
             
             #### Construct and Write Logistic Regression to output folder 
             write_glm(datause1, rtp,  country_code1, year_code, title_string, indvar, ds_output_folder, filename)
@@ -305,7 +306,12 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
 }
 
 #######################################################################################
-
+# csvfile_name8 <- "DHSstandardMV71Region"
+# # MV 71 
+# 
+# # run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name8, TRUE, FALSE, FALSE)
+# 
+# run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name8, TRUE, FALSE, TRUE)
 
 #######################################################################################
 

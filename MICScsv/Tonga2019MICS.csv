@@ -84,7 +84,7 @@ Ethnicity,hl,ethnicity,,,ETHNICITY,no,and,IndependentV,Factor,ETHNICITY,1 var na
 Residence,hl,area,,,HH6,no,Only,IndependentV,Factor,HH6,1 var names found
 Sex,hl,sex,,,HL4,no,Only,IndependentV,Factor,HL4,1 var names found
 Education,hl,highest,level,education,ED5A,no,or23,IndependentV,Factor,ED5A,"More than one columns, usual name chosen"
-Grade,hl,highest,grade,completed,ED5B,no,or23,IndependentV,numeric,NA,0 var names found
+Grade,hl,highest,grade,completed,ED5B,no,or23,IndependentV,numeric,ED5B,0 var names found
 PoorerHousehold,hl,wealth,index,quintile,WINDEX5,yes,Only,IndependentV,Factor,WINDEX5,Default
 AdolescentBirthRate,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,numeric,No keywords,Default
 HigherEducation2535,hl,highest,level,education,ED4A,no,and,ResponseV,Factor,ED5A,1 var names found
@@ -113,7 +113,7 @@ aGroup,wm,age of woman,,,WB4,no,Only,IndependentV,numeric,WB4,1 var names found
 CurrentWorking,wm,employed,last,month,WB11,no,and,IndependentV,Factor,NA,0 var names found
 Education,wm,education,,,welevel,no,and,IndependentV,Factor,welevel,"More than one columns, usual name chosen"
 Ethnicity,wm,ethnicity,,,ETHNICITY,no,and,IndependentV,Factor,ETHNICITY,1 var names found
-Grade,wm,highest,grade,,WB5,no,and,IndependentV,numeric,NA,0 var names found
+Grade,wm,highest,grade,,WB5,no,and,IndependentV,numeric,WB6B,0 var names found
 MarriageStatus,wm,marital,union,status,MSTATUS,no,and,IndependentV,Factor,MSTATUS,1 var names found
 Residence,wm,area,,,HH7,no,Only,IndependentV,Factor,HH6,1 var names found
 NUnder5,wm,no keywords,,,No keywords,No keywords,No keywords,IndependentV,numeric,No keywords,Default
@@ -217,7 +217,7 @@ aGroup,mn,age of man,,,MWB4,no,Only,IndependentV,numeric,MWB4,1 var names found
 CurrentWorking,mn,employed,last,month,MWB11,no,and,IndependentV,Factor,NA,0 var names found
 Education,mn,education,,,mwelevel,no,and,IndependentV,Factor,mwelevel,"More than one columns, usual name chosen"
 Ethnicity,mn,ethnicity,,,ETHNICITY,no,and,IndependentV,Factor,ETHNICITY,1 var names found
-Grade,mn,highest,grade,,MWB6B,no,and,IndependentV,numeric,NA,0 var names found
+Grade,mn,highest,grade,,MWB6B,no,and,IndependentV,numeric,MWB6B,0 var names found
 MarriageStatus,mn,marital,union,status,MMSTATUS,no,and,IndependentV,Factor,MMSTATUS,1 var names found
 Residence,mn,area,,,HH6,no,Only,IndependentV,Factor,HH6,1 var names found
 NUnder5,mn,no keywords,,,No keywords,No keywords,No keywords,IndependentV,numeric,No keywords,Default

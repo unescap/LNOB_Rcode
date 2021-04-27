@@ -54,7 +54,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   else if (rv== "Wasting") datause<- Wasting(df, dataList, k)
   else if (rv== "ContraceptiveMethod") datause<- ContraceptiveMethod(df, dataList, k)
   else if (rv=="ProfessionalHelp") datause<- ProfessionalHelp(df, dataList, svnm)  ### no need for k for this one variable
-  else if (rv=="NoSexualViolence") datause<-NoSexualViolence(df, dataList, k)
+
   else if (rv=="HealthInsurance") datause<- HealthInsurance(df, dataList, k, mrDatalist)
   else if (rv=="InternetUse") datause<- InternetUse(df, dataList, k)
   else if (rv=="ChildMarriage15") datause<- ChildMarriage15(df, dataList, k)
@@ -62,8 +62,11 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   else if (rv=="TeenagePregnancy") datause<- TeenagePregnancy(df, dataList, k)
   else if (rv=="AllViolence") datause<- AllViolence(df, dataList, k)
   else if (rv=="SexualPhysicalViolence") datause<- SexualPhysicalViolence(df, dataList, k)
+  else if (rv=="NoSexualPhysicalViolence") datause<- NoSexualPhysicalViolence(df, dataList, k)
   else if (rv=="PhysicalViolence") datause<- PhysicalViolence(df, dataList, k)
+  else if (rv=="NoPhysicalViolence") datause<- NoPhysicalViolence(df, dataList, k)
   else if (rv=="SexualViolence") datause<- SexualViolence(df, dataList, k)
+  else if (rv=="NoSexualViolence") datause<-NoSexualViolence(df, dataList, k)
   else if (rv=="EmotionalViolence") datause<- EmotionalViolence(df, dataList, k)
   else if (rv=="MobileFinance") datause<- MobileFinance(df, dataList, k)
   else if (rv=="BankAccount") datause<- BankAccount(df, dataList, k)
@@ -160,7 +163,8 @@ indList<-function(rv, caste = FALSE ){
     iv<-c("PoorerHousehold", "Residence", "aGroup", "MarriageStatus", "NUnder5", "Education")
   else if (rv %in% c("ContraceptiveMethod")) 
     iv<-c("PoorerHousehold", "Residence", "aGroup", "NUnder5", "Education")
-  else if (rv %in% c("NoSexualViolence",  "AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence"))
+  else if (rv %in% c("NoSexualViolence",  "AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", 
+                     "EmotionalViolence", "NoSexualPhysicalViolence", "NoPhysicalViolence"))
     iv<-c("PoorerHousehold", "Residence", "aGroup", "NUnder5", "Education", "HusbandAge", "HusbandEducation", "HusbandAlcohol", "FatherBeatMother", 
           "AgeDifference", "EducationDifference")
   
@@ -186,21 +190,6 @@ indList<-function(rv, caste = FALSE ){
 ###############cacluation of response variable: creat var2tab (1 or 0)
 
 
-NoSexualViolence<-function(datause, dataList, k){
-  ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
-  ViK<-match(ViV, colnames(datause))
-  datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ]
-
-  varw<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
-  wk<-match(varw, colnames(datause))  
-  if(length(wk)==0){
-    datause<-datause[!is.na(datause[, wk]), ]
-    datause$SampleWeight<-datause[, wk]/1000000
-  }
-  datause$var2tab<-0
-  datause$var2tab[datause[,k]==0]<-1
-  return(datause)
-}
 
 MobilePhoneHH<-function(datause, k){
   {
@@ -640,6 +629,8 @@ ProfessionalHelp<-function(datause, dataList, svnm){
   if(pa5K>0) t5<-grepl(y, as.character(datause[, pa5K]))
   if(pa6K>0) t6<-grepl(y, as.character(datause[, pa6K]))
   }
+  
+  
   if(svnm %in% c("BD61")){
   pa7V<-dataList$VarName[dataList$NickName=="ProfessionalAssitance7"]
   pa7K<-match(pa7V, colnames(datause), nomatch = 0)
@@ -897,6 +888,27 @@ SexualPhysicalViolence<-function(datause, dataList, k){
   return(datause)
 }
 
+NoSexualPhysicalViolence<-function(datause, dataList, k){
+  datause<-SexualPhysicalViolence(datause, dataList, k)
+  if(is.null(datause)) return(NULL)
+  datause$var2tab<-1-datause$var2tab
+  
+  # l<-length(k)
+  # ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
+  # ViK<-match(ViV, colnames(datause))
+  # datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ]
+  # 
+  # SwV<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
+  # SwK<-match(SwV, colnames(datause))
+  # 
+  # datause$SampleWeight<-datause[, SwK]/1000000
+  # datause$var2tab<- 0
+  # for(i in c(1:l))
+  #   datause$var2tab[datause[,k[i]]==0]<-1 
+  
+  return(datause)
+}
+
 PhysicalViolence<-function(datause, dataList, k){
   l<-length(k)
   ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
@@ -914,6 +926,27 @@ PhysicalViolence<-function(datause, dataList, k){
   return(datause)
 }
 
+NoPhysicalViolence<-function(datause, dataList, k){
+  
+  datause<-PhysicalViolence(datause, dataList, k)
+  if(is.null(datause)) return(NULL)
+  datause$var2tab<-1-datause$var2tab
+  
+  # l<-length(k)
+  # ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
+  # ViK<-match(ViV, colnames(datause))
+  # datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ]
+  # 
+  # SwV<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
+  # SwK<-match(SwV, colnames(datause))
+  # 
+  # datause$SampleWeight<-datause[, SwK]/1000000
+  # datause$var2tab<- 0
+  # for(i in c(1:l))
+  #   datause$var2tab[datause[,k[i]]==0]<-1 
+  
+  return(datause)
+}
 SexualViolence<-function(datause, dataList, k){
   
   ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
@@ -930,6 +963,27 @@ SexualViolence<-function(datause, dataList, k){
   return(datause)
   
 }
+
+
+NoSexualViolence<-function(datause, dataList, k){
+  datause<-SexualViolence(datause, dataList, k)
+  if(is.null(datause)) return(NULL)
+  datause$var2tab<-1-datause$var2tab
+  # ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
+  # ViK<-match(ViV, colnames(datause))
+  # datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ]
+  # 
+  # varw<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
+  # wk<-match(varw, colnames(datause))  
+  # if(length(wk)==0){
+  #   datause<-datause[!is.na(datause[, wk]), ]
+  #   datause$SampleWeight<-datause[, wk]/1000000
+  # }
+  # datause$var2tab<-0
+  # datause$var2tab[datause[,k]==0]<-1
+  return(datause)
+}
+
 EmotionalViolence<-function(datause, dataList, k){
   ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
   ViK<-match(ViV, colnames(datause))

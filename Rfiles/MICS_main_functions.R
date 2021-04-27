@@ -114,8 +114,10 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
   # Type of Datasets: hh, hl, wm, ch, mn
   dataSet<-unique(meta_data$DataSet)
   dataSet<-dataSet[!(dataSet %in% c("DataSet", "mn"))]
-  # dataSet<-c("hh")
-   dataSet<-c("hh")
+  
+  
+  
+  # dataSet<-c("wm")
   for(ds in dataSet){
     print(ds)
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
@@ -219,9 +221,8 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     # responseList<-dataList[dataList$NickName %in% c("BasicWater") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("SecondaryEducation2035", "HigherEducation2535", "SecondaryEducation35plus") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("EarlyEducation25", "EarlyEducation35") & dataList$IndicatorType=="ResponseV", ]
-    
     # responseList<-dataList[dataList$NickName %in% c("CleanWater") & dataList$IndicatorType=="ResponseV", ]
-    responseList<-dataList[dataList$NickName %in% c("CleanFuel") & dataList$IndicatorType=="ResponseV", ]
+    # responseList<-dataList[dataList$NickName %in% c("CleanFuel") & dataList$IndicatorType=="ResponseV", ]
     
     rn<-nrow(responseList)
     for(i in c(1:rn)){

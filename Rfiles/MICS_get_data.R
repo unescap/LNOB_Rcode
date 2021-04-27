@@ -48,7 +48,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
              else if(rv=="CleanWater") datause<-CleanWater(df, k, svnm)
              else if(rv=="BasicWater") datause<-BasicWater(df, dataList, k, svnm)
              else if(rv=="SafeSanitation") datause<- SafeSanitation(df, dataList, k)
-             else if(rv=="HouseholdBasic") datause<- HouseholdBasic(df, dataList)
+             else if(rv=="HouseholdBasic") datause<- HouseholdBasic(df, dataList, svnm)
              else if(rv=="HouseholdTechNeed") datause<- HouseholdTechNeed(df, dataList)
              else if(rv=="Land") datause<- Land(df, dataList, k)
              else if(rv=="MultiDeprivation") datause<- MultiDeprivation(df, dataList, k)
@@ -80,17 +80,17 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
              else if(rv== "NoEarlyChildbearing" ) datause<-  NoEarlyChildbearing(df, dataList, k)
              else if(rv== "HandWash" ) datause<-HandWash(df, dataList)
              else if(rv== "NotCrowded" ) datause<-  NotCrowded(df, dataList)
-             else if(rv== "Covid1" ) datause<-  Covid1(df, dataList)
-             else if(rv== "Covid2" ) datause<-  Covid2(df, dataList)
-             else if(rv== "Covid" ) datause<-  Covid(df, dataList)
+             else if(rv== "Covid1" ) datause<-  Covid1(df, dataList, svnm)
+             else if(rv== "Covid2" ) datause<-  Covid2(df, dataList, svnm)
+             else if(rv== "Covid" ) datause<-  Covid(df, dataList, svnm)
              else if(rv== "LearningHL" ) datause<-  Learning(df, dataList)
              else if(rv== "WaterOnstieHL" ) datause<-  WaterOnsite(df, dataList, svnm)
              else if(rv==  "HandwashHL" ) datause<-  HandWash(df, dataList)
              else if(rv==  "SafeSanitationHL" ) datause<-  SafeSanitationHL(df, dataList)
              else if(rv==  "NotCrowdedHL" ) datause<-  NotCrowded(df, dataList)
              else if(rv== "FinancialInclusion" ) datause<-  FinancialInclusion(df, dataList)
-             else if(rv== "EarlyEducation25")  datause<-  EarlyEducation25(df, dataList, k)
-             else if(rv== "EarlyEducation35")  datause<-  EarlyEducation35(df, dataList, k)
+             else if(rv== "EarlyEducation24")  datause<-  EarlyEducation25(df, dataList, k)
+             else if(rv== "EarlyEducation36")  datause<-  EarlyEducation35(df, dataList, k)
              else datause<-tabulateV(df, k)
              if(is.null(datause)) {
                  print("No data available")
@@ -147,7 +147,7 @@ indList<-function(rv){
                 "CleanFuel", "HouseholdTechNeed", "MobilePhoneHH", "BankCardHH", "HandWash", "NotCrowded", "BasicWater"))
     return(c("PoorerHousehold", "Residence", "HighestEducation"))
   else if(rv %in% c("ChildHealth", "NotStunting", "Stunting", "NotOverweight", 
-                    "NotWasting", "Overweight", "Wasting", "EarlyEducation25", "EarlyEducation35"))
+                    "NotWasting", "Overweight", "Wasting", "EarlyEducation24", "EarlyEducation36"))
     return(c("PoorerHousehold", "Residence", "MotherEducation", "NUnder5", "Sex"))
   else if (rv %in% c("HigherEducation2535", "HigherEducation35plus",
                      "SecondaryEducation2035", "SecondaryEducation35plus"))
@@ -366,6 +366,10 @@ NotCrowded<-function(datause, dataList){
     {
       colnames(datause)[which(colnames(datause) == notcrowdedList$VarName[i])]<-notcrowdedList$NickName[i]
     }
+    else {
+      print(c(notcrowdedList$NickName[i], "is not found"))
+      return(NULL)
+    }
   }
   
   datause$NumberMember<-as.numeric(as.character(datause$NumberMember))
@@ -415,13 +419,13 @@ SafeSanitationHL<-function(datause, dataList){
 }
 
 
-HouseholdBasic<-function(datause, dataList){
+HouseholdBasic<-function(datause, dataList, svnm){
   waterK<-match(dataList$VarName[dataList$NickName=="CleanWater"], colnames(datause))
   if(is.na(waterK)){
     print("No water variable for housebasic")
     return(NULL)
   }
-  datause<- CleanWater(datause, waterK)
+  datause<- CleanWater(datause, waterK, svnm)
   datause$var2tab1<-datause$var2tab
   
   sanitationK<-match(dataList$VarName[dataList$NickName=="SafeSanitation"], colnames(datause))
@@ -742,7 +746,7 @@ Wasting<-function(datause, dataList, k){
   return(datause)
   
 }
-EarlyEducation25<-function(datause,dataList, k){
+EarlyEducation24<-function(datause,dataList, k){
   VarName<- dataList$VarName[dataList$NickName=="Age" & dataList$IndicatorType=="IndependentV"]
   k0<-match(VarName, colnames(datause))
   datause$age<-as.numeric(as.character(datause[, k0]))
@@ -755,7 +759,7 @@ EarlyEducation25<-function(datause,dataList, k){
   return(datause)
 }
 
-EarlyEducation35<-function(datause, dataList, k){
+EarlyEducation36<-function(datause, dataList, k){
   VarName<- dataList$VarName[dataList$NickName=="Age" & dataList$IndicatorType=="IndependentV"]
   k0<-match(VarName, colnames(datause))
   datause$age<-as.numeric(as.character(datause[, k0]))
@@ -1121,20 +1125,32 @@ Learning<-function(datause, dataList){
   return(datause)
 }
 
-Covid1<-function(datause, dataList){
+Covid1<-function(datause, dataList, svnm){
   
   datause<-Learning(datause, dataList)
+  if(is.null(datause)) {
+    print("no learning data for covid, no data generaged")
+    return(NULL)
+  }
   print("Learning: ")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   datause$learning<-datause$var2tab
   
   k<-match(dataList$VarName[dataList$NickName=="BasicWater"], colnames(datause))
   datause<-BasicWater(datause, dataList, k, svnm)
+  if(is.null(datause)) {
+    print("no water data for covid, no data generaged")
+    return(NULL)
+  }
   print("Basic Water: ")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   datause$basicwater<-datause$var2tab
 
   datause<-HandWash(datause, dataList) 
+  if(is.null(datause)) {
+    print("no handwashing data for covid, no data generaged")
+    return(NULL)
+  }
   print("Hand Wash: ")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   
@@ -1165,8 +1181,12 @@ WallRoof<-function(datause, dataList){
 }
 
 
-Covid2<-function(datause, dataList){
-  datause<-Covid1(datause, dataList)
+Covid2<-function(datause, dataList, svnm){
+  datause<-Covid1(datause, dataList, svnm)
+  if(is.null(datause)) {
+    print("no covid1 data for covid, no data generaged")
+    return(NULL)
+  }
   print("Covid1 :")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   datause$covid1<-datause$var2tab
@@ -1174,6 +1194,10 @@ Covid2<-function(datause, dataList){
   ncV<-dataList$VarName[dataList$NickName=="NotCrowded"]
   k<-match(ncV, colnames(datause))
   datause<-NotCrowded(datause, dataList)
+  if(is.null(datause)) {
+    print("no crowded data for covid, no data generaged")
+    return(NULL)
+  }
   print("Not crowded :")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   print(table(datause$covid1, datause$var2tab))
@@ -1182,12 +1206,20 @@ Covid2<-function(datause, dataList){
   ssV<-dataList$VarName[dataList$NickName=="SafeSanitation"]
   k<-match(ssV, colnames(datause))
   datause<-SafeSanitation(datause, dataList, k)
+  if(is.null(datause)) {
+    print("no sanitation data for covid, no data generaged")
+    return(NULL)
+  }
   print("SafeSanitation :")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   print(table(datause$covid1, datause$var2tab))
   datause$safsanitation<-datause$var2tab
   
   datause<-WallRoof(datause, dataList)
+  if(is.null(datause)) {
+    print("no wall and roof data for covid, no data generaged")
+    return(NULL)
+  }
   print("wall and roof: ")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   print(table(datause$covid1, datause$var2tab))
@@ -1198,19 +1230,31 @@ Covid2<-function(datause, dataList){
   return(datause)
 }
 
-Covid<-function(datause, dataList){
+Covid<-function(datause, dataList, svnm){
   datause<-Learning(datause, dataList)
+  if(is.null(datause)) {
+    print("no learning data for covid, no data generaged")
+    return(NULL)
+  }
   print("Learning: ")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   datause$learning<-datause$var2tab
   
   # k<-match(dataList$VarName[dataList$NickName=="BasicWater"], colnames(datause))
   datause<-WaterOnsite(datause, dataList, svnm)
+  if(is.null(datause)) {
+    print("no water data for covid, no data generaged")
+    return(NULL)
+  }
   print("on site Water: ")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   datause$wateronsite<-datause$var2tab
   
   datause<-HandWash(datause, dataList) 
+  if(is.null(datause)) {
+    print("no handwashing data for covid, no data generaged")
+    return(NULL)
+  }
   print("Hand Wash: ")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   datause$handwash<-datause$var2tab
@@ -1219,6 +1263,10 @@ Covid<-function(datause, dataList){
   ncV<-dataList$VarName[dataList$NickName=="NotCrowded"]
   k<-match(ncV, colnames(datause))
   datause<-NotCrowded(datause, dataList)
+  if(is.null(datause)) {
+    print("no crowded data for covid, no data generaged")
+    return(NULL)
+  }
   print("Not crowded :")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   datause$notcrowded<-datause$var2tab
@@ -1226,6 +1274,10 @@ Covid<-function(datause, dataList){
   # ssV<-dataList$VarName[dataList$NickName=="SafeSanitation"]
   # k<-match(ssV, colnames(datause))
   datause<-SafeSanitationHL(datause, dataList)
+  if(is.null(datause)) {
+    print("no sanitation data for covid, no data generaged")
+    return(NULL)
+  }
   print("SafeSanitation :")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   datause$safsanitation<-datause$var2tab
@@ -1586,8 +1638,10 @@ add_reglist<-function(country_code, version_code, datause, meta_data, dataList, 
   k1<-match(id1, colnames(df2))
   id2<-dataList2$VarName[dataList2$NickName=="HouseholdNumber"]
   k2<-match(id2, colnames(df2))
+  id3<-dataList2$VarName[dataList2$NickName==regList[1]]
+  k3<-match(id3, colnames(df2))
   colnames(df2)[c(k1, k2)]<-c("cluster_id", "HouseholdNumber")
-  colnames(df2)[3]<-regList[1]
+  colnames(df2)[k3]<-regList[1]
   
   id1<-dataList$VarName[dataList$NickName=="cluster_id"]
   k1<-match(id1, colnames(datause))
@@ -1806,7 +1860,7 @@ write_tree <- function(datause, country_code, version_code,
   
   # Write to output  
   pass_message <- "Successfully wrote Tree.csv"
-  catch_error(write.table(tree_stat, file=paste(output_folder, paste(ds, "Tree.csv", sep=""), sep=""),
+  catch_error(write.table(tree_stat, file=paste(output_folder, "Tree.csv", sep=""),
               sep=",", append = TRUE,   col.names = F, row.names = F))
   
 }

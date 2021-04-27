@@ -240,4 +240,4 @@ Roof,hh,main material,roof,,HC5,no,and,WallRoof,Factor
 Covid1,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor
 Covid2,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor
 EducationHL,hl,highest,level,education,ED5A,no,or23,IndependentV,Factor
-aGroup,hl,age,,,HL6,no,Only,IndependentV,numeric
+aGroupHL,hl,age,,,HL6,no,Only,IndependentV,numeric

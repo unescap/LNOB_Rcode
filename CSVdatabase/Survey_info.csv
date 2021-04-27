@@ -1,68 +1,67 @@
-SurveyID,CountryID,Country,Year,SurveySource,CountryCode,VersionCode,MetadataFile,InUse
-AZE52,AZE,Azerbaijan,2006,DHS,AZ,52,,?
-KAZ2006,KAZ,Kazakhstan,2006,MICS,Kazakhstan,2006,,?
-VUT2007,VUT,Vanuatu,2007,MICS,Vanuatu,2007,,?
-ARM71,ARM,Armenia,2015-2016,DHS,AM,71,,N
-IND71,IND,India,2015-2016,DHS,IA,71,,N
-MDV71,MDV,Maldives,2016-2017,DHS,MV,71,,N
-MMR71,MMR,Myanmar,2015-2016,DHS,MM,71,,N
-PAK61,PAK,Pakistan,2012-2013,DHS,PK,61,,N
-PAK71,PAK,Pakistan,2017-2018,DHS,PK,71,,N
-PNG70,PNG,Papua New Guinea,2016-2018,DHS,PG,70,,N
-TLS61,TLS,Timor-leste,2010,DHS,TL,61,,N
-TLS71,TLS,Timor-leste,2016,DHS,TL,71,,N
-TLS61,TLS,Timor-leste,2009-2010,DHS,TL,61,,N
-LAO2011,LAO,Lao PDR,2011,MICS,Lao PDR,2011,,N
-LAO2017,LAO,Lao PDR,2017,MICS,Lao PDR,2017,,N
-MMR2000,MMR,Myanmar,2000,MICS,Myanmar,2000,,N
-AFG70,AFG,Afghanistan,2015,DHS,AF,70,,Y
-ARM61,ARM,Armenia,2010,DHS,AM,61,,Y
-ARM71,ARM,Armenia,2016,DHS,AM,71,,Y
-BGD61,BGD,Bangladesh,2011,DHS,BD,61,,Y
-BGD70,BGD,Bangladesh,2014,DHS,BD,70,,Y
-KHM61,KHM,Cambodia,2010,DHS,KH,61,,Y
-KHM72,KHM,Cambodia,2014,DHS,KH,72,,Y
-IND71,IND,India,2016,DHS,IA,71,,Y
-IDN63,IDN,Indonesia,2012,DHS,ID,63,,Y
-IDN71,IDN,Indonesia,2017,DHS,ID,71,,Y
-KGZ61,KGZ,Kyrgyzstan,2012,DHS,KY,61,,Y
-MDV71,MDV,Maldives,2017,DHS,MV,71,,Y
-MMR71,MMR,Myanmar,2016,DHS,MM,71,,Y
-NPL61,NPL,Nepal,2011,DHS,NP,61,,Y
-NPL7H,NPL,Nepal,2016,DHS,NP,7H,,Y
-PAK61,PAK,Pakistan,2013,DHS,PK,61,,Y
-PAK71,PAK,Pakistan,2018,DHS,PK,71,,Y
-PNG70,PNG,Papua New Guinea,2018,DHS,PG,70,,Y
-PHL61,PHL,Philippines,2013,DHS,PH,61,,Y
-PHL70,PHL,Philippines,2017,DHS,PH,70,,Y
-TJK61,TJK,Tajikistan,2012,DHS,TJ,61,,Y
-TJK70,TJK,Tajikistan,2017,DHS,TJ,70,,Y
-TLS61,TLS,Timor-Leste,2010,DHS,TL,61,,Y
-TLS??,TLS,Timor-Leste,2012,DHS,TL,??,,N
-TLS71,TLS,Timor-Leste,2016,DHS,TL,71,,Y
-TUR61,TUR,Turkey,2013,DHS,TR,61,,Y
-AFG2010,AFG,Afghanistan,2010,MICS,Afghanistan,2010,,Y
-BGD2019,BGD,Bangladesh,2019,MICS,Bangladesh,2019,,Y
-BTN2010,BTN,Bhutan,2010,MICS,Bhutan,2010,,Y
-GEO2018,GEO,Georgia,2018,MICS,Georgia,2018,,Y
-KAZ2010,KAZ,Kazakhstan,2010,MICS,Kazakhstan,2010,,Y
-KAZ2015,KAZ,Kazakhstan,2015,MICS,Kazakhstan,2015,,Y
-KIR2019,KIR,Kiribati,2019,MICS,Kiribati,2019,,Y
-KGZ2014,KGZ,Kyrgyzstan,2014,MICS,Kyrgyzstan,2014,,Y
-KGZ2018,KGZ,Kyrgyzstan,2018,MICS,Kyrgyzstan,2018,,Y
-LAO2011,LAO,Lao,2011,MICS,Lao,2011,,Y
-LAO2017,LAO,Lao,2017,MICS,Lao,2017,,Y
-MNG2013,MNG,Mongolia,2013,MICS,Mongolia,2013,,Y
-MNG2018,MNG,Mongolia,2018,MICS,Mongolia,2018,,Y
-NPL2019,NPL,Nepal,2019,MICS,Nepal,2019,,Y
-NPL2019,NPL,Nepal,2019,MICS,Nepal,2019,,Y
-THA2012,THA,Thailand,2012,MICS,Thailand,2012,,Y
-THA2015,THA,Thailand,2015,MICS,Thailand,2015,,Y
-THA2019,THA,Thailand,2019,MICS,Thailand,2019,,Y
-TON2019,TON,Tonga,2019,MICS,Tonga,2019,,Y
-TON2019,TON,Tonga (5 pc),2019,MICS,Tonga (5 pc),2019,,Y
-TKM2015,TKM,Turkmenistan,2015,MICS,Turkmenistan,2015,,Y
-TKM2019,TKM,Turkmenistan,2019,MICS,Turkmenistan,2019,,Y
-UZB2006,UZB,Uzbekistan,2006,MICS,Uzbekistan,2006,,Y
-VNM2010,VNM,Viet Nam,2010,MICS,Viet Nam,2010,,Y
-VNM2013,VNM,Viet Nam,2013,MICS,Viet Nam,2013,,Y
+SurveyID,CountryID,Country,Year,SurveySource,CountryCode,VersionCode,MetadataFile,InUse,MICS_Education_data,AdditionalVariables,Religion_data,Ethnicity_data,Language_data
+AZE52,AZE,Azerbaijan,2006,DHS,AZ,52,,?,,,,,
+KAZ2006,KAZ,Kazakhstan,2006,MICS,Kazakhstan,2006,,?,,,,,
+VUT2007,VUT,Vanuatu,2007,MICS,Vanuatu,2007,,?,,,,,
+ARM71,ARM,Armenia,2015-2016,DHS,AM,71,,N,,,,,
+IND71,IND,India,2015-2016,DHS,IA,71,,N,,,,,
+MDV71,MDV,Maldives,2016-2017,DHS,MV,71,,N,,,,,
+MMR71,MMR,Myanmar,2015-2016,DHS,MM,71,,N,,,,,
+PAK61,PAK,Pakistan,2012-2013,DHS,PK,61,,N,,,,,
+PAK71,PAK,Pakistan,2017-2018,DHS,PK,71,,N,,,,,
+PNG70,PNG,Papua New Guinea,2016-2018,DHS,PG,70,,N,,,,,
+TLS61,TLS,Timor-leste,2010,DHS,TL,61,,N,,,,,
+TLS71,TLS,Timor-leste,2016,DHS,TL,71,,N,,,,,
+TLS61,TLS,Timor-leste,2009-2010,DHS,TL,61,,N,,,,,
+LAO2011,LAO,Lao PDR,2011,MICS,Lao PDR,2011,,N,,,,,
+LAO2017,LAO,Lao PDR,2017,MICS,Lao PDR,2017,,N,,,,,
+MMR2000,MMR,Myanmar,2000,MICS,Myanmar,2000,,N,,,,,
+AFG70,AFG,Afghanistan,2015,DHS,AF,70,,Y,,,,,
+ARM61,ARM,Armenia,2010,DHS,AM,61,,Y,,,,,
+ARM71,ARM,Armenia,2016,DHS,AM,71,,Y,,,,,
+BGD61,BGD,Bangladesh,2011,DHS,BD,61,,Y,,,,,
+BGD70,BGD,Bangladesh,2014,DHS,BD,70,,Y,,,,,
+KHM61,KHM,Cambodia,2010,DHS,KH,61,,Y,,,,,
+KHM72,KHM,Cambodia,2014,DHS,KH,72,,Y,,,,,
+IND71,IND,India,2016,DHS,IA,71,,Y,,,Ready,Ready,NA
+IDN63,IDN,Indonesia,2012,DHS,ID,63,,Y,,,,,
+IDN71,IDN,Indonesia,2017,DHS,ID,71,,Y,,,,,
+KGZ61,KGZ,Kyrgyzstan,2012,DHS,KY,61,,Y,,,,,
+MDV71,MDV,Maldives,2017,DHS,MV,71,,Y,,,,,
+MMR71,MMR,Myanmar,2016,DHS,MM,71,,Y,,,,,
+NPL61,NPL,Nepal,2011,DHS,NP,61,,Y,,,,,
+NPL7H,NPL,Nepal,2016,DHS,NP,7H,,Y,,,,,
+PAK61,PAK,Pakistan,2013,DHS,PK,61,,Y,,,,,
+PAK71,PAK,Pakistan,2018,DHS,PK,71,,Y,,,,,
+PNG70,PNG,Papua New Guinea,2018,DHS,PG,70,,Y,,,,,
+PHL61,PHL,Philippines,2013,DHS,PH,61,,Y,,,,,
+PHL70,PHL,Philippines,2017,DHS,PH,70,,Y,,,,,
+TJK61,TJK,Tajikistan,2012,DHS,TJ,61,,Y,,,,,
+TJK70,TJK,Tajikistan,2017,DHS,TJ,70,,Y,,,,,
+TLS61,TLS,Timor-Leste,2010,DHS,TL,61,,Y,,,,,
+TLS??,TLS,Timor-Leste,2012,DHS,TL,??,,N,,,,,
+TLS71,TLS,Timor-Leste,2016,DHS,TL,71,,Y,,,,,
+TUR61,TUR,Turkey,2013,DHS,TR,61,,Y,,,,,
+AFG2010,AFG,Afghanistan,2010,MICS,Afghanistan,2010,,Y,Ready,,,,
+BGD2019,BGD,Bangladesh,2019,MICS,Bangladesh,2019,,Y,Ready,,Ready,Ready,
+BTN2010,BTN,Bhutan,2010,MICS,Bhutan,2010,,Y,Ready,,,,
+GEO2018,GEO,Georgia,2018,MICS,Georgia,2018,,Y,Ready,,Ready,Ready,
+KAZ2010,KAZ,Kazakhstan,2010,MICS,Kazakhstan,2010,,Y,Ready,,,,
+KAZ2015,KAZ,Kazakhstan,2015,MICS,Kazakhstan,2015,,Y,Ready,,NA,Ready,
+KIR2019,KIR,Kiribati,2019,MICS,Kiribati,2019,,Y,Ready,,Ready,Ready,
+KGZ2014,KGZ,Kyrgyzstan,2014,MICS,Kyrgyzstan,2014,,Y,Ready,,,,
+KGZ2018,KGZ,Kyrgyzstan,2018,MICS,Kyrgyzstan,2018,,Y,Ready,,,Ready,
+LAO2011,LAO,Lao,2011,MICS,Lao,2011,,Y,Ready,,,,
+LAO2017,LAO,Lao,2017,MICS,Lao,2017,,Y,Ready,,Ready,,
+MNG2013,MNG,Mongolia,2013,MICS,Mongolia,2013,,Y,Ready,,,,
+MNG2018,MNG,Mongolia,2018,MICS,Mongolia,2018,,Y,Ready,,Ready,Ready,
+NPL2019,NPL,Nepal,2019,MICS,Nepal,2019,,Y,Ready,,Ready,,Ready
+THA2012,THA,Thailand,2012,MICS,Thailand,2012,,Y,Ready,,,,
+THA2015,THA,Thailand,2015,MICS,Thailand,2015,,Y,Ready,,Ready,,Ready
+THA2019,THA,Thailand,2019,MICS,Thailand,2019,,Y,Ready,,Ready,,Ready
+TON2019,TON,Tonga,2019,MICS,Tonga,2019,,Y,Ready,,Ready,Ready,
+TON2019,TON,Tonga (5 pc),2019,MICS,Tonga (5 pc),2019,,Y,Ready,,Ready,Ready,
+TKM2015,TKM,Turkmenistan,2015,MICS,Turkmenistan,2015,,Y,Ready,,,,Ready
+TKM2019,TKM,Turkmenistan,2019,MICS,Turkmenistan,2019,,Y,Ready,,,,Ready
+UZB2006,UZB,Uzbekistan,2006,MICS,Uzbekistan,2006,,Y,NoNeed,,,,
+VNM2010,VNM,Viet Nam,2010,MICS,Viet Nam,2010,,Y,Ready,,,,
+VNM2013,VNM,Viet Nam,2013,MICS,Viet Nam,2013,,Y,Ready,,Ready,Ready,

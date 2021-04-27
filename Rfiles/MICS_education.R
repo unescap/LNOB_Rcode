@@ -99,10 +99,11 @@ csvfile_name<-"MICS"
 
  
  # checking water code
- # df<-importMICSdata(data_folder,  "Turkmenistan", "2015", "hh", "WS1", la=TRUE)
+ # df<-importMICSdata(data_folder,  "Bhutan", "2010", "wm", "WM7", la=TRUE)
  # print(table(df))
- # df<-importMICSdata(data_folder,  "Turkmenistan", "2015", "hh", "WS1", la=FALSE)
+ # df<-importMICSdata(data_folder,  "Bhutan", "2010", "wm", "WM7", la=FALSE)
  # print(table(df))
 
 
-run_together_edu(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name)
+# run_together_edu(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name)
+run_together_edu(csv_folder, data_folder, output_folder, "VietNam", "2013",  csvfile_name)

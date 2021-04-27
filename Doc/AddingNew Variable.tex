@@ -1,0 +1,871 @@
+\documentclass[12pt]{article}
+%\usepackage{pdfpages} 
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{longtable}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\usepackage{float}
+\usepackage[margin=0.5in]{geometry}
+
+\begin{document}
+\title{Documentation on R-packages --- Adding New Response Variables}
+\maketitle
+
+\section{DHS}
+\subsection{Finding Variable Name}
+We typically use CCDTVCFL.FRW as resources to find relevant variable names. Here CC is the two letter country code. DT is the two letter for data type VC is the two letter version code. These code representation comes from DHS, this is how they organize the data. Here is an example:
+
+IDIR71FL.FRW
+
+This is weighted frequency table file (text format) generated for women's interview data from Indonesia 2017 survey. This file tabulate all of the variables in the Individual Recode file. \\
+
+As an example, we are adding a new response variable, "Use mobile telephone for financial transactions". We can do a key word search (Mobile telephone, for example), and we quickly find this tabulation results:\\
+\\
+Item V169B: NA - Use mobile telephone for financial transactions \\
+\... tbd-name: '.RECODE7.REC11.V169B' \\
+{\small 
+\begin{tabular}{lcccccc}
+\hline
+Categories & Frequency  &  CumFreq & \%  & Cum \% & Net \% & cNet \% \\
+\hline
+NotAppl & 49627  &  49627  &  100.0  & 100.0  &   &  \\
+\hline
+TOTAL & 49627 &  49627 &  100.0 & 100.0 & & \\
+\end{tabular}
+}
+
+This shows that Indonesia did not collect this information during the survey. Even though they have a variable as a place holder, it is not used.\\
+\\
+\\
+The following tabulation is from Women's data from Armenia 2016 survey (AMIR71FL.FRW): \\
+\\
+Item V169B: Use mobile telephone for financial transactions\\
+... tbd-name: '.RECODE7.REC11.V169B'\\
+{\small 
+\begin{tabular}{lcccccc}
+\hline
+ Categories & Frequency    &    CumFreq    &  \%   &  Cum  \%   &  Net \%  &  cNet \% \\
+ \hline
+ 0 No   & 4179    &   4179   &  68.3   &  68.3  &   70.6  &   70.6 \\
+ 1 Yes  &  1735   &   5914   &  28.4   &  96.7   &  29.3  &   100.0 \\
+ Missing &   2    &   5917    &  0.0    & 96.7   &   0.0   &   100.0 \\
+ \hline
+ NotAppl  &  199   &   6116    &  3.3  &  100.0   &    & \\  
+ \hline    
+ TOTAL &  6116  &  & 6116   &  100.0  &  100.0  &   \\
+\end{tabular}
+}
+
+\subsection{Define what is 1, what is 0, and the reference population}
+
+From the above tabulation, we also see that in the data, there are four different possible values for the variable.
+\begin{enumerate}
+\item 0 - No
+\item 1 - Yes
+\item Missing
+\item NotAppl
+\end{enumerate}
+
+In our response variable, we need to assign 0 and 1 value. This will affect the analytic results and tree representation. In this example, our goal is to find proportion of people in the sample who have access to financial services via mobile phone. So we assign value 1 to "1 - Yes", and 0 to all other cases.
+\subsection{Set up in DHSStandard.csv file}
+
+Enter two new rows in the csv file as the following:
+
+{\small 
+\begin{tabular}{cccccc}
+VarName & NickName & DataSet & DataType & IndicatorType & Comment \\
+\hline
+V169B & MobileFinance & IR & Factor & ResponseV  & \\
+MV169B & MobileFinance & MR	 & Factor & MresponseV  & \\
+\end{tabular}
+}
+
+So the response variable "MobileFinance" is added. In the .csv file, we also specified the variable names in the IR and MR data. We will not see the variable names in the R file, because it is passed to the code by this csv file. The csv file also tells the R-program that they are from two different files respectively. The data is treated as factor (not numeric). And they are response variable (not independent variable). We will see how this information is used below.
+
+\subsection{Modifying R-program}
+
+The R-file we need to modify is the DHS\_get\_data.R.
+\begin{itemize}
+\item{Modify the function get\_data()}\\
+ look for comment line "\#\#\#\#\#\# End of Programmer Note1"\\
+ add the following R statement line right above it: \\
+ {\small 
+  \begin{lstlisting}[language=R]
+    else if (rv=="MobileFinance") datause<- MobileFinance(df, dataList, k)
+  \end{lstlisting}
+    }
+\item{Define the function MobileFinance(df, dataList, k)}\\
+ look for comment line "\#\#\#\#\#\# End of Programmer Note2"\\
+  add the following R statement line right above it: \\
+   {\small 
+  \begin{lstlisting}[language=R]
+   MobileFinance<-function(datause, dataList, k){
+ 		 datause$var2tab<- 0
+  		 datause$var2tab[datause[,k] == 1]<-1
+  		return(datause)
+  		}
+ \end{lstlisting}
+ }
+  		
+ \item{Define the list of independent variables to be used in the models in the function indList<-function(rv, ethnicity = FALSE )}\\
+ since it will be using the same set of variables as internetuse, I just added here \\
+  {\small 
+   \begin{lstlisting}[language=R]
+     else if(rv %in% c("HealthInsurance", "InternetUse", "MobileFinance") )
+     iv<-c("PoorerHousehold", "Residence", "aGroup",  "Education")
+  \end{lstlisting}   
+  }
+
+\end{itemize}
+
+\subsection{Running examples}
+If we call the function run\_ together with appropriate parameters, we will get the survey analyzed.
+run\_ together is defined as 
+{\small 
+  \begin{lstlisting}[language=R]
+run_together<-function(source_folder, original_data_folder, output_folder, 
+country_code, version_code, mrversion_code=NULL, csvfile_name, Flag_New=TRUE,
+ ethnicity=FALSE,  pdf_flag=FALSE)
+  \end{lstlisting}  
+  }
+Here, source\_ folder, original\_ data\_ folder, output\_ folder are file structures on the users computer, and they need to be decided by the users. 
+Country\_ code and version\_ code are the two letter-code given by DHS in the file name. some times the version code for the MR file is different from other files, so we have a parameter in case the MR file has different version code. If it has the same version code, set this parameter to NULL. csvfile\_ name is where we set up the variables.  Flag\_ new means the version is 5+ (current version is 7). For DHS, only India provides religion and caste variable, so normally ethnicity is set to FALSE. If this parameter is set at TRUE, the DHS program will try to look for ethnicity variable and if it can't find any, it will ran the analysis without it. pdf\_ flag is an option, if it is set at TRUE, tree graph will be saved in PDF files.
+
+ 
+Here is how we run two sample surveys:
+{\small 
+  \begin{lstlisting}[language=R]
+   run_together(source_folder, data_folder, output_folder, 
+   "AM", "71", "72", csvfile_name2, TRUE, FALSE, pdf_flag=TRUE)
+  
+  run_together(source_folder, data_folder, output_folder, 
+  "NP", "7H", NULL, csvfile_name2, TRUE, FALSE, pdf_flag=TRUE)
+ \end{lstlisting}  
+} 
+
+As you can see, for AM71 survey, the MR file has a different version code.
+
+\subsection{Checking results in Final Report}
+
+We should always make sure that the overall tabulation is correct by checking the aggregates published in the final report. (An excel file is used and attached, a table will be added here later).
+
+
+\section{MICS}
+\subsection{Finding Variable Names for surveys}
+MICS is organized very differently from DHS. The variable names for each survey can be different, so we are going to use an R file to read the .sav file headers (SPSS data format provided by MICS) and the R file will look through the variable descriptions to identify the variable names by some keywords we provided. Only when the R program failed to identify variable names we will manually check the header files to decide whether -- the variable name is described in an eccentric way, or the information was not collected for the survey and the variable does not exist in the data.
+
+So, the R-file is: MICS\_varName.R, we can import the MICS\_Var\_Search\_keys.csv, which contains definition of all variables and the key words for them that we have been using so far.
+
+For an example, we look at variable for mobile phone:
+
+{\small 
+\begin{tabular}{cccccccccc}
+	NickName& DataSet& Key1 & Key2 & Key3 & UsualVar & Default & Type & IndicatorType & DataType \\
+	\hline
+	MobilePhone& mn& mobile phone & own & have  & MMT11 & no & or23 & MresponseV & Factor \\	
+	MobilePhone& wm& mobile phone & own & have  & MT11 & no & or23 & ResponseV & Factor \\	
+	
+\end{tabular}
+}
+
+Here we have the usual columns as we have seen in the DHS csv file, for example, NickName, which is the name we will use in the R program. DataSet is where this variable comes from. In MICS, there are five data types: hh, hl, ch, wm, mn. IndicatorType tells us if it is a response variable, or sample weight, or other type. DataType tells us if it is numeric or not. We dont have VarName here yes, which is the name of the variable in the MICS datasets, we will use other columns and MICS data header to find them. The columns "Key1", "Key2", "Key3", "Default", "Type" are used for keywords searching to find candidates for VarName. When there are too many candidates, the R program will look at the UsualVar in the csv file, if the variable name in the UsualVar is among the candidates, the VraName will take it. If not, all candidates will be given in the result. So here is the result for Mongolia 2018:
+
+{\small 
+	\begin{tabular}{ccccccccc}
+		NickName& DataSet& ... & Default & Type & IndicatorType & DataType & VarName & Search\_result
+		\\
+		\hline
+		MobilePhone& mn& ... & no & or23 & MresponseV & Factor & MMT11 &	1 var names found
+		\\	
+		MobilePhone& wm& ... & no & or23 & ResponseV & Factor & MT11 &	1 var names found \\	
+		
+	\end{tabular}
+}
+  
+The resulting csv file will be named for the survey so that the main analytical R program can make use of it. We need to look at it to find out if there are more than one variable names in the VarName column. If there are, we need to decide which one to use. Normally, such cases are few. Maybe about 5-6 and one can quickly make decisions. Also, education levels and grades have to bee appended at the end. Otherwise the data analysis can not be carried out.
+
+If we want to add a response variable, we have to look at a few header files and decide which are the keywords we need to use. And after some trial, we might quickly found out there are some inconsistent wording in MICS headers. That is why we allow three types of keywords combination: and, or12, or23. Each allow different logical relations between the three keywords. "and" means all three keywords have to be present in the header. "or12" means either keyword1 or keyword2 should be present. "or23" means keyword1 has to be present, while keyword2 or keyword3 should be present.
+
+\subsection{Adding a new variable}
+First we need to find variable names for the new variable, we can create a csv file in the same format as  MICS\_Var\_Search\_keys.csv, and run the R function with this csv file, and append the new result to existing .csv file already created for each survey.
+
+Then we need to modify the MICS\_get\_data.R just as we do with DHS\_get\_data.R.
+
+\subsection{Education levels}
+Another difference between DHS and MICS is the education levels are defined differently. In DHS, unified definition of secondary education have been applied to all countries. In MICS, again, this varies from country to country. So we need to establish the method to decide the education levels. We discussed the method briefly in the users guide. Here we are describing more details with examples.
+
+In the R-file MICS\_Education.R, we summarize education levels from three data sets:
+Using Mongolia 2018, we illustrate how to proceed:
+\begin{itemize}
+	\item hl: the household member survey data
+	we look at the overall education level coding, numeric coding vs labels:
+	
+	{\small
+	\begin{tabular}{l|c|c|c|c|c|c|}
+		\hline
+     Numberic Code & 0 & 1 & 3 & 4 & 8 & 9 \\
+     	\hline
+	 data count & 3702 & 26634 & 5420 & 9044 & 8 & 1 \\
+	 	\hline
+	 School Level & ECE & SECONDARY  & VOCATIONAL& UNIVERSITY,  & DK & NO RESPONSE \\ 
+	     &   & SCHOOL & TRAINING CENTERS & INSTITUTE, & & \\
+	     &   &  &  TECHNICUM & COLLEGE & & \\
+   		\hline
+	\end{tabular}
+    }
+    So here we have two levels for secondary education: 
+    1- SECONDARY SCHOOL, 3 - VOCATIONAL TRAINING CENTERS, TECHNICUM
+    We need to find which grade level indicates that the secondary education has been completed.
+    So, here is the cross tabulation between education level and grade we need to look at:
+    
+    	{\small
+    	\begin{tabular}{l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+    	\hline
+    	level &    1  &   2   &   3   &   4  &   5   &  6   &   7   &   8    &   9   &   10   &   11   &   12   &   21   &  22   &   30   &   98   &  99\\
+    	0  & 0    &  0  &   0  &  0  &  0   &  0   &   0   &    0   &   0   &   0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    	1   &   639 & 1641 & 1834 & 3203 & 1674 & 1425 & 1457 & 5883 & 1394 & 4552 & 1032  & 900 & 0 & 0 & 0 & 0 & 0 \\
+    	3   &   642 & 2605 & 2111  &  57 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 3 & 2 \\
+    	4   &   459 &  669  & 756 & 5726  & 485  & 228 & 0 & 0 & 0 & 0 & 0 & 0   & 119  & 534  &  67 & 0 & 1 \\
+    	8   &   0   &   0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 5 & 3 \\
+    	9   &   0  &  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+    	\hline
+    	\end{tabular}
+    }
+
+    So, here we see that when level =1, Grade 10 has the most count and is likely the grade when secondary education finsihes. When level = 3, grade 3 has the most count and is likely the grade when vocational training finishes.
+    So, in the csv file EducationMICS.csv, we have the following entry:
+    
+    \begin{tabular}{|l|c|c|c|c|}
+    \hline
+    Levels & DataSet & SurveyName & Education & Grade\\
+    1 & hl & Mongolia2018 & SecondaryEducation & 10 \\
+    3 & hl & Mongolia2018 & SecondaryEducation & 3 \\
+    \hline
+	\end{tabular}
+     
+	\item wm: the wm survey data, we also have two sets of tabulation:
+	
+	{\small
+	\begin{tabular}{l|c|c|c|c|c|c|}
+	\hline
+	Numeric code:  &  1  &    2 & 3  & 4  & 5  & 6\\ 
+	\hline
+	data count: & 525  &  667 &  2477 &  2437  & 1242 &  3446\\ 
+	\hline
+	School level: &  Pre-primary & Primary & Lower secondary  & Upper  & Vocational & College \\
+	 &  or none &  & (basic) & secondary & & university \\
+	\hline
+	\end{tabular}
+    }
+
+Here we see that last level for secondary is 5 - Vocational, and last level BEFORE secondary is 2 - Primary.
+We fill in the  csv file EducationMICS.csv as the follwing:
+
+    \begin{tabular}{|l|c|c|c|c|}
+	\hline
+	Levels & DataSet & SurveyName & Education & Grade\\
+	5 & wm & Mongolia2018 & EducationLevels & 2 \\
+	\hline
+\end{tabular}
+
+	\item ch: the child survey data, where we look at the educational levels for the mothers. We repeat the same calculation:
+	
+	{\small
+		\begin{tabular}{l|c|c|c|c|c|c|}
+			\hline
+			Numeric code:  &  1  &    2 & 3  & 4  & 5  & 6\\ 
+			\hline
+			data count: & 525  &  667 &  2477 &  2437  & 1242 &  3446\\ 
+			\hline
+			School level: &  Pre-primary & Primary & Lower secondary  & Upper  & Vocational & College \\
+			&  or none &  & (basic) & secondary & & university \\
+			\hline
+		\end{tabular}
+	}
+	
+	Here we see that last level for secondary is 5 - Vocational, and last level BEFORE secondary is 2 - Primary.
+	We fill in the  csv file EducationMICS.csv as the follwing:
+	
+	\begin{tabular}{|l|c|c|c|c|}
+		\hline
+		Levels & DataSet & SurveyName & Education & Grade\\
+		5 & ch & Mongolia2018 & MotherEducationLevels & 2 \\
+		\hline
+	\end{tabular}
+	
+	
+\end{itemize} 
+\subsection{Preparing religion, ethnicity and language information}
+
+First, we need to make sure of the variable names in MICS data, our variable name each results give us the following:
+
+	{\small
+	\begin{tabular}{l|c|c|c|c|l|}
+	\hline
+	NickName & DataSet & ... & UsualVar & VarName & Search\_result\\
+	\hline
+	Ethnicity & ch & ... & ETHNICITY & ETHNICITY & 1 var names found\\
+	Religion & ch & ...& RELIGION & RELIGION & 1 var names found\\
+	Language & ch &... & LANGUAGE &  & 3 var names found\\
+	Ethnicity & hh &... & ETHNICITY & ETHNICITY & 1 var names found\\
+	Language & hh & ... & LANGUAGE &  & 1 var names found\\
+	Religion & hh & ... & RELIGION & RELIGION & More than one columns, usual name chosen\\
+	Ethnicity & hl& ... & ETHNICITY & ETHNICITY & 1 var names found\\
+	Religion & hl & ... & RELIGION & RELIGION & 1 var names found\\
+	Language & hl & ... & LANGUAGE & NA & 0 var names found\\
+	Ethnicity & wm &... & ETHNICITY & ETHNICITY & More than one columns, usual name chosen\\
+	Religion & wm & ... & RELIGION & RELIGION & More than one columns, usual name chosen\\
+	Language & wm & ... & LANGUAGE &  & 3 var names found\\
+	\hline
+\end{tabular}
+}
+
+For this survey, both Ethnicity and Religion information is collected, so Language is not needed (as our long standing decision, if ethnicity is missing from the data, we will use language as a proxy). So we leave VarName for language blank, to save time checking the variable names R program has found.
+
+Then we need to run the function run\_together\_rel() in the r-file MICS\_LagunageReligionEthnicity.R, to understand the labels in the coding of the data, also to choose the categories with more than 5\% (based on hh data).\\
+\hfill \break
+First, Ethnicity:
+
+	{\small
+	\begin{tabular}{l|c|c|c|c|}
+		\hline
+        code & 1 & 2 & 6 & 9 \\
+        Sample portion & 0.739724138 & 0.078965517 & 0.129931034 & 0.002965517  \\
+        Label & Khalkh & Kazakh & Other & Missing/DK \\
+	\hline
+\end{tabular}
+} \\
+
+\hfill \break
+Second, Religion:
+
+	{\small
+	\begin{tabular}{l|c|c|c|c|c|}
+	\hline
+	
+	code & 1 & 2 & 3 & 6 & 9 \\
+	Sample portion & 0.368551724 & 0.476068966 & 0.070275862 & 0.033793103 & 0.002896552 \\
+	Label & No religion & Buddhist &   Muslim & Other & Missing/DK \\
+		
+	\hline
+	\end{tabular}
+}
+
+\hfill \break
+
+The R-code output shows that all dataset are using the same code definition. So we now create rows for Mongolia2018
+in the csv file "ReligionMICS.csv" as the following: \\
+
+{\small
+	\begin{tabular}{l|c|c|c|c|}
+		\hline
+
+	DataSet & SurveyName & NickName & Levels & Labels\\
+		\hline
+	hh & Mongolia2018 & Religion & 1 & NoReligion\\
+	hh & Mongolia2018 & Religion & 2 & Buddhist\\
+	hh & Mongolia2018 & Religion & 3 & Muslim\\
+	hh & Mongolia2018 & Ethnicity & 1 & Khalkh\\
+	hh & Mongolia2018 & Ethnicity & 2 & Kazakh\\
+	\hline
+\end{tabular}
+}\\
+\hfill \break
+
+As you can see, we exclude categories that has less than 5\% sample portion, as 9 (Missing/DK) and 6 for Ethnicity, and 6 (Other) and 9 for Religion. In our analysis we will lump them into a category as "MinorEthnicity" and "MinorReligion". \\
+
+
+Since within one survey, the coding on these variables are the same, we will use hh data set to define the variable labels for the all of the data sets. 
+
+When ethnicity and language are both available  in the survey data, we choose ethnicity. So the only time we pay attention to language variable is when ethnicity variable is missing. We do the scanning in section 4.2, and when ethnicity is present, we just delete variable name for language.
+
+\hfill \break
+Defining response and alternating the R-code is very similar to DHS.  
+We need to create this rows for each MICS survey and save the results in the EducationMICS.csv file. We only need to do this for each MICS survey once. So, we just need to do this once for every new MICS survey data.
+
+\section{Example: Adding a more complex variable -- DHS data}
+Now we demonstrate the process to add a new variable that is defined by two existing variables.
+The Financial inclusion indicator, defined by: the household member has a bank account or mobile banking, ie, he/she can use their mobile phone for financial transactions.
+
+As we have seen in the examples above, MobileFinance information has been collected by the DHS surveys, normally during the individual interviews in recent surveys. So they are in the data IR and MR. Bank account information has been collected as well, some in the HR data set, some in the PR data set, and lately in the IR and MR dataset.
+Here is a summary of our previous analysis:
+\\
+\\
+Here are the results for MobileFinance:
+
+{\small 
+	\begin{tabular}{lcccll}
+	\hline
+	Country& Year& survyes & overall level from R & Final report  description & final report aggregates \\
+	& & & (\% of interviewees)& &  (\% of people who own \\
+	& & & & & mobile phone)\\
+	  \hline 
+Armenia & 2016 & AM71/72 & 28.37\% & women,/men (15-49) & 29.3/19.9 \\
+Maldives & 2017 & MV71 & 24.88\% & married women/men (15-49) & 20.3/35.8 \\
+Nepal & 2016 & NP7H & 6.64\% & women,/men (15-49) & 9.0/7.8 \\
+Pakistan & 2018 & PK71 & 6.02\% & married women/men (15-49) & 6.8/20.7 \\
+PNG & 2018 & PG70 & 7.50\% & women,/men (15-49) & 19.8/17.9 \\
+Phillippines & 2017 & PH70 & 11.09\% & women,(15-49) & 12.9 \\
+Tajikistan & 2017 & TJ70 & 4.72\% & women,(15-49) & 8.8 \\
+Timor-Leste & 2016 & TL71 & 1.25\% & women,/men (15-49) & 1.8/1.9 \\
+\hline
+	\end{tabular}
+}
+.
+\\
+\\
+Here are the results for BankAccount for countries that have the data on MobileFinance:
+
+{\small 
+	\begin{tabular}{lcclllr}
+		\hline
+  &  &  &  &   From & final report  & From R output \\
+  \hline
+Country & Year & Surveys & marital status & women & men & all \\
+Armenia & 2015 & AM71 & all, all & 19.3 & 20.7 & 19.27\% \\
+Maldive & 2016 & MV71 & all, all & 63.3 & 73.6 & 67.09\% \\
+Nepal & 2016 & NP7H & all, all & 40.5 & 40.1 & 40.39\% \\
+Pakistan & 2017 & PK71 & married, married & 6 & 31.6 & 11.20\% \\
+Papua New Guinea & 2016 & PG70 & all, all & 18.4 & 27.5 & 21.34\% \\
+Pilippines & 2017 & PH70 & all & 22.3 & no & 22.27\% \\
+Tajikhstan & 2017 & TJ70 & all & 1.1 & no & 1.10\% \\
+Timor Leste & 2016 & TL71 & all, all & 11.1 & 16.5 & 12.58\% \\
+\hline
+	\end{tabular}
+}
+.
+\\
+\\
+
+Now we need to add a new response variable in the csv file for DHS, which depends on two variables from the dataset IR and MR, and here is how we set them up:
+
+{\small 
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+VarName & NickName & DataSet & DataType & IndicatorType\\
+\hline
+V170 & FinancialInclusion & IR & Factor & ResponseV \\
+V169B & FinancialInclusion & IR & Factor & ResponseV \\
+MV170 & FinancialInclusion & MR & Factor & MresponseV \\
+MV169B & FinancialInclusion & MR & Factor & MresponseV \\
+\hline
+	\end{tabular}
+}
+
+.
+\\
+\\
+So we need to add statements in DHS\_get\_data.R. Begin with the function get\_data(), 
+{\small 
+	\begin{lstlisting}[language=R]
+else if (rv=="FinancialInclusion") datause<- FinancialInclusion(df, dataList, k)
+	\end{lstlisting}
+}
+.
+\\
+And we also need to define this new function later in the file:
+ {\small 
+	\begin{lstlisting}[language=R]
+	FinancialInclusion<-function(datause, dataList, k){
+	# this variable is defined by 2 columns
+	datause$var2tab<-0
+			
+	for(i in c(1,2)){
+		print(k[i])
+		ki<-k[i]
+		vi<-datause[,ki]
+		datause$var2tab[vi==1]<-1
+		}
+			
+	print(paste("average financial inclusion is ", 
+	sum(datause$var2tab*datause$SampleWeight)/sum(datause$SampleWeight)))
+			
+			
+	return(datause)
+	}
+	\end{lstlisting}
+}
+.
+\\
+And we also need to tell the program which independent variables should be used in the model, which is the indList() function.
+{\small 
+	\begin{lstlisting}[language=R]
+ else if(rv %in% c("HealthInsurance", "InternetUse", "MobileFinance", 
+    "FinancialInclusion", "BankAccount") )
+    iv<-c("PoorerHousehold", "Residence", "aGroup",  "Education")
+	\end{lstlisting}
+}
+Later, if the survey has MR (male recode) data and the variables there have valid information, "Sex" will be added.
+\\
+
+Then we are ready to run the R-program. This is how we do it:
+\\
+{\small 
+	\begin{lstlisting}[language=R]
+run_together(source_folder, data_folder, output_folder, "AM","71",
+			 NULL, NULL, csvfile_name2, TRUE, FALSE)
+run_together(source_folder, data_folder, output_folder, "MV","71", 
+   NULL, NULL, csvfile_name2, TRUE, FALSE)
+run_together(source_folder, data_folder, output_folder, "NP","7H", 
+   NULL, NULL, csvfile_name2, TRUE, FALSE)
+run_together(source_folder, data_folder, output_folder, "PK","71", 
+    NULL, NULL, csvfile_name2, TRUE, FALSE)
+run_together(source_folder, data_folder, output_folder, "PG","70", 
+   NULL, NULL, csvfile_name2, TRUE, FALSE)
+run_together(source_folder, data_folder, output_folder, "PH","70", 
+   NULL, NULL, csvfile_name2, TRUE, FALSE)
+run_together(source_folder, data_folder, output_folder, "TJ","70", 
+   NULL, NULL, csvfile_name2, TRUE, FALSE)
+run_together(source_folder, data_folder, output_folder, "TL","71", 
+    NULL, NULL, csvfile_name2, TRUE, FALSE)
+	\end{lstlisting}
+}
+.
+\\
+\\
+Here are the overall level produced, and we added BankAccount and MobileFinance as reference:
+\\
+{\small 
+\begin{tabular}{ccccc}
+Country & Year & BankAccount & MobileFinance & FinancialInclusion \\
+\hline
+Armenia & 2016 & 19.27\%  & 28.37\%  & 38.70\% \\
+Maldives & 2017 & 67.09\%  & 24.88\%  & 68.96\% \\
+Nepal & 2016 & 40.39\%  & 6.64\%  & 42.96\% \\
+Pakistan & 2018 & 11.20\%  & 6.02\%  & 14.19\% \\ 
+PNG & 2018 & 21.34\%  & 7.50\%  & 22.27\% \\
+Phillippines & 2017 & 22.27\%  & 11.09\%  & 27.57\% \\
+Tajikistan & 2017 & 1.10\%  & 4.72\%  & 5.21\% \\
+Timor-Leste & 2016 & 12.58\%  & 1.25\%  & 13.09\% \\
+\hline
+\end{tabular}
+}
+
+\section{Example: adding a new MICS survey}
+In Oct 2020, MICS releases the newest Turkmenistan survey data that was conducted in 2019. We downloaded the SPSS data from the web and saved them in the mics data folder, in a newly created folder "Turkmenistan2019".
+
+\subsection{Search variable names and creating header files for manual check}
+This is done in the file MICS\_varName.R:
+
+attributesMICSdata(data\_folder, "Turkmenistan", "2019", source\_folder, csvfile\_name)
+
+In this function data\_folder is here folder "Turkmenistan2019" is,  source\_folder, is where the csv file is, with name csvfile\_name. This csv file contains all variable nicknames (used in the main R analytic program), and the keywords to find their variable names in the MICS datasets.  The resulting file is named "Turkmenistan2019MICS.csv" and saved in source\_folder. 
+
+Also, header information is saved in "Turkmenistan2019" as csv files and we will use them very shortly.
+
+\subsection{Checking variable names and make sure they are correct}
+In R log file we have some top level summary of which variables cant be found by the R program. That does not mean that MICS did not collect the information, just that the information might be collected with different labels or misspelled. So we have to manually check and search in the header csv files. This is how we proceed:
+
+\begin{itemize}
+	\item Filter the data, looking at the instances when variable names are not found, total 26 cases. Mostly are related to handwash, ethnicity, women delivery. We start at handwash, and we can confirm that MICS did not collect this information at this round of survey. It is also surprising that they did not collecting information on fuel or stove type for cooking, this shows in the table SR.2.1 in the final report. We also notice that this round of survey did not collect information on religion or ethnicity at household level. 
+	\item Next, we look at the cases when more than one variable names were found. We can ignore "More than one columns, usual name chosen", but focus on the cases when the usual variable names are not among the variable names R program found. There are only 8 cases, and we can search the header csv files to decide which variable name to use.	
+	\item checking availability of religion and ethnicity information in the survey. They are both missing. Only Language is present in hh dataset.
+\end{itemize}
+
+\subsection{Creating Education levels and grades}
+As described in section 2.3, we need to run the functions in MICS\_education.R file to create information to decide which education levels are secondary education. 
+
+run\_together\_edu(source\_folder, data\_folder, output\_folder, "Turkmenistan", "2019",  csvfile\_name)
+
+we get the following output.
+\begin{itemize}
+	\item hl \\
+      we have four education related indicators, which are calculated from the hl dataset:
+      
+		{\small
+		\begin{tabular}{l|c|c|c|c|c|c|}
+		\hline 
+			Numberic Code & 0 & 1 & 2 & 3 & 4 & 8 \\
+		\hline
+			data count & 1350 & 19750 & 1383 & 2416 & 2605 & 2 \\
+		\hline
+			School Level & PRE-SCHOOL & SECONDARY  & PRIMARY& SECONDARY & HIGHER & DK \\ 
+			 &/KINDERGARTEN & (1-11) &VOCATIONAL &VOCATIONAL & & \\ 			
+		\hline                                       
+		\end{tabular}
+	}
+
+So, here, primary and secondary school are lumped together. Looks like we also will consider vocational school as secondary.
+We need to further look at the grade to decide who have finished secondary education.
+
+		{\small
+	\begin{tabular}{l|c|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+	  & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 98 \\
+	  \hline
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	1 & 755 & 731 & 759 & 640 & 682 & 1017 & 569 & 832 & 3236 & 9018 & 1508 & 3 \\
+	2 & 1087 & 296 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	3 & 48 & 497 & 1683 & 186 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 2 \\
+	4 & 65 & 73 & 55 & 472 & 1799 & 141 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	8 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 2 \\
+	\hline
+		\end{tabular}
+}
+
+ So, we need to add the following rows in the EducationMICS.csv file.
+ 
+     \begin{tabular}{|l|c|c|c|c|}
+ 	\hline
+ 	Levels & DataSet & SurveyName & Education & Grade\\
+ 	\hline
+ 	1 & hl & Turkmenistan2019 & SecondaryEducation & 10 \\
+ 	2 & hl & Turkmenistan2019 & SecondaryEducation & 1 \\
+ 	3 & hl & Turkmenistan2019 & SecondaryEducation & 1 \\
+ 	\hline
+ \end{tabular}\\
+
+ However this causes some problems. For one, it is much lower than the 2015 aggregates. For two, some people only reach the 10th grade when they are over 20, that makes the 20-35 yos group to have lower So, we decided the correct entries in the csv file should be: \\
+ 
+      \begin{tabular}{|l|c|c|c|c|}
+ 	\hline
+ 	Levels & DataSet & SurveyName & Education & Grade\\
+ 	\hline
+ 	1 & hl & Turkmenistan2019 & SecondaryEducation & 9 \\
+ 	2 & hl & Turkmenistan2019 & SecondaryEducation & 1 \\
+ 	3 & hl & Turkmenistan2019 & SecondaryEducation & 1 \\
+ 	\hline
+ \end{tabular}\\
+
+\item wm \\
+      for most of women indicator, the education level of women is a circumstance variable.
+      
+      So here is how the levels were coded in the wm dataset:
+      
+     		{\small
+     	\begin{tabular}{l|c|c|c|c|c|c|}
+     		\hline 
+     		Numberic Code & 0 & 1 & 2 & 3 & 4 \\
+     		\hline
+     		data count & 6  & 5796 & 568 & 673 & 515 \\
+     		\hline
+     		School Level & Pre-primary  & Primary   & PRIMARY& SECONDARY & HIGHER \\ 
+     		&/or none & or secondary &VOCATIONAL &VOCATIONAL & \\ 			
+     		\hline                                       
+     	\end{tabular}
+     } 
+
+We need to add the following rows in the EducationMICS.csv file.
+
+    \begin{tabular}{|l|c|c|c|c|}
+	\hline
+	Levels & DataSet & SurveyName & Education & Grade\\
+	\hline
+	3 & wm & Turkmenistan2019 & EducationLevels & 0 \\
+	\hline
+    \end{tabular}
+
+\item ch \\
+      for most of chidren indicator, the education level of mother is a circumstance variable.
+
+      So here is how the levels were coded in the ch dataset:
+      
+     {\small
+    	\begin{tabular}{l|c|c|c|c|c|c|}
+    		\hline 
+    		Numberic Code & 0 & 1 & 2 & 3 & 4 \\
+    		\hline
+    		data count & 3  & 2986 & 317 & 204 & 219 \\
+    		\hline
+    		School Level & Pre-primary  & Primary   & PRIMARY& SECONDARY & HIGHER \\ 
+    		&/or none & or secondary &VOCATIONAL &VOCATIONAL & \\ 			
+    		\hline                                       
+    	\end{tabular}
+    }   
+      
+ We need to add the following rows in the EducationMICS.csv file.
+ 
+ \begin{tabular}{|l|c|c|c|c|}
+ 	\hline
+ 	Levels & DataSet & SurveyName & Education & Grade\\
+ 	\hline
+ 	3 & ch & Turkmenistan2019 & EducationLevels & 0 \\
+ 	\hline
+ \end{tabular}     
+      
+      
+      
+\end{itemize}
+
+
+\subsection{Creating Language levels}
+As we went through varaiable name search in section 4.2, we noticed that this survey has no data on religion or ethnicity Only langauge information on household head in hh data. So, we follow the proceedure described in section 2.4, to get the code and label for language in hh data:
+
+ \begin{tabular}{|l|c|c|c|c|c|}
+	\hline
+       code &   1  &  2 & 3 & 6 & \\
+     \hline
+    sample portion & 0.80962113 & 0.06414086 & 0.07152963 & 0.02861185 & \\
+    \hline
+    Label & TURKMEN & UZBEK  &  RUSSIAN &  OTHER LANGUAGE & NO RESPONSE \\
+ 	\hline
+\end{tabular}\\
+\hfill \break     
+
+So, we add the following rows for Turkmenistan:
+
+{\small
+	\begin{tabular}{l|c|c|c|c|}
+		\hline
+		
+		DataSet & SurveyName & NickName & Levels & Labels\\
+		\hline
+		hh & Turkmenistan2019 & Language & 1 & TURKMEN\\
+		hh & Turkmenistan2019 & Language & 2 & UZBEK\\
+		hh & Turkmenistan2019 & Language & 3 & RUSSIAN\\
+		\hline
+	\end{tabular}
+}\\
+\hfill \break
+
+
+Now we can run Tukrmenistan anaylsis with or without language:
+\hfill \break
+
+Without:\\
+run\_together(source\_folder, data\_folder, output\_folder, "Turkmenistan", "2019",  csvfile\_name, edcationcsv)\\
+\hfill \break
+
+With:\\
+run\_together(source\_folder, data\_folder, output\_folder, "Turkmenistan", "2019",  csvfile\_name, edcationcsv, religioncsv, religion = TRUE)
+
+\section{Example: Adding new MICS variables - domestic violence}
+Tonga2019 survey started to interview information on domestic violence. Here we document how to add the variables to our analysis.
+
+\subsection{First, we read the Survey Finding Report} we see that there is a chapter 12 on domestic violence. This is new, so we proceed to read about the design of the module.
+
+\begin{itemize}
+	\item The methodology sections states: "Tonga MICS 2019 collected data on DV by including a series of questions that were developed by the Demographic
+	and Health Surveys."
+	\item "Only one woman among all women age 15-49 years from each household was randomly selected for the survey."
+	\item "A protection protocol/support plan was adopted", this has implications on how to find the respondents in the data. We will explain in the data section.
+	\item Definition of physical, sexual and emotional violence for married women (or women living with a partner) can also be found in the methodology section
+	
+\end{itemize}
+
+\subsection{Second, we go to the questionnaire section to understand the questions}
+
+Here is a summary of what we learned about the data structure.
+
+\begin{itemize}
+	\item MA1 and MA5 are needed to check if the women is currently or has ever been married (or living with a partner). Values 1 and 2 mean "yes".
+	\item DVD0 and DVD1 are needed to check if the women has been selected for the domestic violence module and has privacy to answer the questionnaire. Value 1 means "yes". DVD2 is a summary from MA1 and MA5, 1 and 2 mean "yes".
+	\item DVD4 (a, b, c) emotional violence from husband. 1 means "yes".
+	\item DVD5 (a~g) physical violence. 1 means that has happened. 
+	\item DVD5 (h~j) sexual violence. 1 means that has happened. 		
+\end{itemize}
+
+\subsection{Statistics to check in the report:}
+See table DV2.0 on page 326, titled "Spousal violence". \\
+
+\begin{tabular}{l|c|c}
+	\hline
+	Violence Type & Aggregates from Report & R aggregates \\
+	Physical & 19.1 &  19.1 \\
+	Sexual & 3.3 & 3.3 \\
+	Emotional & 17.8 & 17.8 \\
+	\hline
+\end{tabular}
+
+\subsection{Setting up in the Tonga2019MICS.csv file}	
+
+In order for the R code to know which variables to import and summarize, we need to set up the csv file. Here is how I do it. In the next section we show how R-program pick up this information and proceed to analyze.
+
+{\small
+	\begin{tabular}{l|c|c|c|c|c|c}
+		\hline
+NickName	&	DataSet	&	Key1	& … &	IndicatorType	&	DataType	&	VarName	\\
+\hline
+Privacy	&	wm	&	privacy	& … &	DomesticViolence	&	Factor	&	DVD1	\\
+CurrentlyMarried	&	wm	&	currently married	& … &	DomesticViolence	&	Factor	&	MA1	\\
+EverMarried	&	wm	&	ever married	& … &	DomesticViolence	&	Factor	&	MA5	\\
+Push	&	wm	&	push	& … &	PhysicalViolence	&	Factor	&	DVD5A	\\
+Slap	&	wm	&	slap you	& … &	PhysicalViolence	&	Factor	&	DVD5B	\\
+Twist	&	wm	&	twist	& … &	PhysicalViolence	&	Factor	&	DVD5C	\\
+Punch	&	wm	&	punch	& … &	PhysicalViolence	&	Factor	&	DVD5D	\\
+Kick	&	wm	&	kick	& … &	PhysicalViolence	&	Factor	&	DVD5E	\\
+Choke	&	wm	&	choke	& … &	PhysicalViolence	&	Factor	&	DVD5F	\\
+Attack	&	wm	&	knife	& … &	PhysicalViolence	&	Factor	&	DVD5G	\\
+ForcedSexualActs	&	wm	&	physically force	& … &	SexualViolence	&	Factor	&	DVD5H	\\
+OtherSexualActs	&	wm	&	physically force	& … &	SexualViolence	&	Factor	&	DVD5I	\\
+ThreatSexualActs	&	wm	&	with threats	& … &	SexualViolence	&	Factor	&	DVD5J	\\
+Humiliate	&	wm	&	say or do	& … &	EmotionalViolence	&	Factor	&	DVD4A	\\
+Threaten	&	wm	&	threaten	& … &	EmotionalViolence	&	Factor	&	DVD4B	\\
+Insult	&	wm	&	insult	& … &	EmotionalViolence	&	Factor	&	DVD4C	\\
+PhysicalViolence	&	wm	&	no keywords	& … &	ResponseV	&	Factor	&	no keywords	\\
+SexualViolence	&	wm	&	no keywords	& … &	ResponseV	&	Factor	&	no keywords	\\
+EmotionalViolence	&	wm	&	no keywords	& … &	ResponseV	&	Factor	&	no keywords	\\
+SexualPhysicalViolence	&	wm	&	no keywords	& … &	ResponseV	&	Factor	&	no keywords	\\
+NoSexualViolence	&	wm	&	no keywords	& … &	ResponseV	&	Factor	&	no keywords	\\
+Dvweight &	wm	& women selected & ... & Weight	& numeric &	dvweight \\
+		\hline
+\end{tabular}
+}\\
+
+As we can see here, five response variables are added in the csv file. All other variables are used to calculate the indicator variables.
+
+\subsection{Setting up the R-program in MICS\_get\_data.R}
+
+Three steps to do here.
+
+\begin{enumerate}
+	\item[Step 1 -] in get\_data() function:
+	\hfill \break
+	
+	{\small 
+		\begin{lstlisting}[language=R]
+else if (rv == "PhysicalViolence") datause<-PhysicalViolence(df, dataList)
+else if (rv == "SexualViolence") datause<-SexualViolence(df, dataList)
+else if (rv == "EmotionalViolence") datause<-EmotionalViolence(df, dataList)
+else if (rv == "SexualPhysicalViolence") datause<-SexualPhysicalViolence(df, dataList)
+else if (rv == "NoSexualViolence") datause<-NoSexualViolence(df, dataList)
+		\end{lstlisting}
+	}
+\item[Step 2 -]	 in indList() function
+	\hfill \break
+
+{\small 
+	\begin{lstlisting}[language=R]
+else if (rv %in% c("ContraceptiveMethod", "ReasonBeating", "NoViolenceJustifiedAgainstWomen", "PhysicalViolence", 
+"SexualViolence", "EmotionalViolence", "SexualPhysicalViolence", "NoSexualViolence", "AllViolence"))
+return(c("PoorerHousehold", "Residence", "aGroup", "NUnder5", "Education"))	
+	\end{lstlisting}
+}
+	\item[Step 3 -]	 define each response function. Eg.:
+	\hfill \break
+	
+	{\small 
+		\begin{lstlisting}[language=R]	
+PhysicalViolence<-function(df, dataList){
+  datause<-DVdata(df, dataList)
+  if(!is.null(datause)){
+	datause$var2tab<-0
+	rbV<-dataList$VarName[dataList$IndicatorType =="PhysicalViolence"]
+	for(rbvi in rbV){
+	   rbki<-match(rbvi, colnames(datause))
+	   if(length(rbki)>0) {
+		   if(!is.na(rbki)) datause$var2tab[datause[ ,rbki]==1]<- 1 
+			}
+		}
+	}
+	return(datause)
+}	
+		\end{lstlisting}
+	}
+\end{enumerate}
+
+	
+\section{Special cases}
+\subsection{Mics - clean fuel}
+
+Since 2018, MICS starts using EU1, "type of cookstove mainly used for cooking" as source information to identify whether the hosehold is using clean cooking fuel. This is seems to be the new way for clean fuel starting 2018.
+
+This forces us to stop using EU4: "type of energy source for cookstove".
+That means in MICS\_Var\_Search\_keys.csv, we have to change keywords.
+\subsection{MICS - new standard for clean drinking water}
+
+\subsection{Education for Tonga 2019}
+
+
+\end{document}

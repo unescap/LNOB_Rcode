@@ -100,7 +100,7 @@ Province,hl,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
 Covid1,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
 Covid2,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
 EducationHL,hl,highest,level,education,ED5A,no,or23,IndependentV,Factor,ED4A,1 var names found
-aGroup,hl,age,,,HL6,no,Only,IndependentV,numeric,HL6,"More than one columns, usual name chosen"
+aGroupHL,hl,age,,,HL6,no,Only,IndependentV,numeric,HL6,"More than one columns, usual name chosen"
 NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType,VarName,Search_result
 EarlyChildBearing,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
 NoEarlyChildbearing,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
@@ -191,7 +191,7 @@ WantChild,wm,another child,currently pregnant,not,UN7,no,and,UnmetNeed,Factor,UN
 WantChild2,wm,another child,currently pregnant,,UN5,no,and,UnmetNeed,Factor,UN4,1 var names found
 WantedLast,wm,wanted,last,,DB2,no,and,UnmetNeed,Factor,DB1,1 var names found
 WantedLater,wm,wanted,later,,UN4,no,and,UnmetNeed,Factor,UN3,2 var names found
-WMBirthDate,wm,date,birth,woman,WDOB,no,and,UnmetNeed,Date,NA,0 var names found
+WMBirthDate,wm,date,birth,woman,WDOB,no,and,UnmetNeed,Date,WDOB,0 var names found
 YearFB,wm,year,first,birth,CM2Y,no,and,UnmetNeed,numeric,CM2Y,"More than one columns, usual name chosen"
 YearWB,wm,year,woman,birth,WB1Y,no,and,UnmetNeed,numeric,WB1Y,1 var names found
 SampleWeight,wm,sample weight,,,wmweight,yes,Only,Weight,numeric,wmweight,Default

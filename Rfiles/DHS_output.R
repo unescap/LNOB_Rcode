@@ -81,23 +81,25 @@ write_glm <- function(datause, rtp, country_code2, year_code, title_string,
   formula_string<-paste("var2tab", paste(indvar, collapse=" + "), sep=" ~ ")
   
   s.glm<- catch_error_prod(logistic(datause, rtp,  formula_string)) #catch_error()
-  
+  # s.glm<- logistic(datause, rtp,  formula_string)
   if (!is.null(s.glm)) {
     info(logger, paste(pass_message))
   }
   
   # Saving object as .Rdata file for Shiny output
   
-  catch_error_prod(resave(s.glm, file = paste("md",filename,".Rdata", sep="")))
+  # catch_error_prod(resave(s.glm, file = paste("md",filename,".Rdata", sep="")))
   
   file_write<-paste(output_folder, "DHSLogit.csv", sep="")
-  print(file_write)
+  print(s.glm)
   # Write to output 
   write.table(t(c(country_code2, year_code, title_string)) , file_write,
               sep=",", append = TRUE,   col.names = F, row.names = F)
   pass_message <- "Successfully wrote DHSLogit.csv"
-  catch_error_prod(write.table(s.glm,  file_write,
-                               sep=",", append = TRUE,   col.names = T, row.names = T, na="")) #catch_error() 
+  # catch_error_prod(write.table(s.glm,  file_write,
+  #                              sep=",", append = TRUE,   col.names = T, row.names = T, na="")) #catch_error() 
+  write.table(s.glm,  file_write,
+              sep=",", append = TRUE,   col.names = T, row.names = T, na="")
   
   print("glm result written")
 }

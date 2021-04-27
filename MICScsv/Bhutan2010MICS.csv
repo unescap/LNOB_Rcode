@@ -168,7 +168,7 @@ DateInterviewed,wm,interview,date,,WDOI,no,and,UnmetNeed,Date,WDOI,1 var names f
 DateLastBirth,wm,date,birth,last,WDOBLC,no,and,UnmetNeed,Date,WDOBLC,1 var names found
 DateMarried,wm,marriage,date,,WDOM,no,and,UnmetNeed,Date,WDOM,1 var names found
 EverContraception,wm,ever,avoid,pregnancy,CP2A,no,and,UnmetNeed,Factor,NA,0 var names found
-InterviewComplete,wm,interview,result,,WM7,no,and,UnmetNeed,Factor,NA,0 var names found
+InterviewComplete,wm,interview,result,,WM7,no,and,UnmetNeed,Factor,WM7,0 var names found
 InterviewM,wm,interview,month,,WM6M,no,and,UnmetNeed,numeric,WM6M,1 var names found
 InterviewY,wm,interview,year,,WM6Y,no,and,UnmetNeed,numeric,WM6Y,1 var names found
 LastBirthM,wm,month,last,birth,CM12M,no,and,UnmetNeed,numeric,CM12M,1 var names found

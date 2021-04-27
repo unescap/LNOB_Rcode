@@ -23,8 +23,8 @@ Religion,ch,religion,,,RELIGION,no,and,IndependentV,Factor,RELIGION,1 var names 
 Language,ch,language,,,LANGUAGE,no,and,IndependentV,Factor,UF14,3 var names found
 Region,ch,region,,,HH7,yes,Only,Region,Factor,HH7,Default
 Province,ch,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
-EarlyEducation25,ch,attend,school,early child,UB8,no,and,ResponseV,Factor,UB8,
-EarlyEducation35,ch,attend,school,early child,UB8,no,and,ResponseV,Factor,UB8,
+EarlyEducation24,ch,attend,school,early child,UB8,no,and,ResponseV,Factor,UB8,
+EarlyEducation36,ch,attend,school,early child,UB8,no,and,ResponseV,Factor,UB8,
 NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType,VarName,Search_result
 SharedToilet,hh,toilet,shared,,WS15,no,and,AuxResonpse,Factor,WS15,"More than one columns, usual name chosen"
 SoapB1,hh,bar,soap,,HW3BA,no,and,Handwash,Factor,HW7A,1 var names found
@@ -104,8 +104,8 @@ Covid1,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No 
 Covid2,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
 EducationHL,hl,highest,level,education,ED5A,no,or23,IndependentV,Factor,ED5A,"More than one columns, usual name chosen"
 aGroupHL,hl,age,,,HL6,no,Only,IndependentV,numeric,HL6,"More than one columns, usual name chosen"
-EarlyEducation25,hl,attend,school,early child,ED9,no,and,ResponseV,Factor,ED9,
-EarlyEducation35,hl,attend,school,early child,ED9,no,and,ResponseV,Factor,ED9,
+EarlyEducation25,hl,attend,school,early child,ED9,no,and,ResponseV0,Factor,ED9,
+EarlyEducation35,hl,attend,school,early child,ED9,no,and,ResponseV0,Factor,ED9,
 SchoolAge,hl,age,beginning,school age,SCHAGE,no,and,IndependentV,numeric,SCHAGE,
 NUnder5,hl,no keywords,,,No keywords,No keywords,No keywords,IndependentV,numeric,No keywords,Default
 NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType,VarName,Search_result
