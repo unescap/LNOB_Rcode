@@ -1,0 +1,26 @@
+  
+  Before standardizing the survey names:
+  
+  ALL  None Other   Two 
+  178   148   561  1091 
+  
+  After:
+  
+  analytic results
+    All  None Other   Two 
+  864   142    81  1159 
+  
+  merged (first column) analytic (first row)
+          All None Other  Two
+  ALL    864    4     0    0
+  Both     0  124     0 1159
+  Other    0   14    81    0
+  
+  
+  
+  
+  
+  On Contraception in MICS: so far the indicator that has the most differences.
+  1) no AFG2010, as there is not enough data --- change to the AFG2010 mics csv file
+  2) changing to married women, as for unmarried women the definition varries from survey to survey.
+  

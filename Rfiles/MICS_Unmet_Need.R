@@ -1,4 +1,4 @@
-unmet_need<-function(datause, dataList){
+unmet_need<-function(datause, dataList, svnm){
   unmetVarname<-dataList[dataList$IndicatorType=="UnmetNeed", ]
   
   nvar<-nrow(unmetVarname)
@@ -11,11 +11,6 @@ unmet_need<-function(datause, dataList){
     
   }
 
-  k<-match("WantChild", colnames(datause), nomatch = 0)
-  if(k==0) datause$WantChild<-99
-  k<-match("WantChild2", colnames(datause), nomatch = 0)
-  if(k==0) datause$WantChild2<-99
-  
   datause<-datause[datause$InterviewComplete==1, ]   # interview completed
   datause$UnmetNeed<-NA
 
@@ -59,7 +54,6 @@ unmet_need<-function(datause, dataList){
   wantedlast<-rep(0, nrow(datause))
   cond0<-!is.na(datause$PregnantNow) & datause$PregnantNow==1 &!is.na(datause$WantChild)
 
-  k<-match("WantChild", colnames(datause), nomatch = 0)
   datause$WantChild[is.na(datause$WantChild)]<-99
   datause$WantedLater[is.na(datause$WantedLater)]<-99
   wantedlast[cond0]<-datause$WantChild[cond0]
@@ -76,14 +70,17 @@ unmet_need<-function(datause, dataList){
   
  cond0<- is.na(datause$UnmetNeed) & pregPPA24==1
  
- datause$UnmetNeed[cond0 & wantedlast==1]<-1
+
+ datause$UnmetNeed[cond0 & wantedlast==1]<-1   # changed here, last change
+ if(svnm %in% c("Georgia2018", "Kazakhstan2010",  "Kyrgyzstan2018", "Lao2011", "Mongolia2018")) datause$UnmetNeed[cond0 & wantedlast==1]<-7
  datause$UnmetNeed[cond0 & wantedlast==2]<-1
  datause$UnmetNeed[cond0 & wantedlast==3]<-2
  datause$UnmetNeed[cond0 & wantedlast==9]<-99
 
- print(table(cond0, datause$WantedLast))
- print(table(cond0, datause$WantedLater))
- print(table(cond0, wantedlast))
+ 
+ # print(table(cond0, datause$WantChild, datause$UnmetNeed))
+ # print(table(cond0, datause$WantChild2, datause$UnmetNeed))
+ # print(table(cond0, wantedlast, datause$UnmetNeed))
  
  
  # sb3u and sb3n not in the csv file
@@ -121,19 +118,26 @@ unmet_need<-function(datause, dataList){
  }
  else  datause$UnmetNeed[is.na(datause$UnmetNeed) & cond0 & ! datause$MSTATUS==1]<-9   # not pregnant and not married
  
+
+ 
  cond0<- is.na(datause$UnmetNeed)
  
- datause$UnmetNeed[cond0 & datause$WantChild==1 & datause$WaitN %in% c(95, 96, 98)]<-1
- datause$UnmetNeed[cond0 & datause$WantChild==8]<-1
 
+ datause$UnmetNeed[cond0 & datause$WantChild==1 & datause$WaitN %in% c(95, 96, 98)]<-1
+ 
+ datause$UnmetNeed[cond0 & datause$WantChild==8]<-1
+ 
+ if(svnm %in% c("Kazakhstan2010")) datause$UnmetNeed[cond0 & datause$WantChild==8]<-99
+ 
+ 
  datause$UnmetNeed[is.na(datause$UnmetNeed) & datause$WantChild==2]<-2
  
  datause$UnmetNeed[cond0 & datause$WantChild==1 & datause$WaitU==1 & datause$WaitN<24]<-7
  datause$UnmetNeed[cond0 & datause$WantChild==1 & datause$WaitU==2 & datause$WaitN<2]<-7
  datause$UnmetNeed[cond0 & datause$WantChild==1 & datause$WaitN==93]<-7
  datause$UnmetNeed[ is.na(datause$UnmetNeed) & datause$WantChild==1 & datause$WaitN<=90]<-1
- 
- 
+ if(svnm %in% c("Kyrgyzstan2014", "Lao2011", "Mongolia2013")) datause$UnmetNeed[is.na(datause$UnmetNeed) &  datause$WantChild2 %in% c(2, 8)]<-1 
+
  datause$UnmetNeed[is.na(datause$UnmetNeed)]<-99
 
  print(table(datause$UnmetNeed))

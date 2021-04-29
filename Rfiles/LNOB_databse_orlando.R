@@ -60,7 +60,6 @@ education_data<-read.table(paste(csv_check_folder, "education_check.csv", sep=""
 individual_data<-read.table(paste(csv_check_folder, "individual_check.csv", sep=""), sep=",", header=T, colClasses="character")
 childhealth_data<-read.table(paste(csv_check_folder, "childhealth_check.csv", sep=""), sep=",", header=T, colClasses="character")
 
-
 ###### creating supporting files:
 ######  "Indicator.csv", "Circumstance.csv" "Survey.csv"
 ###### 
@@ -208,7 +207,7 @@ Newall_data<-newData2(all_data, common_var)
 check_inclusion<-function(data1, data2){
   data1$data1<-1
   data2$data2<-1
-  mergeddata<-merge(data1, data2, by=c("Country_ISO", "Year", "IndicatorName", "FormularString"), all=T)
+  mergeddata<-merge(data1, data2, by=c("SurveyID", "IndicatorName", "FormularString"), all=T)
   mergeddata$data1[is.na(mergeddata$data1)]<-0
   mergeddata$data2[is.na(mergeddata$data2)]<-0
   return(mergeddata)
@@ -216,19 +215,25 @@ check_inclusion<-function(data1, data2){
 
 ### no overlap
 # check_inclusion(Newall_data, Newcovid_data)
-Newotherdata<-rbind(Newchildhealth_data, Neweducation_data, Newindividual_data)
-Newalldata<-rbind( Newcovid_data, Newall_data)
-mergeddata<-check_inclusion(Newall_data, Newotherdata)
 
 survey<-read.table(paste(csv_check_folder, "Survey_info.csv", sep=""), sep=",", header=T, colClasses="character")
 indicator<-read.table(paste(csv_check_folder, "Indicator_info.csv", sep=""), sep=",", header=T, colClasses="character")
 #Circumstance<-read.table(paste(csv_check_folder, "Circumstance_info.csv", sep=""), sep=",", header=T, colClasses="character")
-colnames(survey)[2]<-"Country_ISO"
-mergeddata<-merge(mergeddata, survey, by=c("Country_ISO", "Year"), all.x=T)
-mergeddata<-merge(mergeddata, indicator, by=c("IndicatorName"), all.x=T)
-mergeddata$InUse.x[is.na(mergeddata$InUse.x)]<-"NA"
-mergeddata$InUse.y[is.na(mergeddata$InUse.y)]<-"NA"
-mergeddata<-mergeddata[mergeddata$InUse.y=="Y",] #### only indicators inuse
+
+Newotherdata<-rbind(Newchildhealth_data, Neweducation_data, Newindividual_data)
+Newotherdata<-merge(Newotherdata, survey, by=c("Country", "Year"), all.x = T)
+Newalldata<-rbind( Newcovid_data, Newall_data)
+Newalldata<-merge(Newalldata, survey, by=c("Country", "Year"),  all.x = T)
+
+
+mergeddata<-check_inclusion(Newalldata, Newotherdata)
+mergeddata<-merge(mergeddata,  indicator, by=c("IndicatorName"), all.x = T)
+
+mergeddata$InUse.x[is.na(mergeddata$InUse.x)]<-"NAN"
+mergeddata$InUse.y[is.na(mergeddata$InUse.y)]<-"NAN"
+
+
+mergeddata<-mergeddata[(mergeddata$InUse.y=="Y" | mergeddata$InUse.x=="Y") & mergeddata$InUse=="Y",] #### only indicators and surveys inuse==Y
 
 # print(table(mergeddata$Country, mergeddata$InUse.x))
 # print(table(mergeddata$IndicatorName, mergeddata$InUse.y))
@@ -238,8 +243,8 @@ mergeddata<-mergeddata[mergeddata$InUse.y=="Y",] #### only indicators inuse
 # print(table(mergeddata$IndicatorName, mergeddata$data2))
 
 mergeddata$MergeResult<-"Both"
-mergeddata$MergeResult[mergeddata$data1==1 & mergeddata$data2==0]<-"Other"
-mergeddata$MergeResult[mergeddata$data2==1 & mergeddata$data1==0]<-"ALL"
+mergeddata$MergeResult[mergeddata$data1==1 & mergeddata$data2==0]<-"ALL"
+mergeddata$MergeResult[mergeddata$data2==1 & mergeddata$data1==0]<-"Other" 
 
 mergeddata$Overall.Mean.x<-as.numeric(as.character(mergeddata$Overall.Mean.x))
 mergeddata$Overall.Mean.y<-as.numeric(as.character(mergeddata$Overall.Mean.y))
@@ -248,8 +253,13 @@ mergeddata$Max.Leaf.Access.x<-as.numeric(as.character(mergeddata$Max.Leaf.Access
 
 mergeddata$AnaResult<-"Two"
 mergeddata$AnaResult[is.na(mergeddata$Overall.Mean.x) & is.na(mergeddata$Overall.Mean.y)]<-"None"
-mergeddata$AnaResult[is.na(mergeddata$Overall.Mean.x) & !is.na(mergeddata$Overall.Mean.y)]<-"ALL"
-mergeddata$AnaResult[!is.na(mergeddata$Overall.Mean.x) & is.na(mergeddata$Overall.Mean.y)]<-"Other"
+mergeddata$AnaResult[is.na(mergeddata$Overall.Mean.x) & !is.na(mergeddata$Overall.Mean.y)]<-"Other"
+mergeddata$AnaResult[!is.na(mergeddata$Overall.Mean.x) & is.na(mergeddata$Overall.Mean.y)]<-"All"
+
+print(table(mergeddata$MergeResult, mergeddata$AnaResult))
+print(table(mergeddata$AnaResult, mergeddata$InUse.x))
+print(table(mergeddata$AnaResult, mergeddata$InUse.y))
+print(table(mergeddata$AnaResult, mergeddata$InUse.x, mergeddata$InUse.y))
 
 moveresult<- (mergeddata$AnaResult=="Other")
 mergeddata$Latest...1.x[moveresult]<-mergeddata$Latest...1.y[moveresult]
@@ -261,6 +271,10 @@ mergeddata$Min.Leaf.Size.x[moveresult]<-mergeddata$Min.Leaf.Size.y[moveresult]
 mergeddata$Min.Leaf.Access.x[moveresult]<-mergeddata$Min.Leaf.Access.y[moveresult]
 mergeddata$Max.Leaf.Characteristics.x[moveresult]<-mergeddata$Max.Leaf.Characteristics.y[moveresult]
 mergeddata$Min.Leaf.Characteristics.x[moveresult]<-mergeddata$Min.Leaf.Characteristics.y[moveresult]
+mergeddata$Country_ISO<-mergeddata$Country_ISO.x
+mergeddata$Country_ISO[mergeddata$data2==1 & mergeddata$data1==0]<-mergeddata$Country_ISO.y[mergeddata$data2==1 & mergeddata$data1==0]
+mergeddata$Year<-mergeddata$YearUsed.x
+mergeddata$Year[mergeddata$data2==1 & mergeddata$data1==0]<-mergeddata$YearUsed.y[mergeddata$data2==1 & mergeddata$data1==0]
 
 
 # print(table(mergeddata$MergeResult, mergeddata$AnaResult))

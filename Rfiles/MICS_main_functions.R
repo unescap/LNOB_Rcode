@@ -117,7 +117,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
   
   
   
-  # dataSet<-c("wm")
+  dataSet<-c("hh")
   for(ds in dataSet){
     print(ds)
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
@@ -157,6 +157,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       df <- add_childrenU5(df, meta_data, data_folder, country_code, version_code,
                            dataList) 
     }
+
     if(ds=="hl") {
       df <- add_birthhistory(df, dataList) #not needed anymore?
       if("Covid1" %in% responseList$NickName | "Covid2" %in% responseList$NickName | "Covid" %in% responseList$NickName){
@@ -218,12 +219,15 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     # responseList<-dataList[dataList$NickName=="MobilePhone" & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("Covid") & dataList$IndicatorType=="ResponseV", ]
+    
     # responseList<-dataList[dataList$NickName %in% c("BasicWater") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("SecondaryEducation2035", "HigherEducation2535", "SecondaryEducation35plus") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("EarlyEducation25", "EarlyEducation35") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("CleanWater") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("CleanFuel") & dataList$IndicatorType=="ResponseV", ]
-    
+    responseList<-dataList[dataList$NickName %in% c("SafeSanitation") & dataList$IndicatorType=="ResponseV", ]
+    # responseList<-dataList[dataList$NickName %in% c("ContraceptiveMethod") & dataList$IndicatorType=="ResponseV", ]
+     
     rn<-nrow(responseList)
     for(i in c(1:rn)){
 
@@ -251,6 +255,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       pass_message <- "Successfuly retrieved dataset for given RV/IV [get_data]"
 
       print(rv)
+
       datause <- catch_error(get_data(df, rv, dataList, indvar, svnm, educationList, religion_data))
       
       if(is.null(datause)) {
@@ -286,15 +291,16 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
         write_tree(datause, country_ISO, version_code,
                    title_string, formula_string, sub_string, rv, rtp, religion, ds_output_folder, ds, filename)
 
-
-        #### HOI and dis-similarity index calculation
-        #### not sure if this works for numeric
-        write_HOI_D(datause, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
-
-        #### logistic regression
-        #### have to use lm for numeric here
-        write_glm(datause, rtp, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
-
+# ##### disable D and Logistic for validation
+#         #### HOI and dis-similarity index calculation
+#         #### not sure if this works for numeric
+#         write_HOI_D(datause, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
+# 
+#         #### logistic regression
+#         #### have to use lm for numeric here
+#         write_glm(datause, rtp, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
+# ##### disable D and Logistic for validation
+        
         #### Construct model for each region.
         # region(output_folder, country_code, version_code,
         #        datause, rv,
@@ -309,5 +315,9 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
 }
 
 ######################################
-
-
+# run_together(csv_folder, data_folder, output_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv)
+# run_together(csv_folder, data_folder, output_folder, "Kazakhstan", "2015",  csvfile_name, edcationcsv)
+# run_together(csv_folder, data_folder, output_folder, "Tonga", "2019",  csvfile_name, edcationcsv)
+# run_together(csv_folder, data_folder, output_folder, "Kyrgyzstan", "2014",  csvfile_name, edcationcsv)
+# run_together(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv)
+run_together(csv_folder, data_folder, output_folder, "Mongolia", "2013",  csvfile_name, edcationcsv)

@@ -2,6 +2,7 @@
 
 get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=NULL){
 
+  
   if(!is.null(rv)){
      VarName<- toupper(dataList$VarName[dataList$NickName==rv & dataList$IndicatorType %in% c("ResponseV","MresponseV")])
      
@@ -21,7 +22,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
         else df[, k]<-as.numeric(as.character(df[,k]))
   
         if(!(rv %in% c("EarlyChildBearing", "NoEarlyChildbearing", "ChildMarriage15", "ChildMarriage18", "NoChildMarriage15", "NoChildMarriage18", "InternetUse",
-                       "SecondaryEducation2035", "SecondaryEducation35plus", "HigherEducation2535", "HigherEducation35plus", "EarlyEducation25", "EarlyEducation35")))
+                       "SecondaryEducation2035", "SecondaryEducation35plus", "HigherEducation2535", "HigherEducation35plus", "EarlyEducation24", "EarlyEducation36", "ContraceptiveMethod")))
                     df<-df[!is.na(df[,k]), ]  ### for Thailand 2019, they have missing value for access to electricity and must be excluded.
                                               ### this may be the wrong way to do it
         
@@ -47,7 +48,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
              else if(rv=="BankCardHH") datause <- BankCardHH(df, k)
              else if(rv=="CleanWater") datause<-CleanWater(df, k, svnm)
              else if(rv=="BasicWater") datause<-BasicWater(df, dataList, k, svnm)
-             else if(rv=="SafeSanitation") datause<- SafeSanitation(df, dataList, k)
+             else if(rv=="SafeSanitation") datause<- SafeSanitation(df, dataList, k, svnm)
              else if(rv=="HouseholdBasic") datause<- HouseholdBasic(df, dataList, svnm)
              else if(rv=="HouseholdTechNeed") datause<- HouseholdTechNeed(df, dataList)
              else if(rv=="Land") datause<- Land(df, dataList, k)
@@ -63,7 +64,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
              else if(rv=="Stunting") datause<- Stunting(df, dataList, k)
              else if(rv=="Overweight") datause<-  Overweight(df, dataList, k)
              else if(rv== "Wasting") datause<- Wasting(df, dataList, k)
-             else if(rv== "ContraceptiveMethod") datause<- ContraceptiveMethod(df, dataList, k)
+             else if(rv== "ContraceptiveMethod") datause<- ContraceptiveMethod(df, dataList, k, svnm)
              else if(rv== "HealthInsurance") datause<- HealthInsurance(df, dataList, k)
              else if(rv=="ProfessionalHelp") datause<- ProfessionalHelp(df, dataList, k)  ### no need for k for this one variable
              else if(rv=="AdolescentBirthRate") datause<- AdolescentBirthRate(df, dataList, k) 
@@ -86,17 +87,18 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
              else if(rv== "LearningHL" ) datause<-  Learning(df, dataList)
              else if(rv== "WaterOnstieHL" ) datause<-  WaterOnsite(df, dataList, svnm)
              else if(rv==  "HandwashHL" ) datause<-  HandWash(df, dataList)
-             else if(rv==  "SafeSanitationHL" ) datause<-  SafeSanitationHL(df, dataList)
+             else if(rv==  "SafeSanitationHL" ) datause<-  SafeSanitationHL(df, dataList, svnm)
              else if(rv==  "NotCrowdedHL" ) datause<-  NotCrowded(df, dataList)
              else if(rv== "FinancialInclusion" ) datause<-  FinancialInclusion(df, dataList)
              else if(rv== "EarlyEducation24")  datause<-  EarlyEducation25(df, dataList, k)
              else if(rv== "EarlyEducation36")  datause<-  EarlyEducation35(df, dataList, k)
              else datause<-tabulateV(df, k)
+      
              if(is.null(datause)) {
                  print("No data available")
              return(NULL)
              }
-             else print(table(datause$var2tab))
+             else print(sum(datause$var2tab*datause$SampleWeight)/sum(datause$SampleWeight))
   }
   else datause<-df
  
@@ -313,10 +315,14 @@ BasicWater<-function(datause, dataList, k, svnm){
     return(NULL)
   }
   datause[ , wtK]<-as.numeric(as.character(datause[ , wtK]))
+
   more30<- !(is.na(datause[ , wtK]))
-  more30<- more30 & datause[ , wtK]>30
   
+  if(svnm=="Mongolia2013") more30<-more30 & datause[ , wtK]>=3
+  else more30<- more30 & datause[ , wtK]>=30
+  more30<- more30 & (datause[ , wlK] ==3)
   iws_code<-water_code(svnm)
+  print(table(datause[,k])/nrow(datause)*100)
   datause$var2tab[(datause[, k] %in% iws_code) & !more30]<- 1
   
   return(datause)
@@ -384,9 +390,9 @@ NotCrowded<-function(datause, dataList){
 }
 
 
-SafeSanitation<-function(datause, dataList, k){
+SafeSanitation<-function(datause, dataList, k, svnm){
   datause$var2tab<-0
-  isf_code<-sanitation_code()
+  isf_code<-sanitation_code(svnm)
   datause$var2tab[datause[, k] %in% isf_code]<- 1
   ssV<-dataList$VarName[dataList$NickName=="SharedToilet"]
   ssk<-match(ssV, colnames(datause))
@@ -397,7 +403,7 @@ SafeSanitation<-function(datause, dataList, k){
   return(datause)
 }
 
-SafeSanitationHL<-function(datause, dataList){
+SafeSanitationHL<-function(datause, dataList, svnm){
   
   VarName<- toupper(dataList$VarName[dataList$NickName=="SafeSanitation"])
   k<-match(VarName, toupper(colnames(datause)), nomatch = 0) 
@@ -407,7 +413,7 @@ SafeSanitationHL<-function(datause, dataList){
   }
   
   datause$var2tab<-0
-  isf_code<-sanitation_code()
+  isf_code<-sanitation_code(svnm)
   datause$var2tab[datause[, k] %in% isf_code]<- 1
   ssV<-dataList$VarName[dataList$NickName=="SharedToilet"]
   ssk<-match(ssV, colnames(datause))
@@ -433,7 +439,7 @@ HouseholdBasic<-function(datause, dataList, svnm){
     print("No sanitation variable for housebasic")
     return(NULL)
   }
-  datause<- SafeSanitation(datause, dataList, sanitationK)
+  datause<- SafeSanitation(datause, dataList, sanitationK, svnm)
   datause$var2tab2<-datause$var2tab
   
   electricityK<-match(dataList$VarName[dataList$NickName=="AccessElectricity"], colnames(datause))
@@ -832,7 +838,7 @@ return(datause)
 }
 
 ######### IR response variables
-ContraceptiveMethod<-function(datause, dataList, k){
+ContraceptiveMethod<-function(datause, dataList, k, svnm){
   contraceptionList<-dataList$VarName[dataList$IndicatorType=="ModernContraceptive"]
 
   if (is.na(k)) {
@@ -841,9 +847,10 @@ ContraceptiveMethod<-function(datause, dataList, k){
     return(datause)
   }
   else {
-   datause<-unmet_need(datause, dataList)
+
+   datause<-unmet_need(datause, dataList, svnm)
    
-    keep <- datause$UnmetNeed %in% c( 1, 2, 3, 4)
+    keep <- datause$UnmetNeed %in% c( 1, 2, 3, 4) & datause$MSTATUS==1
 
     print(table(datause$UnmetNeed))
     datause<-datause[keep, ]
@@ -1205,7 +1212,7 @@ Covid2<-function(datause, dataList, svnm){
   #look for k
   ssV<-dataList$VarName[dataList$NickName=="SafeSanitation"]
   k<-match(ssV, colnames(datause))
-  datause<-SafeSanitation(datause, dataList, k)
+  datause<-SafeSanitation(datause, dataList, k, svnm)
   if(is.null(datause)) {
     print("no sanitation data for covid, no data generaged")
     return(NULL)
@@ -1273,7 +1280,7 @@ Covid<-function(datause, dataList, svnm){
   #look for k
   # ssV<-dataList$VarName[dataList$NickName=="SafeSanitation"]
   # k<-match(ssV, colnames(datause))
-  datause<-SafeSanitationHL(datause, dataList)
+  datause<-SafeSanitationHL(datause, dataList, svnm)
   if(is.null(datause)) {
     print("no sanitation data for covid, no data generaged")
     return(NULL)
@@ -1504,6 +1511,11 @@ water_code<-function(svnm){
   print(svnm)
   if(svnm %in% c("Kazakhstan2010", "Turkmenistan2015"))
     return(c(11, 12, 13, 14, 15, 16, 17, 21, 31, 41, 51, 52, 53, 54, 71, 72, 73, 82, 91, 93, 94) )
+  if(svnm %in% c("Kazakhstan2015"))
+    return(c(11, 12, 13, 14, 21, 31, 41, 91) )
+  else if(svnm %in% c("Afghanistan2010")) return(c(11, 12, 13, 14, 21, 31, 41, 51, 91) )
+  else if(svnm %in% c("Mongolia2013")) return(c(11, 12, 13, 14, 15, 16, 17, 22, 31, 41, 51, 61, 91) )
+  else if(svnm %in% c("Mongolia2018")) return(c(11, 12, 13, 14, 15, 16, 17, 21, 31, 41, 51, 61, 62, 63, 71, 72, 73, 91) )
   else return(c(11, 12, 13, 14, 15, 16, 17, 21, 31, 41, 51, 52, 53, 54, 61, 71, 72, 73, 82, 91, 93, 94) )
                                     
   # 11 - Piped into dwelling 
@@ -1534,10 +1546,12 @@ water_code<-function(svnm){
   
 }
 
-sanitation_code<-function(){
+sanitation_code<-function(svnm){
   #### safe
  #return(c(14, 15,  23,  30, 31, 32,  42, 43, 51, 61, 96) )
-  return(c(11, 12, 13, 16, 21, 22, 31))
+  if(svnm=="Mongolia2013")
+  return(c(11, 12, 13, 16, 21, 31))
+  else return(c(11, 12, 13, 16, 21, 22, 31))
   
   # 11- Flush to piped sewer system                         
   # 12- Flush to septic tank 
@@ -1968,6 +1982,7 @@ write_crosstab <- function(datause, country_code, version_code, title_string,
 country_ISO<-function(country_code){
   
   if(country_code=="Bangladesh") iso<-"BGD"
+  else if(country_code=="Afghanistan") iso<-"AFG"
   else if(country_code=="Bhutan") iso<-"BTN"
   else if(country_code=="Georgia") iso<-"GEO"
   else if(country_code=="Kazakhstan") iso<-"KAZ"

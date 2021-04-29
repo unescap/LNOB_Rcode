@@ -132,8 +132,8 @@ ModernContra2,wm,current method,male,sterilization,CP4B,no,and,ModernContracepti
 FrequencyNewspaper,wm,frequency,newspaper,,MT2,no,and,not used,Factor,NA,0 var names found
 FrequencyRadio,wm,frequency,radio,,MT3,no,and,not used,Factor,NA,0 var names found
 FrequencyTV,wm,frequency,tv,,MT4,no,and,not used,Factor,NA,0 var names found
-ProfessionalAssitance5,wm,assistance,delivery,birth attendant,MN19F,no,and,ProfessionalHelp,Factor,MN17F,1 var names found
-ProfessionalAssitance6,wm,assistance,delivery,health worker,MN19G,no,and,ProfessionalHelp,Factor,MN17G,1 var names found
+ProfessionalAssitance5,wm,assistance,delivery,birth attendant,MN19F,no,and,ProfessionalHelp,Factor,NA,1 var names found
+ProfessionalAssitance6,wm,assistance,delivery,health worker,MN19G,no,and,ProfessionalHelp,Factor,NA,1 var names found
 ProfessionalAssitance1,wm,assistance,delivery,doctor,MN19A,no,and,ProfessionalHelp,Factor,MN17A,1 var names found
 ProfessionalAssitance2,wm,assistance,delivery,nurse,MN19D,no,and,ProfessionalHelp,Factor,MN17B,1 var names found
 ProfessionalAssitance3,wm,assistance,delivery,midwife,MN19B,no,and,ProfessionalHelp,Factor,MN17C,2 var names found
@@ -155,7 +155,7 @@ ChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,1 var 
 ChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,1 var names found
 NoChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,1 var names found
 NoChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,1 var names found
-ContraceptiveMethod,wm,avoid,pregnancy,currently,CP2,no,and,ResponseV,Factor,CP2,1 var names found
+ContraceptiveMethod,wm,avoid,pregnancy,currently,CP2,no,and,ResponseV,Factor,NA,1 var names found
 HealthInsurance,wm,health,insurance,,WB18,no,and,ResponseV0,Factor,NA,0 var names found
 InternetUse,wm,internet,last,months,MT10,no,and,ResponseV,Factor,NA,0 var names found
 TeenPregnancy,wm,children,ever,born,CEB,no,and,ResponseV0,Factor,CEB,"More than one columns, usual name chosen"

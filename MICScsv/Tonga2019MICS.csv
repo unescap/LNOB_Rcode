@@ -172,7 +172,7 @@ InterviewComplete,wm,interview,result,,WM7,no,and,UnmetNeed,Factor,WM17,1 var na
 InterviewM,wm,interview,month,,WM6M,no,and,UnmetNeed,numeric,WM6M,1 var names found
 InterviewY,wm,interview,year,,WM6Y,no,and,UnmetNeed,numeric,WM6Y,1 var names found
 LastBirthM,wm,month,last,birth,CM12M,no,and,UnmetNeed,numeric,NA,0 var names found
-LastBirthY,wm,year,last,birth,CM12Y,no,and,UnmetNeed,numeric,CM17,1 var names found
+LastBirthY,wm,year,last,birth,CM12Y,no,and,UnmetNeed,numeric,NA,1 var names found
 LastPeriodN,wm,last,period,number,UN13N,no,and,UnmetNeed,numeric,UN14N,1 var names found
 LastPeriodU,wm,last,period,unit,UN13U,no,and,UnmetNeed,Factor,UN14U,1 var names found
 MonthFB,wm,month,first,birth,CM2M,no,and,UnmetNeed,numeric,NA,0 var names found
