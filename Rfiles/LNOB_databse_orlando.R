@@ -24,7 +24,7 @@ country_ISO<-function(country_code){
   else if(country_code=="Georgia") iso<-"GEO"
   else if(country_code %in% c("KH", "Cambodia")) iso<-"KHM"
   else if(country_code=="Kazakhstan") iso<-"KAZ"
-  else if(country_code=="Kyrgyzstan") iso<-"KGZ"
+  else if(country_code %in% c("Kyrgyzstan", "KY")) iso<-"KGZ"
   else if(country_code=="Kiribati") iso<-"KIR"
   else if(country_code %in% c("Lao PDR","Lao")) iso<-"LAO"
   else if(country_code=="Mongolia") iso<-"MNG"
@@ -177,7 +177,7 @@ createTreeID1<-function(Analysis_variable, Country){
 
 common_var<-c("Source","Type", "Country", "Year", "Latest...1", "Additional.variables",
               "Analysis", "Sample.Size", "Overall.Mean", "Max.Leaf.Size", "Max.Leaf.Access", "Min.Leaf.Size",
-              "Min.Leaf.Access", "Max.Leaf.Characteristics",  "Min.Leaf.Characteristics") # , "IndicatorName", "FormularString")
+              "Min.Leaf.Access", "Max.Leaf.Characteristics",  "Min.Leaf.Characteristics", "IndicatorName") #, "FormularString")
 newData<-function(dataSet, common_var){
   dataSet$Country<-trimws(dataSet$Country)
   dataSet$Year<-trimws(dataSet$Year)
@@ -226,86 +226,116 @@ Newalldata<-rbind( Newcovid_data, Newall_data)
 Newalldata<-merge(Newalldata, survey, by=c("Country", "Year"),  all.x = T)
 
 
-mergeddata<-check_inclusion(Newalldata, Newotherdata)
-mergeddata<-merge(mergeddata,  indicator, by=c("IndicatorName"), all.x = T)
+all<-rbind(Newalldata, Newotherdata)
 
-mergeddata$InUse.x[is.na(mergeddata$InUse.x)]<-"NAN"
-mergeddata$InUse.y[is.na(mergeddata$InUse.y)]<-"NAN"
+all$SurveyIndicator<-paste(all$SurveyID, all$IndicatorName, sep = "+")
+all$Overall.Mean<-as.numeric(as.character(all$Overall.Mean))
+all$Overall.Mean[is.na(all$Overall.Mean)]<- 1000
+indicatorData<-unique(all$SurveyIndicator)
 
+n<-length(indicatorData)
+mean_value<-rep(0, n)
+max_value<-rep(0, n)
+min_value<-rep(0,n)
+indicatorName<-rep(NA, n)
+SurveyID<-rep(NA, n)
+for(si in c(1:n)){
+  all_si<-all[all$SurveyIndicator==indicatorData[si], c("Overall.Mean")]
+  indicatorName[si]<-unique(all$IndicatorName[all$SurveyIndicator==indicatorData[si]])
+  SurveyID[si]<-unique(all$SurveyID[all$SurveyIndicator==indicatorData[si]])
+  
+  mean_value[si]<-mean(all_si)
+  max_value[si]<-max(all_si)
+  min_value[si]<-min(all_si)
+}
+validation_orlando<-data_frame(SurveyIndicator=indicatorData, IndicatorName=indicatorName,SurveyID=SurveyID, meanY=mean_value, maxY=max_value, minY=min_value)
 
-mergeddata<-mergeddata[(mergeddata$InUse.y=="Y" | mergeddata$InUse.x=="Y") & mergeddata$InUse=="Y",] #### only indicators and surveys inuse==Y
-
-# print(table(mergeddata$Country, mergeddata$InUse.x))
-# print(table(mergeddata$IndicatorName, mergeddata$InUse.y))
-# print(table(mergeddata$Country, mergeddata$data1))
-# print(table(mergeddata$IndicatorName, mergeddata$data1))
-# print(table(mergeddata$Country, mergeddata$data2))
-# print(table(mergeddata$IndicatorName, mergeddata$data2))
-
-mergeddata$MergeResult<-"Both"
-mergeddata$MergeResult[mergeddata$data1==1 & mergeddata$data2==0]<-"ALL"
-mergeddata$MergeResult[mergeddata$data2==1 & mergeddata$data1==0]<-"Other" 
-
-mergeddata$Overall.Mean.x<-as.numeric(as.character(mergeddata$Overall.Mean.x))
-mergeddata$Overall.Mean.y<-as.numeric(as.character(mergeddata$Overall.Mean.y))
-mergeddata$Max.Leaf.Access.y<-as.numeric(as.character(mergeddata$Max.Leaf.Access.y))
-mergeddata$Max.Leaf.Access.x<-as.numeric(as.character(mergeddata$Max.Leaf.Access.x))
-
-mergeddata$AnaResult<-"Two"
-mergeddata$AnaResult[is.na(mergeddata$Overall.Mean.x) & is.na(mergeddata$Overall.Mean.y)]<-"None"
-mergeddata$AnaResult[is.na(mergeddata$Overall.Mean.x) & !is.na(mergeddata$Overall.Mean.y)]<-"Other"
-mergeddata$AnaResult[!is.na(mergeddata$Overall.Mean.x) & is.na(mergeddata$Overall.Mean.y)]<-"All"
-
-print(table(mergeddata$MergeResult, mergeddata$AnaResult))
-print(table(mergeddata$AnaResult, mergeddata$InUse.x))
-print(table(mergeddata$AnaResult, mergeddata$InUse.y))
-print(table(mergeddata$AnaResult, mergeddata$InUse.x, mergeddata$InUse.y))
-
-moveresult<- (mergeddata$AnaResult=="Other")
-mergeddata$Latest...1.x[moveresult]<-mergeddata$Latest...1.y[moveresult]
-mergeddata$Sample.Size.x[moveresult]<-mergeddata$Sample.Size.y[moveresult]
-mergeddata$Overall.Mean.x[moveresult]<-mergeddata$Overall.Mean.y[moveresult]
-mergeddata$Max.Leaf.Size.x[moveresult]<-mergeddata$Max.Leaf.Size.y[moveresult]
-mergeddata$Max.Leaf.Access.x[moveresult]<-mergeddata$Max.Leaf.Access.y[moveresult]
-mergeddata$Min.Leaf.Size.x[moveresult]<-mergeddata$Min.Leaf.Size.y[moveresult]
-mergeddata$Min.Leaf.Access.x[moveresult]<-mergeddata$Min.Leaf.Access.y[moveresult]
-mergeddata$Max.Leaf.Characteristics.x[moveresult]<-mergeddata$Max.Leaf.Characteristics.y[moveresult]
-mergeddata$Min.Leaf.Characteristics.x[moveresult]<-mergeddata$Min.Leaf.Characteristics.y[moveresult]
-mergeddata$Country_ISO<-mergeddata$Country_ISO.x
-mergeddata$Country_ISO[mergeddata$data2==1 & mergeddata$data1==0]<-mergeddata$Country_ISO.y[mergeddata$data2==1 & mergeddata$data1==0]
-mergeddata$Year<-mergeddata$YearUsed.x
-mergeddata$Year[mergeddata$data2==1 & mergeddata$data1==0]<-mergeddata$YearUsed.y[mergeddata$data2==1 & mergeddata$data1==0]
-
-
-# print(table(mergeddata$MergeResult, mergeddata$AnaResult))
-# print(table(mergeddata$Country_ISO, mergeddata$MergeResult))
-# print(table(mergeddata$IndicatorName, mergeddata$MergeResult))
-
-
-keep_var<-c( "IndicatorName", "Country_ISO", "Year", "FormularString", "Latest...1.x", 
-             "Sample.Size.x", "Overall.Mean.x", "Max.Leaf.Size.x",           
-             "Max.Leaf.Access.x", "Min.Leaf.Size.x", "Min.Leaf.Access.x", "Max.Leaf.Characteristics.x", 
-             "Min.Leaf.Characteristics.x", "Latest...1.y", "Sample.Size.y", "Overall.Mean.y", 
-             "Max.Leaf.Size.y", "Max.Leaf.Access.y", "Min.Leaf.Size.y", "Min.Leaf.Access.y", 
-             "Max.Leaf.Characteristics.y", "Min.Leaf.Characteristics.y", "SurveyID", "Country", 
-             "SurveySource", "CountryCode", "VersionCode", "InUse.x", "VariableID", "DatasetSource",
-             "InUse.y", "TreeID", "MergeResult", "AnaResult")
-
-
-mergeddata<-mergeddata[, colnames(mergeddata) %in% keep_var]
-
-mergeddata$TreeID<-paste(mergeddata$Country_ISO, mergeddata$Year, mergeddata$IndicatorName, mergeddata$FormularString, sep="+")
-
-write.table(mergeddata, file=paste(csv_check_folder, "MERGED.csv", sep=""),
+write.table(validation_orlando, file=paste(csv_check_folder, "Orlando_mean.csv", sep=""),
                 sep=",", append = F,   col.names = T, row.names = F)
 
 
-##### checked out when both results (from all+covid tabs and all other tabs) exist, they agree
-
-# mergeddataCompare<-mergeddata[mergeddata$AnaResult=="Two", ]
-# summary(mergeddataCompare$Overall.Mean.x - mergeddataCompare$Overall.Mean.y)
-# summary(mergeddataCompare$Max.Leaf.Access.x - mergeddataCompare$Max.Leaf.Access.y)
-# mergeddataCompare1<-mergeddataCompare[abs(mergeddataCompare$Max.Leaf.Access.x - mergeddataCompare$Max.Leaf.Access.y)>0.01, ]
-# # 
-# write.table(mergeddataCompare1, file=paste(csv_check_folder, "MERGED2.csv", sep=""),
-#             sep=",", append = F,   col.names = T, row.names = F)
+# 
+# 
+# mergeddata<-check_inclusion(Newalldata, Newotherdata)
+# mergeddata<-merge(mergeddata,  indicator, by=c("IndicatorName"), all.x = T)
+# 
+# mergeddata$InUse.x[is.na(mergeddata$InUse.x)]<-"NAN"
+# mergeddata$InUse.y[is.na(mergeddata$InUse.y)]<-"NAN"
+# 
+# 
+# mergeddata<-mergeddata[(mergeddata$InUse.y=="Y" | mergeddata$InUse.x=="Y") & mergeddata$InUse=="Y",] #### only indicators and surveys inuse==Y
+# 
+# # print(table(mergeddata$Country, mergeddata$InUse.x))
+# # print(table(mergeddata$IndicatorName, mergeddata$InUse.y))
+# # print(table(mergeddata$Country, mergeddata$data1))
+# # print(table(mergeddata$IndicatorName, mergeddata$data1))
+# # print(table(mergeddata$Country, mergeddata$data2))
+# # print(table(mergeddata$IndicatorName, mergeddata$data2))
+# 
+# mergeddata$MergeResult<-"Both"
+# mergeddata$MergeResult[mergeddata$data1==1 & mergeddata$data2==0]<-"ALL"
+# mergeddata$MergeResult[mergeddata$data2==1 & mergeddata$data1==0]<-"Other" 
+# 
+# mergeddata$Overall.Mean.x<-as.numeric(as.character(mergeddata$Overall.Mean.x))
+# mergeddata$Overall.Mean.y<-as.numeric(as.character(mergeddata$Overall.Mean.y))
+# mergeddata$Max.Leaf.Access.y<-as.numeric(as.character(mergeddata$Max.Leaf.Access.y))
+# mergeddata$Max.Leaf.Access.x<-as.numeric(as.character(mergeddata$Max.Leaf.Access.x))
+# 
+# mergeddata$AnaResult<-"Two"
+# mergeddata$AnaResult[is.na(mergeddata$Overall.Mean.x) & is.na(mergeddata$Overall.Mean.y)]<-"None"
+# mergeddata$AnaResult[is.na(mergeddata$Overall.Mean.x) & !is.na(mergeddata$Overall.Mean.y)]<-"Other"
+# mergeddata$AnaResult[!is.na(mergeddata$Overall.Mean.x) & is.na(mergeddata$Overall.Mean.y)]<-"All"
+# 
+# print(table(mergeddata$MergeResult, mergeddata$AnaResult))
+# print(table(mergeddata$AnaResult, mergeddata$InUse.x))
+# print(table(mergeddata$AnaResult, mergeddata$InUse.y))
+# print(table(mergeddata$AnaResult, mergeddata$InUse.x, mergeddata$InUse.y))
+# 
+# moveresult<- (mergeddata$AnaResult=="Other")
+# mergeddata$Latest...1.x[moveresult]<-mergeddata$Latest...1.y[moveresult]
+# mergeddata$Sample.Size.x[moveresult]<-mergeddata$Sample.Size.y[moveresult]
+# mergeddata$Overall.Mean.x[moveresult]<-mergeddata$Overall.Mean.y[moveresult]
+# mergeddata$Max.Leaf.Size.x[moveresult]<-mergeddata$Max.Leaf.Size.y[moveresult]
+# mergeddata$Max.Leaf.Access.x[moveresult]<-mergeddata$Max.Leaf.Access.y[moveresult]
+# mergeddata$Min.Leaf.Size.x[moveresult]<-mergeddata$Min.Leaf.Size.y[moveresult]
+# mergeddata$Min.Leaf.Access.x[moveresult]<-mergeddata$Min.Leaf.Access.y[moveresult]
+# mergeddata$Max.Leaf.Characteristics.x[moveresult]<-mergeddata$Max.Leaf.Characteristics.y[moveresult]
+# mergeddata$Min.Leaf.Characteristics.x[moveresult]<-mergeddata$Min.Leaf.Characteristics.y[moveresult]
+# mergeddata$Country_ISO<-mergeddata$Country_ISO.x
+# mergeddata$Country_ISO[mergeddata$data2==1 & mergeddata$data1==0]<-mergeddata$Country_ISO.y[mergeddata$data2==1 & mergeddata$data1==0]
+# mergeddata$Year<-mergeddata$YearUsed.x
+# mergeddata$Year[mergeddata$data2==1 & mergeddata$data1==0]<-mergeddata$YearUsed.y[mergeddata$data2==1 & mergeddata$data1==0]
+# 
+# 
+# # print(table(mergeddata$MergeResult, mergeddata$AnaResult))
+# # print(table(mergeddata$Country_ISO, mergeddata$MergeResult))
+# # print(table(mergeddata$IndicatorName, mergeddata$MergeResult))
+# 
+# 
+# keep_var<-c( "IndicatorName", "Country_ISO", "Year", "FormularString", "Latest...1.x", 
+#              "Sample.Size.x", "Overall.Mean.x", "Max.Leaf.Size.x",           
+#              "Max.Leaf.Access.x", "Min.Leaf.Size.x", "Min.Leaf.Access.x", "Max.Leaf.Characteristics.x", 
+#              "Min.Leaf.Characteristics.x", "Latest...1.y", "Sample.Size.y", "Overall.Mean.y", 
+#              "Max.Leaf.Size.y", "Max.Leaf.Access.y", "Min.Leaf.Size.y", "Min.Leaf.Access.y", 
+#              "Max.Leaf.Characteristics.y", "Min.Leaf.Characteristics.y", "SurveyID", "Country", 
+#              "SurveySource", "CountryCode", "VersionCode", "InUse.x", "VariableID", "DatasetSource",
+#              "InUse.y", "TreeID", "MergeResult", "AnaResult")
+# 
+# 
+# mergeddata<-mergeddata[, colnames(mergeddata) %in% keep_var]
+# 
+# mergeddata$TreeID<-paste(mergeddata$Country_ISO, mergeddata$Year, mergeddata$IndicatorName, mergeddata$FormularString, sep="+")
+# 
+# write.table(mergeddata, file=paste(csv_check_folder, "MERGED.csv", sep=""),
+#                 sep=",", append = F,   col.names = T, row.names = F)
+# 
+# 
+# ##### checked out when both results (from all+covid tabs and all other tabs) exist, they agree
+# 
+# # mergeddataCompare<-mergeddata[mergeddata$AnaResult=="Two", ]
+# # summary(mergeddataCompare$Overall.Mean.x - mergeddataCompare$Overall.Mean.y)
+# # summary(mergeddataCompare$Max.Leaf.Access.x - mergeddataCompare$Max.Leaf.Access.y)
+# # mergeddataCompare1<-mergeddataCompare[abs(mergeddataCompare$Max.Leaf.Access.x - mergeddataCompare$Max.Leaf.Access.y)>0.01, ]
+# # # 
+# # write.table(mergeddataCompare1, file=paste(csv_check_folder, "MERGED2.csv", sep=""),
+# #             sep=",", append = F,   col.names = T, row.names = F)

@@ -22,7 +22,8 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
         else df[, k]<-as.numeric(as.character(df[,k]))
   
         if(!(rv %in% c("EarlyChildBearing", "NoEarlyChildbearing", "ChildMarriage15", "ChildMarriage18", "NoChildMarriage15", "NoChildMarriage18", "InternetUse",
-                       "SecondaryEducation2035", "SecondaryEducation35plus", "HigherEducation2535", "HigherEducation35plus", "EarlyEducation24", "EarlyEducation36", "ContraceptiveMethod")))
+                       "SecondaryEducation2035", "SecondaryEducation35plus", "HigherEducation2535", "HigherEducation35plus", "EarlyEducation24", "EarlyEducation36", 
+                       "ContraceptiveMethod")))
                     df<-df[!is.na(df[,k]), ]  ### for Thailand 2019, they have missing value for access to electricity and must be excluded.
                                               ### this may be the wrong way to do it
         
@@ -66,10 +67,10 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
              else if(rv== "Wasting") datause<- Wasting(df, dataList, k)
              else if(rv== "ContraceptiveMethod") datause<- ContraceptiveMethod(df, dataList, k, svnm)
              else if(rv== "HealthInsurance") datause<- HealthInsurance(df, dataList, k)
-             else if(rv=="ProfessionalHelp") datause<- ProfessionalHelp(df, dataList, k)  ### no need for k for this one variable
+             else if(rv=="ProfessionalHelp") datause<- ProfessionalHelp(df, dataList, k, svnm)  ### no need for k for this one variable
              else if(rv=="AdolescentBirthRate") datause<- AdolescentBirthRate(df, dataList, k) 
              else if(rv== "MobilePhone" ) datause<-MobilePhone(df, k)
-             else if(rv== "InternetUse" ) datause<-InternetUse(df, k)
+             else if(rv== "InternetUse" ) datause<-InternetUse(df, dataList, k, svnm)
              else if(rv== "ChildMarriage15" ) datause<-ChildMarriage15(df, dataList, k)
              else if(rv== "ChildMarriage18" ) datause<-ChildMarriage18(df, dataList, k)
              else if(rv== "NoChildMarriage15" ) datause<-NoChildMarriage15(df, dataList, k)
@@ -90,15 +91,15 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
              else if(rv==  "SafeSanitationHL" ) datause<-  SafeSanitationHL(df, dataList, svnm)
              else if(rv==  "NotCrowdedHL" ) datause<-  NotCrowded(df, dataList)
              else if(rv== "FinancialInclusion" ) datause<-  FinancialInclusion(df, dataList)
-             else if(rv== "EarlyEducation24")  datause<-  EarlyEducation25(df, dataList, k)
-             else if(rv== "EarlyEducation36")  datause<-  EarlyEducation35(df, dataList, k)
+             else if(rv== "EarlyEducation24")  datause<-  EarlyEducation24(df, dataList, k)
+             else if(rv== "EarlyEducation36")  datause<-  EarlyEducation36(df, dataList, k)
              else datause<-tabulateV(df, k)
       
              if(is.null(datause)) {
                  print("No data available")
              return(NULL)
              }
-             else print(sum(datause$var2tab*datause$SampleWeight)/sum(datause$SampleWeight))
+             else  print(sum(datause$var2tab*datause$SampleWeight)/sum(datause$SampleWeight))
   }
   else datause<-df
  
@@ -197,20 +198,62 @@ MobilePhoneHH<-function(datause, k, dataList){
 
 MobilePhone<-function(datause, k){
   {
+    print(c("Mobilephone levels"))
     datause$var2tab<- 0
-    levels<- unique(datause[, k])
+    levels<- as.numeric(as.character(unique(datause[, k])))
+    print( levels)
     levels<-levels[!levels==9]
+    levels<-levels[order(levels)]
+    print( levels)
     ln<-max(1, length(levels)-1)
     levels<-levels[c(1:ln)]
+    print( levels)
     datause$var2tab[datause[, k] %in% levels]<-1   # 1 means "yes"
     return(datause)
   }
 }
 
-InternetUse<-function(datause, k){
+InternetUse<-function(datause, dataList, k, svnm){
   {
+
+    
+    if(svnm %in% c("Kazakhstan2015", "Turkmenistan2015", "Mongolia2013", "VietNam2013", "Kyrgyzstan2014", "Lao2011", 
+                   "Kazakhstan2010")){
+      ageV<-dataList$VarName[dataList$NickName=="Age"]
+      ageK<-match(ageV, colnames(datause), nomatch = 0)
+      
+      if(ageK==0) {
+        print("Age for internetuse can be found when needed")
+        return(NULL)
+      }
+
+      datause$Age<-as.numeric(as.character(datause[,ageK]))
+
+      datause<-datause[!is.na(datause$Age),]
+      datause<- datause[datause$Age<=24, ]
+
+    }
+
+
+    levels<-unique(datause[,k])
+    nocode<-0
+    if(nocode %in% levels){
+      levels<-c(1, 2, 3)
+    }
+    else {
+    levels<-levels[!levels==9]
+    levels<-levels[!is.na(levels)]
+    
+    print(levels)
+    levels<-levels[order(levels)]
+    print(levels)
+    n<-max(1, (length(levels)-1))
+    levels<-levels[c(1:n)]
+    }
+    print(levels)
     datause$var2tab<- 0
-    datause$var2tab[datause[, k] %in% c(1, 2, 3)]<-1   # 1 means "yes"
+    datause$var2tab[datause[, k] %in% levels]<-1   # 1 means "yes"
+
     return(datause)
   }
 }
@@ -788,8 +831,8 @@ BankCardHH<-function(datause, k){
 
 EarlyChildBearing<-function(datause, dataList, k){
   ageV<-dataList$VarName[dataList$NickName=="Age"]
-  ageK<-match(ageV, colnames(datause))
-  if(length(ageK)==0) {
+  ageK<-match(ageV, colnames(datause), nomatch = 0)
+  if(ageK==0) {
     print("Age for EarlyChildBearing can't be found")
     return(NULL)
   }
@@ -799,9 +842,8 @@ EarlyChildBearing<-function(datause, dataList, k){
   datause<-datause[datause$Age<=24 & datause$Age>=20, ]
 
   fbV<-dataList$VarName[dataList$NickName== "DateFB"]
-  if(length(fbV)>0 ){
-    fbK<-match(fbV, colnames(datause))
-  
+  fbK<-match(fbV, colnames(datause), nomatch = 0)
+  if(fbK>0) {
     wmV<-dataList$VarName[dataList$NickName== "WMBirthDate"]
     wmK<-match(wmV, colnames(datause))
 
@@ -809,21 +851,20 @@ EarlyChildBearing<-function(datause, dataList, k){
   }
   else
     { YearFBV<-dataList$VarName[dataList$NickName=="YearFB"]
-      YearFBK<-match(YearFBV, colnames(datause))
+      YearFBK<-match(YearFBV, colnames(datause), nomatch = 0)
       monthFBV<-dataList$VarName[dataList$NickName=="MonthFB"]
-      monthFBK<-match(monthFBV, colnames(datause))
+      monthFBK<-match(monthFBV, colnames(datause), nomatch = 0)
       
       YearWBV<-dataList$VarName[dataList$NickName=="YearWB"]
-      YearWBK<-match(YearWBV, colnames(datause))
+      YearWBK<-match(YearWBV, colnames(datause), nomatch = 0)
       monthWBV<-dataList$VarName[dataList$NickName=="MonthWB"]
-      monthWBK<-match(monthWBV, colnames(datause))
+      monthWBK<-match(monthWBV, colnames(datause), nomatch = 0)
       
-      if(length(YearFBK)>0){
+      if(YearFBK>0){
          #vec <- c("January","Febuary","March","April", "May", "June", "July", "August", "September", "October", "November", "December")
-          if(!is.na(YearFBK)) agefb<-(as.numeric(as.character(datause[, YearFBK]))-as.numeric(as.character(datause[, YearWBK])))+(as.numeric(datause[, monthFBK])-as.numeric(datause[,monthWBK]))/12
+          agefb<-(as.numeric(as.character(datause[, YearFBK]))-as.numeric(as.character(datause[, YearWBK])))+(as.numeric(datause[, monthFBK])-as.numeric(datause[,monthWBK]))/12
         }
     }
-  
   datause$var2tab<-0
   datause$var2tab[!is.na(agefb) & agefb<=19]<-1   
   if(sum(datause$var2tab)>0 & sum(datause$var2tab)< nrow(datause)) return(datause)
@@ -872,27 +913,36 @@ ContraceptiveMethod<-function(datause, dataList, k, svnm){
   }
 }
 HealthInsurance<-function(datause, dataList, k){
+  print(table(datause[,k]))
   datause$var2tab<- 0
   datause$var2tab[datause[,k] == 1]<-1
   return(datause)
 }
 
-ProfessionalHelp<-function(datause, dataList, k){
+ProfessionalHelp<-function(datause, dataList, k, svnm){
       datause<-datause[!is.na(datause[, k]), ]   #### having reported about birth/delivery place in the years specified by the survey
       datause$var2tab <- 0
-      
+    
       # Professional assistance for home delivery includes assistance by a doctor, nurse/midwife, 
       # auxiliary nurse midwife (ANM), 
       # lady health visitor (LHV), or other health professional. 
       # https://www.dhsprogram.com/pubs/pdf/WP28/WP28.pdf
+      
+      if(svnm=="Georgia2018"){
+        datause$var2tab[datause[, k] %in% c(41, 42, 43, 46)]<-1
+        
+      }
+
   
-      phV<-dataList$VarName[dataList$IndicatorType =="ProfessionalHelp"]
-      for(phvi in phV){
-        phki<-match(phvi, colnames(datause))
-        if(length(phki)>0) {
-          if(!is.na(phki)){
-            datause[, phki]<-trimws(datause[, phki])
-            datause$var2tab[!(is.na(datause[, phki])) & !(datause[, phki]=="")]<-1 
+      else {
+        phV<-dataList$VarName[dataList$IndicatorType =="ProfessionalHelp"]
+        for(phvi in phV){
+          phki<-match(phvi, colnames(datause))
+          if(length(phki)>0) {
+            if(!is.na(phki)){
+              datause[, phki]<-trimws(datause[, phki])
+              datause$var2tab[!(is.na(datause[, phki])) & !(datause[, phki]=="")]<-1 
+            }
           }
         }
       }
@@ -1846,6 +1896,24 @@ merge_mr <- function(mr_ds, meta_data, datause, dataList, country_code, version_
   
   
   return(datause) 
+}
+
+
+
+write_value<-function(datause, country_code, version_code, rv,  ds, ds_output_folder){
+  
+  surveyID<-paste(country_ISO(country_code), version_code, sep="")
+  SurveyIndicator<-paste(surveyID, rv, sep="+")
+  if(is.null(datause)) overallMean<- "DataNotGenerated" 
+  else overallMean<-sum(datause$var2tab*datause$SampleWeight)/sum(datause$SampleWeight)
+  
+  results<-data.frame(surveyID=surveyID, country_code=country_code, version_code=version_code, dataset=ds, SurveyIndicator=SurveyIndicator, IndicatorName=rv, MeanY=overallMean)
+  writefile<-paste(ds_output_folder, "overallmean.csv", sep="")
+  if(file.exists(writefile)) 
+    catch_error(write.table(results, writefile,
+                            sep=",", append = TRUE,   col.names = F, row.names = F))
+  else catch_error(write.table(results, writefile,
+                               sep=",", append = F,   col.names = T, row.names = F))
 }
 
 

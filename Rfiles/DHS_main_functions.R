@@ -83,8 +83,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   # dataSet<-c("IR")
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
-  
-  
+
   if(use_version>1) {
   csvfile_name0 <- "DHSKey"
   DHSKey <-read.table(paste(csv_folder, csvfile_name0, ".csv", sep=""), sep=",", header=T, colClasses="character")
@@ -174,6 +173,10 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # unique_responseList<-c("Covid1")
     
     # unique_responseList<-c("NoPhysicalViolence", "NoSexualPhysicalViolence")
+
+    # unique_responseList<-c("MobilePhonePR", "BankCardPR")
+    # unique_responseList<-c("BankAccount")
+    # unique_responseList<-c("MobilePhone")
     
     #Modified for YW
     for(rv in unique_responseList) {
@@ -203,7 +206,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
       datause <- catch_error(get_data(df, rv, dataList, indvar, svnm, eth)) #catch_error() 
 
       if(is.null(datause)) { 
-        
+        write_value(datause, country_code, version_code, rv,  ds, ds_output_folder)
         print("Data not generated") 
         error(logger, "Data not generated")
         
@@ -267,29 +270,28 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
             datause1<-datause[datause$RegionName==rg, ]
             country_code1<-paste(rg, country_ISO, sep = ", ")
             #### Construct and Write Decision Tree to output folder
-            # write_tree(datause1, country_code1, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder)
-            # 
-            # #### Construct and Write HOI and dis-similarity index calculation to output folder
-            # write_HOI_D(datause1, country_code1, year_code, title_string, indvar, ds_output_folder, filename)
-            
-            #### Construct and Write Logistic Regression to output folder 
+            write_tree(datause1, country_code1, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder)
+
+            #### Construct and Write HOI and dis-similarity index calculation to output folder
+            write_HOI_D(datause1, country_code1, year_code, title_string, indvar, ds_output_folder, filename)
+
+            ### Construct and Write Logistic Regression to output folder
             write_glm(datause1, rtp,  country_code1, year_code, title_string, indvar, ds_output_folder, filename)
           }
         }
         else {
           
           # Constructing the formula string and title for the models 
-
-
-          #### Construct and Write Decision Tree to output folder
+          write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
+          ### Construct and Write Decision Tree to output folder
           write_tree(datause, country_ISO, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder)
 
-          #### Construct and Write HOI and dis-similarity index calculation to output folder
+          ### Construct and Write HOI and dis-similarity index calculation to output folder
           write_HOI_D(datause, country_ISO, year_code, title_string, indvar, ds_output_folder, filename)
-          
-          #### Construct and Write Logistic Regression to output folder 
-          write_glm(datause, rtp,  country_ISO, year_code, title_string, indvar, ds_output_folder, filename)
 
+          #### Construct and Write Logistic Regression to output folder
+          write_glm(datause, rtp,  country_ISO, year_code, title_string, indvar, ds_output_folder, filename)
+          
           #### Construct model for each region. 
           # region(output_folder, country_code, version_code,
           #        datause, rv,
@@ -372,4 +374,13 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
 
 
 #######################################################################################
+csvfile_name1 <-"DHSstandard_unmet"
+csvfile_name2 <-"DHSstandard"
+csvfile_name3 <- "DHSstandardKH71"
+csvfile_name4 <- "DHSstandardKH61"
+csvfile_name5 <- "DHSstandardIA52"
+csvfile_name6 <- "DHSstandardIA71"
+csvfile_name7 <- "DHSstandardTL61"
+csvfile_name8 <- "DHSstandardAM61"   # education variable SH17A
 
+#run_together(csv_folder, data_folder, output_folder, "AM","61", "2010", NULL, NULL, csvfile_name8, TRUE, FALSE)

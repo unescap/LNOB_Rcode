@@ -115,9 +115,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
   dataSet<-unique(meta_data$DataSet)
   dataSet<-dataSet[!(dataSet %in% c("DataSet", "mn"))]
   
-  
-  
-  dataSet<-c("hh")
+  # dataSet<-c("wm")
   for(ds in dataSet){
     print(ds)
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
@@ -213,6 +211,8 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
 
     df$SampleWeight[is.na(df$SampleWeight)] <- 0
 
+    print(sum(df$SampleWeight))
+    
     # Response variables to model 
 
 
@@ -225,9 +225,16 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     # responseList<-dataList[dataList$NickName %in% c("EarlyEducation25", "EarlyEducation35") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("CleanWater") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("CleanFuel") & dataList$IndicatorType=="ResponseV", ]
-    responseList<-dataList[dataList$NickName %in% c("SafeSanitation") & dataList$IndicatorType=="ResponseV", ]
+    # responseList<-dataList[dataList$NickName %in% c("SafeSanitation") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("ContraceptiveMethod") & dataList$IndicatorType=="ResponseV", ]
-     
+    # responseList<-dataList[dataList$NickName %in% c("MobilePhone") & dataList$IndicatorType=="ResponseV", ]
+    
+    # responseList<-dataList[dataList$NickName %in% c("HealthInsurance") & dataList$IndicatorType=="ResponseV", ]
+    
+     # responseList<-dataList[dataList$NickName %in% c("ProfessionalHelp") & dataList$IndicatorType=="ResponseV", ]
+    # 
+    
+     # responseList<-dataList[dataList$NickName=="InternetUse" & dataList$IndicatorType=="ResponseV", ]
     rn<-nrow(responseList)
     for(i in c(1:rn)){
 
@@ -259,8 +266,11 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       datause <- catch_error(get_data(df, rv, dataList, indvar, svnm, educationList, religion_data))
       
       if(is.null(datause)) {
+        write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
         print("Data not generated") 
         error(logger, "Data not generated")
+
+        
       } 
       else {
 
@@ -288,8 +298,10 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
         #### add a data type parameter, if numeric, we use a different criterion
         sub_string<-NULL
         country_ISO<-country_ISO(country_code)
-        write_tree(datause, country_ISO, version_code,
-                   title_string, formula_string, sub_string, rv, rtp, religion, ds_output_folder, ds, filename)
+        write_value(datause, country_code, version_code, rv,  ds, ds_output_folder)
+        
+        # write_tree(datause, country_ISO, version_code,
+        #            title_string, formula_string, sub_string, rv, rtp, religion, ds_output_folder, ds, filename)
 
 # ##### disable D and Logistic for validation
 #         #### HOI and dis-similarity index calculation
@@ -320,4 +332,6 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
 # run_together(csv_folder, data_folder, output_folder, "Tonga", "2019",  csvfile_name, edcationcsv)
 # run_together(csv_folder, data_folder, output_folder, "Kyrgyzstan", "2014",  csvfile_name, edcationcsv)
 # run_together(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv)
-run_together(csv_folder, data_folder, output_folder, "Mongolia", "2013",  csvfile_name, edcationcsv)
+# run_together(csv_folder, data_folder, output_folder, "Mongolia", "2013",  csvfile_name, edcationcsv)
+
+# run_together(csv_folder, data_folder, output_folder, "Mongolia", "2018",  csvfile_name, edcationcsv)

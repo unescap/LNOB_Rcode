@@ -1,5 +1,22 @@
 #### output functions
 #### All things related to output
+write_value<-function(datause, country_code, version_code, rv,  ds, ds_output_folder){
+  
+  surveyID<-paste(iso_code(country_code), version_code, sep="")
+  SurveyIndicator<-paste(surveyID, rv, sep="+")
+  if(is.null(datause)) overallMean<- "DataNotGenerated" 
+  else overallMean<-sum(datause$var2tab*datause$SampleWeight)/sum(datause$SampleWeight)
+  
+  results<-data.frame(surveyID=surveyID, country_code=country_code, version_code=version_code, dataset=ds, SurveyIndicator=SurveyIndicator, IndicatorName=rv, MeanY=overallMean)
+  writefile<-paste(ds_output_folder, "overallmean.csv", sep="")
+  if(file.exists(writefile)) 
+    catch_error(write.table(results, writefile,
+                            sep=",", append = TRUE,   col.names = F, row.names = F))
+   else catch_error(write.table(results, writefile,
+                          sep=",", append = F,   col.names = T, row.names = F))
+}
+
+
 
 write_tree <- function(datause, country_code2, year_code, 
                        title_string, formula_string, sub_string, 

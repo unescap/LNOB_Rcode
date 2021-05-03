@@ -55,12 +55,84 @@ country_ISO<-function(country_code){
   
 }
 
-dhs_data<-read.table(paste(csv_folder, "Tree2.csv", sep=""), sep=",", header=T, colClasses="character")
-mics_data<-read.table(paste(csv_folderm, "Tree2.csv", sep=""), sep=",", header=T, colClasses="character")
+dhs_data<-read.table(paste(csv_folder, "overallmean.csv", sep=""), sep=",", header=T, colClasses="character")
+mics_data<-read.table(paste(csv_folderm, "overallmean.csv", sep=""), sep=",", header=T, colClasses="character")
+mics_data<-mics_data[!mics_data$SurveyIndicator=="",]
 
-orlando_data<-read.table(paste(csv_check_folder, "MERGED.csv", sep=""), sep=",", header=T, colClasses="character")
 
+dhs_data$SurveySource<-"DHS"
+mics_data$SurveySource<-"MICS"
+
+orlando_data<-read.table(paste(csv_check_folder, "Orlando_mean.csv", sep=""), sep=",", header=T, colClasses="character")
+
+orlando_data<-orlando_data[!is.na(orlando_data$IndicatorName), ]
+indicator_info<-read.table(paste(csv_check_folder, "Indicator_info.csv", sep=""), sep=",", header=T, colClasses="character")
+
+n<-nrow(orlando_data)
+for(i in c(1:n)){
+  orlando_data$SurveyIndicator[i]<-gsub("35[+]", "35plus", orlando_data$SurveyIndicator[i])
+  orlando_data$IndicatorName[i]<-gsub("35[+]", "35plus", orlando_data$IndicatorName[i])
+  
+  # if( orlando_data$IndicatorName[i] =="MobilePhone") {
+  #     orlando_data$IndicatorName[i] <- "MobilePhoneHH"
+  #     orlando_data$SurveyIndicator[i]<-gsub("MobilePhone", "MobilePhoneHH", orlando_data$SurveyIndicator[i])
+  # }
+}
+
+orlando_data$dataOrlando<-1
 validationRun_data<-rbind(dhs_data, mics_data)
+validationRun_data$dataValidation<-1
+
+comparison<-merge(orlando_data, validationRun_data, by=c("SurveyIndicator"), all=T)
+
+comparison$IndicatorName<-comparison$IndicatorName.y
+comparison$IndicatorName[is.na(comparison$dataValidation)] <-comparison$IndicatorName.x[is.na(comparison$dataValidation)]
+
+
+comparison<-merge(comparison, indicator_info, by=c("IndicatorName"), all.x=T)
+comparison<-comparison[!comparison$SurveyID %in% c("AZE52", "UZB2006", "VUT2007", "MMR2000", "KAZ2006"),]
+comparison<-comparison[comparison$InUse=="Y",]
+comparison<-comparison[!is.na(comparison$SurveyIndicator),]
+
+missingRun<-comparison[is.na(comparison$dataValidation),]
+print(table(missingRun$IndicatorName))
+
+additional<-comparison[is.na(comparison$dataOrlando),]
+additional<-additional[!additional$MeanY=="DataNotGenerated", ]
+print(table(additional$IndicatorName))
+
+both<-comparison[!is.na(comparison$dataOrlando),]
+both<-both[!is.na(both$dataValidation), ]
+
+
+cond0<- both$meanY=="1000" & both$MeanY=="DataNotGenerated"
+both<-both[!cond0, ]
+
+orlando_na<-both[both$meanY=="1000", ]
+valrun_na<-both[both$MeanY=="DataNotGenerated", ]
+
+cond0<- both$meanY=="1000" | both$MeanY=="DataNotGenerated"
+both<-both[!cond0, ]
+
+both<-both[as.numeric(as.character(both$meanY))<1000,]
+both$diffY<-abs(as.numeric(as.character(both$meanY))-as.numeric(as.character(both$MeanY)))
+
+print(summary(both$diffY))
+
+investigate<-both[both$diffY>0.03, ]
+
+write.table(investigate, file=paste(csv_check_folder, "investigate.csv", sep=""),
+            sep=",", append = F,   col.names = T, row.names = F)
+
+
+print(table(investigate$IndicatorName))
+
+
+
+print(comparison$SurveyIndicator[is.na(comparison$dataValidation) & comparison$InUse=="Y"])
+
+print(table(comparison$SurveyID[is.na(comparison$dataValidation) & comparison$InUse=="Y"]))
+
 
 
 createTreeID1<-function(Analysis_variable){
@@ -189,6 +261,13 @@ mergeddata$Overall.Mean<-as.numeric(as.character(mergeddata$Overall.Mean))
 comparison11<-mergeddata[mergeddata$data1==1 & mergeddata$data2==1,]
 comparison11$mean.diff<-comparison11$Overall.Mean.x-comparison11$Overall.Mean
 comparison11_diff<-comparison11[abs(comparison11$mean.diff)>0.01, ]
+comparison11_nodiff<-comparison11[abs(comparison11$mean.diff)<=0.01, ]
+
+comparison11_nodiff$Max.o<-as.numeric(as.character(comparison11_nodiff$Max.Leaf.Access.x))
+comparison11_nodiff$Max.n<-as.numeric(as.character(comparison11_nodiff$Max.Leaf.Access))
+comparison11_nodiff$maxleaf.diff<-comparison11_nodiff$Max.o-comparison11_nodiff$Max.n
+comparison11_maxdiff<-comparison11_nodiff[abs(comparison11_nodiff$maxleaf.diff)>0.01, ]
+
 # print(table(comparison11_diff$SurveySource))  
 # print(table(comparison11_diff$Latest...1.x))  
 print(table(comparison11_diff$IndicatorName.x, comparison11_diff$SurveySource))
@@ -202,6 +281,12 @@ keepVar<- c("TreeID", "IndicatorName.x",  "SurveyID.x", "FormularString.x", "Lat
             "Max.Leaf.Access", "Min.Leaf.Size", "Min.Leaf.Access", "Max.Leaf.Characteristics", "Min.Leaf.Characteristics", "Religion_data",              
             "Ethnicity_data", "Language_data", "mean.diff")
 export_diff<-comparison11_diff[, colnames(comparison11_diff) %in% keepVar]
+export_nodiff<-comparison11_nodiff[, colnames(comparison11_diff) %in% keepVar]
+
+keepVar<- c("TreeID", "IndicatorName.x",  "SurveyID.x", "FormularString.x", "Latest...1.x", "Sample.Size.x", "Overall.Mean.x", "Max.Leaf.Size.x", 
+            "Max.Leaf.Access.x", "Max.Leaf.Characteristics.x", "Max.Leaf.Size",
+            "Max.Leaf.Access", "Max.Leaf.Characteristics")
+export_maxdiff<-comparison11_maxdiff[, colnames(comparison11_maxdiff) %in% keepVar]
 
 
 # write.table(mergeddata[mergeddata$data1==1 & mergeddata$data2==1,], file=paste(csv_check_folder, "comparison11.csv", sep=""),
@@ -211,9 +296,12 @@ export_diff<-comparison11_diff[, colnames(comparison11_diff) %in% keepVar]
 # write.table(mergeddata[mergeddata$data1==1 & mergeddata$data2==0,], file=paste(csv_check_folder, "comparison10.csv", sep=""),
 #             sep=",", append = F,   col.names = T, row.names = F)
 
-write.table(export_diff, file=paste(csv_check_folder, "comparison11_diff.csv", sep=""),
-            sep=",", append = F,   col.names = T, row.names = F)
+# write.table(export_diff, file=paste(csv_check_folder, "comparison11_diff.csv", sep=""),
+#             sep=",", append = F,   col.names = T, row.names = F)
 
+write.table(export_maxdiff, file=paste(csv_check_folder, "comparison11_maxdiff.csv", sep=""),
+                         sep=",", append = F,   col.names = T, row.names = F)
+            
 ##### checked out when both results (from all+covid tabs and all other tabs) exist, they agree
 
 # mergeddataCompare<-mergeddata[mergeddata$AnaResult=="Two", ]

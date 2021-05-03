@@ -29,11 +29,13 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   ###### if you want to add a new response variable, 
   ###### you have to add it here
   
-  if (rv == "MobilePhone" ) datause<-MobilePhone(df, k)
+  if (rv == "MobilePhonePR" ) datause<-MobilePhone(df, k)
+  else if (rv == "MobilePhone" ) datause<-MobilePhone(df, k)
   else if (rv == "MobilePhoneHH" ) datause<-MobilePhone(df, k)
   else if(rv=="AccessElectricity") datause<-AccessElectricity(df, dataList, k)
   else if(rv=="CleanFuel") datause <- CleanFuel(df, k)
   else if (rv=="BankCardHH") datause <- BankCardHH(df, k)
+  else if (rv=="BankCardPR") datause <- BankCardHH(df, k)
   else if (rv=="CleanWater") datause<-CleanWater(df, dataList, k, svnm)
   else if (rv=="BasicWater") datause<-BasicWater(df, dataList, k, svnm)
   else if (rv=="SafeSanitation") datause<- SafeSanitation(df, dataList, k, svnm)
@@ -54,9 +56,8 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   else if (rv== "Wasting") datause<- Wasting(df, dataList, k)
   else if (rv== "ContraceptiveMethod") datause<- ContraceptiveMethod(df, dataList, k)
   else if (rv=="ProfessionalHelp") datause<- ProfessionalHelp(df, dataList, svnm)  ### no need for k for this one variable
-
   else if (rv=="HealthInsurance") datause<- HealthInsurance(df, dataList, k, mrDatalist)
-  else if (rv=="InternetUse") datause<- InternetUse(df, dataList, k)
+  else if (rv=="InternetUse") datause<- InternetUse(df, dataList, k, svnm)
   else if (rv=="ChildMarriage15") datause<- ChildMarriage15(df, dataList, k)
   else if (rv=="ChildMarriage18") datause<- ChildMarriage18(df, dataList, k)
   else if (rv=="TeenagePregnancy") datause<- TeenagePregnancy(df, dataList, k)
@@ -93,6 +94,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
     print("No data available")
     return(NULL)
   }
+  else print(sum(datause$var2tab*datause$SampleWeight)/sum(datause$SampleWeight))
   
     for(iv in indvar){
       VarName<- dataList$VarName[dataList$NickName==iv & dataList$IndicatorType=="IndependentV"]
@@ -174,7 +176,8 @@ indList<-function(rv, caste = FALSE ){
   
   else if(rv %in% c("ChildMarriage15", "ChildMarriage18", "AdolescentBirthRate", "TeenagePregnancy") )
     iv<-c("PoorerHousehold", "Residence",  "Education") 
-  else if(rv %in% c("Covid1", "Covid2", "Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR"))
+  else if(rv %in% c("Covid1", "Covid2", "Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR", 
+                    "MobilePhonePR", "BankCardPR"))
     iv<-c("PoorerHousehold", "Residence", "aGroupPR", "EducationPR", "Sex")
   #iv<-c(iv, "Region")
   
@@ -202,6 +205,7 @@ MobilePhoneHH<-function(datause, k){
 
 MobilePhone<-function(datause, k){
   {
+    datause<-datause[!is.na(datause[, k]), ]
     datause$var2tab<- 0
     datause$var2tab[datause[, k] == 1]<-1
     return(datause)
@@ -391,7 +395,7 @@ SecondaryEducation2035<-function(datause, dataList, k){
   datause$var2tab<-1
   datause$var2tab[is.na(datause[, k])]<-0
   datause$var2tab[datause[, k] %in% c(8, 0, 1, 2, 3)]<-0
-  
+
   
   return(datause)
 }
@@ -426,7 +430,13 @@ HigherEducation2535<-function(datause, dataList, k){
   datause<-datause[!is.na(datause$Age) & datause$Age >=25 & datause$Age<=35 , ]
   datause$var2tab<-1
   datause$var2tab[is.na(datause[, k])]<-0
+  
+  if(colnames(datause)[k]=="SH17A"){  ### AM61 has special vaariable for education level
+    datause$var2tab[datause[, k] %in% c(1, 2)]<-0
+  }
+  else {
   datause$var2tab[datause[, k] %in% c(8, 0, 1, 2, 3, 4)]<-0
+  }
   return(datause)
 }
 
@@ -443,7 +453,12 @@ HigherEducation35plus<-function(datause, dataList, k){
   
   datause$var2tab<-1
   datause$var2tab[is.na(datause[, k])]<-0
-  datause$var2tab[datause[, k] %in% c(8, 0, 1, 2, 3, 4)]<-0
+  if(colnames(datause)[k]=="SH17A"){  ### AM61 has special vaariable for education level
+    datause$var2tab[datause[, k] %in% c(1, 2)]<-0
+  }
+  else {
+    datause$var2tab[datause[, k] %in% c(8, 0, 1, 2, 3, 4)]<-0
+  }
   return(datause)
 }
 
@@ -614,7 +629,7 @@ ProfessionalHelp<-function(datause, dataList, svnm){
   if(pa2K>0) t2<-grepl(y, as.character(datause[, pa2K]))
   if(pa3K>0) t3<-grepl(y, as.character(datause[, pa3K]))
   
-  if(svnm %in% c("TJ70", "ID71", "ID63", "BD61")){
+  if(svnm %in% c("TJ70", "ID71", "ID63", "BD61", "BD70")){
   pa4V<-dataList$VarName[dataList$NickName=="ProfessionalAssitance4"]
   pa4K<-match(pa4V, colnames(datause), nomatch = 0)
   
@@ -630,22 +645,14 @@ ProfessionalHelp<-function(datause, dataList, svnm){
   if(pa6K>0) t6<-grepl(y, as.character(datause[, pa6K]))
   }
   
-  
-  if(svnm %in% c("BD61")){
-  pa7V<-dataList$VarName[dataList$NickName=="ProfessionalAssitance7"]
-  pa7K<-match(pa7V, colnames(datause), nomatch = 0)
-  if(pa7K>0) t7<-grepl(y, as.character(datause[, pa7K]))
-  }
+
   
   if(pa1K==0 & pa2K==0 & pa3K==0 ){
     print("No delivery method information found")
     return(NULL)
   }
   
-  
-  if(svnm %in% c("BD61"))
-    datause$var2tab[t1 | t2 | t3 | t4 | t5 | t6 | t7] <- 1
-  else if(svnm %in% c("TJ70", "ID71", "ID63"))
+  if(svnm %in% c("TJ70", "ID71", "ID63", "BD61", "BD70"))
         datause$var2tab[t1 | t2 | t3 | t4 | t5 | t6] <- 1
   else datause$var2tab[t1 | t2 | t3] <- 1
   return(datause)
@@ -656,7 +663,7 @@ HealthInsurance<-function(datause, dataList, k, mrDatalist){
   datause$var2tab[datause[,k] == 1]<-1
   return(datause)
 }
-InternetUse<-function(datause, dataList, k){
+InternetUse<-function(datause, dataList, k, svnm){
   datause$var2tab<- 0
   datause$var2tab[datause[,k] == 1]<-1
   return(datause)
@@ -1006,6 +1013,7 @@ MobileFinance<-function(datause, dataList, k){
 }
 
 BankAccount<-function(datause, dataList, k){
+  datause<-datause[!is.na(datause[,k]), ]
   datause$var2tab<- 0
   datause$var2tab[datause[,k] == 1]<-1
   return(datause)
@@ -1737,7 +1745,9 @@ iso_code<-function(country_code){
   else if(country_code=="PH") iso<-"PHL"
   else if(country_code=="TJ") iso<-"TJK"
   else if(country_code=="TL") iso<-"TLS"
+  else if(country_code=="TR") iso<-"TUR"
   else if(country_code=="ID") iso<-"IDN"
+  else if(country_code=="KY") iso<-"KGZ"
   else iso<-"NotFound"
   
   return(iso)
