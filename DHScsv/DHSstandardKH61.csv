@@ -56,6 +56,7 @@ HV014,Under5,HR,INT,IndependentV,
 HV014,Under5,PR,INT,IndependentV,
 HV106,HighestEducation,HR,String,IndependentV,# HouseholdEducation
 HIDX,NUnder5,IR,String,IndependentV,# BirthHistory
+MIDX,BirthHistory,IR,String,ProfessionalHelp,
 V131,Ethnicity,IR,INT,IndependentV,
 MV190,PoorerHousehold,MR,Factor,IndependentV,
 MV024,Region,MR,Factor,IndependentV,
@@ -171,3 +172,4 @@ HV232D,HandWashSoap3,PR,Factor,HandWash,
 HV232E,HandWashSoap4,PR,Factor,HandWash,
 HV205,SafeSanitationPR,PR,Factor,ResponseV,
 HV225,SharedToilet,PR,Factor,SafeSanitation,
+SHH110D,MobilePhone,IR,Factor,ResponseV,

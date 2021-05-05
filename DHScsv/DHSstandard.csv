@@ -56,6 +56,7 @@ V190,PoorerHousehold,IR,Factor,IndependentV,# wealth Quintiles
 V012,aGroup,IR,INT,IndependentV,# Age
 V012,Age,IR,INT,IndependentV,# Age
 HIDX,NUnder5,IR,String,IndependentV,# BirthHistory
+MIDX,BirthHistory,IR,String,ProfessionalHelp,
 V131,Ethnicity,IR,INT,IndependentV,
 RegionName,RegionName,IR,ID,IndependentV,
 V190A,WealthIndex,IR,ID,IndependentV,# For Papua New Guinea 2018 Analysis
@@ -84,7 +85,7 @@ V743D,DecisionVisit,IR,Factor,WifeDecisionPower,
 V313,ContraceptiveMethod,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""aGroup"", ""NUnder5"", ""Education"""
 HIDX,ProfessionalHelp,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""aGroup"", ""MarriageStatus"", ""NUnder5"", ""Education"""
 D108,NoSexualViolence,IR,Factor,ResponseV,
-V481,HealthInsurance,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""aGroup"""
+V481,HealthInsurance,IR,Factor,ResponseV0,"# ""PoorerHousehold"", ""Residence"", ""aGroup"""
 V171A,InternetUse,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""aGroup"""
 V511,ChildMarriage15,IR,Factor,ResponseV,
 V511,ChildMarriage18,IR,Factor,ResponseV,
@@ -123,7 +124,7 @@ MV502,MarriageStatus,MR,Factor,IndependentV,
 MV106,Education,MR,Factor,IndependentV,
 MV201,TotalChildren,MR,INT,IndependentV,
 RegionName,RegionName,MR,ID,IndependentV,
-MV481,HealthInsurance,MR,Factor,MresponseV,# if health insurance was asked for men's recode
+MV481,HealthInsurance,MR,Factor,MresponseV0,# if health insurance was asked for men's recode
 MV171A,InternetUse,MR,Factor,MresponseV,# if internetuse is asked in men's recode
 MV511,ChildMarriage15,MR,Factor,MresponseV,# If men's recode file exists with marriage information
 MV511,ChildMarriage18,MR,Factor,MresponseV,# If men's recode file exists with marriage information
@@ -163,7 +164,7 @@ HV109,SecondaryEducation2035,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Resid
 HV109,SecondaryEducation35plus,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""Sex"""
 HC70,Stunting,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
 HC72,Wasting,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
-HV247,BankCardPR,PR,Factor,ResponseV0,
+HV247,BankCardPR,PR,Factor,ResponseV,
 HC13,ChildHealth,PR,Factor,ResponseV0,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
 HV005,SampleWeight,PR,INT,Weight,
 SH121U,Internet,PR,Factor,Learning,
@@ -172,6 +173,7 @@ HV207,LearningPR,PR,Factor,ResponseV,
 HV207,Radio,PR,Factor,Learning,
 HV208,Television,PR,Factor,Learning,
 HV221,Telephone,PR,Factor,Learning,
+HV243A,MobilePhonePR,PR,Factor,ResponseV,
 HV243A,MobilePhonePR,PR,Factor,Learning,
 HV201,WaterOnsitePR,PR,Factor,ResponseV,
 HV204,WaterTime,PR,Factor,Water,
@@ -192,3 +194,5 @@ HV232D,HandWashSoap3,PR,Factor,HandWash,
 HV232E,HandWashSoap4,PR,Factor,HandWash,
 HV205,SafeSanitationPR,PR,Factor,ResponseV,
 HV225,SharedToilet,PR,Factor,SafeSanitation,
+V169A,MobilePhone,IR,Factor,ResponseV,
+MV169A,MobilePhone,MR,Factor,ResponseV,

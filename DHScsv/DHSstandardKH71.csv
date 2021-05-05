@@ -56,6 +56,7 @@ HV014,Under5,HR,INT,IndependentV,
 HV014,Under5,PR,INT,IndependentV,
 HV106,HighestEducation,HR,String,IndependentV,# HouseholdEducation
 HIDX,NUnder5,IR,String,IndependentV,# BirthHistory
+MIDX,BirthHistory,IR,String,ProfessionalHelp,
 V131,Ethnicity,IR,INT,IndependentV,
 MV190,PoorerHousehold,MR,Factor,IndependentV,
 MV024,Region,MR,Factor,IndependentV,
@@ -79,7 +80,7 @@ M3E,ProfessionalAssitance5,IR,String,ProfessionalHelp,
 M3F,ProfessionalAssitance6,IR,String,ProfessionalHelp,
 HV206,AccessElectricity,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""HighestEducation"""
 HV247,BankCardHH,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""HighestEducation"""
-HV247,BankCardPR,PR,Factor,ResponseV0,
+HV247,BankCardPR,PR,Factor,ResponseV,
 HC13,ChildHealth,PR,Factor,ResponseV0,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
 HV226,CleanFuel,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""HighestEducation"""
 SH102,CleanWater,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""HighestEducation"""
@@ -151,6 +152,7 @@ HV207,LearningPR,PR,Factor,ResponseV,
 HV207,Radio,PR,Factor,Learning,
 HV208,Television,PR,Factor,Learning,
 HV221,Telephone,PR,Factor,Learning,
+HV243A,MobilePhonePR,PR,Factor,ResponseV,
 HV243A,MobilePhonePR,PR,Factor,Learning,
 SH102,WaterOnsitePR,PR,Factor,ResponseV,
 SH104,WaterTime,PR,Factor,Water,
@@ -171,3 +173,11 @@ HV232D,HandWashSoap3,PR,Factor,HandWash,
 HV232E,HandWashSoap4,PR,Factor,HandWash,
 HV205,SafeSanitationPR,PR,Factor,ResponseV,
 HV225,SharedToilet,PR,Factor,SafeSanitation,
+V730,HusbandAge,IR,INT,IndependentV,
+V730,AgeDifference,IR,INT,IndependentV,
+V701,HusbandEducation,IR,Factor,IndependentV,
+V701,EducationDifference,IR,Factor,IndependentV,
+V705,HusbandOccupation,IR,Factor,IndependentV,
+D113,HusbandAlcohol,IR,Factor,IndependentV,
+D121,FatherBeatMother,IR,Factor,IndependentV,
+SHH110D,MobilePhone,IR,Factor,ResponseV,

@@ -56,6 +56,7 @@ V190,PoorerHousehold,IR,Factor,IndependentV,# wealth Quintiles
 V012,aGroup,IR,INT,IndependentV,# Age
 V012,Age,IR,INT,IndependentV,# Age
 HIDX,NUnder5,IR,String,IndependentV,# BirthHistory
+MIDX,BirthHistory,IR,String,ProfessionalHelp,
 V131,Ethnicity,IR,INT,IndependentV,
 RegionName,RegionName,IR,ID,IndependentV,
 V190A,WealthIndex,IR,ID,IndependentV,# For Papua New Guinea 2018 Analysis
@@ -191,3 +192,5 @@ HV232D,HandWashSoap3,PR,Factor,HandWash,
 HV232E,HandWashSoap4,PR,Factor,HandWash,
 HV205,SafeSanitationPR,PR,Factor,ResponseV,
 HV225,SharedToilet,PR,Factor,SafeSanitation,
+V169A,Mobilephone,IR,Factor,ResponseV,
+MV169A,Mobilephone,MR,Factor,ResponseV,

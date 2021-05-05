@@ -67,7 +67,10 @@ logger <- create.logger(logfile = logger_location, level = 'DEBUG')
 # 3 for TBD code (for now, better to be separated later)
 
 run_together<-function(csv_folder, original_data_folder, output_folder, country_code, version_code, year_code, mrversion_code=NULL,
-                       prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE, region=FALSE, use_version=1)
+                       prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE, region=FALSE, use_version=1, validationfile=NULL)
+  
+  #### use_version 1 is the research mode, the default
+  #### use version 2 is the publication mode, one must have a validation file, only validated results will be sent to publication
 {
   svnm<-paste(country_code, version_code, sep="")
   # Reading DHSstandard.csv file. 
@@ -81,6 +84,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   # specify data set for debugginh
   # dataSet<-c("PR", "IR")
   # dataSet<-c("IR")
+  # dataSet<-c("PR")
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
 
@@ -90,15 +94,17 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   as.data.frame(DHSKey)
   }
   
-  # originally in lines 44-60, 80-86, 99-101 are moved to the DHS_TBD file and run here when use_version is 3
-  # if(use_version==3) {
-  #   if(! exists(paste(r_folder,"DHS_TBD.R",sep=""))) {
-  #     print("DHS_TBD.R not available, TBD version can not run,  please consult user manual, create a config file and define r_folder in it")
-  #     stop()
-  #   }
-  #   else source(paste(r_folder,"DHS_TBD.R",sep=""))
-  # }
-  
+  if(use_version>1) {
+    if(is.null(validationfile)) {
+      print("can't run this version when validation file not provided")
+      return()
+    }
+    else validationdata<-read.table(validationfile, sep=",", header=T, colClasses="character")
+  }
+  ###### this file must contain the following columns
+  ###### SurveyIndicator	IndicatorName	SurveyID	country_code	version_code	dataset	MeanY	SurveySource	IndicatorName
+  ###### eg: Afghanistan2010+AccessElectricity	AccessElectricity	AFG2010	Afghanistan	2010	hh	0.432169681883751	MICS	AccessElectricity
+
   
   for(ds in dataSet) {
     
@@ -124,7 +130,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     if(use_version==1) filename<-paste(country_code, ds, version_code, "FL", sep="")
     else filename<-basename(dir(country_data_folder, pattern = paste(country_code, ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
 
-    
+
     # Printing current iteration of datatype.  
     message <- paste("## File name: ", filename, "  ############################")
     print(message)
@@ -159,13 +165,13 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     
     # Prepare Response Variable List. 
     responseList<-dataList[dataList$IndicatorType=="ResponseV", ]
-
-    # Iterate through each response variable for current dataset type. 
     unique_responseList <- unique(responseList$NickName)
 
     # DEBUG
     # debug <- unique_responseList[match("ChildMarriage18", unique_responseList)]
     # unique_responseList<-c("NoSexualViolence",  "AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence")
+    # unique_responseList<-c("AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence")
+    
     # unique_responseList<-c("Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR")
     # unique_responseList<-c("InternetUse")
     # unique_responseList<-c("CleanWater", "SafeSanitation")
@@ -177,8 +183,14 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # unique_responseList<-c("MobilePhonePR", "BankCardPR")
     # unique_responseList<-c("BankAccount")
     # unique_responseList<-c("MobilePhone")
+    # unique_responseList<-c("BasicWater")
     
-    #Modified for YW
+    # unique_responseList<-c("ProfessionalHelp")
+    # unique_responseList<-c("MobilePhonePR")
+    
+    
+
+    # Iterate through each response variable for current dataset type. 
     for(rv in unique_responseList) {
       
       rtp<-unique(responseList$DataType[responseList$NickName==rv])
@@ -217,6 +229,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
         
         # MR files might be needed for response variables such as health insurance, internet use, child marriage, mobile phone for financial transaction. 
         print(rv)
+        
         mr_ds<-unique(meta_data[meta_data$NickName==rv & meta_data$IndicatorType=="MresponseV", c("DataSet")])
         
         if(length(mr_ds)>0){
@@ -282,21 +295,32 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
         else {
           
           # Constructing the formula string and title for the models 
-          write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
-          ### Construct and Write Decision Tree to output folder
-          write_tree(datause, country_ISO, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder)
+          overallmean<-write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
+          if(use_version>1)
+            validation<-validate(country_code, version_code, rv, overallmean, validationdata)
+          
+          if(use_version==1 | validation){
+          
+          ## Construct and Write Decision Tree to output folder
+           write_tree(datause, country_ISO, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder)
 
           ### Construct and Write HOI and dis-similarity index calculation to output folder
-          write_HOI_D(datause, country_ISO, year_code, title_string, indvar, ds_output_folder, filename)
+            write_HOI_D(datause, country_ISO, year_code, title_string, indvar, ds_output_folder, filename)
 
           #### Construct and Write Logistic Regression to output folder
-          write_glm(datause, rtp,  country_ISO, year_code, title_string, indvar, ds_output_folder, filename)
-          
-          #### Construct model for each region. 
-          # region(output_folder, country_code, version_code,
-          #        datause, rv,
-          #        formula_string, title_string, sub_string,
-          #        caste, filename, indvar)
+            write_glm(datause, rtp,  country_ISO, year_code, title_string, indvar, ds_output_folder, filename)
+
+          #### Construct model for each region.
+            if(use_version>1){
+              region(output_folder, country_code, version_code,
+                 datause, rv,
+                 formula_string, title_string, sub_string,
+                 caste, filename, indvar)
+            }
+          }
+          else {
+            print("############# overall mean not validated, no further analysis #################")
+          }
           
         }
       } 

@@ -55,7 +55,7 @@ BasicWater,hh,main,source,drinking water,WS1,no,and,ResponseV,Factor,WS1,1 var n
 WaterTime,hh,time,get,water,WS4,no,and,AuxResonpse,Factor,WS4,1 var names found
 WaterLocation,hh,location,water,source,WS3,no,and,AuxResonpse,Factor,WS3,1 var names found
 HandWash,hh,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor,No keywords,Default
-CleanFuel,hh,cook,stove,type,EU1,no,and,ResponseV,Factor,NA,0 var names found
+CleanFuel,hh,cook,stove,type,EU1,no,and,ResponseV,Factor,HC6,0 var names found
 AccessElectricity,hh,electricity,,,HC8A,no,and,ResponseV,Factor,HC8A,1 var names found
 BankCardHH,hh,bank,have,own,HC19,no,or23,ResponseV,Factor,HC15,1 var names found
 Land,hh,land,own,have,HC15,no,or23,ResponseV,Factor,HC11,2 var names found
@@ -156,7 +156,7 @@ NoChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,1 va
 NoChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,1 var names found
 ContraceptiveMethod,wm,avoid,pregnancy,currently,CP2,no,and,ResponseV,Factor,CP2,1 var names found
 HealthInsurance,wm,health,insurance,,WB18,no,and,ResponseV0,Factor,NA,0 var names found
-InternetUse,wm,internet,last,months,MT10,no,and,ResponseV,Factor,NA,0 var names found
+InternetUse,wm,internet,last,months,MT10,no,and,ResponseV,Factor,MT10,0 var names found
 TeenPregnancy,wm,children,ever,born,CEB,no,and,ResponseV0,Factor,CEB,"More than one columns, usual name chosen"
 HaveChildren,wm,children,ever,born,CEB,no,and,TeenPregnancy,Factor,CEB,"More than one columns, usual name chosen"
 PregnantNow,wm,currently,pregnant,,CP1,no,and,UnmetNeed,Factor,CP1,"More than one columns, usual name chosen"

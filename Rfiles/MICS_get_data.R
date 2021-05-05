@@ -241,16 +241,12 @@ InternetUse<-function(datause, dataList, k, svnm){
       levels<-c(1, 2, 3)
     }
     else {
-    levels<-levels[!levels==9]
     levels<-levels[!is.na(levels)]
-    
-    print(levels)
+    levels<-levels[levels<9]
     levels<-levels[order(levels)]
-    print(levels)
     n<-max(1, (length(levels)-1))
     levels<-levels[c(1:n)]
     }
-    print(levels)
     datause$var2tab<- 0
     datause$var2tab[datause[, k] %in% levels]<-1   # 1 means "yes"
 
@@ -437,9 +433,11 @@ SafeSanitation<-function(datause, dataList, k, svnm){
   datause$var2tab<-0
   isf_code<-sanitation_code(svnm)
   datause$var2tab[datause[, k] %in% isf_code]<- 1
+  
   ssV<-dataList$VarName[dataList$NickName=="SharedToilet"]
   ssk<-match(ssV, colnames(datause))
   datause[,ssk]<-as.numeric(as.character(datause[,ssk]))
+  
   if(!is.na(ssk)) { #print("============shared toilet==============")
     datause$var2tab[datause[,ssk]== 1]<-0  # 1 means "yes"
   }
@@ -928,7 +926,7 @@ ProfessionalHelp<-function(datause, dataList, k, svnm){
       # lady health visitor (LHV), or other health professional. 
       # https://www.dhsprogram.com/pubs/pdf/WP28/WP28.pdf
       
-      if(svnm=="Georgia2018"){
+      if(svnm=="Georgia2018"){  # data organised differently from other surveys
         datause$var2tab[datause[, k] %in% c(41, 42, 43, 46)]<-1
         
       }
@@ -937,12 +935,13 @@ ProfessionalHelp<-function(datause, dataList, k, svnm){
       else {
         phV<-dataList$VarName[dataList$IndicatorType =="ProfessionalHelp"]
         for(phvi in phV){
-          phki<-match(phvi, colnames(datause))
-          if(length(phki)>0) {
-            if(!is.na(phki)){
-              datause[, phki]<-trimws(datause[, phki])
-              datause$var2tab[!(is.na(datause[, phki])) & !(datause[, phki]=="")]<-1 
-            }
+           phki<-match(phvi, colnames(datause), nomatch = 0)
+           if(phki>0) {
+             if(!is.na(phki)){
+                datause[, phki]<-trimws(datause[, phki])
+                print(table(datause[, phki]))
+               datause$var2tab[!(is.na(datause[, phki])) & !(datause[, phki]=="") & !(datause[, phki]=="?")]<-1 
+             }
           }
         }
       }
@@ -1600,7 +1599,7 @@ sanitation_code<-function(svnm){
   #### safe
  #return(c(14, 15,  23,  30, 31, 32,  42, 43, 51, 61, 96) )
   if(svnm=="Mongolia2013")
-  return(c(11, 12, 13, 16, 21, 31))
+       return(c(11, 12, 13, 16, 21, 31))
   else return(c(11, 12, 13, 16, 21, 22, 31))
   
   # 11- Flush to piped sewer system                         
@@ -1898,6 +1897,32 @@ merge_mr <- function(mr_ds, meta_data, datause, dataList, country_code, version_
   return(datause) 
 }
 
+validate<-function(country_code, version_code, rv, overallmean, validationdata){
+  if(overallmean=="DataNotGenerated") {
+    print("############# validation failed, data not generated #################")
+    return(FALSE)
+  }
+  else {
+    y<-validationdata$MeanY[validationdata$country_code==country_code & validationdata$version_code==version_code & validationdata$IndicatorName==rv]
+    y<-as.numeric(as.character(y))
+    if(is.na(y)){
+      print("############# validation failed, validated value not found #################")
+      return(FALSE)
+    }
+    else {
+      if(abs(overallmean-y)>0.01){
+        print("############# validation failed, difference > 0.01 #################")
+        return(FALSE)
+      }
+      else {
+        print("############# validation succeeded, on to the trres and D #################")
+        return(TRUE)
+      }
+    }
+  }
+  
+}
+
 
 
 write_value<-function(datause, country_code, version_code, rv,  ds, ds_output_folder){
@@ -1914,6 +1939,7 @@ write_value<-function(datause, country_code, version_code, rv,  ds, ds_output_fo
                             sep=",", append = TRUE,   col.names = F, row.names = F))
   else catch_error(write.table(results, writefile,
                                sep=",", append = F,   col.names = T, row.names = F))
+  return(overallMean)
 }
 
 

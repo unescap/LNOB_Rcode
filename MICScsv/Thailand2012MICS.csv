@@ -11,12 +11,12 @@ NUnder5,ch,no keywords,,,No keywords,No keywords,No keywords,IndependentV,numeri
 PoorerHousehold,ch,wealth,index,quintile,WINDEX5,yes,Only,IndependentV,Factor,WINDEX5,Default
 Height,ch,height,centimetres,,AN4,no,and,NotUsed,numeric,AN4,1 var names found
 Weight,ch,weight,kilograms,,AN3,no,and,NotUsed,numeric,AN3,1 var names found
-NotOverweight,ch,weight for height,z-score,who,WAZ,no,and,ResponseV,numeric,NA,0 var names found
-NotStunting,ch,height for age,z-score,who,HAZ,no,and,ResponseV,numeric,NA,0 var names found
-NotWasting,ch,weight for height,z-score,who,WHZ,no,and,ResponseV,numeric,NA,0 var names found
-Overweight,ch,weight for height,z-score,who,WAZ,no,and,ResponseV,numeric,NA,0 var names found
-Stunting,ch,height for age,z-score,who,HAZ,no,and,ResponseV,numeric,NA,0 var names found
-Wasting,ch,weight for height,z-score,who,WHZ,no,and,ResponseV,numeric,NA,0 var names found
+NotOverweight,ch,weight for height,z-score,who,WAZ,no,and,ResponseV,numeric,WHZ2,0 var names found
+NotStunting,ch,height for age,z-score,who,HAZ,no,and,ResponseV,numeric,HAZ2,0 var names found
+NotWasting,ch,weight for height,z-score,who,WHZ,no,and,ResponseV,numeric,WHZ2,0 var names found
+Overweight,ch,weight for height,z-score,who,WAZ,no,and,ResponseV,numeric,WHZ2,0 var names found
+Stunting,ch,height for age,z-score,who,HAZ,no,and,ResponseV,numeric,HAZ2,0 var names found
+Wasting,ch,weight for height,z-score,who,WHZ,no,and,ResponseV,numeric,WHZ2,0 var names found
 ChildHealth,ch,child,measured,,AN4A,no,and,ResponseV0,Factor,AN4A,1 var names found
 SampleWeight,ch,sample,weight,,CHWEIGHT,yes,Only,Weight,numeric,CHWEIGHT,Default
 Religion,ch,religion,,,RELIGION,no,and,IndependentV,Factor,NA,0 var names found
@@ -55,7 +55,7 @@ BasicWater,hh,main,source,drinking water,WS1,no,and,ResponseV,Factor,WS1,1 var n
 WaterTime,hh,time,get,water,WS4,no,and,AuxResonpse,Factor,WS4,1 var names found
 WaterLocation,hh,location,water,source,WS3,no,and,AuxResonpse,Factor,WS3,1 var names found
 HandWash,hh,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor,No keywords,Default
-CleanFuel,hh,cook,stove,type,EU1,no,and,ResponseV,Factor,NA,0 var names found
+CleanFuel,hh,cook,stove,type,EU1,no,and,ResponseV,Factor,HC6,0 var names found
 AccessElectricity,hh,electricity,,,HC8A,no,and,ResponseV,Factor,HC8A,1 var names found
 BankCardHH,hh,bank,have,own,HC19,no,or23,ResponseV,Factor,HC15,1 var names found
 Land,hh,land,own,have,HC15,no,or23,ResponseV,Factor,NA,0 var names found
@@ -142,7 +142,7 @@ ProfessionalAssitance4,wm,assistance,delivery,feldsher,MN19D,no,and,Professional
 ProfessionalAssitance7,wm,assistance,delivery,gynaecologist,,no,and,ProfessionalHelp,Factor,NA,0 var names found
 ProfessionalAssitance8,wm,assistance,delivery,physician,,no,and,ProfessionalHelp,Factor,NA,0 var names found
 ProfessionalAssitance9,wm,assistance,delivery,qualified,,no,and,ProfessionalHelp,Factor,NA,0 var names found
-ProfessionalHelp,wm,place,delivery,,MN18,no,and,ResponseV,Factor,NA,0 var names found
+ProfessionalHelp,wm,place,delivery,,MN18,no,and,ResponseV,Factor,MN18,0 var names found
 ReasonBeating,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
 NoViolenceJustifiedAgainstWomen,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
 BeatingForArgue,wm,beating,argues,,DV1C,no,and,ReasonBeating,Factor,DV1C,1 var names found

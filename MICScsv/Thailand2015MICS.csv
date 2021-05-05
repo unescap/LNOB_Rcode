@@ -55,7 +55,7 @@ BasicWater,hh,main,source,drinking water,WS1,no,and,ResponseV,Factor,WS1,1 var n
 WaterTime,hh,time,get,water,WS4,no,and,AuxResonpse,Factor,WS4,1 var names found
 WaterLocation,hh,location,water,source,WS3,no,and,AuxResonpse,Factor,WS3,1 var names found
 HandWash,hh,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor,No keywords,Default
-CleanFuel,hh,cook,stove,type,EU1,no,and,ResponseV,Factor,NA,0 var names found
+CleanFuel,hh,cook,stove,type,EU1,no,and,ResponseV,Factor,HC6,0 var names found
 AccessElectricity,hh,electricity,,,HC8A,no,and,ResponseV,Factor,HC8A,1 var names found
 BankCardHH,hh,bank,have,own,HC19,no,or23,ResponseV,Factor,HC15,1 var names found
 Land,hh,land,own,have,HC15,no,or23,ResponseV,Factor,HC11,2 var names found
@@ -109,8 +109,8 @@ DateFB,wm,date,birth,first,WDOBFC,no,and,EarlyChildBearing,Date,NA,0 var names f
 cluster_id,wm,cluster,number,,HH1,yes,and,ID,ID,HH1,Default
 HouseholdNumber,wm,household,number,,HH2,yes,and,ID,ID,HH2,Default
 RLNumber,wm,line,number,,LN,yes,and,ID,ID,LN,Default
-Age,wm,age of woman,,,WB4,no,Only,IndependentV,numeric,WAGE,2 var names found
-aGroup,wm,age of woman,,,WB4,no,Only,IndependentV,numeric,WAGE,2 var names found
+Age,wm,age of woman,,,WB4,no,Only,IndependentV,numeric,WB2,2 var names found
+aGroup,wm,age of woman,,,WB4,no,Only,IndependentV,numeric,WB2,2 var names found
 CurrentWorking,wm,employed,last,month,WB11,no,and,IndependentV,Factor,NA,0 var names found
 Education,wm,education,,,welevel,no,and,IndependentV,Factor,welevel,"More than one columns, usual name chosen"
 Ethnicity,wm,ethnicity,,,ETHNICITY,no,and,IndependentV,Factor,NA,0 var names found

@@ -42,7 +42,7 @@ V044,ViolenceInterview,IR,Factor,AuxResonpse,
 V213,CurrentlyPregnant,IR,Factor,AuxResonpse,
 V011,BirthDate,IR,numeric,AuxResonpse,CMC date of birth of respondent
 V008,InterviewDate,IR,numeric,AuxResonpse,
-V624,UnmetNeed,IR,Factor,ContraceptiveMethod,# V626 sometimes
+V626A,UnmetNeed,IR,Factor,ContraceptiveMethod,# V626 sometimes
 CASEID,CASEID,IR,ID,ID,
 V001,cluster_id,IR,ID,ID,
 V002,HouseholdNumber,IR,ID,ID,
@@ -154,8 +154,8 @@ HV014,Under5,PR,INT,IndependentV,
 HV105,aGroup,PR,INT,IndependentV,
 HV014,TeenagePregnancy,PR,INT,PresponseV0,
 HV013,AdolescentBirthRate,PR,numeric,PresponseV0,not used in the calculation
-HV109,HigherEducation2535,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""Sex"""
-HV109,HigherEducation35plus,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""Sex"""
+SH17A,HigherEducation2535,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""Sex"""
+SH17A,HigherEducation35plus,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""Sex"""
 HC72,NotOverweight,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
 HC70,NotStunting,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
 HC72,NotWasting,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
@@ -193,5 +193,3 @@ HV232D,HandWashSoap3,PR,Factor,HandWash,
 HV232E,HandWashSoap4,PR,Factor,HandWash,
 HV205,SafeSanitationPR,PR,Factor,ResponseV,
 HV225,SharedToilet,PR,Factor,SafeSanitation,
-V169A,MobilePhone,IR,Factor,ResponseV,
-MV169A,MobilePhone,MR,Factor,ResponseV,

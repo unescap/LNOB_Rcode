@@ -1,5 +1,32 @@
 #### output functions
 #### All things related to output
+validate<-function(country_code, version_code, rv, overallmean, validationdata){
+  if(overallmean=="DataNotGenerated") {
+    print("############# validation failed, data not generated #################")
+    return(FALSE)
+  }
+  else {
+    y<-validationdata$MeanY[validationdata$country_code==country_code & validationdata$version_code==version_code & validationdata$IndicatorName==rv]
+    y<-as.numeric(as.character(y))
+    if(is.na(y)){
+      print("############# validation failed, validated value not found #################")
+      return(FALSE)
+    }
+    else {
+      if(abs(overallmean-y)>0.01){
+        print("############# validation failed, difference > 0.01 #################")
+        return(FALSE)
+      }
+      else {
+        print("############# validation succeeded, on to the trres and D #################")
+        return(TRUE)
+      }
+    }
+  }
+  
+}
+
+
 write_value<-function(datause, country_code, version_code, rv,  ds, ds_output_folder){
   
   surveyID<-paste(iso_code(country_code), version_code, sep="")
@@ -14,6 +41,7 @@ write_value<-function(datause, country_code, version_code, rv,  ds, ds_output_fo
                             sep=",", append = TRUE,   col.names = F, row.names = F))
    else catch_error(write.table(results, writefile,
                           sep=",", append = F,   col.names = T, row.names = F))
+  return(overallMean)
 }
 
 

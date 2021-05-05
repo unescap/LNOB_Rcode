@@ -81,7 +81,7 @@ logger <- create.logger(logfile = logger_location, level = 'DEBUG')
 
 
 run_together<-function(csv_folder, data_folder, output_folder, country_code, version_code,  csvfile_name, education_name, 
-                       religion_name=NULL,  religion=FALSE, region_flag=FALSE, Flag_New=TRUE)
+                       religion_name=NULL,  religion=FALSE, region_flag=FALSE, Flag_New=TRUE, use_version=1, validationfile=NULL)
 {
 
   # Reading MICSstandard.csv file. 
@@ -115,7 +115,18 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
   dataSet<-unique(meta_data$DataSet)
   dataSet<-dataSet[!(dataSet %in% c("DataSet", "mn"))]
   
-  # dataSet<-c("wm")
+  
+  
+  if(use_version>1) {
+    if(is.null(validationfile)) {
+      print("can't run this version when validation file not provided")
+      return()
+    }
+    else validationdata<-read.table(validationfile, sep=",", header=T, colClasses="character")
+  }
+  
+  
+  # dataSet<-c("hh")
   for(ds in dataSet){
     print(ds)
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
@@ -298,28 +309,35 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
         #### add a data type parameter, if numeric, we use a different criterion
         sub_string<-NULL
         country_ISO<-country_ISO(country_code)
-        write_value(datause, country_code, version_code, rv,  ds, ds_output_folder)
         
-        # write_tree(datause, country_ISO, version_code,
-        #            title_string, formula_string, sub_string, rv, rtp, religion, ds_output_folder, ds, filename)
+        overallmean<-write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
+        if(use_version>1)
+          validation<-validate(country_code, version_code, rv, overallmean, validationdata)
+        
+        if(use_version==1 | validation){
+          
+            write_tree(datause, country_ISO, version_code,
+                   title_string, formula_string, sub_string, rv, rtp, religion, ds_output_folder, ds, filename)
 
-# ##### disable D and Logistic for validation
-#         #### HOI and dis-similarity index calculation
-#         #### not sure if this works for numeric
-#         write_HOI_D(datause, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
-# 
-#         #### logistic regression
-#         #### have to use lm for numeric here
-#         write_glm(datause, rtp, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
-# ##### disable D and Logistic for validation
+##### disable D and Logistic for validation
+        #### HOI and dis-similarity index calculation
+        #### not sure if this works for numeric
+             write_HOI_D(datause, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
+
+        #### logistic regression
+        #### have to use lm for numeric here
+            write_glm(datause, rtp, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
+##### disable D and Logistic for validation
         
         #### Construct model for each region.
-        # region(output_folder, country_code, version_code,
-        #        datause, rv,
-        #        formula_string, title_string, sub_string,
-        #        filename, indvar)
-        
+            if(use_version>1){
+               region(output_folder, country_code, version_code,
+                       datause, rv,
+                        formula_string, title_string, sub_string,
+                      filename, indvar)
+            }
         # write_crosstab(datause, country_code, version_code, title_string, indvar, ds_output_folder, filename)
+      }
 
       }
      }

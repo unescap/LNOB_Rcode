@@ -17,6 +17,8 @@ csvfile_name5 <- "DHSstandardIA52"
 csvfile_name6 <- "DHSstandardIA71"
 csvfile_name7 <- "DHSstandardTL61"
 csvfile_name8 <- "DHSstandardAM61"   # education variable SH17A
+csvfile_name9 <- "DHSstandardBD70"   # special questionaire on mobile phone for hh members over 13 yo
+
 
 r_folder<-paste(source_folder, "Rfiles/", sep="")
 source(paste(r_folder,"ConfigDHS_ywvalidation.R",sep=""))
@@ -28,7 +30,7 @@ run_together(csv_folder, data_folder, output_folder, "AF","70", "2015", NULL, NU
 run_together(csv_folder, data_folder, output_folder, "AM","61", "2010", NULL, NULL, csvfile_name8, TRUE, FALSE)
 run_together(csv_folder, data_folder, output_folder, "AM","71", "2016", "72", NULL, csvfile_name2, TRUE, FALSE)
 run_together(csv_folder, data_folder, output_folder, "BD","61", "2011", NULL, NULL, csvfile_name2, TRUE, FALSE)
-run_together(csv_folder, data_folder, output_folder, "BD","70", "2014", NULL, NULL, csvfile_name2, TRUE, FALSE)
+run_together(csv_folder, data_folder, output_folder, "BD","70", "2014", NULL, NULL, csvfile_name9, TRUE, FALSE)
 run_together(csv_folder, data_folder, output_folder, "KH","61", "2010", NULL, NULL, csvfile_name4, TRUE, FALSE)
 run_together(csv_folder, data_folder, output_folder, "KH","72", "2014", NULL, NULL, csvfile_name3, TRUE, FALSE)
 run_together(csv_folder, data_folder, output_folder, "KY","61", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE)

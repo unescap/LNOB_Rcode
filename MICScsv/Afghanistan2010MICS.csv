@@ -55,7 +55,7 @@ BasicWater,hh,main,source,drinking water,WS1,no,and,ResponseV,Factor,WS1,1 var n
 WaterTime,hh,time,get,water,WS4,no,and,AuxResonpse,Factor,WS4,1 var names found
 WaterLocation,hh,location,water,source,WS3,no,and,AuxResonpse,Factor,WS3,1 var names found
 HandWash,hh,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor,No keywords,Default
-CleanFuel,hh,cook,stove,type,EU1,no,and,ResponseV,Factor,NA,0 var names found
+CleanFuel,hh,cook,stove,type,EU1,no,and,ResponseV,Factor,HC6,0 var names found
 AccessElectricity,hh,electricity,,,HC8A,no,and,ResponseV,Factor,HC8A,1 var names found
 BankCardHH,hh,bank,have,own,HC19,no,or23,ResponseV,Factor,HC15,1 var names found
 Land,hh,land,own,have,HC15,no,or23,ResponseV,Factor,HC11,2 var names found
@@ -98,7 +98,7 @@ Language,hl,language,,,LANGUAGE,no,and,IndependentV,Factor,NA,0 var names found
 Region,hl,region,,,HH7,yes,Only,Region,Factor,HH7,Default
 Province,hl,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
 Covid1,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
-agroup,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
+agroup,hl,no keywords,,,No keywords,No keywords,No keywords,IndependentV,Factor,No keywords,Default
 EducationHL,hl,highest,level,education,ED5A,no,or23,IndependentV,Factor,ED4A,2 var names found
 aGroupHL,hl,age,,,HL6,no,Only,IndependentV,numeric,HL6,1 var names found
 NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType,VarName,Search_result
@@ -137,7 +137,7 @@ ProfessionalAssitance6,wm,assistance,delivery,health worker,MN19G,no,and,Profess
 ProfessionalAssitance1,wm,assistance,delivery,doctor,MN19A,no,and,ProfessionalHelp,Factor,MN17A,1 var names found
 ProfessionalAssitance2,wm,assistance,delivery,nurse,MN19D,no,and,ProfessionalHelp,Factor,MN17B,1 var names found
 ProfessionalAssitance3,wm,assistance,delivery,midwife,MN19B,no,and,ProfessionalHelp,Factor,MN17C,2 var names found
-ProfessionalAssitance3,wm,assistance,delivery,auxiliary,MN19C,no,and,ProfessionalHelp,Factor,MN17C,1 var names found
+ProfessionalAssitance3,wm,assistance,delivery,auxiliary,MN19C,no,and,ProfessionalHelp,Factor,NA,1 var names found
 ProfessionalAssitance4,wm,assistance,delivery,feldsher,MN19D,no,and,ProfessionalHelp,Factor,NA,0 var names found
 ProfessionalAssitance7,wm,assistance,delivery,gynaecologist,,no,and,ProfessionalHelp,Factor,NA,0 var names found
 ProfessionalAssitance8,wm,assistance,delivery,physician,,no,and,ProfessionalHelp,Factor,NA,0 var names found

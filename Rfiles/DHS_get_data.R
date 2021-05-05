@@ -5,7 +5,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   VarName<- dataList$VarName[dataList$NickName==rv & dataList$IndicatorType %in% c("ResponseV", "MresponseV", "PresponseV")]
   k<-match(VarName, colnames(df), nomatch = 0)
   l<-length(k)
-  
+  print(c("k:", k))
   if(sum(k)==0 ){
     print(paste("Response variable -- ", rv, "(",  VarName, ") not found"))
     return(NULL)
@@ -108,7 +108,6 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
       # print(c(iv, VarName, k))
       # print(colnames(datause))
       if(!(iv=="NUnder5")) datause[, k]<-as.numeric(as.character(datause[,k]))
-       
       if(iv=="HighestEducation") datause<-HighestEducation(datause, dataList, k)
       else if(iv=="MotherEducation") datause<-MotherEducation(datause, dataList, k)
       else if(iv=="PoorerHousehold") datause<-PoorerHousehold(datause, dataList, k)
@@ -137,6 +136,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
       }
       
     }
+    print(colnames(datause))
     return(datause)
     
     
@@ -601,7 +601,7 @@ ContraceptiveMethod<-function(datause, dataList, k){
 
 
 ProfessionalHelp<-function(datause, dataList, svnm){
-  bhV<-dataList$VarName[dataList$NickName=="NUnder5"]
+  bhV<-dataList$VarName[dataList$NickName=="BirthHistory"]
   bhK<-match(bhV, colnames(datause))
   if(length(bhK)==0)
   {
@@ -611,7 +611,10 @@ ProfessionalHelp<-function(datause, dataList, svnm){
   
   datause$NUnder5<-nchar(trimws(as.character(datause[, bhK])))
   
-  datause<-datause[!is.na(datause$NUnder5) & datause$NUnder5>0, ]
+  datause<-datause[!is.na(datause$NUnder5), ]
+  datause<-datause[datause$NUnder5>0, ]
+  
+  print(sum(datause$SampleWeight))
   
   pa1V<-dataList$VarName[dataList$NickName=="ProfessionalAssitance1"]
   pa1K<-match(pa1V, colnames(datause), nomatch = 0)
@@ -629,7 +632,7 @@ ProfessionalHelp<-function(datause, dataList, svnm){
   if(pa2K>0) t2<-grepl(y, as.character(datause[, pa2K]))
   if(pa3K>0) t3<-grepl(y, as.character(datause[, pa3K]))
   
-  if(svnm %in% c("TJ70", "ID71", "ID63", "BD61", "BD70")){
+  if(svnm %in% c("TJ70", "ID71", "ID63", "BD61")){
   pa4V<-dataList$VarName[dataList$NickName=="ProfessionalAssitance4"]
   pa4K<-match(pa4V, colnames(datause), nomatch = 0)
   
@@ -652,7 +655,7 @@ ProfessionalHelp<-function(datause, dataList, svnm){
     return(NULL)
   }
   
-  if(svnm %in% c("TJ70", "ID71", "ID63", "BD61", "BD70"))
+  if(svnm %in% c("TJ70", "ID71", "ID63", "BD61"))
         datause$var2tab[t1 | t2 | t3 | t4 | t5 | t6] <- 1
   else datause$var2tab[t1 | t2 | t3] <- 1
   return(datause)
@@ -856,28 +859,23 @@ AdolescentBirthRate<-function(datause, dataList, k) {
 
 AllViolence<-function(datause, dataList, k){
   l<-length(k)
-  print(sum(datause$SampleWeight))
   ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
   ViK<-match(ViV, colnames(datause))
   datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ]
-  print(nrow(datause))
-  
   SwV<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
   SwK<-match(SwV, colnames(datause))
-  print(sum(datause$SampleWeight))
+
   datause$SampleWeight<-datause[, SwK]/1000000
-  print(sum(datause$SampleWeight))
+
+    datause$var2tab<- 0
   
-  datause$var2tab<- 0
-  
-  for(i in c(1:l)){
-    ki<-k[i]
-    datause$var2tab[datause[ ,ki]==1]<-1
-    print(table(datause$var2tab)/nrow(datause))
-  }
+  for(i in k)
+    datause$var2tab[datause[ , i]  %in% c(1, 2, 3) ]<-1
   
   return(datause)
 }
+
+
 SexualPhysicalViolence<-function(datause, dataList, k){
   l<-length(k)
   ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
@@ -890,7 +888,7 @@ SexualPhysicalViolence<-function(datause, dataList, k){
   datause$SampleWeight<-datause[, SwK]/1000000
   datause$var2tab<- 0
   for(i in c(1:l))
-    datause$var2tab[datause[,k[i]]==1]<-1 
+    datause$var2tab[datause[,k[i]]  %in% c(1, 2, 3)]<-1 
   
   return(datause)
 }
@@ -926,10 +924,14 @@ PhysicalViolence<-function(datause, dataList, k){
   SwK<-match(SwV, colnames(datause))
   
   datause$SampleWeight<-datause[, SwK]/1000000
-  datause$var2tab<- 0
-  for(i in c(1:l))
-    datause$var2tab[datause[,k[i]]==1]<-1 
   
+  totalweight<-sum(datause$SampleWeight)
+  datause$var2tab<- 0
+  for(i in c(1:l)){
+    cond0<-(datause[,k[i]] %in% c(1, 2, 3))
+    print(table(datause$var2tab, cond0) )
+    datause$var2tab[datause[,k[i]]  %in% c(1, 2, 3)]<-1 
+  }
   return(datause)
 }
 
@@ -965,7 +967,8 @@ SexualViolence<-function(datause, dataList, k){
   
   datause$SampleWeight<-datause[, SwK]/1000000
   datause$var2tab<- 0
-  datause$var2tab[datause[,k]==1]<-1
+  for(i in k)
+    datause$var2tab[datause[,i]  %in% c(1, 2, 3)]<-1 
   
   return(datause)
   
@@ -994,14 +997,20 @@ NoSexualViolence<-function(datause, dataList, k){
 EmotionalViolence<-function(datause, dataList, k){
   ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
   ViK<-match(ViV, colnames(datause))
-  datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ]
+  datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ] #
   
-  SwV<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
-  SwK<-match(SwV, colnames(datause))
+  # SwV<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
+  # SwK<-match(SwV, colnames(datause))
+  # datause$SampleWeight<-datause[, SwK]/1000000
+  # print(summary(datause$SampleWeight))
+  # datause<-datause[!is.na(datause$SampleWeight), ]
+
   
-  datause$SampleWeight<-datause[, SwK]/1000000
   datause$var2tab<- 0
-  datause$var2tab[datause[,k]==1]<-1
+  # datause$var2tab[datause[,k] %in% c(1, 2, 3)]<-1
+   l<-length(k)
+   for(i in c(1:l))
+     datause$var2tab[datause[,k[i]]  %in% c(1, 2, 3)]<-1 
   
   return(datause)
 }
@@ -1544,7 +1553,8 @@ HusbandEducation<-function(datause, dataList, k){
 #### codes
 water_code<-function(svnm){
   #### not clean
-  if(svnm=="ID63") return(c(32, 33, 34, 35, 42, 43, 44, 45, 46, 51, 62, 91, 96, 61) )
+  if(svnm %in% c("ID63")) return(c(32, 33, 34, 35, 42, 43, 44, 45, 46, 51, 61, 62, 91, 96) )
+  else if(svnm %in% c("ID71")) return(c(32, 33, 34, 35, 42, 43, 44, 45, 46, 61, 62, 91, 96) )
   else return(c(32, 33, 34, 35, 42, 43, 44, 45, 46,  62, 91, 96, 61) )
   ### 51-rain water  61-Tanker truck   71- Bottled water  
   ### 51, 61, 71,   some times Tanker truck is still not improved
@@ -1642,11 +1652,13 @@ merge_mr <- function(mr_ds, meta_data, datause, dataList, country_code, version_
       mrdatause<-catch_error(get_data(mrdf, rv, mrdataList, indvar, svnm, eth))
     }
     if(!is.null(mrdatause)) {
+
       commonVar<-c("SampleWeight", indvar, "Sex",
                  "var2tab", "RegionName")
     
       datause$Sex<-1
       mrdatause$Sex<-2
+      print(match(commonVar, colnames(datause)))
       datause<-datause[, commonVar]
       mrdatause<-mrdatause[, commonVar]
       datause<-rbind(datause, mrdatause)

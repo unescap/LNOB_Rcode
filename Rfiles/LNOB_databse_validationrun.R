@@ -58,21 +58,27 @@ country_ISO<-function(country_code){
 dhs_data<-read.table(paste(csv_folder, "overallmean.csv", sep=""), sep=",", header=T, colClasses="character")
 mics_data<-read.table(paste(csv_folderm, "overallmean.csv", sep=""), sep=",", header=T, colClasses="character")
 mics_data<-mics_data[!mics_data$SurveyIndicator=="",]
-
-
 dhs_data$SurveySource<-"DHS"
 mics_data$SurveySource<-"MICS"
+validationRun_data<-rbind(dhs_data, mics_data)
+validationRun_data<-validationRun_data[!validationRun_data$MeanY=="DataNotGenerated",]
+validationRun_data$dataValidation<-1
+
+
 
 orlando_data<-read.table(paste(csv_check_folder, "Orlando_mean.csv", sep=""), sep=",", header=T, colClasses="character")
-
 orlando_data<-orlando_data[!is.na(orlando_data$IndicatorName), ]
-indicator_info<-read.table(paste(csv_check_folder, "Indicator_info.csv", sep=""), sep=",", header=T, colClasses="character")
+
+orlando_data<-orlando_data[!orlando_data$SurveyID %in% c("AZE52", "UZB2006", "VUT2007", "MMR2000", "KAZ2006"), ]
+
+
 
 n<-nrow(orlando_data)
+orlando_data$Source<-"MICS"
 for(i in c(1:n)){
   orlando_data$SurveyIndicator[i]<-gsub("35[+]", "35plus", orlando_data$SurveyIndicator[i])
   orlando_data$IndicatorName[i]<-gsub("35[+]", "35plus", orlando_data$IndicatorName[i])
-  
+  if(nchar(orlando_data$SurveyID[i])==5) orlando_data$Source[i]<-"DHS"
   # if( orlando_data$IndicatorName[i] =="MobilePhone") {
   #     orlando_data$IndicatorName[i] <- "MobilePhoneHH"
   #     orlando_data$SurveyIndicator[i]<-gsub("MobilePhone", "MobilePhoneHH", orlando_data$SurveyIndicator[i])
@@ -80,21 +86,65 @@ for(i in c(1:n)){
 }
 
 orlando_data$dataOrlando<-1
-validationRun_data<-rbind(dhs_data, mics_data)
-validationRun_data$dataValidation<-1
+
+
+indicator_info<-read.table(paste(csv_check_folder, "Indicator_info.csv", sep=""), sep=",", header=T, colClasses="character")
+indicatorUse<-unique(indicator_info$IndicatorName[indicator_info$InUse=="Y"])
+
+validationRun_data<-validationRun_data[validationRun_data$IndicatorName %in% indicatorUse, ]
+orlando_data<-orlando_data[orlando_data$IndicatorName %in% indicatorUse, ]
+
+# 
+# orland_indicator<-as.data.frame(table(orlando_data$Source, orlando_data$IndicatorName))
+# 
+# validationrun_indicator<-as.data.frame(table(validationRun_data$SurveySource, validationRun_data$IndicatorName))
+# 
+# all_indicator<-merge(orland_indicator, validationrun_indicator, by=c("Var1", "Var2"), all = T)
+# write.table(all_indicator, file=paste(csv_check_folder, "all_indicator.csv", sep=""),
+#             sep=",", append = F,   col.names = T, row.names = F)
+
+
+
 
 comparison<-merge(orlando_data, validationRun_data, by=c("SurveyIndicator"), all=T)
 
 comparison$IndicatorName<-comparison$IndicatorName.y
 comparison$IndicatorName[is.na(comparison$dataValidation)] <-comparison$IndicatorName.x[is.na(comparison$dataValidation)]
 
+# comparison<-merge(comparison, indicator_info, by=c("IndicatorName"), all.x=T)
+# comparison<-comparison[!comparison$SurveyID %in% c("AZE52", "UZB2006", "VUT2007", "MMR2000", "KAZ2006"),]
+# comparison<-comparison[comparison$InUse=="Y",]
+# comparison<-comparison[!is.na(comparison$SurveyIndicator),]
 
-comparison<-merge(comparison, indicator_info, by=c("IndicatorName"), all.x=T)
-comparison<-comparison[!comparison$SurveyID %in% c("AZE52", "UZB2006", "VUT2007", "MMR2000", "KAZ2006"),]
-comparison<-comparison[comparison$InUse=="Y",]
-comparison<-comparison[!is.na(comparison$SurveyIndicator),]
+base<-comparison[!is.na(comparison$dataOrlando), ]
+b1<-base[base$meanY=="1000", ]
+base<-base[!base$meanY=="1000", ]
+b2<-base[is.na(base$dataValidation), ]
+base<-base[!is.na(base$dataValidation), ]
+base$diffY<-abs(as.numeric(as.character(base$meanY))-as.numeric(as.character(base$MeanY)))
+investigate<-base[base$diffY>0.01, ]
+
+additional<-comparison[is.na(comparison$dataOrlando), ]
+
+write.table(investigate, file=paste(csv_check_folder, "investigate.csv", sep=""),
+            sep=",", append = F,   col.names = T, row.names = F)
+
+
+write.table(additional, file=paste(csv_check_folder, "additional.csv", sep=""),
+            sep=",", append = F,   col.names = T, row.names = F)
+
+write.table(b1, file=paste(csv_check_folder, "b1.csv", sep=""),
+            sep=",", append = F,   col.names = T, row.names = F)
+
+write.table(b2, file=paste(csv_check_folder, "b2.csv", sep=""),
+            sep=",", append = F,   col.names = T, row.names = F)
+
+write.table(base, file=paste(csv_check_folder, "validated.csv", sep=""),
+            sep=",", append = F,   col.names = T, row.names = F)
+
 
 missingRun<-comparison[is.na(comparison$dataValidation),]
+missingRun<-missingRun[!missingRun$meanY=="1000", ]
 print(table(missingRun$IndicatorName))
 
 additional<-comparison[is.na(comparison$dataOrlando),]
@@ -105,14 +155,26 @@ both<-comparison[!is.na(comparison$dataOrlando),]
 both<-both[!is.na(both$dataValidation), ]
 
 
+print(nrow(comparison[comparison$meanY=="1000",]))
+print(nrow(comparison[comparison$MeanY=="DataNotGenerated",]))
+print(nrow(comparison[comparison$MeanY=="DataNotGenerated" & comparison$meanY=="1000",]))
+
+
+
 cond0<- both$meanY=="1000" & both$MeanY=="DataNotGenerated"
 both<-both[!cond0, ]
-
+missingvalues<-both[cond0, ]
+  
 orlando_na<-both[both$meanY=="1000", ]
 valrun_na<-both[both$MeanY=="DataNotGenerated", ]
 
 cond0<- both$meanY=="1000" | both$MeanY=="DataNotGenerated"
 both<-both[!cond0, ]
+
+
+
+
+print(table(both$IndicatorName))
 
 both<-both[as.numeric(as.character(both$meanY))<1000,]
 both$diffY<-abs(as.numeric(as.character(both$meanY))-as.numeric(as.character(both$MeanY)))
@@ -125,7 +187,13 @@ write.table(investigate, file=paste(csv_check_folder, "investigate.csv", sep="")
             sep=",", append = F,   col.names = T, row.names = F)
 
 
+write.table(additional, file=paste(csv_check_folder, "additional.csv", sep=""),
+            sep=",", append = F,   col.names = T, row.names = F)
+write.table(missingRun, file=paste(csv_check_folder, "missingRun.csv", sep=""),
+            sep=",", append = F,   col.names = T, row.names = F)
+
 print(table(investigate$IndicatorName))
+print(table(additional$IndicatorName))
 
 
 

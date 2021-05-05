@@ -20,7 +20,7 @@ Wasting,ch,weight for height,z-score,who,WHZ,no,and,ResponseV,numeric,WHZ2,1 var
 ChildHealth,ch,child,measured,,AN4A,no,and,ResponseV0,Factor,AN12,1 var names found
 SampleWeight,ch,sample,weight,,CHWEIGHT,yes,Only,Weight,numeric,CHWEIGHT,Default
 Religion,ch,religion,,,RELIGION,no,and,IndependentV,Factor,RELIGION,1 var names found
-Language,ch,language,,,LANGUAGE,no,and,IndependentV,Factor,UF14,3 var names found
+Language,ch,language,,,LANGUAGE,no,and,IndependentV,Factor,,3 var names found
 Region,ch,region,,,HH7,yes,Only,Region,Factor,HH7,Default
 Province,ch,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
 NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType,VarName,Search_result
@@ -51,9 +51,9 @@ HouseholdTechNeed,hh,no keywords,,,HC9B,No keywords,No keywords,ResponseV,Factor
 MultiDeprivation,hh,no keywords,,,HC15,No keywords,No keywords,ResponseV0,Factor,HC15,Default
 NotCrowded,hh,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor,No keywords,Default
 CleanWater,hh,main,source,drinking water,WS1,no,and,ResponseV,Factor,WS1,1 var names found
-BasicWater,hh,main,source,drinking water,WS1,no,and,ResponseV,Factor,WS1,1 var names found
-WaterTime,hh,time,get,water,WS4,no,and,AuxResonpse,Factor,WS4,1 var names found
-WaterLocation,hh,location,water,source,WS3,no,and,AuxResonpse,Factor,WS3,1 var names found
+BasicWater,hh,main,source,drinking water,WS1,no,and,ResponseV,Factor,WS1,
+WaterTime,hh,time,get,water,WS4,no,and,AuxResonpse,Factor,WS4,
+WaterLocation,hh,location,water,source,WS3,no,and,AuxResonpse,Factor,WS3,
 HandWash,hh,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor,No keywords,Default
 CleanFuel,hh,cook,stove,type,EU1,no,and,ResponseV,Factor,EU1,"More than one columns, usual name chosen"
 AccessElectricity,hh,electricity,,,HC8A,no,and,ResponseV,Factor,HC8,1 var names found
@@ -113,7 +113,7 @@ aGroup,wm,age of woman,,,WB4,no,Only,IndependentV,numeric,WB4,1 var names found
 CurrentWorking,wm,employed,last,month,WB11,no,and,IndependentV,Factor,NA,0 var names found
 Education,wm,education,,,welevel,no,and,IndependentV,Factor,welevel,"More than one columns, usual name chosen"
 Ethnicity,wm,ethnicity,,,ETHNICITY,no,and,IndependentV,Factor,ETHNICITY,1 var names found
-Grade,wm,highest,grade,,WB5,no,and,IndependentV,numeric,WB6B,0 var names found
+Grade,wm,highest,grade,,WB5,no,and,IndependentV,numeric,NA,0 var names found
 MarriageStatus,wm,marital,union,status,MSTATUS,no,and,IndependentV,Factor,MSTATUS,1 var names found
 Residence,wm,area,,,HH7,no,Only,IndependentV,Factor,HH6,1 var names found
 NUnder5,wm,no keywords,,,No keywords,No keywords,No keywords,IndependentV,numeric,No keywords,Default
@@ -156,12 +156,12 @@ ChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,1 var 
 NoChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,1 var names found
 NoChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,1 var names found
 ContraceptiveMethod,wm,avoid,pregnancy,currently,CP2,no,and,ResponseV,Factor,CP2,1 var names found
-HealthInsurance,wm,health,insurance,,WB18,no,and,ResponseV0,Factor,WB18,"More than one columns, usual name chosen"
+HealthInsurance,wm,health,insurance,,WB18,no,and,ResponseV,Factor,WB18,"More than one columns, usual name chosen"
 InternetUse,wm,internet,last,months,MT10,no,and,ResponseV,Factor,MT10,1 var names found
 TeenPregnancy,wm,children,ever,born,CEB,no,and,ResponseV0,Factor,CEB,"More than one columns, usual name chosen"
 HaveChildren,wm,children,ever,born,CEB,no,and,TeenPregnancy,Factor,CEB,"More than one columns, usual name chosen"
 PregnantNow,wm,currently,pregnant,,CP1,no,and,UnmetNeed,Factor,CP1,"More than one columns, usual name chosen"
-R1NoSex,wm,reason,no,sex,UN11A,no,and,UnmetNeed,Factor,UN12A,2 var names found
+R1NoSex,wm,reason,no,sex,UN11A,no,and,UnmetNeed,Factor,CP6C,2 var names found
 AblePregnant,wm,able,pregnant,,UN10,no,and,UnmetNeed,Factor,UN11,1 var names found
 AgeFirstSex,wm,age,first,sex,SB1,no,and,UnmetNeed,numeric,SB1,1 var names found
 DateInterviewed,wm,interview,date,,WDOI,no,and,UnmetNeed,Date,WDOI,1 var names found
@@ -172,13 +172,13 @@ InterviewComplete,wm,interview,result,,WM7,no,and,UnmetNeed,Factor,WM17,1 var na
 InterviewM,wm,interview,month,,WM6M,no,and,UnmetNeed,numeric,WM6M,1 var names found
 InterviewY,wm,interview,year,,WM6Y,no,and,UnmetNeed,numeric,WM6Y,1 var names found
 LastBirthM,wm,month,last,birth,CM12M,no,and,UnmetNeed,numeric,NA,0 var names found
-LastBirthY,wm,year,last,birth,CM12Y,no,and,UnmetNeed,numeric,NA,1 var names found
+LastBirthY,wm,year,last,birth,CM12Y,no,and,UnmetNeed,numeric,CM17,1 var names found
 LastPeriodN,wm,last,period,number,UN13N,no,and,UnmetNeed,numeric,UN14N,1 var names found
 LastPeriodU,wm,last,period,unit,UN13U,no,and,UnmetNeed,Factor,UN14U,1 var names found
 MonthFB,wm,month,first,birth,CM2M,no,and,UnmetNeed,numeric,NA,0 var names found
 MonthWB,wm,month,woman,birth,WB1M,no,and,UnmetNeed,numeric,WB3M,1 var names found
 PregnantNowWanted,wm,wanted,pregnant,,UN2,no,and,UnmetNeed0,Factor,UN2,1 var names found
-R2Menopausal,wm,reason,menopausal,,UN11B,no,and,UnmetNeed,Factor,UN12B,2 var names found
+R2Menopausal,wm,reason,menopausal,,UN11B,no,and,UnmetNeed,Factor,CP6D,2 var names found
 R3NoPeriod,wm,reason,never,menstruated,UN11C,no,and,UnmetNeed,Factor,UN12C,1 var names found
 R4Hysterectomy,wm,reason,hysterectomy,,UN11D,no,and,UnmetNeed,Factor,UN12D,1 var names found
 R5WantPregnant,wm,reason,trying,pregnant,UN11E,no,and,UnmetNeed,Factor,UN12E,1 var names found
@@ -195,8 +195,9 @@ WMBirthDate,wm,date,birth,woman,WDOB,no,and,UnmetNeed,Date,WDOB,1 var names foun
 YearFB,wm,year,first,birth,CM2Y,no,and,UnmetNeed,numeric,NA,0 var names found
 YearWB,wm,year,woman,birth,WB1Y,no,and,UnmetNeed,numeric,WB3Y,1 var names found
 SampleWeight,wm,sample weight,,,wmweight,yes,Only,Weight,numeric,wmweight,Default
+Dvweight,wm,women selected,dv,sample weight,dvweight,yes,and,Weight,numeric,dvweight,Default
 Religion,wm,religion,,,RELIGION,no,and,IndependentV,Factor,RELIGION,"More than one columns, usual name chosen"
-Language,wm,language,,,LANGUAGE,no,and,IndependentV,Factor,WM14,3 var names found
+Language,wm,language,,,LANGUAGE,no,and,IndependentV,Factor,,3 var names found
 Region,wm,region,,,HH7,yes,Only,Region,Factor,HH7,Default
 Province,wm,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
 BankFinance,wm,account,bank,financial,WB21,no,and,FinancialInclusion,Factor,NA,0 var names found
@@ -208,6 +209,29 @@ Dwalking,wm,difficulty,walking,,AF9,no,and,ResponseV,Factor,AF9,1 var names foun
 Dremembering,wm,difficulty,remembering,,AF10,no,and,ResponseV,Factor,AF10,1 var names found
 Dselfcare,wm,difficulty,self-care,,AF11,no,and,ResponseV,Factor,AF11,1 var names found
 Dcommunicating,wm,difficulty,communicating,,AF12,no,and,ResponseV,Factor,AF12,1 var names found
+Privacy,wm,privacy,ensured,,DVD1,no,and,DomesticViolence,Factor,DVD1,1 var names found
+CurrentlyMarried,wm,currently married,living with a man,,MA1,no,and,DomesticViolence,Factor,MA1,1 var names found
+EverMarried,wm,ever married,lived with a man,,MA5,no,and,DomesticViolence,Factor,MA5,1 var names found
+Push,wm,push,shake,throw,DVD5A,no,and,PhysicalViolence,Factor,DVD5A,1 var names found
+Slap,wm,slap you,,,DVD5B,no,and,PhysicalViolence,Factor,DVD5B,1 var names found
+Twist,wm,twist,pull,,DVD5C,no,and,PhysicalViolence,Factor,DVD5C,1 var names found
+Punch,wm,punch,hurt,,DVD5D,no,and,PhysicalViolence,Factor,DVD5D,1 var names found
+Kick,wm,kick,drag,beat,DVD5E,no,and,PhysicalViolence,Factor,DVD5E,1 var names found
+Choke,wm,choke,burn,,DVD5F,no,and,PhysicalViolence,Factor,DVD5F,1 var names found
+Attack,wm,knife,sharp,weapon,DVD5G,no,and,PhysicalViolence,Factor,DVD5G,1 var names found
+ForcedSexualActs,wm,physically force,any sexual acts,did not want to,DVD5H,no,and,SexualViolence,Factor,DVD5H,1 var names found
+OtherSexualActs,wm,physically force,any other sexual acts,did not want to,DVD5I,no,and,SexualViolence,Factor,DVD5I,1 var names found
+ThreatSexualActs,wm,with threats,sexual acts,did not want to,DVD5J,no,and,SexualViolence,Factor,DVD5J,1 var names found
+Humiliate,wm,say or do,humiliate,infront of others,DVD4A,no,and,EmotionalViolence,Factor,DVD4A,1 var names found
+Threaten,wm,threaten,hurt or harm,someone,DVD4B,no,and,EmotionalViolence,Factor,DVD4B,1 var names found
+Insult,wm,insult,feel bad,yourself,DVD4C,no,and,EmotionalViolence,Factor,DVD4C,1 var names found
+PhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
+SexualViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
+EmotionalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
+SexualPhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
+NoSexualViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
+AllViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
+NoSexualPhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
 NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType,VarName,Search_result
 cluster_id,mn,cluster,number,,HH1,yes,and,ID,ID,HH1,Default
 HouseholdNumber,mn,household,number,,HH2,yes,and,ID,ID,HH2,Default
@@ -217,7 +241,7 @@ aGroup,mn,age of man,,,MWB4,no,Only,IndependentV,numeric,MWB4,1 var names found
 CurrentWorking,mn,employed,last,month,MWB11,no,and,IndependentV,Factor,NA,0 var names found
 Education,mn,education,,,mwelevel,no,and,IndependentV,Factor,mwelevel,"More than one columns, usual name chosen"
 Ethnicity,mn,ethnicity,,,ETHNICITY,no,and,IndependentV,Factor,ETHNICITY,1 var names found
-Grade,mn,highest,grade,,MWB6B,no,and,IndependentV,numeric,MWB6B,0 var names found
+Grade,mn,highest,grade,,MWB6B,no,and,IndependentV,numeric,NA,0 var names found
 MarriageStatus,mn,marital,union,status,MMSTATUS,no,and,IndependentV,Factor,MMSTATUS,1 var names found
 Residence,mn,area,,,HH6,no,Only,IndependentV,Factor,HH6,1 var names found
 NUnder5,mn,no keywords,,,No keywords,No keywords,No keywords,IndependentV,numeric,No keywords,Default
@@ -233,18 +257,18 @@ NoChildMarriage18,mn,age,first,marriage,MWAGEM,no,and,MresponseV,numeric,MWAGEM,
 HealthInsurance,mn,health,insurance,,MWB18,no,and,MresponseV,Factor,MWB18,"More than one columns, usual name chosen"
 InternetUse,mn,internet,last,months,MMT10,no,and,MresponseV,Factor,MMT10,1 var names found
 Religion,mn,religion,,,RELIGION,no,and,IndependentV,Factor,RELIGION,"More than one columns, usual name chosen"
-Language,mn,language,,,LANGUAGE,no,and,IndependentV,Factor,MWM14,3 var names found
+Language,mn,language,,,LANGUAGE,no,and,IndependentV,Factor,,3 var names found
 Region,mn,region,,,HH7,yes,Only,Region,Factor,HH7,Default
 Province,mn,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
 BankFinance,mn,account,bank,financial,MWB21,no,and,FinancialInclusion,Factor,NA,0 var names found
 MobileFinance,mn,mobile,phone,financial,MMT11A,no,and,FinancialInclusion,Factor,NA,0 var names found
 FinancialInclusion,mn,no keywords,,,no keywords,no keywords,no keywords,MresponseV,Factor,no keywords,Default
-Dseeing,mn,difficulty,seeing,,MAF6,no,and,MresponseV,Factor,MAF6,1 var names found
-Dhearing,mn,difficulty,hearing,,MAF8,no,and,MresponseV,Factor,MAF8,1 var names found
-Dwalking,mn,difficulty,walking,,MAF9,no,and,MresponseV,Factor,MAF9,1 var names found
-Dremembering,mn,difficulty,remembering,,MAF10,no,and,MresponseV,Factor,MAF10,1 var names found
-Dselfcare,mn,difficulty,self-care,,MAF11,no,and,MresponseV,Factor,MAF11,1 var names found
-Dcommunicating,mn,difficulty,communicating,,MAF12,no,and,MresponseV,Factor,MAF12,1 var names found
+Dseeing,mn,difficulty,seeing,,AF6,no,and,ResponseV,Factor,AF6,1 var names found
+Dhearing,mn,difficulty,hearing,,AF8,no,and,ResponseV,Factor,AF8,1 var names found
+Dwalking,mn,difficulty,walking,,AF9,no,and,ResponseV,Factor,AF9,1 var names found
+Dremembering,mn,difficulty,remembering,,AF10,no,and,ResponseV,Factor,AF10,1 var names found
+Dselfcare,mn,difficulty,self-care,,AF11,no,and,ResponseV,Factor,AF11,1 var names found
+Dcommunicating,mn,difficulty,communicating,,AF12,no,and,ResponseV,Factor,AF12,1 var names found
 Covid,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
 LearningHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 WaterOnstieHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually

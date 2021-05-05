@@ -56,6 +56,7 @@ V190,PoorerHousehold,IR,Factor,IndependentV,# wealth Quintiles
 V012,aGroup,IR,INT,IndependentV,# Age
 V012,Age,IR,INT,IndependentV,# Age
 HIDX,NUnder5,IR,String,IndependentV,# BirthHistory
+MIDX,BirthHistory,IR,String,ProfessionalHelp,
 V131,Ethnicity,IR,INT,IndependentV,
 RegionName,RegionName,IR,ID,IndependentV,
 V190A,WealthIndex,IR,ID,IndependentV,# For Papua New Guinea 2018 Analysis
@@ -88,18 +89,54 @@ V171A,InternetUse,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""a
 V511,ChildMarriage15,IR,Factor,ResponseV,
 V511,ChildMarriage18,IR,Factor,ResponseV,
 D104,AllViolence,IR,Factor,ResponseV,#emotional
-D106,AllViolence,IR,Factor,ResponseV,#sexual
-D107,AllViolence,IR,Factor,ResponseV,#severe sexual
-D108,AllViolence,IR,Factor,ResponseV,#physical
+D106,AllViolence,IR,Factor,ResponseV,#physical
+D107,AllViolence,IR,Factor,ResponseV,#physical
+D108,AllViolence,IR,Factor,ResponseV,#sexual
+D103A,AllViolence,IR,Factor,ResponseV,#emotional
+D103B,AllViolence,IR,Factor,ResponseV,#emotional
+D103C,AllViolence,IR,Factor,ResponseV,#emotional
+D105A,AllViolence,IR,Factor,ResponseV,#physical
+D105B,AllViolence,IR,Factor,ResponseV,#physical
+D105C,AllViolence,IR,Factor,ResponseV,#physical
+D105D,AllViolence,IR,Factor,ResponseV,#physical
+D105E,AllViolence,IR,Factor,ResponseV,#physical
+D105F,AllViolence,IR,Factor,ResponseV,#physical
+D105H,AllViolence,IR,Factor,ResponseV,#physical
+D105I,AllViolence,IR,Factor,ResponseV,#physical
+D105J,AllViolence,IR,Factor,ResponseV,#physical
+D105K,AllViolence,IR,Factor,ResponseV,#physical
 D106,SexualPhysicalViolence,IR,Factor,ResponseV,
 D107,SexualPhysicalViolence,IR,Factor,ResponseV,
+D105A,SexualPhysicalViolence,IR,Factor,ResponseV,
+D105B,SexualPhysicalViolence,IR,Factor,ResponseV,
+D105C,SexualPhysicalViolence,IR,Factor,ResponseV,
+D105D,SexualPhysicalViolence,IR,Factor,ResponseV,
+D105E,SexualPhysicalViolence,IR,Factor,ResponseV,
+D105F,SexualPhysicalViolence,IR,Factor,ResponseV,
+D105H,SexualPhysicalViolence,IR,Factor,ResponseV,
+D105I,SexualPhysicalViolence,IR,Factor,ResponseV,
+D105J,SexualPhysicalViolence,IR,Factor,ResponseV,
+D105K,SexualPhysicalViolence,IR,Factor,ResponseV,
 D108,SexualPhysicalViolence,IR,Factor,ResponseV,
 D108,SexualViolence,IR,Factor,ResponseV,
 D107,PhysicalViolence,IR,Factor,ResponseV,
 D106,PhysicalViolence,IR,Factor,ResponseV,
+D105A,PhysicalViolence,IR,Factor,ResponseV,
+D105B,PhysicalViolence,IR,Factor,ResponseV,
+D105C,PhysicalViolence,IR,Factor,ResponseV,
+D105D,PhysicalViolence,IR,Factor,ResponseV,
+D105E,PhysicalViolence,IR,Factor,ResponseV,
+D105F,PhysicalViolence,IR,Factor,ResponseV,
+D105H,SexualViolence,IR,Factor,ResponseV,
+D105I,SexualViolence,IR,Factor,ResponseV,
+D105J,PhysicalViolence,IR,Factor,ResponseV,
+D105K,SexualViolence,IR,Factor,ResponseV,
 D104,EmotionalViolence,IR,Factor,ResponseV,
+D103A,EmotionalViolence,IR,Factor,ResponseV,
+D103B,EmotionalViolence,IR,Factor,ResponseV,
+D103C,EmotionalViolence,IR,Factor,ResponseV,
 V169B,MobileFinance,IR,Factor,ResponseV,
-V170,BankAccount,IR,Factor,ResponseV,
+S929,BankAccount,IR,Factor,ResponseV,
 V170,FinancialInclusion,IR,Factor,ResponseV,
 V169B,FinancialInclusion,IR,Factor,ResponseV,
 V208,TeenagePregnancy,IR,Factor,ResponseV0,
@@ -199,3 +236,4 @@ S116,Caste,IR,Factor,IndependentV,
 V130,Religion,IR,Factor,IndependentV,
 SM118,Caste,MR,Factor,IndependentV,
 MV130,Religion,MR,Factor,IndependentV,
+S930,MobilePhone,IR,Factor,ResponseV,

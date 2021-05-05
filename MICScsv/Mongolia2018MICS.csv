@@ -140,7 +140,7 @@ FrequencyNewspaper,wm,frequency,newspaper,,MT2,no,and,not used,Factor,MT1,1 var 
 FrequencyRadio,wm,frequency,radio,,MT3,no,and,not used,Factor,MT2,1 var names found
 FrequencyTV,wm,frequency,tv,,MT4,no,and,not used,Factor,MT3,1 var names found
 ProfessionalAssitance5,wm,assistance,delivery,birth attendant,MN19F,no,and,ProfessionalHelp,Factor,NA,0 var names found
-ProfessionalAssitance6,wm,assistance,delivery,health worker,MN19G,no,and,ProfessionalHelp,Factor,MN19G,1 var names found
+ProfessionalAssitance6,wm,assistance,delivery,health worker,MN19G,no,and,ProfessionalHelp,Factor,NA,1 var names found
 ProfessionalAssitance1,wm,assistance,delivery,doctor,MN19A,no,and,ProfessionalHelp,Factor,MN19I,1 var names found
 ProfessionalAssitance2,wm,assistance,delivery,nurse,MN19D,no,and,ProfessionalHelp,Factor,MN19K,1 var names found
 ProfessionalAssitance3,wm,assistance,delivery,midwife,MN19B,no,and,ProfessionalHelp,Factor,MN19J,2 var names found

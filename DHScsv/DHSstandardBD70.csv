@@ -42,7 +42,7 @@ V044,ViolenceInterview,IR,Factor,AuxResonpse,
 V213,CurrentlyPregnant,IR,Factor,AuxResonpse,
 V011,BirthDate,IR,numeric,AuxResonpse,CMC date of birth of respondent
 V008,InterviewDate,IR,numeric,AuxResonpse,
-V624,UnmetNeed,IR,Factor,ContraceptiveMethod,# V626 sometimes
+V626A,UnmetNeed,IR,Factor,ContraceptiveMethod,# V626 sometimes
 CASEID,CASEID,IR,ID,ID,
 V001,cluster_id,IR,ID,ID,
 V002,HouseholdNumber,IR,ID,ID,
@@ -164,7 +164,7 @@ HV109,SecondaryEducation2035,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Resid
 HV109,SecondaryEducation35plus,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""Sex"""
 HC70,Stunting,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
 HC72,Wasting,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
-HV247,BankCardPR,PR,Factor,ResponseV0,
+HV247,BankCardPR,PR,Factor,ResponseV,
 HC13,ChildHealth,PR,Factor,ResponseV0,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
 HV005,SampleWeight,PR,INT,Weight,
 SH121U,Internet,PR,Factor,Learning,
@@ -173,6 +173,7 @@ HV207,LearningPR,PR,Factor,ResponseV,
 HV207,Radio,PR,Factor,Learning,
 HV208,Television,PR,Factor,Learning,
 HV221,Telephone,PR,Factor,Learning,
+SH15,MobilePhonePR,PR,Factor,ResponseV,
 HV243A,MobilePhonePR,PR,Factor,Learning,
 HV201,WaterOnsitePR,PR,Factor,ResponseV,
 HV204,WaterTime,PR,Factor,Water,
