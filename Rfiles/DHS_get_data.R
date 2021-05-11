@@ -136,7 +136,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
       }
       
     }
-    print(colnames(datause))
+    # print(colnames(datause))
     return(datause)
     
     
@@ -389,7 +389,8 @@ SecondaryEducation2035<-function(datause, dataList, k){
     print("Age for SecondaryEducation2035 can't be found")
     return(NULL)
   }
-  
+  print(colnames(datause)[k])
+  print(table(datause[,k]))
   datause$Age<-as.numeric(as.character(datause[,ageK]))
   datause<-datause[datause$Age>=20 & datause$Age<=35, ]
   datause$var2tab<-1
@@ -430,7 +431,8 @@ HigherEducation2535<-function(datause, dataList, k){
   datause<-datause[!is.na(datause$Age) & datause$Age >=25 & datause$Age<=35 , ]
   datause$var2tab<-1
   datause$var2tab[is.na(datause[, k])]<-0
-  
+  print(colnames(datause)[k])
+  print(table(datause[,k]))
   if(colnames(datause)[k]=="SH17A"){  ### AM61 has special vaariable for education level
     datause$var2tab[datause[, k] %in% c(1, 2)]<-0
   }
@@ -1769,15 +1771,17 @@ iso_code<-function(country_code){
 country_data<-function(original_data_folder, country_code, version_code, use_version){
   if (use_version==1) return(original_data_folder)
   else {
-    csvfile_name0 <- "DHSkey"
-    DHSKey <-read.table(paste(origin_folder, "DHScsv/", csvfile_name0, ".csv", sep=""), sep=",", header=T, colClasses="character")
-    as.data.frame(DHSKey)
+    return(original_data_folder)
     
-    country <- DHSKey$country[DHSKey$country_code == country_code & DHSKey$version_code == version_code]
-    
-    version <- DHSKey$year[DHSKey$country_code == country_code & DHSKey$version_code == version_code]
-    
-    return(paste(original_data_folder, "/",country, version, "/", sep= ""))
+    # csvfile_name0 <- "DHSkey"
+    # DHSKey <-read.table(paste(origin_folder, "DHScsv/", csvfile_name0, ".csv", sep=""), sep=",", header=T, colClasses="character")
+    # as.data.frame(DHSKey)
+    # 
+    # country <- DHSKey$country[DHSKey$country_code == country_code & DHSKey$version_code == version_code]
+    # 
+    # version <- DHSKey$year[DHSKey$country_code == country_code & DHSKey$version_code == version_code]
+    # 
+    # return(paste(original_data_folder, "/",country, version, "/", sep= ""))
   } 
 }
 

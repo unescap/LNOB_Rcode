@@ -51,7 +51,7 @@ run_together(csv_folder, data_folder, output_folder, "TR","61", "2013", NULL, NU
 run_together(csv_folder, data_folder, output_folder, "ID","63", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE)
 run_together(csv_folder, data_folder, output_folder, "ID","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE)
 run_together(csv_folder, data_folder, output_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, FALSE)
-## run_together(csv_folder, data_folder, output_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, TRUE)
+run_together(csv_folder, data_folder, output_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, TRUE)
 
 
 source(paste(r_folder,"ConfigMICS_ywvalidation.R",sep=""))

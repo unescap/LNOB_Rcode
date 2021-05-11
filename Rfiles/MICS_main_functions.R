@@ -311,6 +311,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
         country_ISO<-country_ISO(country_code)
         
         overallmean<-write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
+        validation<-FALSE
         if(use_version>1)
           validation<-validate(country_code, version_code, rv, overallmean, validationdata)
         

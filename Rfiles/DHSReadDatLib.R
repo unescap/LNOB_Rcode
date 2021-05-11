@@ -273,7 +273,7 @@ build_dictionary_for_older_data <- function(base_filename,var_list)
      }
   }
   #print(fields)
-  if(subset_of_fields>0){print(var_list)}
+  # if(subset_of_fields>0){print(var_list)}
   print(paste("Size of fields: ",length(fields),sep=""))
   
   return (fields)

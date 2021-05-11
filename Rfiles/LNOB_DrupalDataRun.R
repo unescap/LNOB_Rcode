@@ -1,0 +1,126 @@
+source_folder<- "/home/yw/Workspace/rstudio/LNOB_Rcode/"
+
+library(dplyr)
+library(ggplot2)
+library(ggparty)
+library(dplyr)
+library(stringr)
+library(data.table)
+library(foreign)
+library(httr)
+library(jsonlite)
+
+# for financial inclusiion
+csvfile_name1 <-"DHSstandard_unmet"
+csvfile_name2 <-"DHSstandard"
+csvfile_name3 <- "DHSstandardKH71"
+csvfile_name4 <- "DHSstandardKH61"
+csvfile_name5 <- "DHSstandardIA52"
+csvfile_name6 <- "DHSstandardIA71"
+csvfile_name7 <- "DHSstandardTL61"
+csvfile_name8 <- "DHSstandardAM61"   # education variable SH17A
+csvfile_name9 <- "DHSstandardBD70"   # special questionaire on mobile phone for hh members over 13 yo
+
+
+r_folder<-paste(source_folder, "Rfiles/", sep="")
+source(paste(r_folder,"ConfigDHS_ywvalidation.R",sep=""))
+source(paste(r_folder,"DHS_main_functions.R",sep=""))
+
+#### must have this file, only surveyXindicator on this file with validated results can have drupal data
+validatedcsv<-"/home/yw/Workspace/rstudio/LNOB_Rcode/CSVdatabase/validated.csv"
+
+### every time you run this program, we create an empty folder to store all drupal data in this run
+folder_index<-format(Sys.time(), "%Y%m%d%H%M%S")
+drupal_folder<-paste(source_folder, "drupalData/",  folder_index, sep="")
+
+if(!dir.exists(drupal_folder)) dir.create(drupal_folder)
+setwd(drupal_folder)
+
+# reroute output files to the same folder
+output_folder<-drupal_folder
+
+#### running DHS:
+
+drupalI<- 1
+drupalI<-run_together(csv_folder, data_folder, output_folder, "AF","70", "2015", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "AM","61", "2010", NULL, NULL, csvfile_name8, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "AM","71", "2016", "72", NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "BD","61", "2011", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "BD","70", "2014", NULL, NULL, csvfile_name9, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "KH","61", "2010", NULL, NULL, csvfile_name4, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "KH","72", "2014", NULL, NULL, csvfile_name3, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "KY","61", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "MM","71", "2016", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "NP","61", "2011", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "NP","7H", "2016", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "PK","61", "2013", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "PK","71", "2018", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "PG","70", "2018", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "PH","61", "2013", NULL, "62", csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "PH","70", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "TJ","61", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "TJ","70", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "TL","61", "2012", NULL, NULL, csvfile_name7, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "TL","71", "2016", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "TR","61", "2013", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "ID","63", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "ID","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, TRUE, FALSE, use_version=3, validatedcsv, drupalI)
+
+# 
+# source(paste(r_folder,"ConfigMICS_ywvalidation.R",sep=""))
+# source(paste(r_folder,"MICS_main_functions.R",sep=""))
+# 
+# #### running MICS:
+# 
+# run_together(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv)
+# # run_together(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv)
+# #run_together(csv_folder, data_folder, output_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# # bhutan religiondata not created, only one religion in the country
+# run_together(csv_folder, data_folder, output_folder, "Bhutan", "2010",  csvfile_name, edcationcsv)
+# run_together(csv_folder, data_folder, output_folder, "Georgia", "2018",  csvfile_name, edcationcsv)
+# #run_together(csv_folder, data_folder, output_folder, "Georgia", "2018",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Kazakhstan", "2010",  csvfile_name, edcationcsv)
+# #run_together(csv_folder, data_folder, output_folder, "Kazakhstan", "2010",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Kazakhstan", "2015",  csvfile_name, edcationcsv)
+# #run_together(csv_folder, data_folder, output_folder, "Kazakhstan", "2015",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Kyrgyzstan", "2014",  csvfile_name, edcationcsv)
+# #run_together(csv_folder, data_folder, output_folder, "Kyrgyzstan", "2014",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Kyrgyzstan", "2018",  csvfile_name, edcationcsv)
+# #run_together(csv_folder, data_folder, output_folder, "Kyrgyzstan", "2018",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Kiribati", "2019",  csvfile_name, edcationcsv)
+# #run_together(csv_folder, data_folder, output_folder, "Kiribati", "2019",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Lao", "2011",  csvfile_name, edcationcsv)
+# #run_together(csv_folder, data_folder, output_folder, "Lao", "2011",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Lao", "2017",  csvfile_name, edcationcsv)
+# #run_together(csv_folder, data_folder, output_folder, "Lao", "2017",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Mongolia", "2013",  csvfile_name, edcationcsv)
+# #run_together(csv_folder, data_folder, output_folder, "Mongolia", "2013",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Mongolia", "2018",  csvfile_name, edcationcsv)
+# #run_together(csv_folder, data_folder, output_folder, "Mongolia", "2018",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Nepal", "2019",  csvfile_name, edcationcsv)
+# #run_together(csv_folder, data_folder, output_folder, "Nepal", "2019",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Thailand", "2012",  csvfile_name, edcationcsv)
+# # run_together(csv_folder, data_folder, output_folder, "Thailand", "2012",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Thailand", "2015",  csvfile_name, edcationcsv)
+# run_together(csv_folder, data_folder, output_folder, "Thailand", "2019",  csvfile_name, edcationcsv)
+# # run_together(csv_folder, data_folder, output_folder, "Thailand", "2019",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Tonga", "2019",  csvfile_name, edcationcsv)
+# # run_together(csv_folder, data_folder, output_folder, "Tonga", "2019",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Turkmenistan", "2015",  csvfile_name, edcationcsv)
+# # run_together(csv_folder, data_folder, output_folder, "Turkmenistan", "2015",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv)
+# # run_together(csv_folder, data_folder, output_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "Vietnam", "2010",  csvfile_name, edcationcsv)
+# # run_together(csv_folder, data_folder, output_folder, "Vietnam", "2010",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# run_together(csv_folder, data_folder, output_folder, "VietNam", "2013",  csvfile_name, edcationcsv)
+# # run_together(csv_folder, data_folder, output_folder, "VietNam", "2013",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# 
+# 
+# # ###  no Uzbekistan 2006 csv file
+# # run_together(csv_folder, data_folder, output_folder, "Uzbekistan", "2006",  csvfile_name, edcationcsv)
+# # run_together(csv_folder, data_folder, output_folder, "Uzbekistan", "2006",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# 

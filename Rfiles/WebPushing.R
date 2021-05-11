@@ -1,5 +1,18 @@
-source(paste(source_folder,"http_request.R",sep=""))
+source_folder<- "/home/yw/Workspace/rstudio/LNOB_Rcode/"
+datafolder(paste(source_folder,"drupalData/20210511134352/",sep=""))
+### it is by design that this data folder name change everytime
+### you can have a fixed folder name and change it on your drive, or change the 
+### name here accordingly
 
+r_folder<-paste(source_folder, "Rfiles/", sep="")
+
+source(paste(r_folder,"http_request.R",sep=""))
+
+
+collectData<-function(datafolder){
+  data_list<-list.files
+  
+}
 
 ### plan: to create one R data for each result, with a data structure that describe it
 ###       save all of the r data in one folder (created each time we start running use_version 3 in run_together)

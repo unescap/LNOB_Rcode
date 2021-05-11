@@ -66,20 +66,28 @@ cal_Da<-function(datause, a, na){
   return(da)
 }
 
-cal_HOI_shapley<-function(datause, vm)
+cal_HOI_shapley<-function(datause, vm, use_version)
 {
   Overall_Mean<-sum(datause$SampleWeight*datause$var2tab)/sum(datause$SampleWeight)
   Overall_D<-cal_D(datause, vm)
   HOI<-(1-Overall_D)*Overall_Mean
   result<-c("mean", Overall_Mean, "HOI",  HOI, "D", Overall_D)
-  for(a in vm){
-    na<-vm[-match(a, vm)]
-    Da<-cal_Da(datause, a, na)
-    Pa<-Da/Overall_D
-    result<-c(result, a, Pa)
+  if(use_version==3){
+    result = list(
+      mean = Overall_Mean,
+      HOI = HOI,
+      D = Overall_D
+    )
+  return(toString(toJSON(result, auto_unbox = TRUE)))
   }
+  # for(a in vm){
+  #   na<-vm[-match(a, vm)]
+  #   Da<-cal_Da(datause, a, na)
+  #   Pa<-Da/Overall_D
+  #   result<-c(result, a, Pa)
+  # }
 
-  return(result)
+  else return(result)
 }
 
 #cal_HOI_shapley(datause, vm)
