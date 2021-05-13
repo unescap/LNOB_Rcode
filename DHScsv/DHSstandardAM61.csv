@@ -154,7 +154,7 @@ HV014,Under5,PR,INT,IndependentV,
 HV105,aGroup,PR,INT,IndependentV,
 HV014,TeenagePregnancy,PR,INT,PresponseV0,
 HV013,AdolescentBirthRate,PR,numeric,PresponseV0,not used in the calculation
-SH17A,HigherEducation2535,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""Sex"""
+SH17A,HigherEducation2535,PR,Factor,ResponseV,separating special education from higher education
 SH17A,HigherEducation35plus,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""Sex"""
 HC72,NotOverweight,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
 HC70,NotStunting,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""

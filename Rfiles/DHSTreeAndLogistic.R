@@ -40,13 +40,15 @@ build_tree<-function(source_folder, country_code, version_code, datause, source1
   data2$VC<-version_code
   data2$RV<-Response_var
   data2$EC<-e
+  
+  if(use_version==3) return(toString(toJSON(data2, flatten = TRUE)))
+  
   data2$Datasource<-source1
   print(paste(source_folder, "ALLTrees.csv", sep="/"))
   write.table(data2, paste(source_folder, "ALLTrees.csv", sep=""), sep=",", 
               col.names = FALSE  , row.names = FALSE, append = TRUE)
 
-  if(use_version==3) return(toString(toJSON(data2, flatten = TRUE)))
-  
+
   if(!is.null(treefit$splits)) {  
     frame1<-treefit$frame
     

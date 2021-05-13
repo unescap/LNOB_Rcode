@@ -42,42 +42,43 @@ output_folder<-drupal_folder
 #### running DHS:
 
 drupalI<- 1
-drupalI<-run_together(csv_folder, data_folder, output_folder, "AF","70", "2015", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "AM","61", "2010", NULL, NULL, csvfile_name8, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "AM","71", "2016", "72", NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "BD","61", "2011", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "BD","70", "2014", NULL, NULL, csvfile_name9, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "KH","61", "2010", NULL, NULL, csvfile_name4, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "KH","72", "2014", NULL, NULL, csvfile_name3, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "KY","61", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "MM","71", "2016", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "NP","61", "2011", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "NP","7H", "2016", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "PK","61", "2013", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "PK","71", "2018", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "PG","70", "2018", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "PH","61", "2013", NULL, "62", csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "PH","70", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "TJ","61", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "TJ","70", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "TL","61", "2012", NULL, NULL, csvfile_name7, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "TL","71", "2016", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "TR","61", "2013", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "ID","63", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "ID","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, output_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, TRUE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "AF","70", "2015", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "AM","61", "2010", NULL, NULL, csvfile_name8, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "AM","71", "2016", "72", NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "BD","61", "2011", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "BD","70", "2014", NULL, NULL, csvfile_name9, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "KH","61", "2010", NULL, NULL, csvfile_name4, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "KH","72", "2014", NULL, NULL, csvfile_name3, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "KY","61", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "MM","71", "2016", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "NP","61", "2011", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "NP","7H", "2016", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "PK","61", "2013", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "PK","71", "2018", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "PG","70", "2018", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "PH","61", "2013", NULL, "62", csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "PH","70", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "TJ","61", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "TJ","70", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "TL","61", "2012", NULL, NULL, csvfile_name7, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "TL","71", "2016", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "TR","61", "2013", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "ID","63", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "ID","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, TRUE, FALSE, use_version=3, validatedcsv, drupalI)
 
-# 
-# source(paste(r_folder,"ConfigMICS_ywvalidation.R",sep=""))
-# source(paste(r_folder,"MICS_main_functions.R",sep=""))
-# 
-# #### running MICS:
-# 
-# run_together(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv)
+
+source(paste(r_folder,"ConfigMICS_ywvalidation.R",sep=""))
+source(paste(r_folder,"MICS_main_functions.R",sep=""))
+
+#### running MICS:
+output_folder<-drupal_folder
+
+drupalI<-run_together(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv, NULL, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
 # # run_together(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
-# run_together(csv_folder, data_folder, output_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv, NULL, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
 # #run_together(csv_folder, data_folder, output_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
 # # bhutan religiondata not created, only one religion in the country
 # run_together(csv_folder, data_folder, output_folder, "Bhutan", "2010",  csvfile_name, edcationcsv)

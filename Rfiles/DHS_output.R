@@ -169,7 +169,7 @@ write_HOI_D <- function(datause, country_code2, year_code, rv, ds, title_string,
 }
 
 
-write_glm <- function(datause, rv, rtp, country_code2, year_code, ds, title_string, 
+write_glm <- function(datause, rtp, country_code2, year_code, rv, ds, title_string, 
                       indvar, output_folder, filename, use_version, drupalIndex) {
   
   # Build Logistic Regression model 

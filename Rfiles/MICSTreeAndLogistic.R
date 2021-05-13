@@ -1,6 +1,6 @@
 
 build_tree<-function(source_folder, country_code, version_code, datause, Response_var, datatype, formula_string, 
-                     title_string, sub_string=NULL, filename, e=FALSE, region = FALSE){  
+                     title_string, sub_string=NULL, filename, e=FALSE, region = FALSE, use_version){  
   
 
   print(source_folder)
@@ -31,23 +31,21 @@ build_tree<-function(source_folder, country_code, version_code, datause, Respons
     filename<-paste(source_folder, filename, sep="")
   else filename<-paste(source_folder, filename, "_ethnicity", sep="")
   
-
   data2 <- get_tree(treefit)
   data2<-Education_Lable(data2)
 
   write.table(data2, paste(filename, ".csv", sep=""), sep=",", col.names = FALSE  , row.names = FALSE, append = FALSE)
   
-  
-  
   data2$CC<-country_code
   data2$VC<-version_code
   data2$RV<-Response_var
   data2$EC<-e
+  if(use_version==3) return(toString(toJSON(data2, flatten = TRUE)))
+ 
 #  data2$filename<-filename
   data2$Source<-"MICS"
   write.table(data2, paste(source_folder, "ALLTrees.csv", sep=""), sep=",", 
               col.names = FALSE  , row.names = FALSE, append = TRUE)
-  
   
   if(!is.null(treefit$splits)) {  
     frame1<-treefit$frame

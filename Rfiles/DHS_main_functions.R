@@ -63,8 +63,9 @@ logger <- create.logger(logfile = logger_location, level = 'DEBUG')
 
 # add use version for different purposes.
 # 1 for development and debugging (default)
-# 2 for validation on sharepoint, different input data structures
-# 3 for TBD code (for now, better to be separated later)
+# 3 for creating drupal data only go to proceed
+# the tree analysis etc if validated
+# a validation file must be provided
 
 run_together<-function(csv_folder, original_data_folder, output_folder, country_code, version_code, year_code, mrversion_code=NULL,
                        prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE, region=FALSE, use_version=1, validationfile=NULL, initialIndex=0)
@@ -138,7 +139,8 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     ### here line 119 for TDB code for picking up data file names
     if(use_version==1) filename<-paste(country_code, ds, version_code, "FL", sep="")
     else {
-      filename<-basename(dir(country_data_folder, pattern = paste(country_code, ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
+      #### does not work on my computer
+      # filename<-basename(dir(country_data_folder, pattern = paste(country_code, ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
       filename<-paste(country_code, ds, version_code, "FL", sep="")
     }
 
@@ -182,23 +184,18 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # debug <- unique_responseList[match("ChildMarriage18", unique_responseList)]
     # unique_responseList<-c("NoSexualViolence",  "AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence")
     # unique_responseList<-c("AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence")
-    
     # unique_responseList<-c("Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR")
     # unique_responseList<-c("InternetUse")
     # unique_responseList<-c("CleanWater", "SafeSanitation")
     # unique_responseList<-c("PhysicalViolence")
     # unique_responseList<-c("Covid1")
-    
     # unique_responseList<-c("NoPhysicalViolence", "NoSexualPhysicalViolence")
-
     # unique_responseList<-c("MobilePhonePR", "BankCardPR")
     # unique_responseList<-c("BankAccount")
     # unique_responseList<-c("MobilePhone")
     # unique_responseList<-c("BasicWater")
-    
     # unique_responseList<-c("ProfessionalHelp")
     # unique_responseList<-c("MobilePhonePR")
-    
     # unique_responseList<-c("HigherEducation2535", "SecondaryEducation2035")
 
     # Iterate through each response variable for current dataset type. 
@@ -288,10 +285,9 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
         ## get_data() is defined in DHS_get_data.R file, it caculates the response variable and creat a 0-1 variable in 
         ## datause$var2tab
         
-
+        validation<-FALSE
         if(use_version==3){
           overallmean<-write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
-          validation<-FALSE
           validation_result<-validate(country_code, version_code, rv, overallmean, validationdata)
           validation<-validation_result[1]
           result_log$Validated=validation
@@ -323,7 +319,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
             write_HOI_D(datause, country_ISO, year_code, rv, ds, title_string, indvar, ds_output_folder, filename, use_version, drupalIndex)
             
             ### Construct and Write Logistic Regression to output folder
-            write_glm(datause, rtp,  country_ISO, year_code, ds, title_string, indvar, ds_output_folder, filename, use_version, drupalIndex)
+            write_glm(datause, rtp,  country_ISO, year_code, rv, ds, title_string, indvar, ds_output_folder, filename, use_version, drupalIndex)
             
           }
         }

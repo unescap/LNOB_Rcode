@@ -1,319 +1,224 @@
+library(dplyr)
+
+
 source_folder<- "/home/yw/Workspace/rstudio/LNOB_Rcode/"
-datafolder(paste(source_folder,"drupalData/20210511134352/",sep=""))
+r_folder<-paste(source_folder, "Rfiles/", sep="")
+source(paste(r_folder,"Config_uploaddrupal.R",sep="")) ### obtain api_base, key
+source(paste(r_folder,"http_request.R",sep=""))  
+
+
+
+
+datafolder<-paste(source_folder,"drupalData/20210513230614/",sep="")
 ### it is by design that this data folder name change everytime
 ### you can have a fixed folder name and change it on your drive, or change the 
 ### name here accordingly
 
-r_folder<-paste(source_folder, "Rfiles/", sep="")
 
-source(paste(r_folder,"http_request.R",sep=""))
-
-
-collectData<-function(datafolder){
-  data_list<-list.files
+#### may not need this function
+# collectData<-function(datafolder){
+#   data_list<-list.files(datafolder, ".rds")
+#   for(dn in data_list) {
+#     print(paste(datafolder, dn, sep=""))
+#     dt<-readRDS(paste(datafolder, dn, sep=""))
+#     # print(dt)
+#     print(dt[c(1:7)])
+#   }
+#   return(data_list)
+# }
+# 
+# data_for_drupa<-collectData(datafolder)
+#   
   
-}
-
-### plan: to create one R data for each result, with a data structure that describe it
+  
+### plan: to create one .rds file for each result, with a data structure that describe it
 ###       save all of the r data in one folder (created each time we start running use_version 3 in run_together)
-###       pick them up and push to drupla one by one by this script
+###       pick them up and push to drupal one by one by this script
 ###       resultIndex is created by run_together, its sole purpose is for this publication process. We just want a unique name 
 ###       for each of the R data so that we can pick them up from the folder
 
-organizePush<-function(result_folder){
+gettingDrupalFiles<-function(api_base, key){
   
   #### getting durpal server files
-  indicatorJson <- http_get("indicator_taxonomies")
+  indicatorJson <- http_get("indicator_taxonomies", api_base, key)
   indicatorDf <- as.data.frame(indicatorJson)
-  geoJson <- http_get("geo_taxonomies")
-  geoDf <- as.data.frame(geoJson)
-  treeDataJson <- http_get("tree_data")
-  treeDataDf <- as.data.frame(treeDataJson)
   
-  dIndexDataJson <- http_get("d_index_data")
+  geoJson <- http_get("geo_taxonomies", api_base, key)
+  geoDf <- as.data.frame(geoJson)
+  
+  treeDataJson <- http_get("tree_data", api_base, key)
+  treeDataDf <- as.data.frame(treeDataJson)
+
+  dIndexDataJson <- http_get("d_index_data", api_base, key)
   dIndexDataDf <- as.data.frame(dIndexDataJson)
   
-  logitDataJson <- http_get("logit_data")
+  logitDataJson <- http_get("logit_data", api_base, key)
   logitDataDf <- as.data.frame(logitDataJson)
-  
-  
-  if(length(regionDIndexRequest) > 0) {
-    currentGeo = filter(geoDf, field_citf_iso2_code == regionDIndexRequest[[1]]$field_geo | field_alternative_code == regionDIndexRequest[[1]]$field_geo)
-    # print(currentGeo)
-    # print(paste("region_tree_data?field_geo_target_id=",as.integer(currentGeo$tid), sep=""))
-    regionDIndexDataJson <- http_get(paste("region_d_index_data?field_geo_target_id=",as.integer(currentGeo$tid), sep=""))
-    # print(regionDIndexDataJson)
-    regionDIndexDataDf <- as.data.frame(regionDIndexDataJson)
-    # print(nrow(regionDIndexDataDf))
-  }
-  
-  if(length(regionTreeDataRequest) > 0) {
-    currentGeo = filter(geoDf, field_citf_iso2_code == regionTreeDataRequest[[1]]$field_geo | field_alternative_code == regionTreeDataRequest[[idx]]$field_geo)
-    print('CURRENT GEO------------------------------')
-    print(currentGeo$tid)
-    # print(paste("region_tree_data?field_geo_target_id=",as.integer(currentGeo$tid), sep=""))
-    regionTreeDataJson <- http_get(paste("region_tree_data?field_geo_target_id=",as.integer(currentGeo$tid), sep=""))
-    # print(regionTreeDataJson)
-    regionTreeDataDf <- as.data.frame(regionTreeDataJson)
-    # print(nrow(regionTreeDataDf))
-  }
+
+  # #### organize regional taxonomy files, not ready yet   
   #### end getting durpal server files
-  
-  
+ 
+  return(list( indicatorDf=indicatorDf,
+               geoDf=geoDf, 
+               treeDataDf=treeDataDf,
+               dIndexDataDf=dIndexDataDf,
+               logitDataDf=logitDataDf
+               #### regional df not ready
+         )) 
+}
   #### getting the list of results for publication
-  filenames <- list.files(result_folder, pattern="*.Rdata", full.names=TRUE)
-  for(resultIndex in filenames){
-    webpush(resultIndex)
-    
-  }
+
   
-}
 
 
 
-webpush<-function(resultIndex){
+drupalPush<-function(dt, drupalFiles, api_base, key){
+  indicatorDf<-drupalFiles$indicatorDf
+  geoDf<-drupalFiles$geoDf
+  treeDataDf<-drupalFiles$treeDataDf
+  dIndexDataDf<-drupalFiles$dIndexDataDf
+  logitDataDf<-drupalFiles$logitDataDf
   
-  
-  
-  
-}
-
-
-
-
-
-if (to_store_result_in_drupal) {
-  # print(paste("Outside of loop: Tree Data for ", ds))
-  # print(length(treeDataRequest))
-  # print(toJSON(treeDataRequest, auto_unbox = TRUE))
-  ########### Section to save tree data #####
-  indicatorJson <- http_get("indicator_taxonomies")
-  indicatorDf <- as.data.frame(indicatorJson)
-  geoJson <- http_get("geo_taxonomies")
-  geoDf <- as.data.frame(geoJson)
-  treeDataJson <- http_get("tree_data")
-  treeDataDf <- as.data.frame(treeDataJson)
-  ### Covert from name to id for indicators and geos and then save to Drupal
-  for (idx in seq_along(treeDataRequest)) {
     ### Covert indicator name to id
-    currentInd = filter(indicatorDf, Name == treeDataRequest[[idx]]$field_indicator)
+    # print(colnames(indicatorDf))
+    currentInd = filter(indicatorDf, Name == dt$field_indicator)
     if (nrow(currentInd) > 0) {
-      treeDataRequest[[idx]]$field_indicator <- currentInd$tid
+      dt$field_indicator <- currentInd$tid
+    }
+    else {
+      result<-"indicatorNotFound"
+      return(result)
     }
     #####
     ### Convert actual year from version_code
-    currentYear = filter(DHSKey, version_code == treeDataRequest[[idx]]$field_year, country_code == treeDataRequest[[idx]]$field_geo)
-    if (nrow(currentYear) > 0) {
-      treeDataRequest[[idx]]$field_year <- head(currentYear,1)$year
-    }
+    # skip this because we use the year given in the run_together
+    # currentYear = filter(DHSKey, version_code == treeDataRequest[[idx]]$field_year, country_code == treeDataRequest[[idx]]$field_geo)
+    # if (nrow(currentYear) > 0) {
+    #   treeDataRequest[[idx]]$field_year <- head(currentYear,1)$year
+    # }
     #####
     ### Convert geo name to id
-    currentGeo = filter(geoDf, field_citf_iso2_code == treeDataRequest[[idx]]$field_geo | field_alternative_code == treeDataRequest[[idx]]$field_geo)
+    currentGeo = filter(geoDf, field_citf_iso3_code == dt$field_geo | field_alternative_code == dt$field_geo)
     if (nrow(currentGeo) > 0) {
-      treeDataRequest[[idx]]$field_geo <- currentGeo$tid
+      dt$field_geo <- currentGeo$tid
+    }
+    else {
+      result<-"countryNotFound"
+      return(result)
     }
     #####
-    ### Check existing tree data
-    if (nrow(treeDataDf) > 0) {
-      currentTD = filter(treeDataDf, field_indicator == treeDataRequest[[idx]]$field_indicator, field_geo == treeDataRequest[[idx]]$field_geo, field_year == treeDataRequest[[idx]]$field_year)
-      if (nrow(currentTD) > 0) {
-        print('current tree id')
-        print(head(currentTD,1)$nid)
-        treeDataRequest[[idx]]$nid <- head(currentTD,1)$nid
-        treeDataRequest[[idx]]$moderation_state <- "draft"
-        # treeDataRequest[[idx]]$title <- paste(treeDataRequest[[idx]]$title,' v2',sep = "")
+    ### Check if it is tree data
+    if(dt$type=="tree_data") {
+      if (nrow(treeDataDf) > 0) {
+        currentTD = filter(treeDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo, field_year == dt$field_year)
+        if (nrow(currentTD) > 0) {
+          # print('current tree id')
+          # print(head(currentTD,1)$nid)
+          dt$nid <- head(currentTD,1)$nid
+          dt$moderation_state <- "draft"
+          Sys.sleep(20)
+          endpoint <- "node-create"
+          result <- http_post(endpoint,dt, api_base, key)
+          # result<-endpoint
+          # treeDataRequest[[idx]]$title <- paste(treeDataRequest[[idx]]$title,' v2',sep = "")
+        } 
+        else result<-"currentTD_empty"
       }
+      else result<-"treeDataDf_empty"
     }
-    #####
-  }
-  # print(toJSON(treeDataRequest, auto_unbox = TRUE))
-  if(length(treeDataRequest) > 0) {
-    endpoint <- "node-create"
-    result <- http_post(endpoint,treeDataRequest)
-  }
   ##########
-  ########### Section to save region tree data #####
-  # print('regionTreeDataRequest')
-  # print(toJSON(regionTreeDataRequest, auto_unbox = TRUE))
-  if(length(regionTreeDataRequest) > 0) {
-    currentGeo = filter(geoDf, field_citf_iso2_code == regionTreeDataRequest[[1]]$field_geo | field_alternative_code == regionTreeDataRequest[[idx]]$field_geo)
-    print('CURRENT GEO------------------------------')
-    print(currentGeo$tid)
-    # print(paste("region_tree_data?field_geo_target_id=",as.integer(currentGeo$tid), sep=""))
-    regionTreeDataJson <- http_get(paste("region_tree_data?field_geo_target_id=",as.integer(currentGeo$tid), sep=""))
-    # print(regionTreeDataJson)
-    regionTreeDataDf <- as.data.frame(regionTreeDataJson)
-    # print(nrow(regionTreeDataDf))
-  }
-  ### Covert from name to id for indicators and geos and then save to Drupal
-  for (idx in seq_along(regionTreeDataRequest)) {
-    ### Covert indicator name to id
-    currentInd = filter(indicatorDf, Name == regionTreeDataRequest[[idx]]$field_indicator)
-    if (nrow(currentInd) > 0) {
-      regionTreeDataRequest[[idx]]$field_indicator <- currentInd$tid
-    }
-    #####
-    ### Convert actual year from version_code
-    currentYear = filter(DHSKey, version_code == regionTreeDataRequest[[idx]]$field_year, country_code == regionTreeDataRequest[[idx]]$field_geo)
-    if (nrow(currentYear) > 0) {
-      regionTreeDataRequest[[idx]]$field_year <- head(currentYear,1)$year
-    }
-    #####
-    ### Convert geo name to id
-    currentGeo = filter(geoDf, field_citf_iso2_code == regionTreeDataRequest[[idx]]$field_geo | field_alternative_code == regionTreeDataRequest[[idx]]$field_geo)
-    if (nrow(currentGeo) > 0) {
-      regionTreeDataRequest[[idx]]$field_geo <- currentGeo$tid
-    }
-    #####
-    ### Check existing tree data
-    if (nrow(regionTreeDataDf) > 0) {
-      currentTD = filter(regionTreeDataDf, field_region == regionTreeDataRequest[[idx]]$field_region, field_indicator == regionTreeDataRequest[[idx]]$field_indicator, field_geo == regionTreeDataRequest[[idx]]$field_geo, field_year == regionTreeDataRequest[[idx]]$field_year)
-      if (nrow(currentTD) > 0) {
-        # print('current tree id')
-        # print(head(currentTD,1)$nid)
-        regionTreeDataRequest[[idx]]$nid <- head(currentTD,1)$nid
-        regionTreeDataRequest[[idx]]$moderation_state <- "draft"
-        # regionTreeDataRequest[[idx]]$title <- paste(regionTreeDataRequest[[idx]]$title,' v2',sep = "")
-      }
-    }
-    #####
-  }
-  # print(toJSON(regionTreeDataRequest, auto_unbox = TRUE))
-  ### Not to have deadlock in Drupal Queue
-  Sys.sleep(20)
-  if(length(regionTreeDataRequest) > 0) {
-    endpoint <- "node-create"
-    result <- http_post(endpoint,regionTreeDataRequest)
-  }
-  ##########
+  # check if it is region tree data (skip for now)
+  # if(length(regionTreeDataRequest) > 0) 
+
   ########### Section to save d-index data #####
-  dIndexDataJson <- http_get("d_index_data")
-  dIndexDataDf <- as.data.frame(dIndexDataJson)
-  ### Covert from name to id for geos and then save to Drupal
-  for (idx in seq_along(dIndexDataRequest)) {
-    ### Convert actual year from version_code
-    currentYear = filter(DHSKey, version_code == dIndexDataRequest[[idx]]$field_year, country_code == dIndexDataRequest[[idx]]$field_geo)
-    if (nrow(currentYear) > 0) {
-      dIndexDataRequest[[idx]]$field_year <- head(currentYear,1)$year
-    }
-    #####
-    ### Convert geo name to id
-    currentGeo = filter(geoDf, field_citf_iso2_code == dIndexDataRequest[[idx]]$field_geo | field_alternative_code == dIndexDataRequest[[idx]]$field_geo)
-    if (nrow(currentGeo) > 0) {
-      dIndexDataRequest[[idx]]$field_geo <- currentGeo$tid
-    }
-    #####
-    ### Covert indicator name to id
-    currentInd = filter(indicatorDf, Name == dIndexDataRequest[[idx]]$field_indicator)
-    if (nrow(currentInd) > 0) {
-      dIndexDataRequest[[idx]]$field_indicator <- currentInd$tid
-    }
-    #####
-    ### Check existing d-index data
+   else if(dt$type=="d_index") {
     if (nrow(dIndexDataDf) != 0) {
-      currentDD = filter(dIndexDataDf, field_indicator == dIndexDataRequest[[idx]]$field_indicator, field_geo == dIndexDataRequest[[idx]]$field_geo, field_year == dIndexDataRequest[[idx]]$field_year)
+      currentDD = filter(dIndexDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo, field_year == dt$field_year)
       if (nrow(currentDD) != 0) {
-        print('current d-index id')
-        print(head(currentDD,1)$nid)
-        dIndexDataRequest[[idx]]$nid <- head(currentDD,1)$nid
-        dIndexDataRequest[[idx]]$moderation_state <- "draft"
+        # print('current d-index id')
+        # print(head(currentDD,1)$nid)
+        dt$nid <- head(currentDD,1)$nid
+        dt$moderation_state <- "draft"
         # dIndexDataRequest[[idx]]$title <- paste(dIndexDataRequest[[idx]]$title,' v2',sep = "")
+        # Sys.sleep(20)
+        endpoint <- "node-create"
+        result <- http_post(endpoint,dt, api_base, key)
+        # result<-endpoint
       }
+      else result<-"currentTD_empty"
     }
+    else result<-"treeDataDf_empty"
     #####
   }
   ### Not to have deadlock in Drupal Queue
-  Sys.sleep(20)
-  if(length(dIndexDataRequest) > 0) {
-    endpoint <- "node-create"
-    result <- http_post(endpoint,dIndexDataRequest)
-  }
+ 
   ########### Section to save Logit data #####
-  # print(toJSON(logitDataRequest, auto_unbox = TRUE))
-  logitDataJson <- http_get("logit_data")
-  logitDataDf <- as.data.frame(logitDataJson)
-  ### Covert from name to id for geos and then save to Drupal
-  for (idx in seq_along(logitDataRequest)) {
-    ### Convert actual year from version_code
-    currentYear = filter(DHSKey, version_code == logitDataRequest[[idx]]$field_year, country_code == logitDataRequest[[idx]]$field_geo)
-    if (nrow(currentYear) > 0) {
-      logitDataRequest[[idx]]$field_year <- head(currentYear,1)$year
-    }
-    #####
-    ### Convert geo name to id
-    currentGeo = filter(geoDf, field_citf_iso2_code == logitDataRequest[[idx]]$field_geo | field_alternative_code == logitDataRequest[[idx]]$field_geo)
-    if (nrow(currentGeo) > 0) {
-      logitDataRequest[[idx]]$field_geo <- currentGeo$tid
-    }
-    #####
-    ### Check existing logit data
+  else if(dt$type=="logit") {
     if (nrow(logitDataDf) != 0) {
-      currentLD = filter(logitDataDf, title == logitDataRequest[[idx]]$title, field_geo == logitDataRequest[[idx]]$field_geo, field_year == logitDataRequest[[idx]]$field_year)
+      currentLD = filter(logitDataDf, title == dt$title, field_geo == dt$field_geo, field_year == dt$field_year)
       if (nrow(currentLD) != 0) {
-        print('current logit data id')
-        print(head(currentLD,1)$nid)
-        logitDataRequest[[idx]]$nid <- head(currentLD,1)$nid
-        logitDataRequest[[idx]]$moderation_state <- "draft"
+        # print('current logit data id')
+        # print(head(currentLD,1)$nid)
+        dt$nid <- head(currentLD,1)$nid
+        dt$moderation_state <- "draft"
         # logitDataRequest[[idx]]$title <- paste(logitDataRequest[[idx]]$title,' v2',sep = "")
+        Sys.sleep(20)
+        endpoint <- "node-create"
+        result <- http_post(endpoint,dt, api_base, key)
+        # result<-endpoint
       }
+      else result<-"currentTD_empty"
     }
+      else result<-"treeDataDf_empty"
     #####
   }
-  ### Not to have deadlock in Drupal Queue
-  Sys.sleep(20)
-  if(length(logitDataRequest) > 0) {
-    endpoint <- "node-create"
-    result <- http_post(endpoint,logitDataRequest)
-  }
+    
+  else result("typeNotFound")
+
   # #####
   ########### Section to save region dindex data #####
-  if(length(regionDIndexRequest) > 0) {
-    currentGeo = filter(geoDf, field_citf_iso2_code == regionDIndexRequest[[1]]$field_geo | field_alternative_code == regionDIndexRequest[[1]]$field_geo)
-    # print(currentGeo)
-    # print(paste("region_tree_data?field_geo_target_id=",as.integer(currentGeo$tid), sep=""))
-    regionDIndexDataJson <- http_get(paste("region_d_index_data?field_geo_target_id=",as.integer(currentGeo$tid), sep=""))
-    # print(regionDIndexDataJson)
-    regionDIndexDataDf <- as.data.frame(regionDIndexDataJson)
-    # print(nrow(regionDIndexDataDf))
-  }
-  ### Covert from name to id for indicators and geos and then save to Drupal
-  # print(toJSON(regionDIndexRequest, auto_unbox = TRUE))
-  for (idx in seq_along(regionDIndexRequest)) {
-    ### Covert indicator name to id
-    currentInd = filter(indicatorDf, Name == regionDIndexRequest[[idx]]$field_indicator)
-    if (nrow(currentInd) > 0) {
-      regionDIndexRequest[[idx]]$field_indicator <- currentInd$tid
-    }
-    #####
-    ### Convert actual year from version_code
-    currentYear = filter(DHSKey, version_code == regionDIndexRequest[[idx]]$field_year, country_code == regionDIndexRequest[[idx]]$field_geo)
-    if (nrow(currentYear) > 0) {
-      regionDIndexRequest[[idx]]$field_year <- head(currentYear,1)$year
-    }
-    #####
-    ### Convert geo name to id
-    currentGeo = filter(geoDf, field_citf_iso2_code == regionDIndexRequest[[idx]]$field_geo | field_alternative_code == regionDIndexRequest[[idx]]$field_geo)
-    if (nrow(currentGeo) > 0) {
-      regionDIndexRequest[[idx]]$field_geo <- currentGeo$tid
-    }
-    #####
-    ### Check existing tree data
-    if (nrow(regionDIndexDataDf) != 0) {
-      currentDI = filter(regionDIndexDataDf, field_region == regionDIndexRequest[[idx]]$field_region, field_indicator == regionDIndexRequest[[idx]]$field_indicator, field_geo == regionDIndexRequest[[idx]]$field_geo, field_year == regionDIndexRequest[[idx]]$field_year)
-      if (nrow(currentDI) > 0) {
-        regionDIndexRequest[[idx]]$nid <- head(currentDI,1)$nid
-        regionDIndexRequest[[idx]]$moderation_state <- "draft"
-        # regionDIndexRequest[[idx]]$title <- paste(regionDIndexRequest[[idx]]$title,' v2',sep = "")
-      }
-    }
-    #####
-  }
-  # print(toJSON(regionDIndexRequest, auto_unbox = TRUE))
-  Sys.sleep(20)
-  endpoint <- "node-create"
-  result <- http_post(endpoint,regionDIndexRequest)
-  ##########
+  ### not ready ###  
+  return(result) # return the results of the push
 }
-##### END OF TBD codes #####
-message <- paste("END OF SCRIPT.")
-print(message)
+
+
+push_together<-function(resultFolder, api_base, key){
+  data_list<-list.files(datafolder, ".rds")
+
+  # print(drupalFiles$indicatorDf)
+  if(length(data_list)==0) {
+    print("No Data Found")
+      return()
+  }
+
+  logcsv<-paste(resultFolder, "validation/pushlogfile.csv", sep="")
+  drupalFiles<-gettingDrupalFiles(api_base, key)
+  for(dn in data_list){
+    dt<-readRDS(paste(datafolder, dn, sep=""))
+    pushresult<-drupalPush(dt, drupalFiles, api_base, key)
+    #pushresult<-1
+    pushresult<-data.frame(resultfile=dn, dt[(1:7)], PushResult=pushresult)
+    if(file.exists(logcsv))
+      write.table(pushresult, logcsv, sep=",", 
+                  append = TRUE,   col.names = F, row.names = F)
+    else write.table(pushresult, logcsv, sep=",", 
+                     append = FALSE,   col.names = T, row.names = F)
+  }
+  
+  
+}
+push_together(datafolder, api_base, key)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
