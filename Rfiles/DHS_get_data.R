@@ -5,7 +5,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   VarName<- dataList$VarName[dataList$NickName==rv & dataList$IndicatorType %in% c("ResponseV", "MresponseV", "PresponseV")]
   k<-match(VarName, colnames(df), nomatch = 0)
   l<-length(k)
-  print(c("k:", k))
+
   if(sum(k)==0 ){
     print(paste("Response variable -- ", rv, "(",  VarName, ") not found"))
     return(NULL)
@@ -94,7 +94,9 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
     print("No data available")
     return(NULL)
   }
-  else print(sum(datause$var2tab*datause$SampleWeight)/sum(datause$SampleWeight))
+  else { print(sum(datause$SampleWeight))
+         print(sum(datause$var2tab*datause$SampleWeight)/sum(datause$SampleWeight))
+  }
   
     for(iv in indvar){
       VarName<- dataList$VarName[dataList$NickName==iv & dataList$IndicatorType=="IndependentV"]
@@ -105,8 +107,6 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
         return(NULL)
       }
       
-      # print(c(iv, VarName, k))
-      # print(colnames(datause))
       if(!(iv=="NUnder5")) datause[, k]<-as.numeric(as.character(datause[,k]))
       if(iv=="HighestEducation") datause<-HighestEducation(datause, dataList, k)
       else if(iv=="MotherEducation") datause<-MotherEducation(datause, dataList, k)
@@ -136,7 +136,6 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
       }
       
     }
-    print(colnames(datause))
     return(datause)
     
     
@@ -841,7 +840,7 @@ AdolescentBirthRate<-function(datause, dataList, k) {
 
     datause[is.na(datause[, k]), k]<-0
 
-    print(table(datause[, k]))
+    # print(table(datause[, k]))
     
     
     datause$var2tab<-0
@@ -856,36 +855,39 @@ AdolescentBirthRate<-function(datause, dataList, k) {
   return(datause)
 }
 
+DataOfViolence<-function(datause, dataList){
+  ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
+  ViK<-match(ViV, colnames(datause))
+  datause<-datause[!is.na(datause[, ViK]), ]
+  datause<-datause[datause[, ViK]==1, ]
+  datause<-datause[datause$V502 %in% c(1,2), ]
+  
+  SwV<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
+  SwK<-match(SwV, colnames(datause))
+  datause$SampleWeight<-as.numeric(as.character(datause[, SwK]))/1000000
+  datause<-datause[!is.na(datause$SampleWeight), ]
+  
+  return(datause)
+}
 
 AllViolence<-function(datause, dataList, k){
   l<-length(k)
-  ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
-  ViK<-match(ViV, colnames(datause))
-  datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ]
-  SwV<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
-  SwK<-match(SwV, colnames(datause))
-
-  datause$SampleWeight<-datause[, SwK]/1000000
-
-    datause$var2tab<- 0
   
-  for(i in k)
+  datause<-DataOfViolence(datause, dataList)
+  datause$var2tab<- 0
+  
+  for(i in k){
+    # print(colnames(datause)[i])
+    # print(table(datause[, i]))
     datause$var2tab[datause[ , i]  %in% c(1, 2, 3) ]<-1
-  
+  }
   return(datause)
 }
 
 
 SexualPhysicalViolence<-function(datause, dataList, k){
+  datause<-DataOfViolence(datause, dataList)
   l<-length(k)
-  ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
-  ViK<-match(ViV, colnames(datause))
-  datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ]
-  
-  SwV<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
-  SwK<-match(SwV, colnames(datause))
-  
-  datause$SampleWeight<-datause[, SwK]/1000000
   datause$var2tab<- 0
   for(i in c(1:l))
     datause$var2tab[datause[,k[i]]  %in% c(1, 2, 3)]<-1 
@@ -898,38 +900,20 @@ NoSexualPhysicalViolence<-function(datause, dataList, k){
   if(is.null(datause)) return(NULL)
   datause$var2tab<-1-datause$var2tab
   
-  # l<-length(k)
-  # ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
-  # ViK<-match(ViV, colnames(datause))
-  # datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ]
-  # 
-  # SwV<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
-  # SwK<-match(SwV, colnames(datause))
-  # 
-  # datause$SampleWeight<-datause[, SwK]/1000000
-  # datause$var2tab<- 0
-  # for(i in c(1:l))
-  #   datause$var2tab[datause[,k[i]]==0]<-1 
-  
   return(datause)
 }
 
 PhysicalViolence<-function(datause, dataList, k){
   l<-length(k)
-  ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
-  ViK<-match(ViV, colnames(datause))
-  datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ]
-  
-  SwV<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
-  SwK<-match(SwV, colnames(datause))
-  
-  datause$SampleWeight<-datause[, SwK]/1000000
+  datause<-DataOfViolence(datause, dataList)
   
   totalweight<-sum(datause$SampleWeight)
   datause$var2tab<- 0
+  
   for(i in c(1:l)){
-    cond0<-(datause[,k[i]] %in% c(1, 2, 3))
-    print(table(datause$var2tab, cond0) )
+    #print(c("missing value", colnames(datause)[k[i]], sum(datause$SampleWeight[is.na(datause[,k[i]])])))
+    datause<-datause[!is.na(datause[,k[i]]), ]
+    cond0<-(datause[,k[i]] %in% c(1, 2))
     datause$var2tab[datause[,k[i]]  %in% c(1, 2, 3)]<-1 
   }
   return(datause)
@@ -940,32 +924,11 @@ NoPhysicalViolence<-function(datause, dataList, k){
   datause<-PhysicalViolence(datause, dataList, k)
   if(is.null(datause)) return(NULL)
   datause$var2tab<-1-datause$var2tab
-  
-  # l<-length(k)
-  # ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
-  # ViK<-match(ViV, colnames(datause))
-  # datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ]
-  # 
-  # SwV<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
-  # SwK<-match(SwV, colnames(datause))
-  # 
-  # datause$SampleWeight<-datause[, SwK]/1000000
-  # datause$var2tab<- 0
-  # for(i in c(1:l))
-  #   datause$var2tab[datause[,k[i]]==0]<-1 
-  
+
   return(datause)
 }
 SexualViolence<-function(datause, dataList, k){
-  
-  ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
-  ViK<-match(ViV, colnames(datause))
-  datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ]
-  
-  SwV<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
-  SwK<-match(SwV, colnames(datause))
-  
-  datause$SampleWeight<-datause[, SwK]/1000000
+  datause<-DataOfViolence(datause, dataList)
   datause$var2tab<- 0
   for(i in k)
     datause$var2tab[datause[,i]  %in% c(1, 2, 3)]<-1 
@@ -979,33 +942,12 @@ NoSexualViolence<-function(datause, dataList, k){
   datause<-SexualViolence(datause, dataList, k)
   if(is.null(datause)) return(NULL)
   datause$var2tab<-1-datause$var2tab
-  # ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
-  # ViK<-match(ViV, colnames(datause))
-  # datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ]
-  # 
-  # varw<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
-  # wk<-match(varw, colnames(datause))  
-  # if(length(wk)==0){
-  #   datause<-datause[!is.na(datause[, wk]), ]
-  #   datause$SampleWeight<-datause[, wk]/1000000
-  # }
-  # datause$var2tab<-0
-  # datause$var2tab[datause[,k]==0]<-1
   return(datause)
 }
 
 EmotionalViolence<-function(datause, dataList, k){
-  ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
-  ViK<-match(ViV, colnames(datause))
-  datause<-datause[datause[, ViK]==1 & datause$V502 %in% c(1,2), ] #
-  
-  # SwV<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
-  # SwK<-match(SwV, colnames(datause))
-  # datause$SampleWeight<-datause[, SwK]/1000000
-  # print(summary(datause$SampleWeight))
-  # datause<-datause[!is.na(datause$SampleWeight), ]
+  datause<-DataOfViolence(datause, dataList)
 
-  
   datause$var2tab<- 0
   # datause$var2tab[datause[,k] %in% c(1, 2, 3)]<-1
    l<-length(k)
@@ -1406,7 +1348,7 @@ AgeDifference<-function(datause, dataList, k){
   datause$AgeDifference[datause$Age == datause$AgeH]<-"SameAge"
   datause$AgeDifference[datause$Age > datause$AgeH]<-"WifeOlder"
   datause$AgeDifference<-factor(datause$AgeDifference, levels=c("Missing", "WifeOlder", "SameAge", "1-4Younger", "5-9Younger", "10+Younger"))
-  print(table(datause$AgeDifference))
+  # print(table(datause$AgeDifference))
   return(datause)
 }
 
@@ -1429,7 +1371,7 @@ EducationDifference<-function(datause, dataList, k){
   datause$EducationDifference[datause$Ed < datause$EdH & is.na(datause$EducationDifference)]<-"HusbandBetterEducated"
   
   datause$EducationDifference<-factor(datause$EducationDifference, levels=c("Missing", "NeitherEducated", "EquallyEducated", "WifeBetterEducated", "HusbandBetterEducated"))
-  print(table(datause$EducationDifference))
+  # print(table(datause$EducationDifference))
   return(datause)
 }
 

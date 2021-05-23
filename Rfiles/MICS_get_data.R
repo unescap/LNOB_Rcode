@@ -1062,9 +1062,15 @@ DVdata<-function(df, dataList){
     return(NULL)
   }
   else {
-    datause<-df[!is.na(df[, pK]) & df[, pK]==1, ]
+    ### no missing info ob privacy
+    datause<-df[!is.na(df[, pK]), ]
+    datause<-datause[datause[, pK]==1, ]
+    #### currently married or previously married
+    datause<-datause[!is.na(df[, cmK]), ]
     datause1<-datause[datause[,cmK] %in% c(1,2), ]
-    datause2<-datause[!is.na(datause[,emK]) & datause[,emK] %in% c(1,2) & datause[,cmK]==3, ]
+    datause2<-datause[datause[,cmK]==3, ]
+    datause2<-datause2[!is.na(datause2[,emK]), ]
+    datause2<-datause2[datause2[,emK] %in% c(1,2), ]
     datause<-rbind(datause1, datause2)
   }
 

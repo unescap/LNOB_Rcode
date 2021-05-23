@@ -88,10 +88,10 @@ V481,HealthInsurance,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", 
 V171A,InternetUse,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""aGroup"""
 V511,ChildMarriage15,IR,Factor,ResponseV,
 V511,ChildMarriage18,IR,Factor,ResponseV,
-D104,AllViolence,IR,Factor,ResponseV,#emotional
-D106,AllViolence,IR,Factor,ResponseV,#physical
-D107,AllViolence,IR,Factor,ResponseV,#physical
-D108,AllViolence,IR,Factor,ResponseV,#sexual
+D104,AllViolence,IR,Factor,ResponseV0,#emotional
+D106,AllViolence,IR,Factor,ResponseV0,#physical
+D107,AllViolence,IR,Factor,ResponseV0,#physical
+D108,AllViolence,IR,Factor,ResponseV0,#sexual
 D103A,AllViolence,IR,Factor,ResponseV,#emotional
 D103B,AllViolence,IR,Factor,ResponseV,#emotional
 D103C,AllViolence,IR,Factor,ResponseV,#emotional
@@ -105,8 +105,8 @@ D105H,AllViolence,IR,Factor,ResponseV,#physical
 D105I,AllViolence,IR,Factor,ResponseV,#physical
 D105J,AllViolence,IR,Factor,ResponseV,#physical
 D105K,AllViolence,IR,Factor,ResponseV,#physical
-D106,SexualPhysicalViolence,IR,Factor,ResponseV,
-D107,SexualPhysicalViolence,IR,Factor,ResponseV,
+D106,SexualPhysicalViolence,IR,Factor,ResponseV0,
+D107,SexualPhysicalViolence,IR,Factor,ResponseV0,
 D105A,SexualPhysicalViolence,IR,Factor,ResponseV,
 D105B,SexualPhysicalViolence,IR,Factor,ResponseV,
 D105C,SexualPhysicalViolence,IR,Factor,ResponseV,
@@ -117,10 +117,10 @@ D105H,SexualPhysicalViolence,IR,Factor,ResponseV,
 D105I,SexualPhysicalViolence,IR,Factor,ResponseV,
 D105J,SexualPhysicalViolence,IR,Factor,ResponseV,
 D105K,SexualPhysicalViolence,IR,Factor,ResponseV,
-D108,SexualPhysicalViolence,IR,Factor,ResponseV,
-D108,SexualViolence,IR,Factor,ResponseV,
-D107,PhysicalViolence,IR,Factor,ResponseV,
-D106,PhysicalViolence,IR,Factor,ResponseV,
+D108,SexualPhysicalViolence,IR,Factor,ResponseV0,
+D108,SexualViolence,IR,Factor,ResponseV0,
+D107,PhysicalViolence,IR,Factor,ResponseV0,
+D106,PhysicalViolence,IR,Factor,ResponseV0,
 D105A,PhysicalViolence,IR,Factor,ResponseV,
 D105B,PhysicalViolence,IR,Factor,ResponseV,
 D105C,PhysicalViolence,IR,Factor,ResponseV,
@@ -128,10 +128,12 @@ D105D,PhysicalViolence,IR,Factor,ResponseV,
 D105E,PhysicalViolence,IR,Factor,ResponseV,
 D105F,PhysicalViolence,IR,Factor,ResponseV,
 D105H,SexualViolence,IR,Factor,ResponseV,
+D105H,PhysicalViolence,IR,Factor,ResponseV,
 D105I,SexualViolence,IR,Factor,ResponseV,
 D105J,PhysicalViolence,IR,Factor,ResponseV,
 D105K,SexualViolence,IR,Factor,ResponseV,
-D104,EmotionalViolence,IR,Factor,ResponseV,
+D105K,PhysicalViolence,IR,Factor,ResponseV,
+D104,EmotionalViolence,IR,Factor,ResponseV0,
 D103A,EmotionalViolence,IR,Factor,ResponseV,
 D103B,EmotionalViolence,IR,Factor,ResponseV,
 D103C,EmotionalViolence,IR,Factor,ResponseV,

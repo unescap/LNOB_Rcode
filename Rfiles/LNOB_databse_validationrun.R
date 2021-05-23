@@ -12,7 +12,7 @@ library(foreign)
 
 r_folder<-paste(source_folder, "Rfiles/", sep="")
 csv_folder<-paste(source_folder, "output/validation/", sep="")
-csv_folderm<-paste(source_folder, "output/validationm/", sep="")
+#csv_folderm<-paste(source_folder, "output/validationm/", sep="")
 csv_check_folder<-paste(source_folder, "CSVdatabase/", sep="")
 
 
@@ -55,12 +55,12 @@ country_ISO<-function(country_code){
   
 }
 
-dhs_data<-read.table(paste(csv_folder, "overallmean.csv", sep=""), sep=",", header=T, colClasses="character")
-mics_data<-read.table(paste(csv_folderm, "overallmean.csv", sep=""), sep=",", header=T, colClasses="character")
-mics_data<-mics_data[!mics_data$SurveyIndicator=="",]
-dhs_data$SurveySource<-"DHS"
-mics_data$SurveySource<-"MICS"
-validationRun_data<-rbind(dhs_data, mics_data)
+validationRun_data<-read.table(paste(csv_folder, "overallmean.csv", sep=""), sep=",", header=T, colClasses="character")
+# mics_data<-read.table(paste(csv_folderm, "overallmean.csv", sep=""), sep=",", header=T, colClasses="character")
+# mics_data<-mics_data[!mics_data$SurveyIndicator=="",]
+# dhs_data$SurveySource<-"DHS"
+# mics_data$SurveySource<-"MICS"
+# validationRun_data<-rbind(dhs_data, mics_data)
 validationRun_data<-validationRun_data[!validationRun_data$MeanY=="DataNotGenerated",]
 validationRun_data$dataValidation<-1
 

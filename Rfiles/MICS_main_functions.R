@@ -314,30 +314,30 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
         if(use_version>1)
           validation<-validate(country_code, version_code, rv, overallmean, validationdata)
         
-        if(use_version==1 | validation){
-          
-            write_tree(datause, country_ISO, version_code,
-                   title_string, formula_string, sub_string, rv, rtp, religion, ds_output_folder, ds, filename)
-
-##### disable D and Logistic for validation
-        #### HOI and dis-similarity index calculation
-        #### not sure if this works for numeric
-             write_HOI_D(datause, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
-
-        #### logistic regression
-        #### have to use lm for numeric here
-            write_glm(datause, rtp, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
-##### disable D and Logistic for validation
-        
-        #### Construct model for each region.
-            if(use_version>1){
-               region(output_folder, country_code, version_code,
-                       datause, rv,
-                        formula_string, title_string, sub_string,
-                      filename, indvar)
-            }
-        # write_crosstab(datause, country_code, version_code, title_string, indvar, ds_output_folder, filename)
-      }
+#         if(use_version==1 | validation){
+#           
+#             write_tree(datause, country_ISO, version_code,
+#                    title_string, formula_string, sub_string, rv, rtp, religion, ds_output_folder, ds, filename)
+# 
+# ##### disable D and Logistic for validation
+#         #### HOI and dis-similarity index calculation
+#         #### not sure if this works for numeric
+#              write_HOI_D(datause, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
+# 
+#         #### logistic regression
+#         #### have to use lm for numeric here
+#             write_glm(datause, rtp, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
+# ##### disable D and Logistic for validation
+#         
+#         #### Construct model for each region.
+#             if(use_version>1){
+#                region(output_folder, country_code, version_code,
+#                        datause, rv,
+#                         formula_string, title_string, sub_string,
+#                       filename, indvar)
+#             }
+#         # write_crosstab(datause, country_code, version_code, title_string, indvar, ds_output_folder, filename)
+#       }
 
       }
      }

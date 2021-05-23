@@ -299,28 +299,28 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
           if(use_version>1)
             validation<-validate(country_code, version_code, rv, overallmean, validationdata)
           
-          if(use_version==1 | validation){
-          
-          ## Construct and Write Decision Tree to output folder
-           write_tree(datause, country_ISO, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder)
-
-          ### Construct and Write HOI and dis-similarity index calculation to output folder
-            write_HOI_D(datause, country_ISO, year_code, title_string, indvar, ds_output_folder, filename)
-
-          #### Construct and Write Logistic Regression to output folder
-            write_glm(datause, rtp,  country_ISO, year_code, title_string, indvar, ds_output_folder, filename)
-
-          #### Construct model for each region.
-            if(use_version>1){
-              region(output_folder, country_code, version_code,
-                 datause, rv,
-                 formula_string, title_string, sub_string,
-                 caste, filename, indvar)
-            }
-          }
-          else {
-            print("############# overall mean not validated, no further analysis #################")
-          }
+          # if(use_version==1 | validation){
+          # 
+          # ## Construct and Write Decision Tree to output folder
+          #  write_tree(datause, country_ISO, year_code, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder)
+          # 
+          # ### Construct and Write HOI and dis-similarity index calculation to output folder
+          #   write_HOI_D(datause, country_ISO, year_code, title_string, indvar, ds_output_folder, filename)
+          # 
+          # #### Construct and Write Logistic Regression to output folder
+          #   write_glm(datause, rtp,  country_ISO, year_code, title_string, indvar, ds_output_folder, filename)
+          # 
+          # #### Construct model for each region.
+          #   if(use_version>1){
+          #     region(output_folder, country_code, version_code,
+          #        datause, rv,
+          #        formula_string, title_string, sub_string,
+          #        caste, filename, indvar)
+          #   }
+          # }
+          # else {
+          #   print("############# overall mean not validated, no further analysis #################")
+          # }
           
         }
       } 
@@ -407,4 +407,5 @@ csvfile_name6 <- "DHSstandardIA71"
 csvfile_name7 <- "DHSstandardTL61"
 csvfile_name8 <- "DHSstandardAM61"   # education variable SH17A
 
-#run_together(csv_folder, data_folder, output_folder, "AM","61", "2010", NULL, NULL, csvfile_name8, TRUE, FALSE)
+
+#run_together(csv_folder, data_folder, output_folder, "IA","71", "2015", NULL, NULL, csvfile_name6, TRUE, FALSE)
