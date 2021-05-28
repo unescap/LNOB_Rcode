@@ -9,9 +9,10 @@ require("jsonlite")
 
 
 http_post <- function (endpoint, request_body, api_base, key) {
+  print(request_body)
   request_body_json <- toJSON(request_body, auto_unbox = TRUE)
   print(paste(api_base,endpoint, sep=""))
-  print(request_body_json)
+  
   result <- POST(paste(api_base,endpoint, sep=""),
                body = request_body_json,
                add_headers(`Content-Type`="application/json",`api-key`= key))

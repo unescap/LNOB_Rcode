@@ -93,7 +93,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   # specify data set for debugginh
   # dataSet<-c("PR", "IR")
   # dataSet<-c("IR")
-  # dataSet<-c("PR")
+  dataSet<-c("PR")
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
 
@@ -320,7 +320,6 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
             
             ### Construct and Write Logistic Regression to output folder
             write_glm(datause, rtp,  country_ISO, year_code, rv, ds, title_string, indvar, ds_output_folder, filename, use_version, drupalIndex)
-            
           }
         }
         else {
@@ -343,7 +342,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
             
             t0<-drupalIndex
           #### Construct and Write Logistic Regression to output folder
-            drupalIndex<-write_glm(datause, rv, rtp,  country_ISO, year_code, ds, title_string, indvar, ds_output_folder, filename, use_version, drupalIndex)
+            drupalIndex<-write_glm(datause, rtp,  country_ISO, year_code, rv, ds, title_string, indvar, ds_output_folder, filename, use_version, drupalIndex)
             if(drupalIndex>t0) result_log$LogitFile=t0
             
           #### Construct model for each region.

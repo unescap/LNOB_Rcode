@@ -9,7 +9,7 @@ source(paste(r_folder,"http_request.R",sep=""))
 
 
 
-datafolder<-paste(source_folder,"drupalData/20210513230614/",sep="")
+datafolder<-paste(source_folder,"drupalData/20210523181438/",sep="")
 ### it is by design that this data folder name change everytime
 ### you can have a fixed folder name and change it on your drive, or change the 
 ### name here accordingly
@@ -116,9 +116,11 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
           # print(head(currentTD,1)$nid)
           dt$nid <- head(currentTD,1)$nid
           dt$moderation_state <- "draft"
-          Sys.sleep(20)
+          Sys.sleep(5)
+          dt0<-list()
+          dt0<-append(dt0, list(dt))
           endpoint <- "node-create"
-          result <- http_post(endpoint,dt, api_base, key)
+          result <- http_post(endpoint,dt0, api_base, key)
           # result<-endpoint
           # treeDataRequest[[idx]]$title <- paste(treeDataRequest[[idx]]$title,' v2',sep = "")
         } 
@@ -140,7 +142,8 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
         dt$nid <- head(currentDD,1)$nid
         dt$moderation_state <- "draft"
         # dIndexDataRequest[[idx]]$title <- paste(dIndexDataRequest[[idx]]$title,' v2',sep = "")
-        # Sys.sleep(20)
+        Sys.sleep(5)
+        dt<-append(list(), list(dt))
         endpoint <- "node-create"
         result <- http_post(endpoint,dt, api_base, key)
         # result<-endpoint
@@ -154,6 +157,7 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
  
   ########### Section to save Logit data #####
   else if(dt$type=="logit") {
+    print(dt)
     if (nrow(logitDataDf) != 0) {
       currentLD = filter(logitDataDf, title == dt$title, field_geo == dt$field_geo, field_year == dt$field_year)
       if (nrow(currentLD) != 0) {
@@ -162,7 +166,8 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
         dt$nid <- head(currentLD,1)$nid
         dt$moderation_state <- "draft"
         # logitDataRequest[[idx]]$title <- paste(logitDataRequest[[idx]]$title,' v2',sep = "")
-        Sys.sleep(20)
+        Sys.sleep(5)
+        dt<-append(list(), list(dt))
         endpoint <- "node-create"
         result <- http_post(endpoint,dt, api_base, key)
         # result<-endpoint
@@ -195,6 +200,7 @@ push_together<-function(resultFolder, api_base, key){
   drupalFiles<-gettingDrupalFiles(api_base, key)
   for(dn in data_list){
     dt<-readRDS(paste(datafolder, dn, sep=""))
+    print(dt)
     pushresult<-drupalPush(dt, drupalFiles, api_base, key)
     #pushresult<-1
     pushresult<-data.frame(resultfile=dn, dt[(1:7)], PushResult=pushresult)

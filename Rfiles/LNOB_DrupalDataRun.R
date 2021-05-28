@@ -42,7 +42,7 @@ output_folder<-drupal_folder
 #### running DHS:
 
 drupalI<- 1
-# drupalI<-run_together(csv_folder, data_folder, output_folder, "AF","70", "2015", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, output_folder, "AF","70", "2015", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
 # drupalI<-run_together(csv_folder, data_folder, output_folder, "AM","61", "2010", NULL, NULL, csvfile_name8, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
 # drupalI<-run_together(csv_folder, data_folder, output_folder, "AM","71", "2016", "72", NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
 # drupalI<-run_together(csv_folder, data_folder, output_folder, "BD","61", "2011", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
@@ -76,7 +76,7 @@ source(paste(r_folder,"MICS_main_functions.R",sep=""))
 #### running MICS:
 output_folder<-drupal_folder
 
-drupalI<-run_together(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv, NULL, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv, NULL, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
 # # run_together(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
 # drupalI<-run_together(csv_folder, data_folder, output_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv, NULL, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
 # #run_together(csv_folder, data_folder, output_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)

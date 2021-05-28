@@ -132,7 +132,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
   }
   
   
-  # dataSet<-c("hh")
+  dataSet<-c("hh")
   for(ds in dataSet){
     print(ds)
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 

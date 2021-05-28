@@ -42,9 +42,9 @@ dataForDrupal<-function(data, type, survey_type, ds, title, formula, country_cod
     field_geo = country_code,
     field_year = version_code,
     field_indicator = rv,
-    field_data = toString(data),
-    field_region = region,
-    moderation_state = moderation_state
+    field_data = toString(data)
+    # field_region = region,
+    # moderation_state = moderation_state
   )
   
   return(drupal_data)
@@ -88,7 +88,7 @@ write_tree <- function(datause, country_code2, year_code, ds,
   if(use_version==3)
   {
     ### for version 3, we store the data in one folder for publication
-    drupal_data<-dataForDrupal(tree_stat, "tree_data", "DHS", ds, title_string, formula_string, country_code2, year_code, rv)
+    drupal_data<-dataForDrupal(tree_stat, "tree_data", "DHS", ds, paste(country_code2, year_code, rv, sep = " - "), formula_string, country_code2, year_code, rv)
     
     rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
     print(rdsname)
@@ -134,7 +134,7 @@ write_HOI_D <- function(datause, country_code2, year_code, rv, ds, title_string,
   if(use_version==3)
   {
     ### for version 3, we store the data in one folder for publication
-    drupal_data<-dataForDrupal(result, "d_index", "DHS", ds, title_string, formula_string, country_code2, year_code, rv)
+    drupal_data<-dataForDrupal(result, "d_index", "DHS", ds, paste(country_code2, year_code, rv, sep = " - "), formula_string, country_code2, year_code, rv)
     rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
     saveRDS(drupal_data, file = rdsname)
     return(drupalIndex+1)
@@ -191,7 +191,9 @@ write_glm <- function(datause, rtp, country_code2, year_code, rv, ds, title_stri
   if(use_version==3)
   {
     ### for version 3, we store the data in one folder for publication
-    drupal_data<-dataForDrupal(s.glm, "logit", "DHS", ds, title_string, formula_string, country_code2, year_code, rv)
+    drupal_data<-dataForDrupal(s.glm, "logit", "DHS", ds, paste(country_code2, year_code, rv, sep = " - "), formula_string, country_code2, year_code, rv)
+    #dataForDrupal(data, type, survey_type, ds, title, formula, country_code, version_code, rv, region=NULL, moderation_state=NULL){
+      
     rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
     saveRDS(drupal_data, file = rdsname)
     return(drupalIndex+1)

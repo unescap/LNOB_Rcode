@@ -1934,9 +1934,9 @@ dataForDrupal<-function(data, type, survey_type, ds, title, formula, country_cod
     field_geo = country_code,
     field_year = version_code,
     field_indicator = rv,
-    field_data = toString(data),
-    field_region = region,
-    moderation_state = moderation_state
+    field_data = toString(data)
+    # field_region = region,
+    # moderation_state = moderation_state
   )
   
   return(drupal_data)
@@ -1975,7 +1975,7 @@ write_tree <- function(datause, country_code, version_code,
   if(use_version==3)
   {
     ### for version 3, we store the data in one folder for publication
-    drupal_data<-dataForDrupal(tree_stat, "tree_data", "MICS", ds, title_string, 
+    drupal_data<-dataForDrupal(tree_stat, "tree_data", "MICS", ds, paste(country_code, version_code, rv, sep=" - "), 
                                formula_string, country_code, version_code, rv)
     
     rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
@@ -2020,7 +2020,7 @@ write_HOI_D <- function(datause, country_code, version_code, rv, ds, title_strin
   if(use_version==3)
   {
     ### for version 3, we store the data in one folder for publication
-    drupal_data<-dataForDrupal(result, "d_index", "MICS", ds, title_string, formula_string, 
+    drupal_data<-dataForDrupal(result, "d_index", "MICS", ds, paste(country_code, version_code, rv, sep=" - "), formula_string, 
                                country_code, version_code, rv)
     rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
     saveRDS(drupal_data, file = rdsname)
@@ -2068,7 +2068,7 @@ write_glm <- function(datause, rtp, country_code, version_code, rv, ds, title_st
   if(use_version==3)
   {
     ### for version 3, we store the data in one folder for publication
-    drupal_data<-dataForDrupal(s.glm, "logit", "MICS", ds, title_string, formula_string, 
+    drupal_data<-dataForDrupal(s.glm, "logit", "MICS", ds, paste(country_code, version_code, rv, sep=" - "), formula_string, 
                                country_code, version_code, rv)
     rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
     saveRDS(drupal_data, file = rdsname)
