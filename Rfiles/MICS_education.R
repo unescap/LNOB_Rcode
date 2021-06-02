@@ -9,12 +9,13 @@ source(paste(r_folder,"MICS_get_data.R",sep=""))
 # Run this function before run_togther(.) to pre-process education variables. 
 run_together_edu<-function(source_folder, data_folder, output_folder, country_code, version_code,  csvfile_name, Flag_New=TRUE, religion=FALSE)
 {
+  csv_folder<-paste(source_folder, "MICScsv/", sep="")
   csvfile_name<-paste(country_code, version_code, csvfile_name, sep="")
-  
-  meta_data<-read.table(paste(source_folder, csvfile_name, ".csv", sep=""), sep=",", header=T, colClasses="character")
+  print(paste(csv_folder, csvfile_name, ".csv", sep=""))
+  meta_data<-read.table(paste(csv_folder, csvfile_name, ".csv", sep=""), sep=",", header=T, colClasses="character")
   dataSet<-unique(meta_data$DataSet)
   dataSet<-c("hl", "wm", "ch")
-
+  dataSet<-c("hl")
   
   for(ds in dataSet){
     print(ds)
@@ -52,27 +53,40 @@ run_together_edu<-function(source_folder, data_folder, output_folder, country_co
 }
 
 csvfile_name<-"MICS"
-# run_together_edu(source_folder, data_folder, output_folder, "Georgia", "2018",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Kazakhstan", "2010",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Kazakhstan", "2015",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Mongolia", "2018",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Thailand", "2012",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Kyrgyzstan", "2018",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Kyrgyzstan", "2014",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Lao", "2017",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Mongolia", "2013",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Turkmenistan", "2015",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Vietnam", "2010",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "VietNam", "2013",  csvfile_name)
 
-# run_together_edu(source_folder, data_folder, output_folder, "Turkmenistan", "2015",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Turkmenistan", "2019",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Tonga", "2019",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Kiribati", "2019",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Thailand", "2019",  csvfile_name)
-# run_together_edu(source_folder, data_folder, output_folder, "Bangladesh", "2019",  csvfile_name)
 
-# run_together_edu(source_folder, data_folder, output_folder, "Nepal", "2019",  csvfile_name)
+
+
+
+
+
+
+
+
+run_together_edu(source_folder, data_folder, output_folder, "Afghanistan", "2010", csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Bangladesh", "2019",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Bhutan", "2010", csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Georgia", "2018",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Kazakhstan", "2010",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Kazakhstan", "2015",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Kiribati", "2019",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Kyrgyzstan", "2014",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Kyrgyzstan", "2018",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Lao", "2011",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Lao", "2017",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Mongolia", "2013",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Mongolia", "2018",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Nepal", "2019",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Thailand", "2012",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Thailand", "2015",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Thailand", "2019",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Tonga", "2019",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Turkmenistan", "2015",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Turkmenistan", "2019",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "Vietnam", "2010",  csvfile_name)
+run_together_edu(source_folder, data_folder, output_folder, "VietNam", "2013",  csvfile_name)
+
+
 # checking water code
 # df<-importMICSdata(data_folder,  "Turkmenistan", "2019", "hh", "WS1", la=TRUE)
 # df<-importMICSdata(data_folder,  "Turkmenistan", "2019", "hh", "WS1", la=FALSE)
@@ -106,10 +120,10 @@ csvfile_name<-"MICS"
  
  
  
- df<-importMICSdata(data_folder,   "Afghanistan", "2010", "hh", "WS4", la=TRUE)
- print(table(df))
- df<-importMICSdata(data_folder,   "Afghanistan", "2010", "hh", "WS4", la=FALSE)
- print(table(df))
+ # df<-importMICSdata(data_folder,   "Afghanistan", "2010", "hh", "WS4", la=TRUE)
+ # print(table(df))
+ # df<-importMICSdata(data_folder,   "Afghanistan", "2010", "hh", "WS4", la=FALSE)
+ # print(table(df))
  
  
 # 

@@ -136,7 +136,10 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
       }
       
     }
-
+<<<<<<< HEAD
+=======
+    # print(colnames(datause))
+>>>>>>> PushToWeb
     return(datause)
     
     
@@ -389,6 +392,8 @@ SecondaryEducation2035<-function(datause, dataList, k){
     print("Age for SecondaryEducation2035 can't be found")
     return(NULL)
   }
+  print(colnames(datause)[k])
+  print(table(datause[,k]))
   datause$Age<-as.numeric(as.character(datause[,ageK]))
   datause<-datause[datause$Age>=20 & datause$Age<=35, ]
   datause$var2tab<-1
@@ -429,7 +434,8 @@ HigherEducation2535<-function(datause, dataList, k){
   datause<-datause[!is.na(datause$Age) & datause$Age >=25 & datause$Age<=35 , ]
   datause$var2tab<-1
   datause$var2tab[is.na(datause[, k])]<-0
-
+  print(colnames(datause)[k])
+  print(table(datause[,k]))
   if(colnames(datause)[k]=="SH17A"){  ### AM61 has special vaariable for education level
     datause$var2tab[datause[, k] %in% c(1, 2)]<-0
   }
@@ -840,7 +846,8 @@ AdolescentBirthRate<-function(datause, dataList, k) {
 
     datause[is.na(datause[, k]), k]<-0
 
-  
+    # print(table(datause[, k]))
+    
     
     datause$var2tab<-0
 
@@ -876,7 +883,8 @@ AllViolence<-function(datause, dataList, k){
   datause$var2tab<- 0
   
   for(i in k){
-
+    # print(colnames(datause)[i])
+    # print(table(datause[, i]))
     datause$var2tab[datause[ , i]  %in% c(1, 2, 3) ]<-1
   }
   return(datause)
@@ -1572,10 +1580,8 @@ merge_mr <- function(mr_ds, meta_data, datause, dataList, country_code, version_
   
   mrdataList<-meta_data[meta_data$DataSet==mr_ds, ]
   swV<-mrdataList$VarName[mrdataList$NickName=="SampleWeight"]
-  # if(use_version==1) filename<-paste(country_code, mr_ds, version_code, "FL", sep="")
-  # else   filename<-basename(dir(data_folder, pattern = paste(country_code, mr_ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
-  # 
-  filename<-paste(country_code, mr_ds, version_code, "FL", sep="")
+  if(use_version==1) filename<-paste(country_code, mr_ds, version_code, "FL", sep="")
+  else   filename<-basename(dir(data_folder, pattern = paste(country_code, mr_ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
   if(file.exists(paste(paste(data_folder, filename, sep="/"), ".DCF", sep=""))){
   
     #modified for YW
@@ -1596,7 +1602,7 @@ merge_mr <- function(mr_ds, meta_data, datause, dataList, country_code, version_
     if(!is.null(mrdatause)) {
 
       commonVar<-c("SampleWeight", indvar, "Sex",
-                 "var2tab", "REGION")
+                 "var2tab", "RegionName")
     
       datause$Sex<-1
       mrdatause$Sex<-2
@@ -1621,11 +1627,8 @@ merge_pr <- function(pr_ds, meta_data,datause, dataList, country_code, version_c
   
   prdataList<-meta_data[meta_data$DataSet==pr_ds, ]
   swV<-prdataList$VarName[prdataList$NickName=="SampleWeight"]
-  # if(use_version==1) filename<-paste(country_code, pr_ds, version_code, "FL", sep="")
-  # else   filename<-basename(dir(data_folder, pattern = paste(country_code, pr_ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
-  # 
-  
-  filename<-paste(country_code, pr_ds, version_code, "FL", sep="")
+  if(use_version==1) filename<-paste(country_code, pr_ds, version_code, "FL", sep="")
+  else   filename<-basename(dir(data_folder, pattern = paste(country_code, pr_ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
   print(filename)
 
   prdf<-importDHSDAT(paste(data_folder, filename, sep="/"), Flag_New, prdataList$VarName)
@@ -1661,7 +1664,7 @@ merge_pr <- function(pr_ds, meta_data,datause, dataList, country_code, version_c
       k<-match(id_var$VarName[v], colnames(datause))
       colnames(datause)[k]<-id_var$NickName[v]
     }
-    commonVar<-c("cluster_id", "HouseholdNumber", "RLNumber", "SampleWeight", indvar, "var2tab", "REGION")
+    commonVar<-c("cluster_id", "HouseholdNumber", "RLNumber", "SampleWeight", indvar, "var2tab", "RegionName")
     
     print(colnames(prdatause))
     datause<-datause[, commonVar]
@@ -1711,5 +1714,20 @@ iso_code<-function(country_code){
   
 }
 
-
+country_data<-function(original_data_folder, country_code, version_code, use_version){
+  if (use_version==1) return(original_data_folder)
+  else {
+    return(original_data_folder)
+    
+    # csvfile_name0 <- "DHSkey"
+    # DHSKey <-read.table(paste(origin_folder, "DHScsv/", csvfile_name0, ".csv", sep=""), sep=",", header=T, colClasses="character")
+    # as.data.frame(DHSKey)
+    # 
+    # country <- DHSKey$country[DHSKey$country_code == country_code & DHSKey$version_code == version_code]
+    # 
+    # version <- DHSKey$year[DHSKey$country_code == country_code & DHSKey$version_code == version_code]
+    # 
+    # return(paste(original_data_folder, "/",country, version, "/", sep= ""))
+  } 
+}
 

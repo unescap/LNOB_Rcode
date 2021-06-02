@@ -1,31 +1,98 @@
 #### output functions
 #### All things related to output
+
+#### generation data ready for publication
+# drupal_data<-function()
+
+#### in use_version 3, checking if the overall level is within 1% of the validated results
 validate<-function(country_code, version_code, rv, overallmean, validationdata){
+  y<-validationdata$MeanY[validationdata$country_code==country_code & validationdata$version_code==version_code & validationdata$IndicatorName==rv]
+  y<-as.numeric(as.character(y))
   if(overallmean=="DataNotGenerated") {
-    print("############# validation failed, data not generated #################")
-    return(FALSE)
+    # print("############# validation failed, data not generated #################")
+    return(c(FALSE, y, "DataNotGenerated"))
   }
   else {
-    y<-validationdata$MeanY[validationdata$country_code==country_code & validationdata$version_code==version_code & validationdata$IndicatorName==rv]
-    y<-as.numeric(as.character(y))
-    if(is.na(y)){
-      print("############# validation failed, validated value not found #################")
-      return(FALSE)
-    }
-    else {
-      if(abs(overallmean-y)>0.01){
-        print("############# validation failed, difference > 0.01 #################")
-        return(FALSE)
+    if(length(y)>0){
+      if(is.na(y)){
+        # print("############# validation failed, validated value not found #################")
+        return(c(FALSE, NA, "ValidatedValueNotFound"))
       }
       else {
-        print("############# validation succeeded, on to the trres and D #################")
-        return(TRUE)
-      }
+        if(abs(overallmean-y)>0.01){
+          # print("############# validation failed, difference > 0.01 #################")
+          return(c(FALSE, y, "Difference>0.01"))
+        }
+        else {
+          print("############# validation succeeded, on to the trres and D #################")
+        return(c(TRUE, y, "ValidationSucceeded"))
+        }
     }
+    }
+    else return(c(FALSE, y, "NotSureHowThisHappened"))
   }
+  
+  #### the function returns a logic value on validation to be used later, the meanY from validated data,
+  #### text string describing the test results
+}
+
+dataForDrupal<-function(data, type, survey_type, ds, title, formula, country_code, version_code, rv, region=NULL){
+  drupal_data = list(
+    type = type,
+    field_survey_type = survey_type,
+    field_dataset = ds,
+    title = title,
+    field_geo = country_code,
+    field_year = version_code,
+    field_indicator = rv,
+    field_data = toString(data)
+  )
+  if(!is.null(region)){
+    drupal_data<- append(drupal_data, list(field_region = region))
+  }
+  return(drupal_data)
   
 }
 
+isoTOcountry<-function(country_ISO){
+  
+}
+
+ResultList<-function(country_ISO, version_code, ds, rv, religion, region, isNullData){
+  Result<-list(
+    country=country_ISO,
+    countryName=isoTOcountry(country_ISO),
+    year=version_code, 
+    dataSource="DHS",
+    dataSet=ds,
+    indicator=rv,
+    ReligionFlag=religion,
+    DataAvailable=isNullData, 
+    NationalValidated =NA,
+    NationalmeanYFromValidation=NA,
+    NationalmeanYfromR=NA,
+    RegionName=region,
+    TreeFileID=NA,
+    DindexFileID=NA, 
+    formula=NA,
+    meanAccess=NA,
+    D_index=NA,
+    SampleSize=NA,
+    MaxLeafSize=NA,
+    MaxLeafAccess=NA,
+    MinLeafSize=NA,
+    MinLeafAccess=NA,
+    Gap=NA,
+    MaxLeafCharacteristics=NA,
+    MinLeafCharacteristics=NA,
+    MostImpVar=NA,
+    SecondVar=NA,
+    ThirdVar=VA,
+    FourthVar=VA,
+    FifthVar=VA
+  )
+  retunr(Result)
+}
 
 write_value<-function(datause, country_code, version_code, rv,  ds, ds_output_folder){
   
@@ -46,9 +113,9 @@ write_value<-function(datause, country_code, version_code, rv,  ds, ds_output_fo
 
 
 
-write_tree <- function(datause, country_code2, year_code, 
+write_tree <- function(datause, country_code2, year_code, ds,
                        title_string, formula_string, sub_string, 
-                       rv, rtp, filename,  caste, output_folder) {
+                       rv, rtp, filename,  caste, output_folder, use_version, drupalIndex) {
   
   # Build Model
   sub_string<-NULL
@@ -58,65 +125,94 @@ write_tree <- function(datause, country_code2, year_code,
   
   source1<-"DHS"
   tree_stat<- catch_error(build_tree(output_folder, country_code2, year_code,  datause, source1, rv, rtp,
-                                     formula_string, title_string, sub_string, filename, e=caste, region = FALSE))
+                                     formula_string, title_string, sub_string, filename, e=caste, region = FALSE, use_version))
   
-  
-  
-  tree_stat<-t(c(country_code2, year_code, title_string, tree_stat, source1))
-  # tree_stat$source<-"DHS"
-  if (!is.null(tree_stat)) { 
-    
-    info(logger, paste(pass_message))
+  print(use_version)
+  if(use_version==3)
+  {
+    ### for version 3, we store the data in one folder for publication
+    drupal_data
+    rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
+    print(rdsname)
+    saveRDS(drupal_data, file = rdsname)
+    return(drupalIndex+1)
     
   }
+  else {
+    
+     tree_stat<-t(c(country_code2, year_code, title_string, tree_stat, source1))
+      # tree_stat$source<-"DHS"
+      if (!is.null(tree_stat)) { 
+    
+      info(logger, paste(pass_message))
+    
+      }
   
-  # Saving object as .Rdata file for Shiny output
+     ####  perhaps add another use_version for shniy output
+      # # Saving object as .Rdata file for Shiny output
+      # 
+      # resave(tree_stat, file = paste("md",filename,".Rdata", sep=""))
   
-  resave(tree_stat, file = paste("md",filename,".Rdata", sep=""))
-  
-  # Write to output  
-  pass_message <- "Successfully wrote Tree.csv"
-  writefile<-paste(output_folder, "Tree.csv", sep="")
-  if(file.exists(writefile)) 
-    catch_error(write.table(tree_stat, writefile,
+      # Write to output  
+      pass_message <- "Successfully wrote Tree.csv"
+      writefile<-paste(output_folder, "Tree.csv", sep="")
+      if(file.exists(writefile)) 
+          catch_error(write.table(tree_stat, writefile,
                           sep=",", append = TRUE,   col.names = F, row.names = F))
-  else catch_error(write.table(tree_stat, writefile,
+      else catch_error(write.table(tree_stat, writefile,
                                sep=",", append = F,   col.names = T, row.names = F))
   
+      }
 }
 
-write_HOI_D <- function(datause, country_code2, year_code, title_string,
-                        indvar, output_folder, filename) {
+write_HOI_D <- function(datause, country_code2, year_code, rv, ds, title_string,
+                        indvar, output_folder, filename, use_version, drupalIndex) {
   
   # Calculate 
   pass_message <- "Successfully calculated HOI and D"
-  result<-catch_error(cal_HOI_shapley(datause, indvar))
   
-  result<-c(country_code2, year_code,  title_string, result)
-  result$source<-"DHS"
+  result<-catch_error(cal_HOI_shapley(datause, indvar, use_version))
   
-  if (!is.null(result)) { 
-    
-    info(logger, paste(pass_message))
+  if(use_version==3)
+  {
+    ### for version 3, we store the data in one folder for publication
+    drupal_data<-dataForDrupal(result, "d_index", "DHS", ds, paste(country_code2, year_code, rv, sep = " - "), formula_string, country_code2, year_code, rv)
+    rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
+    saveRDS(drupal_data, file = rdsname)
+    return(drupalIndex+1)
     
   }
+  else {
+        
   
-  print(paste("md",filename,".Rdata", sep=""))
-  # Saving object as .Rdata file for Shiny output
-  resave(result, file = paste("md",filename,".Rdata", sep=""))
+        result<-c(country_code2, year_code,  title_string, result)
+        result$source<-"DHS"
   
-  # Write to output 
-  pass_message <- "Successfully wrote D.csv"
-  writefile<-paste(output_folder, "D.csv", sep="")
-  if(file.exists(writefile)) catch_error(write.table(t(result), writefile,
+        if (!is.null(result)) { 
+    
+        info(logger, paste(pass_message))
+    
+        }
+  
+        ####  perhaps add another use_version for shniy output
+        # print(paste("md",filename,".Rdata", sep=""))
+        # # Saving object as .Rdata file for Shiny output
+        # resave(result, file = paste("md",filename,".Rdata", sep=""))
+  
+        # Write to output 
+        pass_message <- "Successfully wrote D.csv"
+        writefile<-paste(output_folder, "D.csv", sep="")
+        if(file.exists(writefile)) catch_error(write.table(t(result), writefile,
                                sep=",", append = TRUE,   col.names = F, row.names = F)) 
-  else   catch_error(write.table(t(result), writefile,
+        else   catch_error(write.table(t(result), writefile,
                           sep=",", append = F,   col.names = T, row.names = F)) 
   
+      }
 }
 
-write_glm <- function(datause, rtp, country_code2, year_code, title_string, 
-                      indvar, output_folder, filename) {
+
+write_glm <- function(datause, rtp, country_code2, year_code, rv, ds, title_string, 
+                      indvar, output_folder, filename, use_version, drupalIndex) {
   
   # Build Logistic Regression model 
   
@@ -134,19 +230,31 @@ write_glm <- function(datause, rtp, country_code2, year_code, title_string,
   # Saving object as .Rdata file for Shiny output
   
   # catch_error_prod(resave(s.glm, file = paste("md",filename,".Rdata", sep="")))
-  
-  file_write<-paste(output_folder, "DHSLogit.csv", sep="")
-  print(s.glm)
-  # Write to output 
-  write.table(t(c(country_code2, year_code, title_string)) , file_write,
+  if(use_version==3)
+  {
+    ### for version 3, we store the data in one folder for publication
+    drupal_data<-dataForDrupal(s.glm, "logit", "DHS", ds, paste(country_code2, year_code, rv, sep = " - "), formula_string, country_code2, year_code, rv)
+    #dataForDrupal(data, type, survey_type, ds, title, formula, country_code, version_code, rv, region=NULL, moderation_state=NULL){
+      
+    rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
+    saveRDS(drupal_data, file = rdsname)
+    return(drupalIndex+1)
+    
+  }
+  else  {
+    file_write<-paste(output_folder, "DHSLogit.csv", sep="")
+    print(s.glm)
+    # Write to output 
+    write.table(t(c(country_code2, year_code, title_string)) , file_write,
               sep=",", append = TRUE,   col.names = F, row.names = F)
-  pass_message <- "Successfully wrote DHSLogit.csv"
-  # catch_error_prod(write.table(s.glm,  file_write,
-  #                              sep=",", append = TRUE,   col.names = T, row.names = T, na="")) #catch_error() 
-  write.table(s.glm,  file_write,
+    pass_message <- "Successfully wrote DHSLogit.csv"
+    # catch_error_prod(write.table(s.glm,  file_write,
+    #                              sep=",", append = TRUE,   col.names = T, row.names = T, na="")) #catch_error() 
+    write.table(s.glm,  file_write,
               sep=",", append = TRUE,   col.names = T, row.names = T, na="")
   
-  print("glm result written")
+    print("glm result written")
+  }
 }
 
 # List of formula components 

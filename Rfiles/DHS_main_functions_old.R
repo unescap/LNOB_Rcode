@@ -48,8 +48,14 @@ source(paste(r_folder,"TreeAndLogistic.R",sep=""))
 
 ### Create logger
 # eclac-logger.log: This tracks everything that goes right (message) and wrong (errors). 
-# logger <- create.logger(logfile = logger_location, level = 'DEBUG')
+logger <- create.logger(logfile = logger_location, level = 'DEBUG')
 
+### Read DHSKey.csv: this contains the corresponding country_code and version_code for a
+# country and year. Example: "Afghanisation 2015" has country_code "AF" and version_code "70".
+
+# csvfile_name0 <- "DHSKey"
+# DHSKey <-read.table(paste(source_folder, csvfile_name0, ".csv", sep=""), sep=",", header=T, colClasses="character")
+# as.data.frame(DHSKey)
 
 ### Main function: runs all the other functions 
 # reading in a csv file with columnes: data type, variable names, variable type (categorical or numeric), 
@@ -62,7 +68,7 @@ source(paste(r_folder,"TreeAndLogistic.R",sep=""))
 # a validation file must be provided
 
 run_together<-function(csv_folder, original_data_folder, output_folder, country_code, version_code, year_code, mrversion_code=NULL,
-                       prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE, region_flag=FALSE, use_version=1, validationfile=NULL, initialIndex=0)
+                       prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE, region=FALSE, use_version=1, validationfile=NULL, initialIndex=0)
   
   #### use_version 1 is the research mode, the default
   #### use version 3 is the publication mode, one must have a validation file, only validated results will be sent to publication
@@ -78,26 +84,25 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   }
   # Reading DHSstandard.csv file. 
   # print(paste(csv_folder, csvfile_name, ".csv", sep=""))
-  csvfile_name<-paste(csv_folder, csvfile_name, ".csv", sep="")
-  if(!file.exists(csvfile_name)) {
-    print(paste(csvfile_name, " is required. R cannot run without it."))
-    return(drupalIndex)
-  }
-
-  meta_data<-read.table(csvfile_name, sep=",", header=T, colClasses="character")
-  # info(logger, "Run_together function called.")
+  meta_data<-read.table(paste(csv_folder, csvfile_name, ".csv", sep=""), sep=",", header=T, colClasses="character")
+  info(logger, "Run_together function called.")
   # Type of Datasets: IR, HR, PR, MR.
   dataSet<-unique(meta_data$DataSet)
   dataSet<-dataSet[!dataSet=="MR"]
   
   # specify data set for debugginh
   # dataSet<-c("PR", "IR")
-  # dataSet<-c("HR")
-  # dataSet<-c("PR")
+  # dataSet<-c("IR")
+  dataSet<-c("PR")
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
 
-
+  # if(use_version>1) {
+  # csvfile_name0 <- "DHSKey"
+  # DHSKey <-read.table(paste(csv_folder, csvfile_name0, ".csv", sep=""), sep=",", header=T, colClasses="character")
+  # as.data.frame(DHSKey)
+  # }
+  
   if(use_version>1) {
     # print(validationfile)
     if(is.null(validationfile)) {
@@ -105,15 +110,14 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
       return(drupalIndex)
     }
     else validationdata<-read.table(validationfile, sep=",", header=T, colClasses="character")
-    Rlist<-unique(validationdata$IndicatorName)
   }
   ###### this file must contain the following columns
   ###### SurveyIndicator	IndicatorName	SurveyID	country_code	version_code	dataset	MeanY	SurveySource	IndicatorName
   ###### eg: Afghanistan2010+AccessElectricity	AccessElectricity	AFG2010	Afghanistan	2010	hh	0.432169681883751	MICS	AccessElectricity
 
-  print(dataSet)
+  
   for(ds in dataSet) {
-    print(ds)
+    
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
     ########
     ds_output_folder <- ds_output(output_folder, ds)
@@ -121,9 +125,9 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     
     # Sample Weight transformation 
     dataList<-meta_data[meta_data$DataSet==ds, ]
-
+    swV<-dataList$VarName[dataList$NickName=="SampleWeight"]
+    
     # Example: ./dat_download/Afghanistan 2015/
-    # this function is defined in ConfigInput.R 
     country_data_folder<-dhs_country_data(original_data_folder, country_code, version_code)
     # print(country_data_folder)
     # Example: ./dat_download/Afghanistan 2015/AFIR70FL/
@@ -133,23 +137,29 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     
     # File name: Example ~ MVIR71FL.
     ### here line 119 for TDB code for picking up data file names
-    filename<-paste(country_code, ds, version_code, "FL", sep="")
-    if(ds=="PR") {
-      if(!is.null(prversion_code)) 
-       filename<-paste(country_code, ds, prversion_code, "FL", sep="")
+    if(use_version==1) filename<-paste(country_code, ds, version_code, "FL", sep="")
+    else {
+      #### does not work on my computer
+      # filename<-basename(dir(country_data_folder, pattern = paste(country_code, ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
+      filename<-paste(country_code, ds, version_code, "FL", sep="")
     }
-    
+
     # Printing current iteration of datatype.  
     message <- paste("## File name: ", filename, "  ############################")
     print(message)
-    # info(logger, message)
+    info(logger, message)
     message <- paste("## Current dataset: ", match(ds, dataSet), " of ", length(dataSet))
     print(message)
-    # info(logger, message) 
+    info(logger, message) 
     
     ### Read the datafile downloaded from DHS into R with columns specified in DHSstandard.csv (in meta_data).
- 
-    ### sometimes the version_code for PR is different from HR & IR 
+  
+    if(ds=="PR") {
+      if(!is.null(prversion_code)) {
+        if(use_version==1) filename<-paste(country_code, ds, prversion_code, "FL", sep="")
+        else filename<-basename(dir(country_data_folder, pattern = paste(country_code, ds, "*", sep=""), full.names = TRUE, ignore.case = TRUE))
+      }
+    }
 
     # Example: ./dat_download/Afghanistan 2015/AFIR70FL/AFIR70FL.DCF
     data_path = paste(data_folder, filename, sep="/")
@@ -157,7 +167,6 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     df<-importDHSDAT(data_path, Flag_New, dataList$VarName)
     
     # Scale the Sample Weight values by factor of 1000000.
-    swV<-dataList$VarName[dataList$NickName=="SampleWeight"]
     df<- scale_sample_weight(df, swV)
     
     # Preparing ethnicity dataset if it exists.
@@ -177,7 +186,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # unique_responseList<-c("AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence")
     # unique_responseList<-c("Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR")
     # unique_responseList<-c("InternetUse")
-    # unique_responseList<-c("SafeSanitation")
+    # unique_responseList<-c("CleanWater", "SafeSanitation")
     # unique_responseList<-c("PhysicalViolence")
     # unique_responseList<-c("Covid1")
     # unique_responseList<-c("NoPhysicalViolence", "NoSexualPhysicalViolence")
@@ -190,26 +199,25 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # unique_responseList<-c("HigherEducation2535", "SecondaryEducation2035")
 
     # Iterate through each response variable for current dataset type. 
-    if(use_version>1){
-      unique_responseList<-unique_responseList[unique_responseList %in% Rlist]
-      unique_responseList<-unique_responseList[!unique_responseList %in%c("Covid", 
-                           "LearningPR", "WaterOnsitePR", "HandWashPR", "NotCrowdedPR", "SafeSanitationPR")]
-
-    }
-    print(unique_responseList)
     for(rv in unique_responseList) {
-      print(rv)
       
       rtp<-unique(responseList$DataType[responseList$NickName==rv])
 
       # Printing current iteration of response variable. 
       message <- paste("Random variable: ", rv, "  ------------------")
       print(message)
-      # info(logger, message)
+      info(logger, message)
       message <- paste("Current Response Variable: ", match(rv, unique_responseList), " of ", length(unique_responseList))
       print(message)
-      # info(logger, message)
+      info(logger, message)
+  
 
+      ## need to define the function in configure file
+      dhs_Rdata_folder<-data_folder
+      rv_Rdata_folder<-rv_Rdata(dhs_Rdata_folder, rv)
+
+      ifelse(!dir.exists(rv_Rdata_folder), dir.create(rv_Rdata_folder), FALSE)
+      #setwd(rv_Rdata_folder)
       
       # Retrieve Inpendent variable list. 
       indvar<- indList(rv, caste = caste )
@@ -218,64 +226,147 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
       pass_message <- "Successfuly retrieved dataset for given RV/IV [get_data]"
       datause <- catch_error(get_data(df, rv, dataList, indvar, svnm, eth)) #catch_error() 
 
-      mr_ds<-unique(meta_data[meta_data$NickName==rv & meta_data$IndicatorType=="MresponseV", c("DataSet")])
-      
-      if(length(mr_ds)>0){
-        n0<-nrow(datause)
-        # Example: ./dat_download/Afghanisatan 2015/
-        data_path <- country_data_folder 
-        if(is.null(mrversion_code)) mrversion_code<-version_code
-        datause <- merge_mr(mr_ds, meta_data, datause, dataList, country_code, mrversion_code, data_path, rv, indvar, svnm, eth, caste, Flag_New, use_version) 
-        if(!is.null(datause))
-           if(nrow(datause)>n0) indvar<-c(indvar, "Sex")
-      }
-      
-      # for teenage pregnancy, we need pr file, if there are teenage girls not elegible for IR interview
-      pr_ds<-meta_data[meta_data$NickName==rv & meta_data$IndicatorType=="PresponseV", c("DataSet")]  ### must include teenagers not in IR but in PR
-      
-      if(length(pr_ds)>0){
-        
-        # Example: ./dat_download/Afghanisatan 2015/
-        data_path <- country_data_folder 
-        
-        if(is.null(prversion_code)) prversion_code<-version_code
-        datause <- merge_pr(pr_ds, meta_data, datause, dataList, country_code, prversion_code, data_path, rv, indvar, svnm, eth, caste, Flag_New, use_version)
-        print("data merge done")
-        
-      } 
-      
-      #### start of output
-      result_log<-ResultList("DHS", country_ISO, version_code, country_ISO, year_code, ds, rv, caste, "National", !is.null(datause))
+      result_log<-ResultList(country_ISO, version_code, ds, rv, religion, "National", !is.null(datause))
       
       if(is.null(datause)) { 
-        result_log$NationalValidated="NoData"
+        overallmean<-write_value(datause, country_code, version_code, rv,  ds, ds_output_folder)
+        result_log$meanYfromR<-overallmean
         print("Data not generated") 
-        # error(logger, "Data not generated")
-        logcsv<-paste(ds_output_folder, "noDatalogfile.csv", sep="")
-        result_log<-t(result_log)
-        if(file.exists(logcsv))
-          write.table(result_log, logcsv, sep=",", 
-                      append = TRUE,   col.names = F, row.names = F)
-        else write.table(result_log, logcsv, sep=",", 
-                         append = FALSE,   col.names = T, row.names = F)
-      } 
-      else {
-        print(caste)
-        drupalIndex<-output_data(datause, "DHS", country_code, version_code, country_ISO, year_code, rv, rtp, indvar, ds, 
-                                 ds_output_folder, validationdata, 
-                                 religion=caste, region_flag=FALSE, use_version, drupalIndex)
-        if(region_flag){
-          drupalIndex<-output_data(datause, "DHS", country_code, version_code, country_ISO, year_code, rv, rtp, indvar, ds, ds_output_folder, validationdata, 
-                                   religion=caste, region_flag=TRUE, use_version, drupalIndex)
+        error(logger, "Data not generated")
+        
+      }
+      else { 
+        
+        info(logger, paste(pass_message))
+        
+        # MR files might be needed for response variables such as health insurance, internet use, child marriage, mobile phone for financial transaction. 
+        print(rv)
+        
+        mr_ds<-unique(meta_data[meta_data$NickName==rv & meta_data$IndicatorType=="MresponseV", c("DataSet")])
+        
+        if(length(mr_ds)>0){
+          n0<-nrow(datause)
+          # Example: ./dat_download/Afghanisatan 2015/
+          data_path <- country_data_folder 
+          if(is.null(mrversion_code)) mrversion_code<-version_code
+          datause <- merge_mr(mr_ds, meta_data, datause, dataList, country_code, mrversion_code, data_path, rv, indvar, svnm, eth, caste, Flag_New, use_version) 
+          if(nrow(datause)>n0) indvar<-c(indvar, "Sex")
+        }
+      
+        # for teenage pregnancy, we need pr file, if there are teenage girls not elegible for IR interview
+        pr_ds<-meta_data[meta_data$NickName==rv & meta_data$IndicatorType=="PresponseV", c("DataSet")]  ### must include teenagers not in IR but in PR
+      
+        if(length(pr_ds)>0){
+        
+          # Example: ./dat_download/Afghanisatan 2015/
+          data_path <- country_data_folder 
+        
+          if(is.null(prversion_code)) prversion_code<-version_code
+          datause <- merge_pr(pr_ds, meta_data, datause, dataList, country_code, prversion_code, data_path, rv, indvar, svnm, eth, caste, Flag_New, use_version)
+          print("data merge done")
+
+        } 
+        ## indList() is defined in DHS_get_data.R file, for every response variable, it specifies the independent variable
+        ## for the Tree or GLM models.
+        ## get_data() is defined in DHS_get_data.R file, it caculates the response variable and creat a 0-1 variable in 
+        ## datause$var2tab
+        
+        validation<-FALSE
+        if(use_version==3){
+          overallmean<-write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
+          validation_result<-validate(country_code, version_code, rv, overallmean, validationdata)
+          validation<-validation_result[1]
+          result_log$NationalValidated=validation
+          result_log$NationalmeanYfromR<-overallmean
+          result_log$NationalmeanYFromValidation=validation_result[2]
+        }
+        
+        formula_string<-paste("var2tab", paste(indvar, collapse=" + "), sep=" ~ ")
+        title_string<-paste(rv, paste(indvar, collapse=" + "), sep=" ~ ")
+        
+        print(formula_string)
+        
+        k<-match("Caste", colnames(datause))  
+        
+        if(caste==TRUE & length(k)==0) {
+          
+          print("Caste information not available")
+          print("Please rerun the program without Caste")
+          
+        } 
+        else {
+          
+          if(use_version==1 | validation){
+            drupal_data<-dataForDrupal(tree_stat, "tree_data", "DHS", ds, paste(country_code2, year_code, rv, sep = " - "), formula_string, country_code2, year_code, rv)
+            t0<-drupalIndex
+          ## Construct and Write Decision Tree to output folder
+            drupalIndex<- write_tree(datause, country_ISO, year_code, ds, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder, use_version, drupal_data, drupalIndex)
+            if(drupalIndex>t0)        
+              result_log$TreeFile=t0
+
+            t0<-drupalIndex
+          ### Construct and Write HOI and dis-similarity index calculation to output folder
+            drupalIndex<-write_HOI_D(datause, country_ISO, year_code, rv, ds, title_string, indvar, ds_output_folder, filename, use_version, drupalIndex)
+            if(drupalIndex>t0) result_log$DindexFile=t0
+            
+            if(region) {
+              regionList<-unique(datause$RegionName)
+              for (rg in regionList){
+                
+                datause1<-datause[datause$RegionName==rg, ]
+                country_code1<-paste(rg, country_ISO, sep = ", ")
+                t0<-drupalIndex
+                #### Construct and Write Decision Tree to output folder
+                drupalIndex<- write_tree(datause, country_ISO, year_code, ds, title_string, formula_string, sub_string, rv, rtp, filename, caste, ds_output_folder, use_version, drupalIndex)
+                if(drupalIndex>t0)        
+                  result_log$TreeFile=t0
+                
+                t0<-drupalIndex
+                #### Construct and Write HOI and dis-similarity index calculation to output folder
+                drupalIndex<-write_HOI_D(datause, country_ISO, year_code, rv, ds, title_string, indvar, ds_output_folder, filename, use_version, drupalIndex)
+                if(drupalIndex>t0)        
+                  result_log$TreeFile=t0
+                
+                ### Construct and Write Logistic Regression to output folder
+                # write_glm(datause, rtp,  country_ISO, year_code, rv, ds, title_string, indvar, ds_output_folder, filename, use_version, drupalIndex)
+              }
+            }
+            
+          # no more need for glm analysis
+          # t0<-drupalIndex
+          # #### Construct and Write Logistic Regression to output folder
+          #   drupalIndex<-write_glm(datause, rtp,  country_ISO, year_code, rv, ds, title_string, indvar, ds_output_folder, filename, use_version, drupalIndex)
+          #   if(drupalIndex>t0) result_log$LogitFile=t0
+            
+          #### Construct model for each region.
+            ####  add  ds and use_version for drupal data, not used yet
+            # if(use_version>1){
+            #   region(output_folder, country_ISO, year_code, ds, 
+            #      datause, rv,
+            #      formula_string, title_string, sub_string,
+            #      caste, filename, indvar, use_version)
+            # }
+          }
+          else {
+            print("############# overall mean not validated, no further analysis #################")
+          }
           
         }
       }
-    } # for(rv in unique_responseList)
-  } # for(ds in dataSet) 
+      logcsv<-paste(ds_output_folder, "logfile.csv", sep="")
+      if(file.exists(logcsv))
+      write.table(result_log, logcsv, sep=",", 
+                  append = TRUE,   col.names = F, row.names = F)
+      else write.table(result_log, logcsv, sep=",", 
+                       append = FALSE,   col.names = T, row.names = F)
+    }
+    message <- paste("END OF SCRIPT.") 
+    print(message)
+    info(logger, message)
+  }
+  
   if(use_version==3) return(drupalIndex)
-} # function()
-
-# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "AF","70", "2015", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
+}
 
 #######################################################################################
 # csvfile_name8 <- "DHSstandardMV71Region"
@@ -344,15 +435,15 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
 
 
 #######################################################################################
-# csvfile_name1 <-"DHSstandard_unmet"
-# csvfile_name2 <-"DHSstandard"
-# csvfile_name3 <- "DHSstandardKH71"
-# csvfile_name4 <- "DHSstandardKH61"
-# csvfile_name5 <- "DHSstandardIA52"
-# csvfile_name6 <- "DHSstandardIA71"
-# csvfile_name7 <- "DHSstandardTL61"
-# csvfile_name8 <- "DHSstandardAM61"   # education variable SH17A
-# csvfile_name9 <- "DHSstandardBD70"   # special questionaire on mobile phone for hh members over 13 yo
+csvfile_name1 <-"DHSstandard_unmet"
+csvfile_name2 <-"DHSstandard"
+csvfile_name3 <- "DHSstandardKH71"
+csvfile_name4 <- "DHSstandardKH61"
+csvfile_name5 <- "DHSstandardIA52"
+csvfile_name6 <- "DHSstandardIA71"
+csvfile_name7 <- "DHSstandardTL61"
+csvfile_name8 <- "DHSstandardAM61"   # education variable SH17A
+csvfile_name9 <- "DHSstandardBD70"   # special questionaire on mobile phone for hh members over 13 yo
 
 
 #run_together(csv_folder, data_folder, output_folder, "AM","61", "2010", NULL, NULL, csvfile_name8, TRUE, FALSE)

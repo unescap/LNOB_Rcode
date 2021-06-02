@@ -1,6 +1,6 @@
 
 build_tree<-function(source_folder, country_code, version_code, datause, source1, Response_var, datatype, formula_string, 
-                     title_string, sub_string=NULL, filename, e=FALSE, region = FALSE){  
+                     title_string, sub_string=NULL, filename, e=FALSE, region = FALSE, use_version){  
 
   
   cp_chosen<- 1
@@ -40,10 +40,14 @@ build_tree<-function(source_folder, country_code, version_code, datause, source1
   data2$VC<-version_code
   data2$RV<-Response_var
   data2$EC<-e
+  
+  if(use_version==3) return(toString(toJSON(data2, flatten = TRUE)))
+  
   data2$Datasource<-source1
   print(paste(source_folder, "ALLTrees.csv", sep="/"))
   write.table(data2, paste(source_folder, "ALLTrees.csv", sep=""), sep=",", 
               col.names = FALSE  , row.names = FALSE, append = TRUE)
+
 
   if(!is.null(treefit$splits)) {  
     frame1<-treefit$frame
@@ -168,7 +172,20 @@ logistic<-function(datause, rtp, formula_string, filename){
   s.glm<-s.glm[, c(6, 7)]
   }
 
-  return(s.glm)
+  if(use_version==3){
+    logitList = list();
+    for (r in 1:nrow(s.glm)) {
+      oneLogit = list()
+      oneLogit["indicator"] = row.names(s.glm)[r];
+      for (c in 1:ncol(s.glm)){
+        oneLogit[[colnames(s.glm)[c]]] = s.glm[r,c]
+      }
+      logitList <- append(logitList, list(oneLogit))
+    }
+    
+    return(toString(toJSON(logitList)))
+  }
+  else return(s.glm)
 }
 
 

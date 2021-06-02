@@ -59,12 +59,13 @@ library(ggplot2)
 r_folder<-paste(source_folder, "Rfiles/", sep="")
 csv_folder<-paste(source_folder, "MICScsv/", sep="")
 
+
+
 #  source(paste(r_folder,"MICS_education.R",sep="")) this file must be run to get informaiton on education for a new survey
-source(paste(r_folder,"ShapleyValue.R",sep=""))
+source(paste(r_folder,"MICSShapleyValue.R",sep=""))
 source(paste(r_folder,"MICS_get_data.R",sep=""))
 source(paste(r_folder,"MICS_Unmet_Need.R",sep=""))
-source(paste(r_folder,"TreeAndLogistic.R",sep=""))
-source(paste(r_folder,"general_output.R",sep=""))
+source(paste(r_folder,"MICSTreeAndLogistic.R",sep=""))
 
 csvfile_name<-"MICS"
 edcationcsv<-"EducationMICS"
@@ -92,58 +93,49 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
   drupalIndex<-initialIndex
   country_ISO<-country_ISO(country_code)
   svnm<-paste(country_code, version_code, sep="")
-  
   csvfile_name<-paste(country_code, version_code, csvfile_name, sep="")
-  if(!file.exists(paste(csv_folder, csvfile_name, ".csv", sep=""))) {
-    print(paste(csvfile_name, " is required. R cannot run without it."))
-    return(drupalIndex)
-  }
+
   meta_data<-read.table(paste(csv_folder, csvfile_name, ".csv", sep=""), sep=",", header=T, colClasses="character", nrows=300)
-  
   # reading education data
   education_data<-read.table(paste(csv_folder, education_name, ".csv", sep=""), sep=",", header=T, colClasses="character")
   education_data<-education_data[education_data$SurveyName==paste(country_code, version_code, sep=""), ]
   
   if(nrow(education_data)==0) {
     print("education data missing, please consult user manual")
-    return(drupalIndex)
+    return()
   }
   
   # if needed, read the religion ethnicity and language data
   religion_data<-NULL
   if(!is.null(religion_name) & religion){
-    if(!file.exists(paste(csv_folder, religion_name, ".csv", sep=""))) {
-      print("No religion data found, can't analyze with religion")
-      return(drupalIndex)
-    }
     religion_data<-read.table(paste(csv_folder, religion_name, ".csv", sep=""), sep=",", header=T, colClasses="character")
     religion_data<-religion_data[religion_data$SurveyName==paste(country_code, version_code, sep=""), ]
     if(nrow(religion_data)==0){
       print("religion/ethnicity metadata not ready, r-program stopped")
-      return(drupalIndex)
+      return()
     }
   }
-  
-  if(use_version>1) {
-    if(is.null(validationfile)) {
-      print("can't run this version when validation file not provided")
-      return(drupalIndex)
-    }
-    else validationdata<-read.table(validationfile, sep=",", header=T, colClasses="character")
-    Rlist<-unique(validationdata$IndicatorName)
-  }
-  
   info(logger, "Run_together function called.")
   
   # Type of Datasets: hh, hl, wm, ch, mn
   dataSet<-unique(meta_data$DataSet)
   dataSet<-dataSet[!(dataSet %in% c("DataSet", "mn"))]
   
-  # dataSet<-c("hh")
+  
+  
+  if(use_version>1) {
+    if(is.null(validationfile)) {
+      print("can't run this version when validation file not provided")
+      return()
+    }
+    else validationdata<-read.table(validationfile, sep=",", header=T, colClasses="character")
+  }
+  
+  
+  dataSet<-c("hh")
   for(ds in dataSet){
-
+    print(ds)
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
-    ## this function ds_output() is defined in the config file
     ds_output_folder <-ds_output(output_folder, ds)
     ifelse(!dir.exists(ds_output_folder), dir.create(ds_output_folder), FALSE)
     
@@ -155,6 +147,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     
     # File name: Example ~ BUCH2017.
     filename<-paste(country_code, toupper(ds), version_code, sep="")
+    
     # Printing current iteration of datatype.  
     message <- paste("## File name: ", filename, "  ############################")
     print(message)
@@ -170,6 +163,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     colnames(df)<-toupper(colnames(df))
 
     if(ds=="hh"){
+      
       ##### obtaining highest education level for household from hl data set
       df <- add_highestEducation(df, meta_data, data_folder, country_code, version_code,
                                 dataList)
@@ -228,6 +222,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     # Sample Weight Pre-processing 
     swV<-toupper(dataList$VarName[dataList$NickName=="SampleWeight"])
     swK<-match(swV, colnames(df))
+    
 
     if(is.na(swK) | sum(is.na(df[, swK]))==nrow(df))
         df$SampleWeight<-1
@@ -235,7 +230,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
 
     df$SampleWeight[is.na(df$SampleWeight)] <- 0
 
-    #print(sum(df$SampleWeight))
+    print(sum(df$SampleWeight))
     
     # Response variables to model 
 
@@ -243,6 +238,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     # responseList<-dataList[dataList$NickName=="MobilePhone" & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("Covid") & dataList$IndicatorType=="ResponseV", ]
+    
     # responseList<-dataList[dataList$NickName %in% c("BasicWater") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("SecondaryEducation2035", "HigherEducation2535", "SecondaryEducation35plus") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("EarlyEducation25", "EarlyEducation35") & dataList$IndicatorType=="ResponseV", ]
@@ -251,16 +247,13 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     # responseList<-dataList[dataList$NickName %in% c("SafeSanitation") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("ContraceptiveMethod") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("MobilePhone") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("HealthInsurance") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("ProfessionalHelp") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName=="InternetUse" & dataList$IndicatorType=="ResponseV", ]
     
-    if(use_version>1){
-      responseList<-responseList[responseList$NickName %in% Rlist ,]
-      responseList<-responseList[!responseList$NickName %in% c("Covid", "LearningHL", 
-                           "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") ,]
-
-    }
+    # responseList<-dataList[dataList$NickName %in% c("HealthInsurance") & dataList$IndicatorType=="ResponseV", ]
+    
+     # responseList<-dataList[dataList$NickName %in% c("ProfessionalHelp") & dataList$IndicatorType=="ResponseV", ]
+    # 
+    
+     # responseList<-dataList[dataList$NickName=="InternetUse" & dataList$IndicatorType=="ResponseV", ]
     rn<-nrow(responseList)
     
 
@@ -279,8 +272,8 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       # Change Rdata output folder: Example ~ /mics_Rdata/HealthInsurance/mdAFHR70FL.Rdata 
       # Note: if you want to organise by Country --> Response Variable just need to add one level up. 
       # rv_Rdata_folder <- rv_Rdata(mics_Rdata_folder, rv)
-      # Retrieve Independent variable list. 
       
+      # Retrieve Independent variable list. 
       indvar<- indList(rv)
 
       if(religion) {
@@ -289,47 +282,141 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       }
       pass_message <- "Successfuly retrieved dataset for given RV/IV [get_data]"
 
+      print(rv)
+
       datause <- catch_error(get_data(df, rv, dataList, indvar, svnm, educationList, religion_data))
       
+      result_log<-list(
+        country=country_ISO,
+        year=version_code, 
+        indicator=rv,
+        ReligionFlag=religion,
+        DataAvailable=!is.null(datause), 
+        Validated =NA,
+        meanYFromValidation=NA,
+        meanYfromR=NA,
+        TreeFile=NA,
+        DindexFile=NA, 
+        LogitFile=NA
+      )
+      if(is.null(datause)) {
+        overallmean<-write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
+        result_log$meanYfromR<-overallmean
+        print("Data not generated") 
+        error(logger, "Data not generated")
+
+        
+      } 
+      else {
+        validation<-FALSE
+        if(use_version==3){
+          overallmean<-write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
+          validation_result<-validate(country_code, version_code, rv, overallmean, validationdata)
+          validation<-validation_result[1]
+          result_log$Validated=validation
+          result_log$meanYfromR<-overallmean
+          result_log$meanYFromValidation=validation_result[2]
+        }
+        
+        
         info(logger, paste(pass_message))
         mr_ds<-unique(meta_data[!is.na(meta_data$VarName) & meta_data$NickName==rv & meta_data$IndicatorType=="MresponseV", c("DataSet")])
         
-        # if mn exists and response variable name in it has been found
-        # we assume the mn and wm has the same education labels and religion ethnicity language labels
         if(length(mr_ds)>0){
           n0<-nrow(datause)
           # Example: ./dat_download/Afghanisatan 2015/
           datause <- merge_mr(mr_ds, meta_data, datause, dataList, country_code, version_code, data_folder, rv, indvar, svnm, educationList, religion_data, region_flag) 
-          if(!is.null(datause))
+          
           if(nrow(datause)>n0) indvar<-c(indvar, "Sex")
         }
 
-        #### start of output
-        ####  we create result log files at national level for every indicator we calculate
-        result_log<-ResultList("MICS", country_ISO, version_code, country_ISO, version_code, ds, rv, religion, "National", !is.null(datause))
-        print(result_log)
         
-        if(is.null(datause)) {
-          result_log$NationalValidated="NoData"
-          print("Data not generated") 
-          error(logger, "Data not generated")
-          logcsv<-paste(ds_output_folder, "noDatalogfile.csv", sep="")
-          result_log<-t(result_log)
-          if(file.exists(logcsv))
-            write.table(result_log, logcsv, sep=",", 
-                        append = TRUE,   col.names = F, row.names = F)
-          else write.table(result_log, logcsv, sep=",", 
-                           append = FALSE,   col.names = T, row.names = F)
-        } 
-        else {
-          drupalIndex<-output_data(datause, "MICS", country_code, version_code, country_ISO, version_code,  rv, rtp, indvar, ds, ds_output_folder, validationdata, 
-                                   religion, region_flag=FALSE, use_version, drupalIndex)
-          if(region_flag){
-            drupalIndex<-output_data(datause, "MICS", country_code, version_code, country_ISO, version_code, rv, rtp, indvar, ds, ds_output_folder, validationdata, 
-                                     religion, region_flag=TRUE, use_version, drupalIndex)
+        # if mn exists and response variable name in it has been found
+        # we assume the mn and wm has the same education labels and religion ethnicity language labels
+        
+        if(region_flag) indvar<-c(indvar, "REGION")
+
+        formula_string<-paste("var2tab", paste(indvar, collapse=" + "), sep=" ~ ")
+        title_string<-paste(rv, paste(indvar, collapse=" + "), sep=" ~ ")
+
+        #### tree
+        #### add a data type parameter, if numeric, we use a different criterion
+        sub_string<-NULL
+<<<<<<< HEAD
+        country_ISO<-country_ISO(country_code)
+        
+        overallmean<-write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
+        if(use_version>1)
+          validation<-validate(country_code, version_code, rv, overallmean, validationdata)
+        
+#         if(use_version==1 | validation){
+#           
+#             write_tree(datause, country_ISO, version_code,
+#                    title_string, formula_string, sub_string, rv, rtp, religion, ds_output_folder, ds, filename)
+# 
+# ##### disable D and Logistic for validation
+#         #### HOI and dis-similarity index calculation
+#         #### not sure if this works for numeric
+#              write_HOI_D(datause, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
+# 
+#         #### logistic regression
+#         #### have to use lm for numeric here
+#             write_glm(datause, rtp, country_ISO, version_code, title_string, indvar, ds_output_folder, filename)
+# ##### disable D and Logistic for validation
+#         
+#         #### Construct model for each region.
+#             if(use_version>1){
+#                region(output_folder, country_code, version_code,
+#                        datause, rv,
+#                         formula_string, title_string, sub_string,
+#                       filename, indvar)
+#             }
+#         # write_crosstab(datause, country_code, version_code, title_string, indvar, ds_output_folder, filename)
+#       }
+=======
+
+        if(use_version==1 | validation){
+            t0<-drupalIndex
+            drupalIndex<-write_tree(datause, country_ISO, version_code,
+                   title_string, formula_string, sub_string, rv, rtp, religion, ds_output_folder, ds, filename, use_version, drupalIndex)
+
+            if(drupalIndex>t0)        
+              result_log$TreeFile=t0
             
-          }
-        }
+##### disable D and Logistic for validation
+        #### HOI and dis-similarity index calculation
+        #### not sure if this works for numeric
+            t0<-drupalIndex
+            drupalIndex<-write_HOI_D(datause, country_ISO, version_code, rv, ds, title_string, indvar, ds_output_folder, filename, use_version, drupalIndex)
+             if(drupalIndex>t0)        
+               result_log$DindexFile=t0
+        #### logistic regression
+        #### have to use lm for numeric here
+            t0<-drupalIndex
+            drupalIndex<-write_glm(datause, rtp, country_ISO, version_code, rv, ds, title_string, indvar, ds_output_folder, filename, use_version, drupalIndex)
+            if(drupalIndex>t0)        
+              result_log$LogitFile=t0
+            ##### disable D and Logistic for validation
+        
+        #### Construct model for each region.
+            # if(use_version>1){
+            #    region(output_folder, country_code, version_code,
+            #            datause, rv,
+            #             formula_string, title_string, sub_string,
+            #           filename, indvar)
+            # }
+        # write_crosstab(datause, country_code, version_code, title_string, indvar, ds_output_folder, filename)
+      }
+>>>>>>> PushToWeb
+
+      }
+    
+    logcsv<-paste(ds_output_folder, "logfile.csv", sep="")
+    if(file.exists(logcsv))
+      write.table(result_log, logcsv, sep=",", 
+                  append = TRUE,   col.names = F, row.names = F)
+    else write.table(result_log, logcsv, sep=",", 
+                     append = FALSE,   col.names = T, row.names = F)
     }
   }
   if(use_version==3) return(drupalIndex)

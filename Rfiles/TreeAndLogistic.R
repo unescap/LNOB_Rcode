@@ -1,13 +1,14 @@
 
-build_tree<-function(source_folder, country_code, version_code, datause, Response_var, datatype, formula_string, 
-                     title_string, sub_string=NULL, filename, e=FALSE, region = FALSE, use_version){  
-  
+build_tree<-function(source_folder, country_code, version_code, datause, Response_var,
+                     datatype, formula_string, title_string, sub_string=NULL, filename, e=FALSE, region){  
 
-  print(source_folder)
+  
   cp_chosen<- 1
-  if(e==FALSE) minb_chosen = 11   # temporary, for Tonga we use 19
+  # e is the flag on whether religion/ethnicity variables are included in the model
+  if(e==FALSE) minb_chosen = 11 
   else minb_chosen = 19
   min_node<-max(49, nrow(datause)/minb_chosen)
+  
   if (datatype=="Factor") treemethod<-"anova"
   else treemethod<-"anova"
   
@@ -16,42 +17,41 @@ build_tree<-function(source_folder, country_code, version_code, datause, Respons
                    method=treemethod, control = rpart.control(cp = cp_chosen/nrow(datause), maxdepth=6, 
                                                               minbucket = min_node, minsplit=2*min_node))
 
-
-  
   # First save: Saving object as .Rdata file for Shiny output
-  if (region == FALSE) { 
-    save(treefit, file = paste("md",filename,".Rdata", sep="")) 
-  }
-  
+  # if (region == FALSE) { 
+  #   save(treefit, file = paste("md",filename,".Rdata", sep="")) 
+  # }
+  # 
   # if(e==FALSE)
-  #   filename<-paste(source_folder, country_code, version_code, Response_var, sep="")
-  # else filename<-paste(source_folder, country_code, version_code, Response_var, "_ethnicity", sep="")
-  
-  if(e==FALSE)
-    filename<-paste(source_folder, filename, sep="")
-  else filename<-paste(source_folder, filename, "_ethnicity", sep="")
-  
-  data2 <- get_tree(treefit)
-  data2<-Education_Lable(data2)
+  #   filename<-paste(source_folder, country_code, version_code, region, Response_var, sep="")
+  # else filename<-paste(source_folder, country_code, version_code, region, Response_var, "_ethnicity", sep="")
+  # 
 
-  write.table(data2, paste(filename, ".csv", sep=""), sep=",", col.names = FALSE  , row.names = FALSE, append = FALSE)
+  data2 <- get_tree(treefit)
+  data2<-Ordered_Lable(data2, "Education")
+  data2<-Ordered_Lable(data2, "Caste")
+  data2<-Ordered_Lable(data2, "Religion")
   
+  # write.table(data2, paste(filename, ".csv", sep=""), sep=",", col.names = FALSE  , row.names = FALSE, append = FALSE)
+
   data2$CC<-country_code
   data2$VC<-version_code
   data2$RV<-Response_var
   data2$EC<-e
-  if(use_version==3) return(toString(toJSON(data2, flatten = TRUE)))
- 
-#  data2$filename<-filename
-  data2$Source<-"MICS"
-  write.table(data2, paste(source_folder, "ALLTrees.csv", sep=""), sep=",", 
-              col.names = FALSE  , row.names = FALSE, append = TRUE)
   
+  
+  # data2$Datasource<-source1
+  # print(paste(source_folder, "ALLTrees.csv", sep="/"))
+  # write.table(data2, paste(source_folder, "ALLTrees.csv", sep=""), sep=",",
+  #             col.names = FALSE  , row.names = FALSE, append = TRUE)
+
+
   if(!is.null(treefit$splits)) {  
     frame1<-treefit$frame
-    
+
     ####commented out on May 25th, only write the tress structures
     frame1$rows<-as.numeric(rownames(frame1))
+
     frame_max<-frame1[frame1$var=="<leaf>" & frame1$yval==max(frame1$yval), c(3,5)] #extract total weight, yval
     frame_min<-frame1[frame1$var=="<leaf>" & frame1$yval==min(frame1$yval), c(3,5)]
     title_string<-paste( title_string, ": \n", country_code, version_code)
@@ -116,39 +116,42 @@ build_tree<-function(source_folder, country_code, version_code, datause, Respons
     total_weight<-sum(datause$SampleWeight)
     y_bar<-sum(datause$SampleWeight*datause$var2tab)/total_weight
     vi_list<-names(treefit$variable.importance)
-    tree_stat<-t(c(total_weight, y_bar, unname(frame_max), unname(frame_min), xy_max, xy_min, vi_list))
-    
+    tree_stat<-list(SampleSize=total_weight, meanY=y_bar, max=c(frame_max),
+                    min=c(frame_min), max_node=xy_max, min_node=xy_min, importance=vi_list)
+
     ##### calculating weighted sample %
-    tree_stat[[3]]<-tree_stat[[3]]/tree_stat[[1]]
-    tree_stat[[5]]<-tree_stat[[5]]/tree_stat[[1]]
+    tree_stat$max$wt<-tree_stat$max$wt/tree_stat$SampleSize
+    tree_stat$min$wt<-tree_stat$min$wt/tree_stat$SampleSize
+
     
+    ### only need pdf graph if it is national 
+    if(region=="National"){
+      if(e==TRUE) pdf(paste(source_folder, "Tree_ethnicity_", Response_var,  country_code,
+                             version_code,  ".pdf", sep = ""))
+      else pdf(paste(source_folder, "Tree", Response_var,  country_code,
+                     version_code,  ".pdf", sep = ""))
+      
+      treeplot<- prp(treefit, main=title_string, sub=sub_string,
+                     type=4, fallen=T, branch=.3, round=0, leaf.round=9,
+                     clip.right.labs=F, under.cex=1,
+                     box.palette="GnYlRd",
+                     prefix=paste(Response_var, "\n"), branch.col="gray", branch.lwd=2,
+                     extra=101, under=T, lt=" < ", ge=" >= ", cex.main=1.0, cex.sub=0.7)
+      dev.off()
+    }
     
-    if(e==TRUE) pdf(paste(source_folder, "Tree_ethnicity_", Response_var,  country_code,
-                          version_code,  ".pdf", sep = ""))
-    else pdf(paste(source_folder, "Tree", Response_var,  country_code,
-                   version_code,  ".pdf", sep = ""))
-    
-    treeplot<- prp(treefit, main=title_string, sub=sub_string,
-                   type=4, fallen=T, branch=.3, round=0, leaf.round=9,
-                   clip.right.labs=F, under.cex=1,
-                   box.palette="GnYlRd",
-                   prefix=paste(Response_var, "\n"), branch.col="gray", branch.lwd=2,
-                   extra=101, under=T, lt=" < ", ge=" >= ", cex.main=1.0, cex.sub=0.7)
-    dev.off()
-    
-    return(tree_stat)
+    return(list(tree_stat=tree_stat, data2=toString(toJSON(data2, flatten = TRUE))))
   }
-  else { print("No tree generated")
-  }
-  #tree_stat<-print(treefit) 
-  return(NULL)
+  else return(list(tree_stat=NULL, data2=NULL))
 }
+
 
 logistic<-function(datause, rtp, formula_string, filename){
   if(rtp=="Factor")
          var2tab.glm<-glm(as.formula(formula_string), family=binomial,  weights=SampleWeight, data=datause)
   else var2tab.glm<-glm(as.formula(formula_string), family=gaussian,  weights=SampleWeight, data=datause)
-  
+  # print(summary(var2tab.glm))
+  # print(table(datause$HighestEducation))
   
   s.glm<-as.data.frame(summary(var2tab.glm)$coefficients)
   
@@ -169,29 +172,49 @@ logistic<-function(datause, rtp, formula_string, filename){
   s.glm<-s.glm[, c(6, 7)]
   }
 
-  return(s.glm)
+  if(use_version==3){
+    logitList = list();
+    for (r in 1:nrow(s.glm)) {
+      oneLogit = list()
+      oneLogit["indicator"] = row.names(s.glm)[r];
+      for (c in 1:ncol(s.glm)){
+        oneLogit[[colnames(s.glm)[c]]] = s.glm[r,c]
+      }
+      logitList <- append(logitList, list(oneLogit))
+    }
+    
+    return(toString(toJSON(logitList)))
+  }
+  else return(s.glm)
 }
 
 
-Education_Lable<-function(data2){
-  if(nrow(data2)==1) return(data2)
+Ordered_Lable<-function(data2, value){
+
   # get rid of ) in Node column
-  NodeNo<-data2$node
+  NodeNo<-as.numeric(as.character(gsub(")", "", data2$node)))
   #identify education variables
   data2$z<-as.character(data2$z)
-  Ed_flag<- grepl("Education", data2$z)
+  Ed_flag<- grepl(value, data2$z)
   Ed_value<- strsplit(data2$z,"=")
+
   k<-nrow(data2)
+  if(k<2) return(data2)
+  
+  nf<-0
   for(i in c(2:k)){
     ## only look if education
-    ## the following method only works because education has obnly three levels
-    ## suitable for ordinal valriable with three levels
+    ## the following method only works because education has only three levels
+    ## suitable for ordinal variable with three levels
     if(Ed_flag[i]){
+      nf<-nf+1
       Ed_valuei<-strsplit(Ed_value[[i]][2], ",")[[1]]
-      if(length(Ed_valuei)<2)
-        Ed_flag[i]<- FALSE
-    }
+    #   if(length(Ed_valuei)<2)
+    #     Ed_flag[i]<- FALSE
+   }
   }
+  
+  if(nf<2) return(data2)
   
   for(i in c(2:k)){
     if(Ed_flag[i]){
@@ -199,16 +222,20 @@ Education_Lable<-function(data2){
       while(nt>1){
         i_nt<-which(NodeNo==nt)
         if(Ed_flag[i_nt]){
+
           Ed_valuei<-strsplit(data2$z[i],"=")
           Ed_valuent<-strsplit(data2$z[i_nt],"=")
           replaceValue<-intersect(strsplit(Ed_valuei[[1]][2], ",")[[1]], strsplit(Ed_valuent[[1]][2], ",")[[1]])
+          if(length(replaceValue)>1) replaceValue<-paste(replaceValue, collapse=" , ")
           data2$z[i]<-paste(strsplit(data2$z[i],"=")[[1]][1], replaceValue, sep="=")
+
         }
         nt<- (nt %/% 2)
       }
     }
   }
-  data2$node<-paste(data2$node, ")", sep="")
+
+  data2$node<-paste(NodeNo, ")", sep="")
   return(data2)
 } 
 
@@ -243,5 +270,3 @@ get_tree<-function(treefit, digits=2){
   z <- data.frame(node, z, n, dvc, yval, term)
   return(z)
 } 
-
-

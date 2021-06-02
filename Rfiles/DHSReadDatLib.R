@@ -273,7 +273,7 @@ build_dictionary_for_older_data <- function(base_filename,var_list)
      }
   }
   #print(fields)
-  if(subset_of_fields>0){print(var_list)}
+  # if(subset_of_fields>0){print(var_list)}
   print(paste("Size of fields: ",length(fields),sep=""))
   
   return (fields)
@@ -611,7 +611,7 @@ importDHSDAT<-function(filename, has_DCF, var_list,nb_observations=-1)
       {
         tmp_df<-data.frame(cbind(tmpcol, tmp_df), stringsAsFactors=(field["DataType"]=="Alpha"))
         tmp_df[1] <- factor(intcol, levels=field[['levels']],labels=field[['labels']])
-        colnames(tmp_df)[1]<-"RegionName"
+        colnames(tmp_df)[1]<-"REGION"
       }
     }
 

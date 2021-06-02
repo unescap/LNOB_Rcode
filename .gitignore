@@ -25,6 +25,9 @@
 /mics_Rdata/**
 /.Rproj.user/**
 /results_sent/**
+/Doc/**
+/CSVdatabase/**
+/drupalData/**
 
 # Example code in package build process
 *-Ex.R
@@ -54,7 +57,7 @@ vignettes/*.pdf
 .Renviron
 
 # pkgdown site
-docs/
+/docs/
 
 # translation temp files
 po/*~

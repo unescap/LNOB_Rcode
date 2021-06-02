@@ -22,8 +22,8 @@ cal_D<-  function(datause, vm) {
     tab_sum$SampleWeight.y[is.na(tab_sum$SampleWeight.y)]<-0
     overall_mean<-sum(datause$SampleWeight*datause$var2tab)/sum(datause$SampleWeight)
     tab_sum<-tab_sum[tab_sum$SampleWeight.x>0, ]
-    
-    if(overall_mean>0) {
+    if(is.na(overall_mean)) return(0)
+    else if(overall_mean>0) {
       
       tab_sum$SampleP<-tab_sum$SampleWeight.x/total_sw
       tab_sum$SampleM<-tab_sum$SampleWeight.y/tab_sum$SampleWeight.x-overall_mean
@@ -66,21 +66,18 @@ cal_Da<-function(datause, a, na){
   return(da)
 }
 
-cal_HOI_shapley<-function(datause, vm, use_version)
+cal_HOI_shapley<-function(datause, vm)
 {
   Overall_Mean<-sum(datause$SampleWeight*datause$var2tab)/sum(datause$SampleWeight)
   Overall_D<-cal_D(datause, vm)
-  print(Overall_D)
   HOI<-(1-Overall_D)*Overall_Mean
-  result<-c("mean", Overall_Mean, "HOI",  HOI, "D", Overall_D)
-  if(use_version==3){
-    result = list(
+  
+  result = list(
       mean = Overall_Mean,
       HOI = HOI,
       D = Overall_D
     )
-    return(toString(toJSON(result, auto_unbox = TRUE)))
-  }
+  #### disable the decomposition
   # for(a in vm){
   #   na<-vm[-match(a, vm)]
   #   Da<-cal_Da(datause, a, na)
@@ -88,7 +85,7 @@ cal_HOI_shapley<-function(datause, vm, use_version)
   #   result<-c(result, a, Pa)
   # }
 
-  else return(result)
+  return(list(Overall_D=Overall_D, HOI=HOI, drupalData=toJSON(result, auto_unbox = TRUE)))
 }
 
 #cal_HOI_shapley(datause, vm)
