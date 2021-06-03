@@ -443,35 +443,7 @@ region_dev<-function(datause, country_code, version_code,
   write_glm(datause, rtp, country_code, version_code, title_string, formula_string, ds_output_folder, filename)
   
 }
-# Function to catch errors  
-catch_error_prod <- function(code) {
-  out <- tryCatch(code,
-                  error = function(c) {
-                    error(logger, paste(c$message))
-                  },
-                  warning = function(c) { 
-                    warn(logger, paste(c$message))
-                  }
-  )
-  return(out)
-}
 
-catch_error_dev <- function(code) {
-  return(code)
-}
-
-ds_output_dev <- function(output_folder, ds){
-  ds_output_folder<-paste(output_folder, ds, "/",sep = "")
-  ifelse(!dir.exists(ds_output_folder), dir.create(ds_output_folder), FALSE)
-  return(ds_output_folder)
-}
-
-rv_Rdata_dev<-function(mics_Rdata_folder, rv){
-  rv_Rdata_folder <- paste(mics_Rdata_folder, rv, sep = "/")
-  ifelse(!dir.exists(rv_Rdata_folder), dir.create(rv_Rdata_folder), FALSE)
-  setwd(rv_Rdata_folder)
-  return(rv_Rdata_folder)
-}
 
 ResultList<-function(survey_source, country_code, version_code, country_ISO, year_code, ds, rv, religion, region, isNullData){
   
