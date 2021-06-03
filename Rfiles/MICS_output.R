@@ -1,3 +1,5 @@
+### This file is no longer used. general_output.R, which handles both DHS and MICS data is used in its place. 
+# Last update was before June 2021
 #### output functions
 #### All things related to output
 

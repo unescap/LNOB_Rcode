@@ -1,3 +1,7 @@
+#### Tree analysis calculation for MICS data. No longer used. TreeAndLogistic.R is replacing it.
+# last updates were made before june 2021
+
+
 
 build_tree<-function(source_folder, country_code, version_code, datause, Response_var, datatype, formula_string, 
                      title_string, sub_string=NULL, filename, e=FALSE, region = FALSE, use_version){  

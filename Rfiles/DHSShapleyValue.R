@@ -1,8 +1,5 @@
-#source_folder<-"/home/yw/Documents/project/SDD2017/"
-#data_folder<-paste(source_folder,"dat_download",sep="")
-#setwd(data_folder)
-#load("AMCleanFuel.Rdata")
-#vm<-c("Bottom40", "Residence", "HighestEducation")
+#### D-index calculation for DHS data. No longer used. ShapleyValue.R is replacing it.
+# last updates were made before june 2021
 
 ################################
 ## 

@@ -1,7 +1,7 @@
 #### output functions
 #### All things related to output
 
-#### generation data ready for publication
+#### generating data ready for publication
 # drupal_data<-function()
 
 #### in use_version 3, checking if the overall level is within 1% of the validated results
