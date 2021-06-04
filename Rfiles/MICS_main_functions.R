@@ -307,8 +307,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
         #### start of output
         ####  we create result log files at national level for every indicator we calculate
         result_log<-ResultList("MICS", country_ISO, version_code, country_ISO, version_code, ds, rv, religion, "National", !is.null(datause))
-        print(result_log)
-        
+
         if(is.null(datause)) {
           result_log$NationalValidated="NoData"
           print("Data not generated") 

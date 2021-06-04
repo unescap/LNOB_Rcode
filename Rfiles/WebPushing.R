@@ -7,8 +7,9 @@ r_folder<-paste(source_folder, "Rfiles/", sep="")
 source(paste(r_folder,"Config_drupalkey.R",sep="")) ### obtain api_base, key
 source(paste(r_folder,"http_request.R",sep=""))  
 
-# pubDatafolder<-paste(data_folder,"drupalData20210602164252/",sep="")
-pubDatafolder<-paste(data_folder,"drupalDatatesting/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalData20210604version/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalDatatesting/",sep="")
+# runtime<-format(Sys.time(), "%Y%m%d%H%M%S")
 ### it is by design that this data folder name change every time
 ### you need to type in the correct folder name and then run "Source", all .rds files
 ### in this folder will be pushed to the drupal server
@@ -37,11 +38,11 @@ gettingDrupalFiles<-function(api_base, key){
   
   # logitDataJson <- http_get("logit_data", api_base, key)
   # logitDataDf <- as.data.frame(logitDataJson)
-  # 
+  
   regionTreeDataJson <- http_get("region_tree_data", api_base, key)
   regionTreeDataDf <- as.data.frame(regionTreeDataJson)
-  regionDDataJson <- http_get("region_d_index_data", api_base, key)   
-  regionDDataDf <- as.data.frame(regionTreeDataJson)
+  regionDDataJson <- http_get("region_d_index_data", api_base, key)
+  regionDDataDf <- as.data.frame(regionDDataJson)
   
   # #### organize regional taxonomy files, not ready yet   
   #### end getting durpal server files
@@ -51,7 +52,7 @@ gettingDrupalFiles<-function(api_base, key){
                treeDataDf=treeDataDf,
                dIndexDataDf=dIndexDataDf,
                # logitDataDf=logitDataDf,
-               regionTreeDataDf=regionTreeDataDf, 
+               regionTreeDataDf=regionTreeDataDf,
                regionDDataDf=regionDDataDf
          )) 
 }
@@ -108,31 +109,21 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
       }
     }
     else if(dt$type=="region_d_index") {
-      result<-"region_d_index Ignored"
-      return(list(result=result, drupalData=dt))
-      
       if (nrow(regionDDataDf) != 0) {
-        currentDD = filter(regionDDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo, 
+        currentDD = filter(regionDDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo,
                            field_year == dt$field_year, title == dt$title, field_region == dt$field_region)
         if (nrow(currentDD) != 0) dt$nid <- head(currentDD,1)$nid
       }
     }
     else if(dt$type=="region_tree_data") {
       if (nrow(regionTreeDataDf) != 0) {
-        currentDD = filter(regionTreeDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo, 
+        currentDD = filter(regionTreeDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo,
                            field_year == dt$field_year, title == dt$title, field_region == dt$field_region)
         if (nrow(currentDD) != 0) dt$nid <- head(currentDD,1)$nid
       }
     }
-    
-          dt$moderation_state <- "draft"
-          Sys.sleep(2)
-          dt0<-list()
-          dt0<-append(dt0, list(dt))
-          endpoint <- "node-create"
-          # print(dt0)
-          result <- http_post(endpoint,dt0, api_base, key)
-   return(list(result=result, drupalData=dt))
+    dt$moderation_state <- "draft"
+   return(dt)
 }
 
 
@@ -145,27 +136,35 @@ push_together<-function(resultFolder, api_base, key){
 
   logcsv<-paste(resultFolder, "validation/pushlogfile.csv", sep="")
   drupalFiles<-gettingDrupalFiles(api_base, key)
-  for(dn in data_list){
-    print(dn)
-    dt<-readRDS(paste(resultFolder, dn, sep=""))
+  dt0<-list()
 
-    pushresult<-drupalPush(dt, drupalFiles, api_base, key)
-    dt<-pushresult$drupalData
-    dt[["field_data"]]<-NULL
-    dt[["moderation_state"]]<-NULL
-    if(is.null(dt$nid)) nid<-0
-    else    nid<-dt$nid
-    dt[["nid"]]<-NULL
-    #pushresult<-1
-    pushresult<-data.frame(resultfile=dn, nid=nid, PushResult=pushresult$result, dt)
-    if(file.exists(logcsv))
-      write.table(pushresult, logcsv, sep=",", 
-                  append = TRUE,   col.names = F, row.names = F)
-    else write.table(pushresult, logcsv, sep=",", 
-                     append = FALSE,   col.names = T, row.names = F)
+  for(dn in data_list){
+    dt<-readRDS(paste(resultFolder, dn, sep=""))
+    ### these indicators are in the validation data, but not in drupal indicator table
+    if(! (dt$type %in% c("BasicWater", "NoViolenceJustifiedAgainstWomen", "MobilePhonePR")))
+      {
+      dt0<-append(dt0, list(drupalPush(dt, drupalFiles, api_base, key)))
+
+    }
+    if(length(dt0)==100){
+      print("posting now ----")
+      Sys.sleep(5)
+      print(ct)
+      endpoint <- "node-create"
+      result <- http_post(endpoint,dt0, api_base, key)
+      print(result)
+      dt0<-list()
+    }
   }
-  
-  
+
+  if(length(dt0)>0) {
+    print("posting last batch ----")
+    #Sys.sleep(5)
+    print(ct)
+    endpoint <- "node-create"
+    result <- http_post(endpoint,dt0, api_base, key)
+    print(result)
+    }
 }
 push_together(pubDatafolder, api_base, key)
 

@@ -72,7 +72,7 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
       #### not sure if this works for numeric
       t0<-drupalIndex
 
-      d_result<-write_HOI_D(survey_source, datauseRG, country_ISO, year_code, rg, rv, ds, title_string, indvar, 
+      d_result<-write_HOI_D(survey_source, datauseRG, country_ISO, year_code, rg, rv, ds, religion, indvar, 
                             ds_output_folder, filename, use_version, drupalIndex)
 
       drupalIndex<-c(d_result$drupalIndex)
@@ -144,7 +144,7 @@ dataForDrupal<-function(data, type, survey_type, ds, title, formula, country_cod
     type = type,
     field_survey_type = survey_type,
     field_dataset = ds,
-    title = title,
+    title = paste(title, V, sep="---"),   ### V is the version, a global variable specified in Config_ywdrupal.R
     field_geo = country_code,
     field_year = version_code,
     field_indicator = rv,
@@ -181,8 +181,6 @@ write_tree <- function(survey_source, datause, country_code, version_code, regio
                         formula_string, title_string, sub_string, 
                        rv, rtp, religion, output_folder, ds, filename, use_version, drupalIndex) {
   
-  pass_message <- "Successfully built Tree"
-
   tree_stat<- catch_error(build_tree(output_folder, country_code, version_code, datause, rv, rtp, 
                                      formula_string, title_string, sub_string, filename, e = religion, 
                                      region))
@@ -190,11 +188,11 @@ write_tree <- function(survey_source, datause, country_code, version_code, regio
   {
     ### for version 3, we store the data in one folder for publication
 
-    if(region=="National") drupal_data<-dataForDrupal(tree_stat[2], "tree_data", survey_source, ds, title_string, formula_string, 
+    type<- ifelse(region=="National",  "tree_data", "region_tree_data")
+    title_string<-paste(country_code, version_code, rv, region, ifelse(religion, "Religion", "NoReligion"), sep="-")
+    drupal_data<-dataForDrupal(tree_stat[2], type, survey_source, ds, title_string, formula_string, 
                                                       country_code, version_code, rv, region)
-    else drupal_data<-dataForDrupal(tree_stat[2], "region_tree_data", survey_source, ds, title_string, formula_string, 
-                                    country_code, version_code, rv, region)
-      
+
     rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
 
     saveRDS(drupal_data, file = rdsname)
@@ -207,7 +205,7 @@ write_tree <- function(survey_source, datause, country_code, version_code, regio
 }
 
 
-write_HOI_D <- function(survey_source, datause, country_code, version_code, region, rv, ds, title_string,
+write_HOI_D <- function(survey_source, datause, country_code, version_code, region, rv, ds, religion,
                         indvar, output_folder, filename, use_version, drupalIndex) {
   
   # Calculate 
@@ -219,16 +217,13 @@ write_HOI_D <- function(survey_source, datause, country_code, version_code, regi
   result<-cal_HOI_shapley(datause, indvar)
   if(use_version==3 & !is.null(result))
   {
+    title_string<-paste(country_code, version_code, rv, region, ifelse(religion, "Religion", "NoReligion"), sep="-")
     ### for version 3, we store the data in one folder for publication
-    if(region=="National") {
-      drupal_data<-dataForDrupal(result$drupalData, "d_index", survey_source, ds, title_string, formula_string, 
+    type<-ifelse(region=="National", "d_index", "region_d_index")
+    drupal_data<-dataForDrupal(result$drupalData, type, survey_source, ds, title_string, formula_string, 
                                  country_code, version_code, rv, region)
       
-    }
-    #### no region d index set up yet
-    else drupal_data<-dataForDrupal(result$drupalData, "region_d_index", survey_source, ds, title_string, formula_string, 
-                                    country_code, version_code, rv, region)
-    
+
     rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
     saveRDS(drupal_data, file = rdsname)
     
