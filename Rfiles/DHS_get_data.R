@@ -1020,16 +1020,36 @@ NotCrowded<-function(datause, dataList, k){
   datause[, k]<-as.numeric(as.character(datause[, k]))
   nV<-dataList$VarName[dataList$NickName == "NumberMember"]
   nk<-match(nV, colnames(datause))
-  datause[, nk]<-as.numeric(as.character(datause[, nk]))
-  density<-datause[, nk]
-  room<-!is.na(datause[, k]) & datause[, k]>0 & datause[, k]<99
-  density[room]<-datause[room, nk]/datause[room, k]
+  # old denifition
+  # datause[, nk]<-as.numeric(as.character(datause[, nk]))
+  # density<-datause[, nk]
+  # room<-!is.na(datause[, k]) & datause[, k]>0 & datause[, k]<99
+  # density[room]<-datause[room, nk]/datause[room, k]
   
-  print(summary(density))
+
+  datause<-calculateHMexBabies(datause, dataList)
+  density<-datause$NumHMgt2
+  room<-!is.na(datause[, k]) & datause[, k]>0 & datause[, k]<99
+  density[room]<-datause$NumHMgt2[room]/datause[room, k]
   datause$var2tab[density<=2]<-1
   return(datause)
 }
-
+calculateHMexBabies<-function(datause, dataList){
+  
+  ageV<-dataList$VarName[dataList$NickName == "Age"]
+  agek<-match(ageV, colnames(datause), nomatch = 0)
+  if(agek==0) return(NULL)
+  else{
+    age<-as.numeric(as.character(datause[, agek]))
+    df<-datause[age>2, ]
+    df$ct<-1
+    ExBabies<-aggregate(df$ct, list(df$HHID), sum)
+    colnames(ExBabies)<-c("HHID", "NumHMgt2")
+    datause<-merge(datause, ExBabies, by=c("HHID"), all.x=T)
+    #print(colnames(datause))
+  return(datause)
+  } 
+}
 FinancialInclusion<-function(datause, dataList, k){
   # this variable is defined by 2 columns
   datause$var2tab<-0
@@ -1041,7 +1061,7 @@ FinancialInclusion<-function(datause, dataList, k){
     datause$var2tab[vi==1]<-1
     
   }
-  
+
   print(paste("average financial inclusion is ", sum(datause$var2tab*datause$SampleWeight)/sum(datause$SampleWeight)))
   
   

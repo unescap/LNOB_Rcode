@@ -1,5 +1,7 @@
-library(dplyr)
+# this r code update drupal server 100 nodes at a time
 
+library(dplyr)
+library(fun)
 
 source_folder<- "/home/yw/Workspace/rstudio/LNOB_Rcode/"
 data_folder<-paste(source_folder, "output/",sep="") 
@@ -104,6 +106,7 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
     ### Check if it already on the server
     if(dt$type=="tree_data") {
       if (nrow(treeDataDf) > 0) {
+        dt$title<-htmlspecialchars(dt$title)
         currentTD = filter(treeDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo, 
                            field_year == dt$field_year, title == dt$title)
         if (nrow(currentTD) > 0) 
@@ -113,6 +116,7 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
     ### check if 
     else if(dt$type=="d_index") {
       if (nrow(dIndexDataDf) != 0) {
+        dt$title<-htmlspecialchars(dt$title)
         currentDD = filter(dIndexDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo, 
                            field_year == dt$field_year, title == dt$title)
         if (nrow(currentDD) != 0) dt$nid <- head(currentDD,1)$nid
@@ -120,6 +124,8 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
     }
     else if(dt$type=="region_d_index") {
       if (nrow(regionDDataDf) != 0) {
+        dt$title<-htmlspecialchars(dt$title)
+        dt$field_region<-htmlspecialchars(dt$field_region)
         currentDD = filter(regionDDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo,
                            field_year == dt$field_year, title == dt$title, field_region == dt$field_region)
         if (nrow(currentDD) != 0) dt$nid <- head(currentDD,1)$nid
@@ -127,6 +133,8 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
     }
     else if(dt$type=="region_tree_data") {
       if (nrow(regionTreeDataDf) != 0) {
+        dt$title<-htmlspecialchars(dt$title)
+        dt$field_region<-htmlspecialchars(dt$field_region)
         currentDD = filter(regionTreeDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo,
                            field_year == dt$field_year, title == dt$title, field_region == dt$field_region)
         if (nrow(currentDD) != 0) dt$nid <- head(currentDD,1)$nid
@@ -153,7 +161,7 @@ push_together<-function(resultFolder, api_base, key){
   # (right here) ------^ 
     
   dt0<-list()
-
+  ct<-100
   for(dn in data_list){
     dt<-readRDS(paste(resultFolder, dn, sep=""))
     ### these indicators are in the validation data, but not in drupal indicator table
@@ -170,6 +178,7 @@ push_together<-function(resultFolder, api_base, key){
       result <- http_post(endpoint,dt0, api_base, key)
       print(result)
       dt0<-list()
+      ct<-ct+100
     }
   }
 

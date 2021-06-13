@@ -417,17 +417,36 @@ NotCrowded<-function(datause, dataList){
     }
   }
   
-  datause$NumberMember<-as.numeric(as.character(datause$NumberMember))
+
   datause$NumberRoom<-as.numeric(as.character(datause$NumberRoom))
+  #datause$NumberMember<-as.numeric(as.character(datause$NumberMember))
+  datause<-calculateHMexBabies(datause, dataList)
+  
   datause<-datause[!is.na(datause$NumberRoom), ]
-  datause$Density[datause$NumberRoom>0]<-datause$NumberMember[datause$NumberRoom>0]/datause$NumberRoom[datause$NumberRoom>0]
-  datause$Density[datause$NumberRoom==0]<-datause$NumberMember[datause$NumberRoom==0]
+  datause$Density[datause$NumberRoom>0]<-datause$NumHMgt2[datause$NumberRoom>0]/datause$NumberRoom[datause$NumberRoom>0]
+  datause$Density[datause$NumberRoom==0]<-datause$NumHMgt2[datause$NumberRoom==0]
   
   datause$var2tab<-0
   datause$var2tab[datause$Density<=2]<-1
   return(datause)
 }
 
+calculateHMexBabies<-function(datause, dataList){
+  # print(colnames(datause))
+  ageV<-dataList$VarName[dataList$NickName == "Age"]
+  agek<-match(ageV, colnames(datause), nomatch = 0)
+  if(agek==0) return(NULL)
+  else{
+    age<-as.numeric(as.character(datause[, agek]))
+    df<-datause[age>2, ]
+    df$ct<-1
+    ExBabies<-aggregate(df$ct, list(df$cluster_id, df$HouseholdNumber), sum)
+    colnames(ExBabies)<-c("cluster_id", "HouseholdNumber", "NumHMgt2")
+    datause<-merge(datause, ExBabies, by=c("cluster_id", "HouseholdNumber"), all.x=T)
+    #print(colnames(datause))
+    return(datause)
+  }
+}
 
 SafeSanitation<-function(datause, dataList, k, svnm){
   datause$var2tab<-0
@@ -1691,7 +1710,7 @@ add_highestEducation <- function(df, meta_data, data_folder, country_code, versi
   return(df)  
 }
 
-add_reglist<-function(country_code, version_code, datause, meta_data, dataList, regList, religion_data){
+add_reglist<-function(data_folder, country_code, version_code, datause, meta_data, dataList, regList, religion_data){
 
   ### 1  import hh data that has the religion/ethnicity/language variable
 

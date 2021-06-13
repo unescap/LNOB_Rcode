@@ -93,7 +93,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   # specify data set for debugginh
   # dataSet<-c("PR", "IR")
   # dataSet<-c("HR")
-  # dataSet<-c("PR")
+   dataSet<-c("PR")
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
 
@@ -176,6 +176,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # unique_responseList<-c("NoSexualViolence",  "AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence")
     # unique_responseList<-c("AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence")
     # unique_responseList<-c("Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR")
+    unique_responseList<-c("Covid", "NotCrowdedPR")
     # unique_responseList<-c("InternetUse")
     # unique_responseList<-c("SafeSanitation")
     # unique_responseList<-c("PhysicalViolence")
@@ -353,6 +354,10 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
 # csvfile_name7 <- "DHSstandardTL61"
 # csvfile_name8 <- "DHSstandardAM61"   # education variable SH17A
 # csvfile_name9 <- "DHSstandardBD70"   # special questionaire on mobile phone for hh members over 13 yo
-
-
-#run_together(csv_folder, data_folder, output_folder, "AM","61", "2010", NULL, NULL, csvfile_name8, TRUE, FALSE)
+# 
+# run_together<-function(csv_folder, original_data_folder, output_folder, country_code, version_code, 
+#                        year_code, mrversion_code=NULL,
+#                        prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE, region_flag=FALSE, use_version=1, validationfile=NULL, initialIndex=0)
+#   
+# run_together(csv_folder, dhs_data_folder, output_folder, "AM","61",
+#              "2010", NULL, NULL, csvfile_name8, TRUE, FALSE)

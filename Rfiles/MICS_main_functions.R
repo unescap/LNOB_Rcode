@@ -139,7 +139,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
   dataSet<-unique(meta_data$DataSet)
   dataSet<-dataSet[!(dataSet %in% c("DataSet", "mn"))]
   
-  # dataSet<-c("hh")
+  dataSet<-c("hl")
   for(ds in dataSet){
 
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
@@ -201,7 +201,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       print(c("reglist", regList))
       k1<-length(intersect(c("Religion"), regList))
       if(k==0 & k1>0){
-        df<-add_reglist(country_code, version_code, df, meta_data, dataList, c("Religion"), religion_data)
+        df<-add_reglist(data_folder, country_code, version_code, df, meta_data, dataList, c("Religion"), religion_data)
       }
       
       #### second, if Ethnicity exists in hh dataset, not in other datasets, we need to add one of them, 
@@ -238,7 +238,13 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     #print(sum(df$SampleWeight))
     
     # Response variables to model 
-
+    # if(use_version>1){
+    #   responseList<-responseList[responseList$NickName %in% Rlist ,]
+    #   responseList<-responseList[!responseList$NickName %in% c("Covid", "LearningHL", 
+    #                                                            "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") ,]
+    #   
+    # }
+    # 
 
     # responseList<-dataList[dataList$NickName=="MobilePhone" & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
@@ -255,15 +261,11 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     # responseList<-dataList[dataList$NickName %in% c("ProfessionalHelp") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName=="InternetUse" & dataList$IndicatorType=="ResponseV", ]
     
-    if(use_version>1){
-      responseList<-responseList[responseList$NickName %in% Rlist ,]
-      responseList<-responseList[!responseList$NickName %in% c("Covid", "LearningHL", 
-                           "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") ,]
-
-    }
-    rn<-nrow(responseList)
     
-
+   responseList<-dataList[dataList$NickName %in% c("Covid", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
+    
+    rn<-nrow(responseList)
+    if(rn>0){
     for(i in c(1:rn)){
 
       # Printing current iteration of response variable. 
@@ -330,12 +332,16 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
           }
         }
     }
+    }
   }
   if(use_version==3) return(drupalIndex)
 }
 
 ######################################
-# run_together(csv_folder, data_folder, output_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv)
+# (csv_folder, data_folder, output_folder, country_code, version_code,  csvfile_name, education_name, 
+#  religion_name=NULL,  religion=FALSE, region_flag=FALSE, use_version=1, validationfile=NULL, initialIndex=0)
+
+# run_together(csv_folder, mics_data_folder, output_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv)
 # run_together(csv_folder, data_folder, output_folder, "Kazakhstan", "2015",  csvfile_name, edcationcsv)
 # run_together(csv_folder, data_folder, output_folder, "Tonga", "2019",  csvfile_name, edcationcsv)
 # run_together(csv_folder, data_folder, output_folder, "Kyrgyzstan", "2014",  csvfile_name, edcationcsv)

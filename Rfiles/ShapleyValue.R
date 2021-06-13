@@ -85,7 +85,7 @@ cal_HOI_shapley<-function(datause, vm)
   #   result<-c(result, a, Pa)
   # }
 
-  return(list(Overall_D=Overall_D, HOI=HOI, drupalData=toJSON(result, auto_unbox = TRUE)))
+  return(list(Overall_D=Overall_D, HOI=HOI, drupalData=result))
 }
 
 #cal_HOI_shapley(datause, vm)

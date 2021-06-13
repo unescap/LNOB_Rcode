@@ -30,7 +30,6 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
   #### tree
   #### add a data type parameter, if numeric, we use a different criterion
   sub_string<-NULL
-  
   if(use_version==1 | validation){
     
     if(region_flag){
@@ -59,7 +58,7 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
                               religion, ds_output_folder, ds, filename, use_version, drupalIndex)
   
       drupalIndex<-c(tree_result$drupalIndex)
-      if(drupalIndex>t0)  {      
+      if(drupalIndex>t0  | use_version==1)  {      
         result_log$TreeFileID=paste("R", t0, sep="")
         result_log$tree_stat<-c(tree_result$tree_stat)
       }
@@ -76,7 +75,7 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
                             ds_output_folder, filename, use_version, drupalIndex)
 
       drupalIndex<-c(d_result$drupalIndex)
-      if(drupalIndex>t0) {       
+      if(drupalIndex>t0 | use_version==1) {       
         result_log$DindexFileID=paste("R", t0, sep="")
         result_log$d_index<-c(d_result$Overall_D)
         result_log$HOI<-c(d_result$HOI)
@@ -184,21 +183,23 @@ write_tree <- function(survey_source, datause, country_code, version_code, regio
   tree_stat<- catch_error(build_tree(output_folder, country_code, version_code, datause, rv, rtp, 
                                      formula_string, title_string, sub_string, filename, e = religion, 
                                      region))
-  if(use_version==3 & !is.null(tree_stat$tree_stat))
+  if(!is.null(tree_stat$tree_stat))
   {
     ### for version 3, we store the data in one folder for publication
 
-    type<- ifelse(region=="National",  "tree_data", "region_tree_data")
-    title_string<-paste(country_code, version_code, rv, region, ifelse(religion, "Religion", "NoReligion"), sep="-")
-    drupal_data<-dataForDrupal(tree_stat[2], type, survey_source, ds, title_string, formula_string, 
-                                                      country_code, version_code, rv, region)
-
-    rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
-
-    saveRDS(drupal_data, file = rdsname)
-
+    if(use_version==3){
+      type<- ifelse(region=="National",  "tree_data", "region_tree_data")
+      title_string<-paste(country_code, version_code, rv, region, ifelse(religion, "Religion", "NoReligion"), sep="-")
+      drupal_data<-dataForDrupal(toString(toJSON(tree_stat[2], flatten = TRUE)), type, survey_source, ds, title_string, formula_string, 
+                                 country_code, version_code, rv, region)
+      
+      rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
+      
+      saveRDS(drupal_data, file = rdsname)
+      drupalIndex<-drupalIndex+1
+    }
     tree_stat<-c(tree_stat$tree_stat)
-    return(list(drupalIndex=drupalIndex+1, tree_stat=tree_stat)) 
+    return(list(drupalIndex=drupalIndex, tree_stat=tree_stat)) 
   }  
  
   else return(list(drupalIndex=drupalIndex, tree_stat=NULL))
@@ -220,7 +221,7 @@ write_HOI_D <- function(survey_source, datause, country_code, version_code, regi
     title_string<-paste(country_code, version_code, rv, region, ifelse(religion, "Religion", "NoReligion"), sep="-")
     ### for version 3, we store the data in one folder for publication
     type<-ifelse(region=="National", "d_index", "region_d_index")
-    drupal_data<-dataForDrupal(result$drupalData, type, survey_source, ds, title_string, formula_string, 
+    drupal_data<-dataForDrupal(toJSON(result$drupalData, auto_unbox = TRUE), type, survey_source, ds, title_string, formula_string, 
                                  country_code, version_code, rv, region)
       
 

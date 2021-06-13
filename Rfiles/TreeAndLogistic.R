@@ -140,7 +140,7 @@ build_tree<-function(source_folder, country_code, version_code, datause, Respons
       dev.off()
     }
     
-    return(list(tree_stat=tree_stat, data2=toString(toJSON(data2, flatten = TRUE))))
+    return(list(tree_stat=tree_stat, data2=data2))
   }
   else return(list(tree_stat=NULL, data2=NULL))
 }
