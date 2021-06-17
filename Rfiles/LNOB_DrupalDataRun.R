@@ -19,6 +19,9 @@ csvfile_name7 <- "DHSstandardTL61"
 csvfile_name8 <- "DHSstandardAM61"   # education variable SH17A
 csvfile_name9 <- "DHSstandardBD70"   # special questionaire on mobile phone for hh members over 13 yo
 
+
+#### change to validated.csv: previously PR dataset was used for mobile phone in India survey.
+#### we are manually changing it to IR dataset.
 validatedcsv<-"/home/yw/Workspace/rstudio/LNOB_Rcode/CSVdatabase/validated.csv"
 
 r_folder<-paste(source_folder, "Rfiles/", sep="")
@@ -70,104 +73,104 @@ drupalI<-run_together(csv_folder, data_folder, drupal_folder, "ID","71", "2017",
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, TRUE, TRUE, use_version=3, validatedcsv, drupalI)
 
-
-source(paste(r_folder,"MICS_main_functions.R",sep=""))
-
-#### running MICS:
-data_folder<-mics_data_folder
-print(csv_folder)
-
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv,
-                      NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv,
-                      religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv,
-                      NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv,
-                      religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-# # bhutan religiondata not created, only one religion in the country
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Bhutan", "2010",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Georgia", "2018",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Georgia", "2018",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kazakhstan", "2010",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kazakhstan", "2010",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kazakhstan", "2015",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kazakhstan", "2015",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kyrgyzstan", "2014",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kyrgyzstan", "2014",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kyrgyzstan", "2018",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kyrgyzstan", "2018",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kiribati", "2019",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kiribati", "2019",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Lao", "2011",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Lao", "2011",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Lao", "2017",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Lao", "2017",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Mongolia", "2013",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Mongolia", "2013",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Mongolia", "2018",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Mongolia", "2018",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Nepal", "2019",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Nepal", "2019",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2012",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2012",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2015",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2019",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2019",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Tonga", "2019",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Tonga", "2019",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2015",  csvfile_name, edcationcsv,
-                      NULL, FALSE, TRUE, use_version=3, validatedcsv, initialIndex=drupalI)
-
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2015",  csvfile_name, edcationcsv,
-                      religioncsv, TRUE, TRUE, use_version=3, validatedcsv, initialIndex=drupalI)
-
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Vietnam", "2010",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Vietnam", "2010",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "VietNam", "2013",  csvfile_name, edcationcsv,
-                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
-drupalI<- run_together(csv_folder, data_folder, drupal_folder, "VietNam", "2013",  csvfile_name, edcationcsv,
-                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-
-
-# # ###  no Uzbekistan 2006 csv file
-# # run_together(csv_folder, data_folder, drupal_folder, "Uzbekistan", "2006",  csvfile_name, edcationcsv)
-# # run_together(csv_folder, data_folder, drupal_folder, "Uzbekistan", "2006",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
-#
+# 
+# source(paste(r_folder,"MICS_main_functions.R",sep=""))
+# 
+# #### running MICS:
+# data_folder<-mics_data_folder
+# print(csv_folder)
+# 
+# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv,
+#                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv,
+#                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv,
+#                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv,
+#                       religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# # # bhutan religiondata not created, only one religion in the country
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Bhutan", "2010",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Georgia", "2018",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Georgia", "2018",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kazakhstan", "2010",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kazakhstan", "2010",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kazakhstan", "2015",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kazakhstan", "2015",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kyrgyzstan", "2014",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kyrgyzstan", "2014",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kyrgyzstan", "2018",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kyrgyzstan", "2018",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kiribati", "2019",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kiribati", "2019",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Lao", "2011",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Lao", "2011",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Lao", "2017",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Lao", "2017",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Mongolia", "2013",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Mongolia", "2013",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Mongolia", "2018",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Mongolia", "2018",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Nepal", "2019",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Nepal", "2019",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2012",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2012",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2015",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2019",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2019",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Tonga", "2019",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Tonga", "2019",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# 
+# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2015",  csvfile_name, edcationcsv,
+#                       NULL, FALSE, TRUE, use_version=3, validatedcsv, initialIndex=drupalI)
+# 
+# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2015",  csvfile_name, edcationcsv,
+#                       religioncsv, TRUE, TRUE, use_version=3, validatedcsv, initialIndex=drupalI)
+# 
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Vietnam", "2010",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Vietnam", "2010",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "VietNam", "2013",  csvfile_name, edcationcsv,
+#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "VietNam", "2013",  csvfile_name, edcationcsv,
+#                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
+# 
+# 
+# # # ###  no Uzbekistan 2006 csv file
+# # # run_together(csv_folder, data_folder, drupal_folder, "Uzbekistan", "2006",  csvfile_name, edcationcsv)
+# # # run_together(csv_folder, data_folder, drupal_folder, "Uzbekistan", "2006",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
+# #

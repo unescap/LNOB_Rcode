@@ -167,8 +167,10 @@ indList<-function(rv, caste = FALSE ){
     iv<-c("PoorerHousehold", "Residence", "aGroup", "NUnder5", "Education")
   else if (rv %in% c("NoSexualViolence",  "AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", 
                      "EmotionalViolence", "NoSexualPhysicalViolence", "NoPhysicalViolence"))
-    iv<-c("PoorerHousehold", "Residence", "aGroup", "NUnder5", "Education", "HusbandAge", "HusbandEducation", "HusbandAlcohol", "FatherBeatMother", 
-          "AgeDifference", "EducationDifference")
+    iv<-c("PoorerHousehold", "Residence", "aGroup", "NUnder5", "Education")
+          # return to basic model on voilence variables, June 14 2021 email
+          #  , "HusbandAge", "HusbandEducation", "HusbandAlcohol", "FatherBeatMother", 
+          # "AgeDifference", "EducationDifference")
   
   else if(rv %in% c("HealthInsurance", "InternetUse", "MobileFinance", "FinancialInclusion", "BankAccount", "MobilePhone") )
     ### some survey only has married women or men in the IR or MR dataset, in that case we need to exclude Marriage Status from the model

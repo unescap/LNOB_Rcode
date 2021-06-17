@@ -190,7 +190,7 @@ write_tree <- function(survey_source, datause, country_code, version_code, regio
     if(use_version==3){
       type<- ifelse(region=="National",  "tree_data", "region_tree_data")
       title_string<-paste(country_code, version_code, rv, region, ifelse(religion, "Religion", "NoReligion"), sep="-")
-      drupal_data<-dataForDrupal(toString(toJSON(tree_stat[2], flatten = TRUE)), type, survey_source, ds, title_string, formula_string, 
+      drupal_data<-dataForDrupal(toString(toJSON(tree_stat$data2, flatten = TRUE)), type, survey_source, ds, title_string, formula_string, 
                                  country_code, version_code, rv, region)
       
       rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")

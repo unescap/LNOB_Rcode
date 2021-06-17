@@ -93,7 +93,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   # specify data set for debugginh
   # dataSet<-c("PR", "IR")
   # dataSet<-c("HR")
-   dataSet<-c("PR")
+   dataSet<-c("IR")
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
 
@@ -173,10 +173,12 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
 
     # DEBUG
     # debug <- unique_responseList[match("ChildMarriage18", unique_responseList)]
-    # unique_responseList<-c("NoSexualViolence",  "AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence")
+    unique_responseList<-c("NoSexualViolence",  "AllViolence", "SexualPhysicalViolence", "PhysicalViolence", 
+                           "SexualViolence",  "EmotionalViolence", "NoSexualPhysicalViolence", "NoPhysicalViolence")
+    
     # unique_responseList<-c("AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence")
     # unique_responseList<-c("Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR")
-    unique_responseList<-c("Covid", "NotCrowdedPR")
+    # unique_responseList<-c("Covid", "NotCrowdedPR")
     # unique_responseList<-c("InternetUse")
     # unique_responseList<-c("SafeSanitation")
     # unique_responseList<-c("PhysicalViolence")
