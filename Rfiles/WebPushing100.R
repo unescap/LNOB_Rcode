@@ -11,8 +11,7 @@ source(paste(r_folder,"http_request.R",sep=""))
 
 # pubDatafolder<-paste(data_folder,"drupalData20210615DHSviolence/",sep="")
 # pubDatafolder<-paste(data_folder,"drupalData20210604version/",sep="")
-# pubDatafolder<-paste(data_folder,"drupalData20210614DHSviolence/",sep="")
-# pubDatafolder<-paste(data_folder,"drupalDatatesting/",sep="")
+pubDatafolder<-paste(data_folder,"drupalDatatesting/",sep="")
 # runtime<-format(Sys.time(), "%Y%m%d%H%M%S")
 ### it is by design that this data folder name change every time
 ### you need to type in the correct folder name and then run "Source", all .rds files
@@ -72,8 +71,19 @@ gettingDrupalFiles<-function(api_base, key){
 }
   #### getting the list of results for publication
 
-  
+DrupalList<-function(TypeList){
+  ### creating drupal list with 4 components
+  emptyList<-vector(mode = "list", length = length(TypeList))
+  names(emptyList)<-TypeList
+  return(emptyList)
+}
 
+# PostDrupal<-function(DrupalList, api_base, key){
+#     
+#     
+#     return(DrupalList)
+#   }
+# 
 
 
 drupalNIDsearch<-function(dt, drupalFiles, nid=NULL){
@@ -142,17 +152,17 @@ drupalNIDsearch<-function(dt, drupalFiles, nid=NULL){
         if (nrow(currentDD) != 0) dt$nid <- head(currentDD,1)$nid
       }
     }
-    dt$moderation_state <- "draft"
    return(dt)
 }
 
 
-push_together<-function(resultFolder, drupalFiles, api_base, key, method=1,rdsList=NULL, indList=NULL){
+push_together<-function(resultFolder, drupalFiles, api_base, key, method=1,rdsList=NULL, indList=NULL, countryList=NULL){
 ### result_folder is where the r outputs in rds format are saved
 ### method =1, push everything in the folder
 ### method =2, push from a list of rds
 ### method =3, push by indicators
-### method =4, push by countries, etc.
+### method =4, push by countries, etc. Must use the iso-3 country code
+### method =5, update the moderation_state on existing nodes on the server
   
   data_list<-list.files(resultFolder, ".rds")
   if(length(data_list)==0) {
@@ -160,15 +170,10 @@ push_together<-function(resultFolder, drupalFiles, api_base, key, method=1,rdsLi
       return()
   }
 
-  # no longer used. we send batch data to the server and download 
-  # the drupal files later to check the publication results.
 
-  
-  # Error: parse error: premature EOF
-  # (right here) ------^ 
-    
-  dt0<-list()
-  ct<-30
+  drupalTpe<-c("tree_data", "d_index", "region_tree_data", "region_d_index")
+  dt0<-DrupalList(drupalTpe) ### create an empty list of four components
+  ct<-0
   for(dn in data_list){
     dt<-readRDS(paste(resultFolder, dn, sep=""))
     ### these indicators are in the validation data, but not in drupal indicator table
@@ -184,42 +189,66 @@ push_together<-function(resultFolder, drupalFiles, api_base, key, method=1,rdsLi
       if(dt$field_indicator %in% indList) inlist<-TRUE
     }
 
+    if(method==4){
+      if(length(countryList)==0) {
+        print("No country list for method 4, program exits")
+        return()
+      }
+      countryIso3<-substr(dt$title, 1, 3)
+      if(countryIso3 %in% countryList) inlist<-TRUE
+    }
+    
 
-      if(method==2){
-        if(length(rdsList)==0) {
-          print("No nid list for method 2, program exits")
-          return()
+    if(method==2){
+      if(length(rdsList)==0) {
+        print("No nid list for method 2, program exits")
+        return()
+      }
+      if(result$nid %in% rdsList) inlist<-TRUE
+    }
+    
+   if(method %in% c(1, 5) | inlist) {
+      result<-drupalNIDsearch(dt, drupalFiles, nid)
+      result$moderation_state <- "draft"
+      
+      if(method==5){
+        if(!is.null(result$nid)){
+          result$moderation_state <- "published"
+          dt0[[result$type]]<-append(dt0[[result$type]], list(result))
+          ct<-ct+1
         }
-        if(result$nid %in% rdsList) inlist<-TRUE
       }
-      if(method==1 | inlist) {
-        result<-drupalNIDsearch(dt, drupalFiles, nid)
-        dt0<-append(dt0, list(result))
+      else {
+        dt0[[result$type]]<-append(dt0[[result$type]], list(result))
+        ct<-ct+1
       }
+    }
     
 
-    
-    
-    if(length(dt0)==30){
-      print("posting now ----")
-      Sys.sleep(10)
-      print(ct)
-      endpoint <- "node-create"
-      result <- http_post(endpoint,dt0, api_base, key)
-      print(result)
-      dt0<-list()
-      ct<-ct+30
+    for(t in drupalTpe){
+      if(length(dt0[[t]])==10){
+        print(paste(t, " posting now ----"))
+        Sys.sleep(10)
+        endpoint <- "node-create"
+        # result <- http_post(endpoint,dt0[[t]], api_base, key)
+        # print(result)
+        dt0[[t]]<-list()
+      }
     }
   }
 
-  if(length(dt0)>0) {
-    print("posting last batch ----")
-    Sys.sleep(10)
-    print(ct)
-    endpoint <- "node-create"
-    result <- http_post(endpoint,dt0, api_base, key)
-    print(result)
+  for(t in drupalTpe){
+    if(length(dt0[[t]])>0){
+      print(paste(t, " posting now ----"))
+      Sys.sleep(10)
+      endpoint <- "node-create"
+      # result <- http_post(endpoint,dt0[[t]], api_base, key)
+      # print(result)
+      rtd<-dt0[[t]]
+      for(i in c(1:length(dt0[[t]]))) print(rtd[[i]]$title)
     }
+  }
+
 }
 
 checkingDrupalFiles<-function(drupalFiles, comm_vars){
@@ -247,8 +276,8 @@ checkingDrupalFiles<-function(drupalFiles, comm_vars){
 
 # push_together(pubDatafolder, drupalFiles, api_base, key, method = 1)
 
-push_together(pubDatafolder, drupalFiles, api_base, key, method = 3, 
-              rdsList = NULL, indList = c("BasicWater", "NoViolenceJustifiedAgainstWomen"))
+# push_together(pubDatafolder, drupalFiles, api_base, key, method = 3, 
+#               rdsList = NULL, indList = c("BasicWater", "NoViolenceJustifiedAgainstWomen"))
 
 
 comm_vars<-c("title", "uuid", "nid", "moderation_state", "field_geo",
@@ -257,7 +286,7 @@ comm_vars<-c("title", "uuid", "nid", "moderation_state", "field_geo",
 
 # drupalFiles<-gettingDrupalFiles(api_base, key)
 # drupalRecords<-checkingDrupalFiles(drupalFiles, comm_vars)
-
+push_together(pubDatafolder, drupalFiles, api_base, key, method = 5)
 
 ######### actual use
 ######### using the & to detect escape titles and reset the title on the server

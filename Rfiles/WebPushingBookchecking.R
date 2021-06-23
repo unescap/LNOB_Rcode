@@ -7,8 +7,10 @@ r_folder<-paste(source_folder, "Rfiles/", sep="")
 source(paste(r_folder,"Config_drupalkey.R",sep="")) ### obtain api_base, key
 source(paste(r_folder,"http_request.R",sep=""))  
 
+#### two folders that have the data for publication
 pubDatafolder<-paste(data_folder,"drupalData20210604version/",sep="")
 # pubDatafolder<-paste(data_folder,"drupalData20210615DHSviolence/",sep="")
+
 # pubDatafolder<-paste(data_folder,"drupalDatatesting/",sep="")
 # runtime<-format(Sys.time(), "%Y%m%d%H%M%S")
 ### it is by design that this data folder name change every time
@@ -47,8 +49,8 @@ checking<-function(resultFolder, drupalFiles){
     dt$nid<-NA
     if(k==1) dt$nid<-drupalLine$nid
     else if(k>1) dt$nid<-paste(drupalLine$nid, collapse=", ")
-
-    logcsv<-paste(resultFolder, "/validation/checking7.csv", sep="") ### assuiming the validation subfolder is always there
+    dt$Religion_flag<-grepl("-Religion-", dt$title)
+    logcsv<-paste(resultFolder, "/validation/checking20210620.csv", sep="") ### assuiming the validation subfolder is always there
     if(file.exists(logcsv))
       write.table(dt, logcsv, sep=",", 
                   append = TRUE,   col.names = F, row.names = F)
@@ -82,7 +84,16 @@ checking(pubDatafolder, drupalRecords)
 #               append = TRUE,   col.names = T, row.names = F)
 
 # 
-# logcsv<-paste("/home/yw/Workspace/rstudio/LNOB_Rcode/Doc/drupalRecords/drupalRecords20210617Violencedata.csv", sep="") ### assuiming the validation subfolder is always there
-# 
-# write.table(drupalRecords, logcsv, sep=",", 
+
+#### June 18th, assembles the nids with religion 
+# religion<-grepl("-Religion-", drupalRecords$title)
+# nid_relgion<-drupalRecords$nid[religion]
+# logcsv<-paste("/home/yw/Workspace/rstudio/LNOB_Rcode/Doc/religionNids.csv", sep="") 
+# write.table(nid_relgion, logcsv, sep=",",
+#                           append = TRUE,   col.names = T, row.names = F)
+
+# June 20th, checking all outputs-nids are ready and loaded properly.
+# snapshot of the current drupal datasets
+# logcsv<-paste("/home/yw/Workspace/rstudio/LNOB_Rcode/Doc/drupalRecords/drupalRecords20210620Afternoon.csv", sep="")
+# write.table(drupalRecords, logcsv, sep=",",
 #                           append = TRUE,   col.names = T, row.names = F)
