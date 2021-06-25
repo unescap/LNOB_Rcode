@@ -172,7 +172,8 @@ push_together<-function(resultFolder, drupalFiles, api_base, key, method=1,rdsLi
 
 
   drupalTpe<-c("tree_data", "d_index", "region_tree_data", "region_d_index")
-  dt0<-DrupalList(drupalTpe) ### create an empty list of four components
+  # dt0<-DrupalList(drupalTpe) ### create an empty list of four components
+  dt0<-list()
   ct<-0
   for(dn in data_list){
     dt<-readRDS(paste(resultFolder, dn, sep=""))
@@ -209,16 +210,18 @@ push_together<-function(resultFolder, drupalFiles, api_base, key, method=1,rdsLi
     
    if(method %in% c(1, 5) | inlist) {
       result<-drupalNIDsearch(dt, drupalFiles, nid)
-      result$moderation_state <- "draft"
+
       
       if(method==5){
         if(!is.null(result$nid)){
           result$moderation_state <- "published"
-          dt0[[result$type]]<-append(dt0[[result$type]], list(result))
+          # dt0[[result$type]]<-append(dt0[[result$type]], list(result))
+          dt0<-append(dt0, list(result))
           ct<-ct+1
         }
       }
       else {
+        result$moderation_state <- "draft"
         dt0[[result$type]]<-append(dt0[[result$type]], list(result))
         ct<-ct+1
       }
@@ -228,26 +231,32 @@ push_together<-function(resultFolder, drupalFiles, api_base, key, method=1,rdsLi
     for(t in drupalTpe){
       if(length(dt0[[t]])==10){
         print(paste(t, " posting now ----"))
-        Sys.sleep(10)
+        Sys.sleep(2)
         endpoint <- "node-create"
-        # result <- http_post(endpoint,dt0[[t]], api_base, key)
-        # print(result)
+        rdt<-dt0[[t]]
+        result <- http_post(endpoint,rdt, api_base, key)
+        print(result)
         dt0[[t]]<-list()
       }
     }
   }
 
-  for(t in drupalTpe){
-    if(length(dt0[[t]])>0){
+  #for(t in drupalTpe){
+    if(length(dt0)>0){
       print(paste(t, " posting now ----"))
-      Sys.sleep(10)
+      Sys.sleep(2)
       endpoint <- "node-create"
-      # result <- http_post(endpoint,dt0[[t]], api_base, key)
-      # print(result)
-      rtd<-dt0[[t]]
-      for(i in c(1:length(dt0[[t]]))) print(rtd[[i]]$title)
+      # rdt<-dt0[[t]]
+      # result <- http_post(endpoint,rdt, api_base, key)
+      
+      
+      result <- http_post(endpoint,dt0, api_base, key)
+      print(result)
+      # rtd<-dt0[[t]]
+      # for(i in c(1:length(dt0[[t]]))) print(rtd[[i]]$title)
     }
-  }
+  #}
+  print(dt0)
 
 }
 

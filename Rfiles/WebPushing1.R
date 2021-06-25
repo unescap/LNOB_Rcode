@@ -10,8 +10,8 @@ source(paste(r_folder,"Config_drupalkey.R",sep="")) ### obtain api_base, key
 source(paste(r_folder,"http_request.R",sep=""))  
 source(paste(r_folder,"WebPushing100.R",sep=""))  
 
-pubDatafolder<-paste(data_folder,"drupalData20210604version/",sep="")
-# pubDatafolder<-paste(data_folder,"drupalDatatesting/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalData20210604version/",sep="")
+pubDatafolder<-paste(data_folder,"drupalDatatesting/",sep="")
 # runtime<-format(Sys.time(), "%Y%m%d%H%M%S")
 ### it is by design that this data folder name change every time
 ### you need to type in the correct folder name and then run "Source", all .rds files

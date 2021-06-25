@@ -4,6 +4,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   
   VarName<- dataList$VarName[dataList$NickName==rv & dataList$IndicatorType %in% c("ResponseV", "MresponseV", "PresponseV")]
   k<-match(VarName, colnames(df), nomatch = 0)
+  print(k)
   l<-length(k)
 
   if(sum(k)==0 ){
@@ -11,7 +12,9 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
     return(NULL)
   }
 
-  if(!rv=="AdolescentBirthRate") {
+  if(!rv=="AdolescentBirthRate" & !(rv %in% c("HealthcareNotAffordable", 
+                                              "HealthcareFar", "HealthcareNotAccessible", 
+                                              "HealthcareNotUsed", "HealthcareDiscouraged"))){
   for(i in c(1:l))
     if(is.na(k[i])) {
       print(paste("Response variable -- ", rv, "(",  VarName[i], ") not found"))
@@ -82,7 +85,10 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   else if (rv=="SafeSanitationPR") datause<- SafeSanitation(df, dataList, k, svnm)
   else if (rv=="WaterOnsitePR") datause<-WaterOnsitePR(df, dataList, k, svnm)   # to be defined
   else if (rv=="LearningPR") datause<-Learning(df, dataList)   
-  else if (rv=="NotCrowdedPR") datause<-NotCrowded(df, dataList, k)   
+  else if (rv=="NotCrowdedPR") datause<-NotCrowded(df, dataList, k) 
+  else if (rv %in% c("HealthcareNotAffordable", "HealthcareFar", "HealthcareNotAccessible", 
+                   "HealthcareNotUsed")) datause<-HealthCare(df, dataList, k) 
+  else if (rv %in% c("HealthcareDiscouraged")) datause<-HealthcareDiscouraged(df, dataList, k) 
   
   
   ###### End of Programmer Note1
@@ -161,7 +167,9 @@ indList<-function(rv, caste = FALSE ){
     iv<-c("PoorerHousehold", "Residence", "Sex") 
   else if (rv=="Land") 
     iv<-c("PoorerHousehold", "HHSex", "HighestEducation") 
-  else if(rv=="ProfessionalHelp") 
+  else if(rv %in% c("ProfessionalHelp", "HealthcareNotAffordable", 
+                    "HealthcareFar", "HealthcareNotAccessible", 
+                    "HealthcareNotUsed", "HealthcareDiscouraged"))
     iv<-c("PoorerHousehold", "Residence", "aGroup", "MarriageStatus", "NUnder5", "Education")
   else if (rv %in% c("ContraceptiveMethod")) 
     iv<-c("PoorerHousehold", "Residence", "aGroup", "NUnder5", "Education")
@@ -1228,6 +1236,46 @@ Covid<-function(datause, dataList, k, svnm){
   print("covid (new): ")
   print(sum(datause$SampleWeight[datause$var2tab==1])/sum(datause$SampleWeight))
   return(datause)
+}
+
+
+HealthCare<-function(datause, dataList, k) {
+  kl<-length(k)
+  if(kl==0) return(NULL)
+  datause$var2tab<-0
+  for (i in c(1:kl)){
+    ki<-k[i]
+    datause$var2tab[datause[ki]==1]<-1
+    
+  }
+  if(nrow(datause[datause$var2tab==1, ])==0) return(NULL)
+  else return(datause)
+}
+
+
+HealthcareDiscouraged<-function(datause, dataList, k) {
+  # Any of the other the factors is a BIG problem except (b) or (c) (Name: HealthcareNotAllowed) 
+
+  kl<-length(k)
+  if(kl==0) return(NULL)
+  
+  VarName<- dataList$VarName[dataList$NickName=="HealthcareNotAccessible" & dataList$IndicatorType %in% c("ResponseV", "MresponseV", "PresponseV")]
+  kNA<-match(VarName, colnames(datause), nomatch = 0)
+  kNAl<-length(kNA)
+  for (i in c(1:kNAl)){
+    ki<-kNA[i]
+   deL<- (datause[, ki]==1)
+   datause<-datause[!deL, ]
+  }
+  
+  datause$var2tab<-0
+  for (i in c(1:kl)){
+    ki<-k[i]
+    datause$var2tab[datause[,ki]==1]<-1
+    
+  }
+  if(nrow(datause[datause$var2tab==1, ])==0) return(NULL)
+  else return(datause)
 }
 
 ####### End of Programmer Note2

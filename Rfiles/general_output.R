@@ -58,6 +58,8 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
                               religion, ds_output_folder, ds, filename, use_version, drupalIndex)
   
       drupalIndex<-c(tree_result$drupalIndex)
+      print("tree output")
+      print(drupalIndex)
       if(drupalIndex>t0  | use_version==1)  {      
         result_log$TreeFileID=paste("R", t0, sep="")
         result_log$tree_stat<-c(tree_result$tree_stat)
@@ -75,6 +77,8 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
                             ds_output_folder, filename, use_version, drupalIndex)
 
       drupalIndex<-c(d_result$drupalIndex)
+      print("d index output")
+      print(drupalIndex)
       if(drupalIndex>t0 | use_version==1) {       
         result_log$DindexFileID=paste("R", t0, sep="")
         result_log$d_index<-c(d_result$Overall_D)

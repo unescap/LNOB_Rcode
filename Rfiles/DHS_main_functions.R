@@ -173,9 +173,11 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
 
     # DEBUG
     # debug <- unique_responseList[match("ChildMarriage18", unique_responseList)]
-    unique_responseList<-c("NoSexualViolence",  "AllViolence", "SexualPhysicalViolence", "PhysicalViolence", 
-                           "SexualViolence",  "EmotionalViolence", "NoSexualPhysicalViolence", "NoPhysicalViolence")
-    
+    # unique_responseList<-c("NoSexualViolence",  "AllViolence", "SexualPhysicalViolence", "PhysicalViolence", 
+    #                        "SexualViolence",  "EmotionalViolence", "NoSexualPhysicalViolence", "NoPhysicalViolence")
+    unique_responseList<-c("HealthcareNotAffordable", 
+                           "HealthcareFar", "HealthcareNotAccessible", 
+                           "HealthcareNotUsed", "HealthcareDiscouraged")
     # unique_responseList<-c("AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence")
     # unique_responseList<-c("Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR")
     # unique_responseList<-c("Covid", "NotCrowdedPR")
@@ -275,7 +277,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
       }
     } # for(rv in unique_responseList)
   } # for(ds in dataSet) 
-  if(use_version==3) return(drupalIndex)
+  return(drupalIndex)
 } # function()
 
 # drupalI<-run_together(csv_folder, data_folder, drupal_folder, "AF","70", "2015", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
