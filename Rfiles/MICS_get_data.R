@@ -610,7 +610,7 @@ SecondaryEducation35plus<-function(datause, dataList, k, educationList){
   gradeK<-match(gradeV, colnames(datause))
   datause[ , gradeK]<-as.numeric(as.character(datause[ , gradeK]))
   if(is.na(ageK)) {
-    print("Age for SecondaryEducation2035 can't be found")
+    print("Age for SecondaryEducation35plus can't be found")
     return(NULL)
   }
   

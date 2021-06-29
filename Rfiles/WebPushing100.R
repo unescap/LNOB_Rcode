@@ -10,7 +10,7 @@ source(paste(r_folder,"Config_drupalkey.R",sep="")) ### obtain api_base, key
 source(paste(r_folder,"http_request.R",sep=""))  
 
 # pubDatafolder<-paste(data_folder,"drupalData20210604version/",sep="")
-# pubDatafolder<-paste(data_folder,"drupalDatatesting/",sep="")
+pubDatafolder<-paste(data_folder,"drupalDatatesting/",sep="")
 # runtime<-format(Sys.time(), "%Y%m%d%H%M%S")
 ### it is by design that this data folder name change every time
 ### you need to type in the correct folder name and then run "Source", all .rds files
@@ -140,12 +140,12 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
         if (nrow(currentDD) != 0) dt$nid <- head(currentDD,1)$nid
       }
     }
-    dt$moderation_state <- "draft"
+    dt$moderation_state <- "Published"
    return(dt)
 }
 
 
-push_together<-function(resultFolder, api_base, key){
+push_together<-function(resultFolder, drupalFiles, api_base, key){
   data_list<-list.files(resultFolder, ".rds")
   if(length(data_list)==0) {
     print("No Data Found")
@@ -155,7 +155,7 @@ push_together<-function(resultFolder, api_base, key){
   # no longer used. we send batch data to the server and download 
   # the drupal files later to check the publication results.
   # logcsv<-paste(resultFolder, "validation/pushlogfile.csv", sep="")
-  drupalFiles<-gettingDrupalFiles(api_base, key)
+  # drupalFiles<-gettingDrupalFiles(api_base, key)
   
   # Error: parse error: premature EOF
   # (right here) ------^ 
@@ -165,7 +165,7 @@ push_together<-function(resultFolder, api_base, key){
   for(dn in data_list){
     dt<-readRDS(paste(resultFolder, dn, sep=""))
     ### these indicators are in the validation data, but not in drupal indicator table
-    if(! (dt$field_indicator %in% c("BasicWater", "NoViolenceJustifiedAgainstWomen", "MobilePhonePR")))
+    if(! (dt$field_indicator %in% c("MobilePhonePR")))
       {
       dt0<-append(dt0, list(drupalPush(dt, drupalFiles, api_base, key)))
 
@@ -187,15 +187,43 @@ push_together<-function(resultFolder, api_base, key){
     #Sys.sleep(5)
     print(ct)
     endpoint <- "node-create"
+    # print(dt0)
     result <- http_post(endpoint,dt0, api_base, key)
     print(result)
     }
 }
 
+checkingDrupalFiles<-function(drupalFiles, comm_vars){
+  
+  treeDataDf <- drupalFiles$treeDataDf
+  treeDataDf$drupalTableName<-"tree_data"
+  treeDataDf<-treeDataDf[, colnames(treeDataDf) %in% comm_vars]
+  
+  dIndexDataDf <- drupalFiles$dIndexDataDf
+  dIndexDataDf$drupalTableName <-"d_index"
+  dIndexDataDf<-dIndexDataDf[, colnames(dIndexDataDf) %in% comm_vars]
+  
+  regionTreeDataDf <- drupalFiles$regionTreeDataDf
+  regionTreeDataDf$drupalTableName<-"region_tree_data"
+  regionTreeDataDf<-regionTreeDataDf[, colnames(regionTreeDataDf) %in% comm_vars]
+  
+  regionDDataDf <- drupalFiles$regionDDataDf
+  regionDDataDf$drupalTableName<-"region_d_index"
+  regionDDataDf<-regionDDataDf[, colnames(regionDDataDf) %in% comm_vars]
+  
+  
+  return(rbind(treeDataDf, dIndexDataDf, regionTreeDataDf, regionDDataDf) ) 
+}
 
-# push_together(pubDatafolder, api_base, key)
+
+# drupalFilesPush<-gettingDrupalFiles(api_base, key)
+comm_vars<-c("title", "uuid", "nid", "moderation_state", "field_geo",
+             "field_indicator", "field_year", "field_survey_type", "field_geo_name",
+             "drupalTableName")  # "field_data",
+# drupalRecords<-checkingDrupalFiles(drupalFilesPush, comm_vars)
 
 
+# push_together(pubDatafolder, drupalFiles, api_base, key)
 
 
 

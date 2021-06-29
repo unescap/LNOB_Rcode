@@ -60,7 +60,7 @@ csvfile_name<-"MICS"
 
 
 
-
+data_folder<-mics_data_folder
 
 
 run_together_edu(source_folder, data_folder, output_folder, "Afghanistan", "2010", csvfile_name)
