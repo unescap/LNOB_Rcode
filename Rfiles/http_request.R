@@ -18,8 +18,8 @@ http_post <- function (endpoint, request_body, api_base, key) {
                add_headers(`Content-Type`="application/json",`api-key`= key))
   #print(result)
   #return("ok")
-  # return (content(result))
-  return(result)
+  return (content(result))
+  # return(result)
 }
 
 http_get <- function (endpoint, api_base, key) {
