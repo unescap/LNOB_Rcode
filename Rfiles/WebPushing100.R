@@ -10,7 +10,8 @@ source(paste(r_folder,"Config_drupalkey.R",sep="")) ### obtain api_base, key
 source(paste(r_folder,"http_request.R",sep=""))  
 
 # pubDatafolder<-paste(data_folder,"drupalData20210604version/",sep="")
-pubDatafolder<-paste(data_folder,"drupalDatatesting/",sep="")
+pubDatafolder<-paste(data_folder,"drupalDataLao20210705/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalDatatesting/",sep="")
 # runtime<-format(Sys.time(), "%Y%m%d%H%M%S")
 ### it is by design that this data folder name change every time
 ### you need to type in the correct folder name and then run "Source", all .rds files
@@ -107,10 +108,12 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
     if(dt$type=="tree_data") {
       if (nrow(treeDataDf) > 0) {
         dt$title<-htmlspecialchars(dt$title)
-        currentTD = filter(treeDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo, 
+        currentDD = filter(treeDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo, 
                            field_year == dt$field_year, title == dt$title)
-        if (nrow(currentTD) > 0) 
-          dt$nid <- head(currentTD,1)$nid
+        if (nrow(currentDD) != 0) {
+          dt$nid <- head(currentDD,1)$nid
+          dt$moderation_state<- head(currentDD,1)$moderation_state
+        }
       }
     }
     ### check if 
@@ -119,7 +122,10 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
         dt$title<-htmlspecialchars(dt$title)
         currentDD = filter(dIndexDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo, 
                            field_year == dt$field_year, title == dt$title)
-        if (nrow(currentDD) != 0) dt$nid <- head(currentDD,1)$nid
+        if (nrow(currentDD) != 0) {
+          dt$nid <- head(currentDD,1)$nid
+          dt$moderation_state<- head(currentDD,1)$moderation_state
+        }
       }
     }
     else if(dt$type=="region_d_index") {
@@ -128,7 +134,10 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
         dt$field_region<-htmlspecialchars(dt$field_region)
         currentDD = filter(regionDDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo,
                            field_year == dt$field_year, title == dt$title, field_region == dt$field_region)
-        if (nrow(currentDD) != 0) dt$nid <- head(currentDD,1)$nid
+        if (nrow(currentDD) != 0) {
+          dt$nid <- head(currentDD,1)$nid
+          dt$moderation_state<- head(currentDD,1)$moderation_state
+        }
       }
     }
     else if(dt$type=="region_tree_data") {
@@ -137,10 +146,15 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
         dt$field_region<-htmlspecialchars(dt$field_region)
         currentDD = filter(regionTreeDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo,
                            field_year == dt$field_year, title == dt$title, field_region == dt$field_region)
-        if (nrow(currentDD) != 0) dt$nid <- head(currentDD,1)$nid
+        if (nrow(currentDD) != 0) {
+          dt$nid <- head(currentDD,1)$nid
+          dt$moderation_state<- head(currentDD,1)$moderation_state
+        }
       }
     }
-    dt$moderation_state <- "Published"
+    # dt$moderation_state <- "Published"
+    
+    
    return(dt)
 }
 
@@ -161,16 +175,31 @@ push_together<-function(resultFolder, drupalFiles, api_base, key){
   # (right here) ------^ 
     
   dt0<-list()
-  ct<-100
+  ct<-30
   for(dn in data_list){
     dt<-readRDS(paste(resultFolder, dn, sep=""))
     ### these indicators are in the validation data, but not in drupal indicator table
     if(! (dt$field_indicator %in% c("MobilePhonePR")))
       {
-      dt0<-append(dt0, list(drupalPush(dt, drupalFiles, api_base, key)))
-
+      dtDrupal<-drupalPush(dt, drupalFiles, api_base, key)
+      
+      # if(length(dtDrupal$nid)>0) {
+      #   if( dtDrupal$moderation_state == "Published") {
+      #     dtDrupal$title<-paste(dtDrupal$title, ".1", sep="")
+      #     dtDrupal$moderation_state <- "draft"
+      #     dt0<-append(dt0, list(dtDrupal))
+      #   }
+      # }
+      
+      if(length(dtDrupal$nid)==0) {
+          dtDrupal$title<-paste(dtDrupal$title, ".1", sep="")
+          dtDrupal$moderation_state <- "draft"
+          dt0<-append(dt0, list(dtDrupal))
+      }
+      
+      
     }
-    if(length(dt0)==100){
+    if(length(dt0)==30){
       print("posting now ----")
       Sys.sleep(5)
       print(ct)
@@ -178,7 +207,7 @@ push_together<-function(resultFolder, drupalFiles, api_base, key){
       result <- http_post(endpoint,dt0, api_base, key)
       print(result)
       dt0<-list()
-      ct<-ct+100
+      ct<-ct+30
     }
   }
 
@@ -221,13 +250,18 @@ comm_vars<-c("title", "uuid", "nid", "moderation_state", "field_geo",
              "field_indicator", "field_year", "field_survey_type", "field_geo_name",
              "drupalTableName")  # "field_data",
 # drupalRecords<-checkingDrupalFiles(drupalFilesPush, comm_vars)
+# lao_drupal<-drupalRecords[drupalRecords$field_geo_name=="Lao", ]
 
+push_together(pubDatafolder, drupalFilesPush, api_base, key) 
 
-# push_together(pubDatafolder, drupalFiles, api_base, key)
-
-
-
-
+# country<-unique(drupalRecords$field_geo)
+# country<-country[-c(1, 2)] # Afghanistan and Indian published already
+# 
+# for (ci in country){
+# r<-http_publish(ci, api_base, key)
+# print(r)
+# }
+# print(r)
 
 
 

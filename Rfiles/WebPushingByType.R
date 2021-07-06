@@ -213,7 +213,7 @@ push_together<-function(resultFolder, drupalFiles, api_base, key, method=1,rdsLi
       
       if(method==5){
         if(!is.null(result$nid)){
-          result$moderation_state <- "published"
+          result$moderation_state <- "Published"
           dt0[[result$type]]<-append(dt0[[result$type]], list(result))
           ct<-ct+1
         }
@@ -286,7 +286,7 @@ comm_vars<-c("title", "uuid", "nid", "moderation_state", "field_geo",
 
 # drupalFiles<-gettingDrupalFiles(api_base, key)
 # drupalRecords<-checkingDrupalFiles(drupalFiles, comm_vars)
-push_together(pubDatafolder, drupalFiles, api_base, key, method = 5)
+push_together(pubDatafolder, drupalFilesPush, api_base, key, method = 5)
 
 ######### actual use
 ######### using the & to detect escape titles and reset the title on the server

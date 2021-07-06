@@ -32,3 +32,24 @@ http_get <- function (endpoint, api_base, key) {
   return (response_json)
 }
 # http_get("indicator_taxonomies")
+
+http_publish <- function (country, api_base, key) {
+  #print(request_body)
+  # request_body_json <- toJSON(request_body, auto_unbox = TRUE)
+  callText<-paste(api_base, "publish-data?geo=", country, sep="")
+  
+  result <- GET(callText,
+                 add_headers(`Content-Type`="application/json", `api-key`= key))
+  
+
+  print(callText)
+  #return("ok")
+  return (content(result))
+  # return(result)
+}
+
+# r<-http_publish(121, api_base, key)
+# print(r)
+# $message
+# [1] "The 'restful get customize_jsonapi_formatdata' permission is required."
+

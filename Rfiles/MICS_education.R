@@ -111,13 +111,18 @@ run_together_edu(source_folder, data_folder, output_folder, "VietNam", "2013",  
 # print(table(df))
 # print(table(df)/length(df))
 
- 
+df<-importMICSdata(data_folder, "Lao", "2017", "wm", c("hh6"), la=FALSE)
+print(table(df))
+df<-importMICSdata(data_folder, "Lao", "2017", "wm", c("hh6"), la=TRUE)
+print(table(df))
+
+
  # checking water code
- df<-importMICSdata(data_folder,  "Kyrgyzstan", "2018", "hh", "WS11", la=TRUE)
- print(table(df))
- df<-importMICSdata(data_folder,  "Kyrgyzstan", "2018","hh", "WS11", la=FALSE)
- print(table(df))
- 
+ # df<-importMICSdata(data_folder,  "Kyrgyzstan", "2018", "hh", "WS11", la=TRUE)
+ # print(table(df))
+ # df<-importMICSdata(data_folder,  "Kyrgyzstan", "2018","hh", "WS11", la=FALSE)
+ # print(table(df))
+ # 
  
  
  # df<-importMICSdata(data_folder,   "Afghanistan", "2010", "hh", "WS4", la=TRUE)

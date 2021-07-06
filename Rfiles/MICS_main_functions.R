@@ -139,7 +139,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
   dataSet<-unique(meta_data$DataSet)
   dataSet<-dataSet[!(dataSet %in% c("DataSet", "mn"))]
   
-  dataSet<-c("hl")
+  # dataSet<-c("wm")
   for(ds in dataSet){
 
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
@@ -260,9 +260,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     # responseList<-dataList[dataList$NickName %in% c("HealthInsurance") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("ProfessionalHelp") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName=="InternetUse" & dataList$IndicatorType=="ResponseV", ]
-    
-    
-   responseList<-dataList[dataList$NickName %in% c("Covid", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
+    # responseList<-dataList[dataList$NickName %in% c("Covid", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
     
     rn<-nrow(responseList)
     if(rn>0){
@@ -293,6 +291,9 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
 
       datause <- catch_error(get_data(df, rv, dataList, indvar, svnm, educationList, religion_data))
       
+      k<-match("Residence", colnames(datause), nomatch = 0)
+      if(k>0) print((table(datause$Residence, datause$HH6)))
+      else print("No residence var found")
         info(logger, paste(pass_message))
         mr_ds<-unique(meta_data[!is.na(meta_data$VarName) & meta_data$NickName==rv & meta_data$IndicatorType=="MresponseV", c("DataSet")])
         

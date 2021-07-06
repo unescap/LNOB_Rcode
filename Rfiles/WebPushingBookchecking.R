@@ -8,10 +8,11 @@ source(paste(r_folder,"Config_drupalkey.R",sep="")) ### obtain api_base, key
 source(paste(r_folder,"http_request.R",sep=""))  
 
 #### two folders that have the data for publication
-pubDatafolder<-paste(data_folder,"drupalData20210604version/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalData20210604version/",sep="")
 # pubDatafolder<-paste(data_folder,"drupalData20210615DHSviolence/",sep="")
 
 # pubDatafolder<-paste(data_folder,"drupalDatatesting/",sep="")
+pubDatafolder<-paste(data_folder, "drupalDataLao20210705/",sep="")
 # runtime<-format(Sys.time(), "%Y%m%d%H%M%S")
 ### it is by design that this data folder name change every time
 ### you need to type in the correct folder name and then run "Source", all .rds files
@@ -39,7 +40,7 @@ checking<-function(resultFolder, drupalFiles){
     # data2compare<-dt$field_data
     if(dt$type %in% c("tree_data", "d_index")) dt$field_region<-"National"
     dt$rdsName<-dn
-    title2compare<-htmlspecialchars(dt$title)
+    title2compare<-paste(htmlspecialchars(dt$title), ".1", sep="")
     drupalLine<-drupalFiles[ drupalFiles$title == title2compare 
                              & dt$type==drupalFiles$drupalTableName, ]
     # print(drupalLine)
@@ -50,7 +51,7 @@ checking<-function(resultFolder, drupalFiles){
     if(k==1) dt$nid<-drupalLine$nid
     else if(k>1) dt$nid<-paste(drupalLine$nid, collapse=", ")
     dt$Religion_flag<-grepl("-Religion-", dt$title)
-    logcsv<-paste(resultFolder, "/validation/checking20210620.csv", sep="") ### assuiming the validation subfolder is always there
+    logcsv<-paste(resultFolder, "/validation/checking20210705.csv", sep="") ### assuiming the validation subfolder is always there
     if(file.exists(logcsv))
       write.table(dt, logcsv, sep=",", 
                   append = TRUE,   col.names = F, row.names = F)
@@ -63,7 +64,8 @@ checking<-function(resultFolder, drupalFiles){
 
 
 checking(pubDatafolder, drupalRecords)
-
+write.table(lao_drupal, paste(pubDatafolder, "/validation/lao_drupal2.csv", sep=""), sep=",",
+            append = F,   col.names = T, row.names = F)
 
 # checking the node id
 # print(drupalFiles[drupalFiles$nid==124402, ])

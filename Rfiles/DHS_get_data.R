@@ -1447,8 +1447,8 @@ EducationDifference<-function(datause, dataList, k){
 
 Residence<-function(datause, dataList, k){
   
-  datause$Residence<-"Urban"
-  datause$Residence[datause[, k]==2]<-"Rural"
+  datause$Residence<-"Rural"
+  datause$Residence[datause[, k]==1]<-"Urban"
   datause$Residence<-factor(datause$Residence, levels = c("Urban" , "Rural"))
   
   return(datause)

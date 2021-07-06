@@ -1422,8 +1422,11 @@ NUnder5<-function(datause){
  
  Residence<-function(datause, dataList, k){
 
-     datause$Residence<-"Urban"
-     datause$Residence[datause[, k]==2]<-"Rural"
+     # datause$Residence<-"Urban"
+     # datause$Residence[datause[, k]==2]<-"Rural"
+     
+     datause$Residence<-"Rural"
+     datause$Residence[datause[, k]==1]<-"Urban"
      datause$Residence<-factor(datause$Residence, levels = c("Urban" , "Rural"))
 
    return(datause)
@@ -1653,7 +1656,7 @@ importMICSdata<-function(data_folder, country_code, year_code, data_type, var_li
 
   country_directory <- paste(data_folder, country_code, year_code, sep = "")
   data_type_directory <- paste(country_directory, paste(data_type, "sav", sep="."), sep = "/")
-  
+  print(data_type_directory)
   df<-read.spss(data_type_directory, 
                 use.value.labels = la, trim_values=TRUE, to.data.frame = TRUE)
   
@@ -1716,7 +1719,7 @@ add_reglist<-function(data_folder, country_code, version_code, datause, meta_dat
 
   dataList2<-meta_data[meta_data$DataSet=="hh" & (meta_data$IndicatorType=="ID" | meta_data$NickName %in% regList), ]
   df2<-importMICSdata(data_folder, country_code, version_code, "hh", unique(dataList2$VarName)) 
-  
+
   ### 2 using get_data function to get the labels of the religion/ethnicity/language variable
   colnames(df2)<-toupper(colnames(df2))
   #df2<-get_data(df2, rv=NULL, dataList2, regList, educationList=NULL,religion_data)
@@ -1871,7 +1874,7 @@ merge_mr <- function(mr_ds, meta_data, datause, dataList, country_code, version_
         k<-match(religionVar, colnames(mrdf), nomatch = 0)
         k1<-length(intersect(c("Religion"), regList))
         if(k==0 & k1>0){
-          mrdf<-add_reglist(country_code, version_code, mrdf, meta_data, dataList, c("Religion"), religion_data)
+          mrdf<-add_reglist(data_folder, country_code, version_code, mrdf, meta_data, dataList, c("Religion"), religion_data)
         }
         
         #### second, if Ethnicity exists in hh dataset, not in other datasets, we need to add one of them, 
@@ -1879,7 +1882,7 @@ merge_mr <- function(mr_ds, meta_data, datause, dataList, country_code, version_
         k<-match(ethnicityVar, colnames(mrdf), nomatch = 0)
         k1<-length(intersect(c("Ethnicity"), regList))
         if(k==0 & k1>0){
-          mrdf<-add_reglist(country_code, version_code, mrdf, meta_data, dataList, c("Ethnicity"), religion_data)
+          mrdf<-add_reglist(data_folder, country_code, version_code, mrdf, meta_data, dataList, c("Ethnicity"), religion_data)
         }
         
         #### Third, when ethnicity is not available, but Language exist in hh dataset, not in other datasets, we need to add one of them, 
@@ -1887,7 +1890,7 @@ merge_mr <- function(mr_ds, meta_data, datause, dataList, country_code, version_
         k2<-match(languageVar, colnames(mrdf), nomatch = 0)
         k3<-length(intersect(c("Language"), regList))
         if(k==0 & k1==0 & k2==0 & k3>0){
-          mrdf<-add_reglist(country_code, version_code, mrdf, meta_data, dataList, c("Language"), religion_data)
+          mrdf<-add_reglist(data_folder, country_code, version_code, mrdf, meta_data, dataList, c("Language"), religion_data)
         }
       }
       
