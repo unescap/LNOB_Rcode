@@ -198,7 +198,7 @@ write_tree <- function(survey_source, datause, country_code, version_code, regio
                                  country_code, version_code, rv, region)
       
       rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
-      
+      wd_datatype(drupal_folder, type)
       saveRDS(drupal_data, file = rdsname)
       drupalIndex<-drupalIndex+1
     }
@@ -229,6 +229,7 @@ write_HOI_D <- function(survey_source, datause, country_code, version_code, regi
                                  country_code, version_code, rv, region)
       
 
+    wd_datatype(drupal_folder, type)
     rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
     saveRDS(drupal_data, file = rdsname)
     

@@ -150,6 +150,9 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     dataList<-meta_data[meta_data$DataSet==ds, ]
     responseList<-dataList[dataList$IndicatorType=="ResponseV", ]
     
+    responseList<-responseList[!(responseList$NickName %in% c("Covid", "Covid1", "Covid2", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL")), ]
+    
+    
     if(ds=="hh") educationList<-education_data[education_data$DataSet=="hl", ]
     else educationList<-education_data[education_data$DataSet==ds, ]
     
@@ -262,6 +265,10 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     # responseList<-dataList[dataList$NickName=="InternetUse" & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("Covid", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
     
+    
+
+    
+    print(c(ds, responseList))
     rn<-nrow(responseList)
     if(rn>0){
     for(i in c(1:rn)){

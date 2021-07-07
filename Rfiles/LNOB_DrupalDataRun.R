@@ -34,9 +34,17 @@ r_folder<-paste(source_folder, "Rfiles/", sep="")
 output_folder<-paste(source_folder, "output/", sep="")
 if(!dir.exists(output_folder)) dir.create(output_folder)
 folder_index<-format(Sys.time(), "%Y%m%d%H%M%S")
-drupal_folder<-paste(output_folder, "drupalData", folder_index, sep="")
+drupal_folder<<-paste(output_folder, "drupalData", folder_index, sep="")
 if(!dir.exists(drupal_folder)) dir.create(drupal_folder)
-setwd(drupal_folder)
+
+##### we will save different data types in four different subfolders
+##### data_type are: "tree_data", "d_index",  "region_tree_data", "region_d_index"
+wd_datatype<-function(drupal_folder, data_type){
+  datatype_folder<-paste(drupal_folder, data_type, sep="/")
+  if(!dir.exists(datatype_folder)) dir.create(datatype_folder)
+  setwd(datatype_folder)
+}
+
 
 # reroute output files to the same folder
 drupalI<- 1

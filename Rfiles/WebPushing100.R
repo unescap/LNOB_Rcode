@@ -10,7 +10,7 @@ source(paste(r_folder,"Config_drupalkey.R",sep="")) ### obtain api_base, key
 source(paste(r_folder,"http_request.R",sep=""))  
 
 # pubDatafolder<-paste(data_folder,"drupalData20210604version/",sep="")
-pubDatafolder<-paste(data_folder,"drupalDataLao20210705/",sep="")
+pubDatafolder<-paste(data_folder,"drupalDataLao20210707/",sep="")
 # pubDatafolder<-paste(data_folder,"drupalDatatesting/",sep="")
 # runtime<-format(Sys.time(), "%Y%m%d%H%M%S")
 ### it is by design that this data folder name change every time
@@ -183,21 +183,9 @@ push_together<-function(resultFolder, drupalFiles, api_base, key){
       {
       dtDrupal<-drupalPush(dt, drupalFiles, api_base, key)
       
-      # if(length(dtDrupal$nid)>0) {
-      #   if( dtDrupal$moderation_state == "Published") {
-      #     dtDrupal$title<-paste(dtDrupal$title, ".1", sep="")
-      #     dtDrupal$moderation_state <- "draft"
-      #     dt0<-append(dt0, list(dtDrupal))
-      #   }
-      # }
-      
-      if(length(dtDrupal$nid)==0) {
-          dtDrupal$title<-paste(dtDrupal$title, ".1", sep="")
-          dtDrupal$moderation_state <- "draft"
-          dt0<-append(dt0, list(dtDrupal))
-      }
-      
-      
+      dtDrupal$moderation_state <- "draft"
+      dt0<-append(dt0, list(dtDrupal))
+
     }
     if(length(dt0)==30){
       print("posting now ----")
@@ -213,12 +201,13 @@ push_together<-function(resultFolder, drupalFiles, api_base, key){
 
   if(length(dt0)>0) {
     print("posting last batch ----")
-    #Sys.sleep(5)
+    Sys.sleep(5)
     print(ct)
     endpoint <- "node-create"
     # print(dt0)
     result <- http_post(endpoint,dt0, api_base, key)
     print(result)
+
     }
 }
 
@@ -252,7 +241,20 @@ comm_vars<-c("title", "uuid", "nid", "moderation_state", "field_geo",
 # drupalRecords<-checkingDrupalFiles(drupalFilesPush, comm_vars)
 # lao_drupal<-drupalRecords[drupalRecords$field_geo_name=="Lao", ]
 
-push_together(pubDatafolder, drupalFilesPush, api_base, key) 
+print(table(lao_drupal$field_indicator[lao_drupal$drupalTableName=="tree_data"]))
+
+tree_lao<-lao_drupal[lao_drupal$drupalTableName=="tree_data", ]
+wrong_version<-grepl("v1.1", lao_drupal$title)
+
+print(table(wrong_version))
+wrong_lao<-lao_drupal[wrong_version, ]
+ # for (type in c("d_index", "tree_data", "region_d_index", "region_tree_date")) {
+for (type in c("region_tree_data")) {
+    pubfolder<-paste(pubDatafolder, type, "/", sep="")
+    print(pubfolder)
+    push_together(pubfolder, drupalFilesPush, api_base, key) 
+}
+# push_together(pubfolder, drupalFilesPush, api_base, key) 
 
 # country<-unique(drupalRecords$field_geo)
 # country<-country[-c(1, 2)] # Afghanistan and Indian published already
@@ -262,8 +264,8 @@ push_together(pubDatafolder, drupalFilesPush, api_base, key)
 # print(r)
 # }
 # print(r)
-
-
+# publishing lao data on July 7th
+# http_publish("242", api_base, key)
 
 
 
