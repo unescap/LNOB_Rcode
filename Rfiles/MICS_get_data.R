@@ -22,7 +22,8 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
         else df[, k]<-as.numeric(as.character(df[,k]))
   
         if(!(rv %in% c("EarlyChildBearing", "NoEarlyChildbearing", "ChildMarriage15", "ChildMarriage18", "NoChildMarriage15", "NoChildMarriage18", "InternetUse",
-                       "SecondaryEducation2035", "SecondaryEducation35plus", "HigherEducation2535", "HigherEducation35plus", "EarlyEducation24", "EarlyEducation36", 
+                       # "SecondaryEducation2035", "SecondaryEducation35plus", "HigherEducation2535", "HigherEducation35plus", 
+                       "EarlyEducation24", "EarlyEducation36", 
                        "ContraceptiveMethod")))
                     df<-df[!is.na(df[,k]), ]  ### for Thailand 2019, they have missing value for access to electricity and must be excluded.
                                               ### this may be the wrong way to do it
@@ -597,7 +598,8 @@ SecondaryEducation2035<-function(datause, dataList, k, educationList){
     datause$var2tab[datause[, k] == educationList$Levels[i] & (datause[ , gradeK]>= educationList$Grade[i] & datause[ , gradeK]<90) & !is.na(datause[,k])]<-1
   }
   
- 
+  # print(table(datause[, k], datause$var2tab))
+  print(mean(datause$var2tab))
   return(datause)
 }
 
@@ -615,7 +617,8 @@ SecondaryEducation35plus<-function(datause, dataList, k, educationList){
   }
   
   datause$Age<-as.numeric(as.character(datause[,ageK]))
-  datause<-datause[!is.na(datause$Age) & datause$Age >=35, ]
+  datause<-datause[!is.na(datause$Age), ]
+  datause<-datause[datause$Age >35, ]
   
   nrow_grd<-nrow(educationList)
   educationList$Grade<-as.numeric(as.character(educationList$Grade))
@@ -623,12 +626,15 @@ SecondaryEducation35plus<-function(datause, dataList, k, educationList){
   
   datause$var2tab<-0
   max_level<-max(educationList$Levels)
-  datause$var2tab[datause[, k] > max_level & datause[, k] < 8 & !is.na(datause[,k])]<-1
+  #datause$var2tab[datause[, k] > max_level & datause[, k] < 8 & !is.na(datause[,k])]<-1
+  datause$var2tab[datause[, k] > max_level & datause[, k] < 8]<-1
   
   for(i in c(1:nrow_grd)){
-  datause$var2tab[datause[, k] == educationList$Levels[i] & (datause[ , gradeK]>= educationList$Grade[i] & datause[ , gradeK]<90) & !is.na(datause[,k])]<-1
+  # datause$var2tab[datause[, k] == educationList$Levels[i] & (datause[ , gradeK]>= educationList$Grade[i] & datause[ , gradeK]<90) & !is.na(datause[,k])]<-1
+  datause$var2tab[datause[, k] == educationList$Levels[i] & (datause[ , gradeK]>= educationList$Grade[i] & datause[ , gradeK]<90)]<-1
   }
-  
+  # print(table(datause[, k], datause[ , gradeK]))
+  print(mean(datause$var2tab))
   return(datause)
 }
 
@@ -648,7 +654,7 @@ HigherEducation2535<-function(datause, dataList, k, educationList){
   datause$var2tab[datause[, k] > max_level & datause[, k] < 8 ]<-1
   
   #prin(table(datause[,k]))
-  
+  print(mean(datause$var2tab))
   return(datause)
   }
 
@@ -667,7 +673,7 @@ HigherEducation35plus<-function(datause, dataList, k, educationList){
   datause$var2tab<-0
   max_level<-max(educationList$Levels)
   datause$var2tab[datause[, k] > max_level & datause[, k] < 8 ]<-1
-  
+  print(mean(datause$var2tab))
   return(datause)
 }
 
@@ -1422,9 +1428,6 @@ NUnder5<-function(datause){
  
  Residence<-function(datause, dataList, k){
 
-     # datause$Residence<-"Urban"
-     # datause$Residence[datause[, k]==2]<-"Rural"
-     
      datause$Residence<-"Rural"
      datause$Residence[datause[, k]==1]<-"Urban"
      datause$Residence<-factor(datause$Residence, levels = c("Urban" , "Rural"))

@@ -67,7 +67,7 @@ source(paste(r_folder,"TreeAndLogistic.R",sep=""))
 source(paste(r_folder,"general_output.R",sep=""))
 
 csvfile_name<-"MICS"
-edcationcsv<-"EducationMICS"
+edcationcsv<-"EducationMICS_testing"
 religioncsv<-"ReligionMICS"
 
 ### Create logger
@@ -139,7 +139,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
   dataSet<-unique(meta_data$DataSet)
   dataSet<-dataSet[!(dataSet %in% c("DataSet", "mn"))]
   
-  # dataSet<-c("wm")
+  dataSet<-c("wm")
   for(ds in dataSet){
 
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
@@ -150,7 +150,10 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     dataList<-meta_data[meta_data$DataSet==ds, ]
     responseList<-dataList[dataList$IndicatorType=="ResponseV", ]
     
-    responseList<-responseList[!(responseList$NickName %in% c("Covid", "Covid1", "Covid2", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL")), ]
+    responseList<-responseList[!(responseList$NickName %in% c("Covid", "Covid1", 
+                                                        "Covid2", "LearningHL", 
+                                                        "WaterOnstieHL", "HandwashHL", 
+                                                        "SafeSanitationHL", "NotCrowdedHL")),]
     
     
     if(ds=="hh") educationList<-education_data[education_data$DataSet=="hl", ]
@@ -265,10 +268,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     # responseList<-dataList[dataList$NickName=="InternetUse" & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("Covid", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
     
-    
 
-    
-    print(c(ds, responseList))
     rn<-nrow(responseList)
     if(rn>0){
     for(i in c(1:rn)){
@@ -298,9 +298,9 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
 
       datause <- catch_error(get_data(df, rv, dataList, indvar, svnm, educationList, religion_data))
       
-      k<-match("Residence", colnames(datause), nomatch = 0)
-      if(k>0) print((table(datause$Residence, datause$HH6)))
-      else print("No residence var found")
+      # k<-match("Residence", colnames(datause), nomatch = 0)
+      # if(k>0) print((table(datause$Residence, datause$HH6)))
+      # else print("No residence var found")
         info(logger, paste(pass_message))
         mr_ds<-unique(meta_data[!is.na(meta_data$VarName) & meta_data$NickName==rv & meta_data$IndicatorType=="MresponseV", c("DataSet")])
         

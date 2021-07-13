@@ -12,20 +12,21 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
     return(NULL)
   }
 
-  if(!rv=="AdolescentBirthRate" & !(rv %in% c("HealthcareNotAffordable", 
-                                              "HealthcareFar", "HealthcareNotAccessible", 
-                                              "HealthcareNotUsed", "HealthcareDiscouraged"))){
-  for(i in c(1:l))
-    if(is.na(k[i])) {
-      print(paste("Response variable -- ", rv, "(",  VarName[i], ") not found"))
-      return(NULL)
-    }
+  if(!rv=="AdolescentBirthRate" & 
+     !(rv %in% c("HealthcareNotAffordable", 
+                 "HealthcareFar", "HealthcareNotAccessible", 
+                 "HealthcareNotUsed", "HealthcareDiscouraged"))){
+    for(i in c(1:l))
+      if(is.na(k[i])) {
+        print(paste("Response variable -- ", rv, "(",  VarName[i], ") not found"))
+        return(NULL)
+      }
     df[, k[i]]<-as.numeric(as.character(df[,k[i]]))
-
-  
-   if(length(df[!is.na(df[, k[i]]), k[i]])<=1) {
+    
+    
+    if(length(df[!is.na(df[, k[i]]), k[i]])<=1) {
       print(paste("Response variable -- ", rv, "(",  VarName, ") has not valid observations"))
-     return(NULL)
+      return(NULL)
     }
   }
   ###### Programmer Note1:
@@ -403,9 +404,9 @@ SecondaryEducation2035<-function(datause, dataList, k){
   datause<-datause[datause$Age>=20 & datause$Age<=35, ]
   datause$var2tab<-1
   datause$var2tab[is.na(datause[, k])]<-0
-  datause$var2tab[datause[, k] %in% c(8, 0, 1, 2, 3)]<-0
+  datause$var2tab[datause[, k] %in% c(9, 8, 0, 1, 2, 3)]<-0
 
-  
+  print(table(datause[, k], datause$var2tab))
   return(datause)
 }
 
@@ -418,11 +419,11 @@ SecondaryEducation35plus<-function(datause, dataList, k){
     return(NULL)
   }
   datause$Age<-as.numeric(as.character(datause[,ageK]))
-  datause<-datause[!is.na(datause$Age) & datause$Age >=35, ]
+  datause<-datause[!is.na(datause$Age) & datause$Age >35, ]
   
   datause$var2tab<-1
   datause$var2tab[is.na(datause[, k])]<-0
-  datause$var2tab[datause[, k] %in% c(8, 0, 1, 2, 3)]<-0
+  datause$var2tab[datause[, k] %in% c(9, 8, 0, 1, 2, 3)]<-0
   
   return(datause)
 }
@@ -444,7 +445,7 @@ HigherEducation2535<-function(datause, dataList, k){
     datause$var2tab[datause[, k] %in% c(1, 2)]<-0
   }
   else {
-  datause$var2tab[datause[, k] %in% c(8, 0, 1, 2, 3, 4)]<-0
+  datause$var2tab[datause[, k] %in% c(9, 8, 0, 1, 2, 3, 4)]<-0
   }
   return(datause)
 }
@@ -466,7 +467,7 @@ HigherEducation35plus<-function(datause, dataList, k){
     datause$var2tab[datause[, k] %in% c(1, 2)]<-0
   }
   else {
-    datause$var2tab[datause[, k] %in% c(8, 0, 1, 2, 3, 4)]<-0
+    datause$var2tab[datause[, k] %in% c(9, 8, 0, 1, 2, 3, 4)]<-0
   }
   return(datause)
 }

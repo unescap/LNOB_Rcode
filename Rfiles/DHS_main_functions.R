@@ -175,9 +175,9 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # debug <- unique_responseList[match("ChildMarriage18", unique_responseList)]
     # unique_responseList<-c("NoSexualViolence",  "AllViolence", "SexualPhysicalViolence", "PhysicalViolence", 
     #                        "SexualViolence",  "EmotionalViolence", "NoSexualPhysicalViolence", "NoPhysicalViolence")
-    unique_responseList<-c("HealthcareNotAffordable", 
-                           "HealthcareFar", "HealthcareNotAccessible", 
-                           "HealthcareNotUsed", "HealthcareDiscouraged")
+    # unique_responseList<-c("HealthcareNotAffordable", 
+    #                        "HealthcareFar", "HealthcareNotAccessible", 
+    #                        "HealthcareNotUsed", "HealthcareDiscouraged")
     # unique_responseList<-c("AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence")
     # unique_responseList<-c("Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR")
     # unique_responseList<-c("Covid", "NotCrowdedPR")
@@ -192,8 +192,10 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # unique_responseList<-c("BasicWater")
     # unique_responseList<-c("ProfessionalHelp")
     # unique_responseList<-c("MobilePhonePR")
-    # unique_responseList<-c("HigherEducation2535", "SecondaryEducation2035")
-
+    # unique_responseList<-c("HigherEducation2535", "SecondaryEducation2035",
+    #                        "HigherEducation35plus", "SecondaryEducation35plus")
+    unique_responseList<-c("FinancialInclusion")
+    
     # Iterate through each response variable for current dataset type. 
     if(use_version>1){
       unique_responseList<-unique_responseList[unique_responseList %in% Rlist]
