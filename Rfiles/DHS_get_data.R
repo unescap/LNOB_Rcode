@@ -4,7 +4,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   
   VarName<- dataList$VarName[dataList$NickName==rv & dataList$IndicatorType %in% c("ResponseV", "MresponseV", "PresponseV")]
   k<-match(VarName, colnames(df), nomatch = 0)
-  print(k)
+  # print(k)
   l<-length(k)
 
   if(sum(k)==0 ){
@@ -1064,12 +1064,14 @@ calculateHMexBabies<-function(datause, dataList){
 FinancialInclusion<-function(datause, dataList, k){
   # this variable is defined by 2 columns
   datause$var2tab<-0
-  
+  tw<-sum(datause$SampleWeight)
+  print(tw)
   for(i in c(1,2)){
-    print(k[i])
     ki<-k[i]
-    vi<-datause[,ki]
+    vi<-as.numeric(as.character(datause[,ki]))
     datause$var2tab[vi==1]<-1
+    vi[is.na(vi)]<-0
+    print(sum(datause$SampleWeight[vi==1])/tw)
     
   }
 

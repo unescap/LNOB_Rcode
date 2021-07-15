@@ -139,7 +139,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
   dataSet<-unique(meta_data$DataSet)
   dataSet<-dataSet[!(dataSet %in% c("DataSet", "mn"))]
   
-  dataSet<-c("wm")
+  # dataSet<-c("wm")
   for(ds in dataSet){
 
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 

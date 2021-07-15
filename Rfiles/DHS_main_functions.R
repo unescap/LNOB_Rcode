@@ -93,7 +93,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   # specify data set for debugginh
   # dataSet<-c("PR", "IR")
   # dataSet<-c("HR")
-   dataSet<-c("IR")
+  # dataSet<-c("IR")
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
 
@@ -194,7 +194,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # unique_responseList<-c("MobilePhonePR")
     # unique_responseList<-c("HigherEducation2535", "SecondaryEducation2035",
     #                        "HigherEducation35plus", "SecondaryEducation35plus")
-    unique_responseList<-c("FinancialInclusion")
+    # unique_responseList<-c("FinancialInclusion")
     
     # Iterate through each response variable for current dataset type. 
     if(use_version>1){

@@ -33,7 +33,7 @@ r_folder<-paste(source_folder, "Rfiles/", sep="")
 
 output_folder<-paste(source_folder, "output/", sep="")
 if(!dir.exists(output_folder)) dir.create(output_folder)
-folder_index<-"Healthcare"   #format(Sys.time(), "%Y%m%d%H%M%S")
+folder_index<-"Trial"   #format(Sys.time(), "%Y%m%d%H%M%S")
 drupal_folder<-paste(output_folder, folder_index, sep="")
 if(!dir.exists(drupal_folder)) dir.create(drupal_folder)
 setwd(drupal_folder)
