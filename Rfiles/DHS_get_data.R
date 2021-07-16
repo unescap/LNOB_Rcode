@@ -1048,6 +1048,7 @@ NotCrowded<-function(datause, dataList, k){
 calculateHMexBabies<-function(datause, dataList){
   
   ageV<-dataList$VarName[dataList$NickName == "Age"]
+  print(ageV)
   agek<-match(ageV, colnames(datause), nomatch = 0)
   if(agek==0) return(NULL)
   else{

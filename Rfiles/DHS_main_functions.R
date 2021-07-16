@@ -203,6 +203,8 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
                            "LearningPR", "WaterOnsitePR", "HandWashPR", "NotCrowdedPR", "SafeSanitationPR")]
 
     }
+    
+    unique_responseList<-unique_responseList[!unique_responseList %in% c("HandWash", "NotCrowded")] 
     print(unique_responseList)
     for(rv in unique_responseList) {
       print(rv)
