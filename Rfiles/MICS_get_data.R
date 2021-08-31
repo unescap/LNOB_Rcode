@@ -21,9 +21,13 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
               df[, k]<-as.character(df[,k])
         else df[, k]<-as.numeric(as.character(df[,k]))
   
+        ### treating missing values
+        # for the following indicators, missing values are counted as "0", and must be included
+        # for other indicators, missing value means the questions are not applicable to the respondents
+        # and missing values must be excluded 
         if(!(rv %in% c("EarlyChildBearing", "NoEarlyChildbearing", "ChildMarriage15", "ChildMarriage18", "NoChildMarriage15", "NoChildMarriage18", "InternetUse",
-                       # "SecondaryEducation2035", "SecondaryEducation35plus", "HigherEducation2535", "HigherEducation35plus", 
-                       "EarlyEducation24", "EarlyEducation36", 
+                       "SecondaryEducation2035", "SecondaryEducation35plus", "HigherEducation2535", "HigherEducation35plus", #### changing this on Aug 30 2021, AF2010
+                       "EarlyEducation24", "EarlyEducation36", "EarlyChildhoodEducation",
                        "ContraceptiveMethod")))
                     df<-df[!is.na(df[,k]), ]  ### for Thailand 2019, they have missing value for access to electricity and must be excluded.
                                               ### this may be the wrong way to do it
@@ -94,6 +98,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
              else if(rv== "FinancialInclusion" ) datause<-  FinancialInclusion(df, dataList)
              else if(rv== "EarlyEducation24")  datause<-  EarlyEducation24(df, dataList, k)
              else if(rv== "EarlyEducation36")  datause<-  EarlyEducation36(df, dataList, k)
+             else if(rv== "EarlyChildhoodEducation")  datause<- EarlyChildhoodEducation(df, dataList, k)
              else datause<-tabulateV(df, k)
       
              if(is.null(datause)) {
@@ -140,6 +145,9 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
        colnames(datause)[k]<-iv      
      }
    }
+  
+  ### analyzing subset of the data
+  ### datause<-datause[datause$PoorerHousehold==1, ]
    return(datause)
 }
 
@@ -151,7 +159,8 @@ indList<-function(rv){
                 "CleanFuel", "HouseholdTechNeed", "MobilePhoneHH", "BankCardHH", "HandWash", "NotCrowded", "BasicWater"))
     return(c("PoorerHousehold", "Residence", "HighestEducation"))
   else if(rv %in% c("ChildHealth", "NotStunting", "Stunting", "NotOverweight", 
-                    "NotWasting", "Overweight", "Wasting", "EarlyEducation24", "EarlyEducation36"))
+                    "NotWasting", "Overweight", "Wasting", "EarlyEducation24", "EarlyEducation36", 
+                    "EarlyChildhoodEducation"))
     return(c("PoorerHousehold", "Residence", "MotherEducation", "NUnder5", "Sex"))
   else if (rv %in% c("HigherEducation2535", "HigherEducation35plus",
                      "SecondaryEducation2035", "SecondaryEducation35plus"))
@@ -359,6 +368,7 @@ BasicWater<-function(datause, dataList, k, svnm){
   more30<- !(is.na(datause[ , wtK]))
   
   if(svnm=="Mongolia2013") more30<-more30 & datause[ , wtK]>=3
+  else if(svnm=="Mongolia2018") more30<- more30 & datause[ , wtK]>30
   else more30<- more30 & datause[ , wtK]>=30
   more30<- more30 & (datause[ , wlK] ==3)
   iws_code<-water_code(svnm)
@@ -832,6 +842,19 @@ EarlyEducation24<-function(datause,dataList, k){
 }
 
 EarlyEducation36<-function(datause, dataList, k){
+  VarName<- dataList$VarName[dataList$NickName=="Age" & dataList$IndicatorType=="IndependentV"]
+  k0<-match(VarName, colnames(datause))
+  datause$age<-as.numeric(as.character(datause[, k0]))
+  datause<-datause[!is.na(datause$age) & datause$age<= 59  & datause$age >= 36, ]
+  datause$var2tab<- 0
+  datause$var2tab[datause[, k] == 1]<-1  # 1= yes
+  datause$var2tab[is.na(datause[, k])]<-0
+  print(table(datause[, k]))
+  print(sum(datause$SampleWeigt))
+  return(datause)
+}
+
+EarlyChildhoodEducation<-function(datause, dataList, k){
   VarName<- dataList$VarName[dataList$NickName=="Age" & dataList$IndicatorType=="IndependentV"]
   k0<-match(VarName, colnames(datause))
   datause$age<-as.numeric(as.character(datause[, k0]))

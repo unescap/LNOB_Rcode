@@ -96,7 +96,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   
   # print(sum(datause$var2tab*datause$SampleWeight)/sum(datause$SampleWeight)*100)
   # print(mean(datause$var2tab)*100)
-  
+
   if(is.null(datause)) {
     print("No data available")
     return(NULL)
@@ -922,8 +922,8 @@ PhysicalViolence<-function(datause, dataList, k){
   for(i in c(1:l)){
     #print(c("missing value", colnames(datause)[k[i]], sum(datause$SampleWeight[is.na(datause[,k[i]])])))
     datause<-datause[!is.na(datause[,k[i]]), ]
-    cond0<-(datause[,k[i]] %in% c(1, 2))
-    datause$var2tab[datause[,k[i]]  %in% c(1, 2, 3)]<-1 
+    cond0<-(datause[,k[i]] %in% c(1, 2, 3, 4))
+    datause$var2tab[datause[,k[i]]  %in% c(1, 2, 3, 4)]<-1 
   }
   return(datause)
 }

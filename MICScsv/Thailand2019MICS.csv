@@ -252,3 +252,4 @@ HandwashHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
 SafeSanitationHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 NotCrowdedHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 aGroupHL,hl,age,,,HL6,no,Only,IndependentV,numeric,HL6,"More than one columns, usual name chosen"
+EarlyChildhoodEducation,ch,attend,early childhood education,programme,UB8,no,and,ResponseV,Factor,UB8,"More than one columns, usual name chosen"

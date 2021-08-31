@@ -10,6 +10,7 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
 
 
   #### to validate if this is needed
+  print(ds_output_folder)
   result_log_National<-ResultList(survey_source, country_code, version_code, country_ISO, year_code, ds, rv, religion, "National", !is.null(datause))
   
   overallmean<-write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
@@ -115,6 +116,8 @@ validate<-function(country_code, version_code, rv, overallmean, validationdata){
   #### using original mean value from orlando
   y<-validationdata$meanY[validationdata$country_code==country_code & validationdata$version_code==version_code & validationdata$IndicatorName==rv]
   y<-as.numeric(as.character(y))
+  print("y value from validated file")
+  print(y)
   if(overallmean=="DataNotGenerated") {
     print("############# validation failed, data not generated #################")
     return(list(validation=FALSE, mean=y, validationResult="DataNotGenerated"))

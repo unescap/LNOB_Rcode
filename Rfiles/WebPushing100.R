@@ -10,8 +10,19 @@ source(paste(r_folder,"Config_drupalkey.R",sep="")) ### obtain api_base, key
 source(paste(r_folder,"http_request.R",sep=""))  
 
 # pubDatafolder<-paste(data_folder,"drupalData20210604version/",sep="")
-pubDatafolder<-paste(data_folder,"drupalDataLao20210707/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalDataLao20210707/",sep="")
 # pubDatafolder<-paste(data_folder,"drupalDatatesting/",sep="")
+
+# pubDatafolder<-paste(data_folder,"drupalDataMongolia2018Secondary20210818/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalDataTongaUpdate20210819/",sep="") 
+# pubDatafolder<-paste(data_folder,"drupalDataMongolia2013Secondary20210820/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalDataFinancialInclusion20210819/",sep="")
+
+# pubDatafolder<-paste(data_folder,"drupalDataCovid20210827/",sep="") # need "covid added to indicator taxonomy"
+# pubDatafolder<-paste(data_folder,"drupalDataInvestigated20210830/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalDataMongolia2018BasicWater20210831/",sep="")
+
+
 # runtime<-format(Sys.time(), "%Y%m%d%H%M%S")
 ### it is by design that this data folder name change every time
 ### you need to type in the correct folder name and then run "Source", all .rds files
@@ -107,7 +118,7 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
     ### Check if it already on the server
     if(dt$type=="tree_data") {
       if (nrow(treeDataDf) > 0) {
-        dt$title<-htmlspecialchars(dt$title)
+        # dt$title<-htmlspecialchars(dt$title)
         currentDD = filter(treeDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo, 
                            field_year == dt$field_year, title == dt$title)
         if (nrow(currentDD) != 0) {
@@ -119,7 +130,7 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
     ### check if 
     else if(dt$type=="d_index") {
       if (nrow(dIndexDataDf) != 0) {
-        dt$title<-htmlspecialchars(dt$title)
+        # dt$title<-htmlspecialchars(dt$title)
         currentDD = filter(dIndexDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo, 
                            field_year == dt$field_year, title == dt$title)
         if (nrow(currentDD) != 0) {
@@ -130,8 +141,8 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
     }
     else if(dt$type=="region_d_index") {
       if (nrow(regionDDataDf) != 0) {
-        dt$title<-htmlspecialchars(dt$title)
-        dt$field_region<-htmlspecialchars(dt$field_region)
+        # dt$title<-htmlspecialchars(dt$title)
+        # dt$field_region<-htmlspecialchars(dt$field_region)
         currentDD = filter(regionDDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo,
                            field_year == dt$field_year, title == dt$title, field_region == dt$field_region)
         if (nrow(currentDD) != 0) {
@@ -142,8 +153,8 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
     }
     else if(dt$type=="region_tree_data") {
       if (nrow(regionTreeDataDf) != 0) {
-        dt$title<-htmlspecialchars(dt$title)
-        dt$field_region<-htmlspecialchars(dt$field_region)
+        # dt$title<-htmlspecialchars(dt$title)
+        # dt$field_region<-htmlspecialchars(dt$field_region)
         currentDD = filter(regionTreeDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo,
                            field_year == dt$field_year, title == dt$title, field_region == dt$field_region)
         if (nrow(currentDD) != 0) {
@@ -166,18 +177,11 @@ push_together<-function(resultFolder, drupalFiles, api_base, key){
       return()
   }
 
-  # no longer used. we send batch data to the server and download 
-  # the drupal files later to check the publication results.
-  # logcsv<-paste(resultFolder, "validation/pushlogfile.csv", sep="")
-  # drupalFiles<-gettingDrupalFiles(api_base, key)
-  
-  # Error: parse error: premature EOF
-  # (right here) ------^ 
-    
   dt0<-list()
   ct<-30
   for(dn in data_list){
     dt<-readRDS(paste(resultFolder, dn, sep=""))
+    # print(dt)
     ### these indicators are in the validation data, but not in drupal indicator table
     if(! (dt$field_indicator %in% c("MobilePhonePR")))
       {
@@ -234,26 +238,30 @@ checkingDrupalFiles<-function(drupalFiles, comm_vars){
 }
 
 
-# drupalFilesPush<-gettingDrupalFiles(api_base, key)
-comm_vars<-c("title", "uuid", "nid", "moderation_state", "field_geo",
-             "field_indicator", "field_year", "field_survey_type", "field_geo_name",
-             "drupalTableName")  # "field_data",
+drupalFilesPush<-gettingDrupalFiles(api_base, key)
+# comm_vars<-c("title", "uuid", "nid", "moderation_state", "field_geo",
+#              "field_indicator", "field_year", "field_survey_type", "field_geo_name",
+#              "drupalTableName")  # "field_data",
+
+
 # drupalRecords<-checkingDrupalFiles(drupalFilesPush, comm_vars)
 # lao_drupal<-drupalRecords[drupalRecords$field_geo_name=="Lao", ]
 
-print(table(lao_drupal$field_indicator[lao_drupal$drupalTableName=="tree_data"]))
+# print(table(lao_drupal$field_indicator[lao_drupal$drupalTableName=="tree_data"]))
+# 
+# tree_lao<-lao_drupal[lao_drupal$drupalTableName=="tree_data", ]
+# wrong_version<-grepl("v1.1", lao_drupal$title)
+# print(table(wrong_version))
+# wrong_lao<-lao_drupal[wrong_version, ]
 
-tree_lao<-lao_drupal[lao_drupal$drupalTableName=="tree_data", ]
-wrong_version<-grepl("v1.1", lao_drupal$title)
-
-print(table(wrong_version))
-wrong_lao<-lao_drupal[wrong_version, ]
- # for (type in c("d_index", "tree_data", "region_d_index", "region_tree_date")) {
-for (type in c("region_tree_data")) {
+for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
+# for (type in c("region_d_index", "region_tree_data")) {
+# for (type in c("d_index", "tree_data")) {
     pubfolder<-paste(pubDatafolder, type, "/", sep="")
     print(pubfolder)
-    push_together(pubfolder, drupalFilesPush, api_base, key) 
+    push_together(pubfolder, drupalFilesPush, api_base, key)
 }
+
 # push_together(pubfolder, drupalFilesPush, api_base, key) 
 
 # country<-unique(drupalRecords$field_geo)

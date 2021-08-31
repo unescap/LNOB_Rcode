@@ -30,8 +30,11 @@ library(epiDisplay) # Optional: allows to visualize Tab without weighting
 #### 1st Merge: household listing + women ######
 
 library(haven)
-Household <- read_sav("hh.sav", encoding = NULL, user_na = TRUE)
-HouseholdListing <- read_sav("hl.sav", encoding = NULL, user_na = TRUE)
+
+
+data_folder<-"/home/yw/Workspace/rstudio/SDD2017/sav_download/Mongolia2018/"
+Household <- read_sav(paste(data_folder, "hh.sav", sep=""), encoding = NULL, user_na = TRUE)
+HouseholdListing <- read_sav(paste(data_folder,"hl.sav", sep=""), encoding = NULL, user_na = TRUE)
 
 
 # Variables that uniquely identify the households are the cluster number (HH1) and the Household number 
@@ -46,12 +49,12 @@ HouseholdListing <- arrange(HouseholdListing, HH1, HH2, HL1)
 
 # We apply the same process to the children's file and rename LN as HL1:
 library(dplyr)
-Children <- read_sav("ch.sav", encoding = NULL, user_na = TRUE)
+Children <- read_sav(paste(data_folder, "ch.sav", sep=""), encoding = NULL, user_na = TRUE)
 Children <- rename(Children, HL1 = LN)
 Children <- arrange(Children, HH1, HH2, HL1)
 
 # We also apply the same process to the women's file and rename LN as HL1:
-women <- read_sav("wm.sav", encoding = 'latin1', user_na = TRUE)
+women <- read_sav(paste(data_folder, "wm.sav", sep=""), encoding = 'latin1', user_na = TRUE)
 women <- arrange(women, HH1, HH2, LN) 
 women <- rename(women, HL1 = LN)
 
@@ -98,27 +101,29 @@ Masterfile <- Mergedfile3
 # VARIABLES LIKELY TO CHANGE
 
 x <- wtd.table(Masterfile$HH48, weight = Masterfile$hhweight)
-freq(x)
+print(freq(x))
 
 CrossTable(Masterfile$HH48)
 
-x <- wtd.table(Masterfile$HC3, weight = Masterfile$hhweight)
-freq(x)
 
-CrossTable(Masterfile$HC3)
+# ···YW running error message: "Error in proxy[, ..., drop = FALSE] : incorrect number of dimensions"
+# x <- wtd.table(Masterfile$HC3, weight = Masterfile$hhweight)
+# print(freq(x))
+# 
+# CrossTable(Masterfile$HC3)
 
 # Now we generate the person per room variable to estimate the housing dimension:
 
 Masterfile1 <- Masterfile %>% mutate(personperroom = ifelse(HC3 != 99, HH48/HC3, NA))
 x <- wtd.table(Masterfile1$personperroom, weight = Masterfile1$hhweight)
-freq(x) # might not need to weight here. So we can use "CrossTable" function.:
+print(freq(x)) # might not need to weight here. So we can use "CrossTable" function.:
 
 CrossTable(Masterfile1$personperroom)
 
 ##### Filtering the masterfile. Since the unit of analysis is the child  - defined by UNICEF as any person whose age is less than 18 - we drop the persons that are 18 years old and older. We must only keep people under 18:
 Children_Masterfile1 <- filter(Masterfile1, HL6 < 18)
 
-# To confirm: 
+# To confirm: Age 
 summary(Children_Masterfile1$HL6)
 # or: 
 glimpse(Children_Masterfile1$HL6)
@@ -133,6 +138,7 @@ glimpse(Children_Masterfile1$HL6)
 
 Children_Masterfile1$severcrowdingdep <- ifelse(Children_Masterfile1$personperroom >= 0.25 & Children_Masterfile1$personperroom < 5, 0, ifelse(Children_Masterfile1$personperroom >=5 & Children_Masterfile1$personperroom <=10 , 1,NA))
 x <- wtd.table(Children_Masterfile1$severcrowdingdep, weight = Children_Masterfile1$hhweight)
+# YW note on code: why use household weight, not household member weight?
 questionr::freq(x)
 
 CrossTable(Children_Masterfile1$severcrowdingdep)
@@ -150,7 +156,7 @@ CrossTable(Children_Masterfile1$modercrowdingdep)
 
 CrossTable(Children_Masterfile1$severcrowdingdep,Children_Masterfile1$modercrowdingdep)
 x <- wtd.table(Children_Masterfile1$severcrowdingdep, Children_Masterfile1$modercrowdingdep, weight = Children_Masterfile1$hhweight)
-CrossTable(x)
+# CrossTable(x)
 
 
 
@@ -191,7 +197,7 @@ questionr::freq(x)
 
 CrossTable(Children_Masterfile1$severewaterdep, Children_Masterfile1$moderatewaterdep)
 x <- wtd.table(Children_Masterfile1$severewaterdep, Children_Masterfile1$moderatewaterdep, weight = Children_Masterfile1$hhweight)
-CrossTable(x) # This will always give you the weighted cross tabulation in constrast to "CrossTable" function. 
+# CrossTable(x) # This will always give you the weighted cross tabulation in constrast to "CrossTable" function. 
 
 
 
@@ -226,7 +232,7 @@ questionr::freq(x)
 
 CrossTable(Children_Masterfile1$severesanitationdeprived, Children_Masterfile1$moderatesanitationdeprived)
 x <- wtd.table(Children_Masterfile1$severesanitationdeprived, Children_Masterfile1$moderatesanitationdeprived, weight = Children_Masterfile1$hhweight)
-CrossTable(x)
+# questionr::freq(x)
 
 
 
@@ -294,7 +300,9 @@ Children_Masterfile1$severeducdepbelow15b <- ifelse(Children_Masterfile1$ED4.x =
 
 x <- wtd.table(Children_Masterfile1$severeducdepbelow15b, weight = Children_Masterfile1$hhweight)
 questionr::freq(x)
-CrossTable(x)
+
+###  YW running error: "Error in dn[[2L]] : subscript out of bounds"
+# CrossTable(x)
 CrossTable(Children_Masterfile1$severeducdepbelow15b) # optional to check difference with unweighted
 
 ## Moderate Threshold:
@@ -308,14 +316,17 @@ Children_Masterfile1$moderateedudeprivbelow15a <- ifelse(Children_Masterfile1$ED
 
 x <- wtd.table(Children_Masterfile1$moderateedudeprivbelow15a, weight = Children_Masterfile1$hhweight)
 questionr::freq(x)
-CrossTable(x)
+#### YW running error: "Error in dn[[2L]] : subscript out of bounds"
+# CrossTable(x)
 CrossTable(Children_Masterfile1$moderateedudeprivbelow15a) # optional to check difference with unweighted
 
 ## Generate the dimension (aggregate mesure):
 
 CrossTable(Children_Masterfile1$severeducdepbelow15, Children_Masterfile1$moderateedudeprivbelow15)
 x <- wtd.table(Children_Masterfile1$severeducdepbelow15, Children_Masterfile1$moderateedudeprivbelow15, weight = Children_Masterfile1$hhweight)
-questionr::freq(x)
+
+### YW running error note: "Error in `.rowNamesDF<-`(x, value = value) : invalid 'row.names' length"
+# questionr::freq(x)
 CrossTable(x)
 
 
@@ -344,7 +355,9 @@ Children_Masterfile1$severeedudeprived15olderD <- ifelse(Children_Masterfile1$ED
 
 x <- wtd.table(Children_Masterfile1$severeedudeprived15olderD, weight = Children_Masterfile1$hhweight)
 questionr::freq(x)
-CrossTable(x)
+
+# YW running error note: "Error in dn[[2L]] : subscript out of bounds"
+# CrossTable(x)
 CrossTable(Children_Masterfile1$severeedudeprived15olderD)
 
 
@@ -382,7 +395,8 @@ Children_Masterfile1$moderateedudeprived15olderE <- ifelse((Children_Masterfile1
 
 x <- wtd.table(Children_Masterfile1$moderateedudeprived15olderE, weight = Children_Masterfile1$hhweight)
 questionr::freq(x)
-CrossTable(x)
+
+#  CrossTable(x)
 CrossTable(Children_Masterfile1$moderateedudeprived15olderE)
 
 ###Aggregating the education by groups##
@@ -401,7 +415,7 @@ Children_Masterfile1$sevedugroup <- ifelse(Children_Masterfile1$SumSevedugroup>=
 
 x <- wtd.table(Children_Masterfile1$sevedugroup, weight = Children_Masterfile1$hhweight)
 questionr::freq(x)
-CrossTable(x)
+# CrossTable(x)
 
 CrossTable(Children_Masterfile1$sevedugroup)
 
@@ -419,7 +433,7 @@ Children_Masterfile1$Moderedugroup <- ifelse(Children_Masterfile1$SumModeredugro
 
 x <- wtd.table(Children_Masterfile1$Moderedugroup, weight = Children_Masterfile1$hhweight)
 questionr::freq(x)
-CrossTable(x)
+# CrossTable(x)
 
 CrossTable(Children_Masterfile1$Moderedugroup)
 
@@ -459,7 +473,7 @@ Children_Masterfile1$measlesdeprivedD <- ifelse(Children_Masterfile1$CAGE>= 12 &
 
 CrossTable(Children_Masterfile1$measlesdeprivedD)
 
-tab1(Children_Masterfile1$measlesdeprivedD)
+# tab1(Children_Masterfile1$measlesdeprivedD)
 
 x <- wtd.table(Children_Masterfile1$measlesdeprivedD, weight = Children_Masterfile1$chweight)
 questionr::freq(x)
@@ -515,7 +529,7 @@ Children_Masterfile1$dpt2deprivedA <- ifelse(Children_Masterfile1$CAGE>=12 & Chi
 Children_Masterfile1$dpt2deprivedB <- ifelse(Children_Masterfile1$CAGE>=12 & Children_Masterfile1$CAGE<=35 & Children_Masterfile1$IM21==8 | Children_Masterfile1$IM21==9, NA, Children_Masterfile1$dpt2deprivedA)
 
 
-tab1(Children_Masterfile1$dpt2deprivedB)
+# tab1(Children_Masterfile1$dpt2deprivedB)
 
 # We now cross tabulate the penta 2 estimates:
 CrossTable(Children_Masterfile1$dpt2deprivedB)
@@ -557,23 +571,28 @@ Children_Masterfile1$sumvaccines <- ifelse(is.na(Children_Masterfile1$measlesdep
 
 CrossTable(Children_Masterfile1$sumvaccines)
 
-tab1(Children_Masterfile1$sumvaccines)
+# tab1(Children_Masterfile1$sumvaccines)
 
 ## We now generate the moderate deprivation: a child is moderately deprived if he/she is missing any of the 4:
 
-moderatevaccinesdeprived <- ifelse(Children_Masterfile1$sumvaccines>=1, 1, ifelse(Children_Masterfile1$sumvaccines == 0, 0, NA))
+Children_Masterfile1$moderatevaccinesdeprived <- ifelse(Children_Masterfile1$sumvaccines>=1, 1, ifelse(Children_Masterfile1$sumvaccines == 0, 0, NA))
 
-CrossTable(moderatevaccinesdeprived)
+CrossTable(Children_Masterfile1$moderatevaccinesdeprived)
 
-x <- wtd.table(moderatevaccinesdeprived, weight = Children_Masterfile1$chweight)
+x <- wtd.table(Children_Masterfile1$moderatevaccinesdeprived, weight = Children_Masterfile1$chweight)
 questionr::freq(x)
 
 ## I now generate the severe deprivation: a child is deprived if he/she is mising the 4:
 
 Children_Masterfile1$severevaccinesdeprived <- ifelse(Children_Masterfile1$sumvaccines == 4, 1, ifelse(Children_Masterfile1$sumvaccines == 0, 0, NA))
 
-CrossTable(Children_Masterfile1$severevaccinesdeprived)
-tab1(Children_Masterfile1$severevaccinesdeprived)
+# YW error message:
+# Error in chisq.test(t, correct = FALSE) : 
+#   'x' must at least have 2 elements
+# CrossTable(Children_Masterfile1$severevaccinesdeprived)
+
+
+# tab1(Children_Masterfile1$severevaccinesdeprived)
 
 x <- wtd.table(Children_Masterfile1$severevaccinesdeprived, weight = Children_Masterfile1$chweight)
 questionr::freq(x)
@@ -597,7 +616,7 @@ CrossTable(Children_Masterfile1$CA18)
 
 Children_Masterfile1$arisymptoms <- ifelse(Children_Masterfile1$CAGE>=36 & Children_Masterfile1$CAGE>=59 & Children_Masterfile1$CA16==1 & Children_Masterfile1$CA17==1 & Children_Masterfile1$CA18==1 | Children_Masterfile1$CA18==3, 1, NA)
 
-tab1(Children_Masterfile1$arisymptoms)
+# tab1(Children_Masterfile1$arisymptoms)
 
 ## As before, below we generate two thresholds of deprivation; one severe, and
 #another that includes moderate and severe: 
@@ -610,7 +629,7 @@ tab1(Children_Masterfile1$arisymptoms)
 Children_Masterfile1$ariseverlydeprived <- ifelse(Children_Masterfile1$arisymptoms==1 & Children_Masterfile1$CA20==2, 1, ifelse(Children_Masterfile1$arisymptoms==1 & Children_Masterfile1$CA20==1, 0, NA))
 
 CrossTable(Children_Masterfile1$ariseverlydeprived)
-tab1(Children_Masterfile1$ariseverlydeprived)
+# tab1(Children_Masterfile1$ariseverlydeprived)
 x <- wtd.table(Children_Masterfile1$ariseverlydeprived, weight = Children_Masterfile1$chweight)
 questionr::freq(x)
 
@@ -621,9 +640,11 @@ Children_Masterfile1$arimoderatedeprived <- Children_Masterfile1$ariseverlydepri
 
 Children_Masterfile1$arimoderatedeprived <- ifelse(Children_Masterfile1$arisymptoms==1 & (Children_Masterfile1$CA21A=="A"|Children_Masterfile1$CA21B=="B"|Children_Masterfile1$CA21D=="D"|Children_Masterfile1$CA21F=="F"|Children_Masterfile1$CA21I=="I"|Children_Masterfile1$CA21J=="J"|Children_Masterfile1$CA21K=="K"|Children_Masterfile1$CA21W=="W"), 0, ifelse(Children_Masterfile1$arisymptoms==1 & (Children_Masterfile1$CA21P=="P"|Children_Masterfile1$CA21Q=="Q"|Children_Masterfile1$CA21R=="R"|Children_Masterfile1$CA21X=="X"), 1, NA))
 
-
-CrossTable(Children_Masterfile1$arimoderatedeprived)
-tab1(Children_Masterfile1$arimoderatedeprived)
+# YW running error:
+# Error in chisq.test(t, correct = FALSE) : 
+#   'x' must at least have 2 elements
+# CrossTable(Children_Masterfile1$arimoderatedeprived)
+# tab1(Children_Masterfile1$arimoderatedeprived)
 x <- wtd.table(Children_Masterfile1$arimoderatedeprived, weight = Children_Masterfile1$chweight)
 questionr::freq(x)
 
@@ -662,6 +683,7 @@ questionr::freq(x)
 
 Children_Masterfile1$hasmissmoderhealth <- rowSums(is.na(Children_Masterfile1[,c("moderatevaccinesdeprived", "arimoderatedeprived")]), na.rm = TRUE)
 
+# YW running error:
 CrossTable(Children_Masterfile1$hasmissmoderhealth)
 
 
@@ -699,21 +721,33 @@ questionr::freq(x)
 
 #2). TV:
 
-Children_Masterfile1$TVdep <- ifelse(Children_Masterfile1$HC9A == 1 | (Children_Masterfile1$HC9A == 2 & Children_Masterfile1$HC9A1 == 1), 0, ifelse(Children_Masterfile1$HC9A == 2 & Children_Masterfile1$HC9A1 == 2, 1, NA))
+#### YW on code: There is no HC9A1 for mongolia 2018
+
+# Children_Masterfile1$TVdep <- ifelse(Children_Masterfile1$HC9A == 1 | (Children_Masterfile1$HC9A == 2 & Children_Masterfile1$HC9A1 == 1), 0, 
+#                                      ifelse(Children_Masterfile1$HC9A == 2 & Children_Masterfile1$HC9A1 == 2, 1, NA))
+
+
+
+Children_Masterfile1$TVdep <- NA
+Children_Masterfile1$TVdep[Children_Masterfile1$HC9A == 1]<-0
+Children_Masterfile1$TVdep[Children_Masterfile1$HC9A == 2] <-1
+
 CrossTable(Children_Masterfile1$TVdep)
 x <- wtd.table(Children_Masterfile1$TVdep, weight = Children_Masterfile1$hhweight)
 questionr::freq(x)
 
 #3). Computer/Tablet
 
-Children_Masterfile1$Compdep <- ifelse(Children_Masterfile1$HC11 == 1 | (Children_Masterfile1$HC11== 2 & Children_Masterfile1$HC11A1==1), 0, ifelse(Children_Masterfile1$HC11 == 2 & Children_Masterfile1$HC11A1==2, 1, NA))
+#  YW note on code: There is no HC11A1 in the MOngolia 2018 data
+Children_Masterfile1$Compdep <- ifelse(Children_Masterfile1$HC11 == 1, 0, ifelse(Children_Masterfile1$HC11 == 2, 1, NA))
 CrossTable(Children_Masterfile1$Compdep)
 x <- wtd.table(Children_Masterfile1$Compdep, weight = Children_Masterfile1$hhweight)
 questionr::freq(x)
 
 #4). Mobile:
+#### YW on code: There is no HC12A1 for mongolia 2018
 
-Children_Masterfile1$Mobdep <- ifelse(Children_Masterfile1$HC12 == 1 | (Children_Masterfile1$HC12 == 2 & Children_Masterfile1$HC12A1 ==1), 0, ifelse(Children_Masterfile1$HC12 == 2 & Children_Masterfile1$HC12A1 == 2, 1, NA))
+Children_Masterfile1$Mobdep <- ifelse(Children_Masterfile1$HC12 == 1, 0, ifelse(Children_Masterfile1$HC12 == 2, 1, NA))
 CrossTable(Children_Masterfile1$Mobdep)
 x <- wtd.table(Children_Masterfile1$Mobdep, weight = Children_Masterfile1$hhweight)
 questionr::freq(x)
@@ -747,9 +781,12 @@ CrossTable(Children_Masterfile1$Suminformation)
 Children_Masterfile1$Severeinfo <- ifelse(Children_Masterfile1$Suminformation == 5, 1, ifelse(Children_Masterfile1$Suminformation <= 5, 0, NA))
 CrossTable(Children_Masterfile1$Severeinfo)
 
-Children_Masterfile1$Severeinfo <- ifelse(Children_Masterfile1$Suminformation == 5, 1, ifelse(Children_Masterfile1$Suminformation == 0, 0, NA))
-CrossTable(Children_Masterfile1$Severeinfo)
-tab1(Children_Masterfile1$Severeinfo)
+# YW note on code: this definition seems to be experimenal and should not be here
+# Children_Masterfile1$Severeinfo <- ifelse(Children_Masterfile1$Suminformation == 5, 1, ifelse(Children_Masterfile1$Suminformation == 0, 0, NA))
+# CrossTable(Children_Masterfile1$Severeinfo)
+
+# YW running error: "Error in plot.new() : figure margins too large"
+# tab1(Children_Masterfile1$Severeinfo)
 
 x <- wtd.table(Children_Masterfile1$Severeinfo, weight = Children_Masterfile1$hhweight)
 questionr::freq(x)
@@ -783,7 +820,7 @@ Children_Masterfile1$hassmissmoderatepoor <-rowSums(is.na(Children_Masterfile1[,
 CrossTable(Children_Masterfile1$hassmissmoderatepoor)
 x <- wtd.table(Children_Masterfile1$hassmissmoderatepoor)
 questionr::freq(x)
-CrossTable(x)
+# CrossTable(x)
 
 
 
@@ -841,7 +878,7 @@ Children_Masterfile1$hassmissmoderatepoor <-rowSums(is.na(Children_Masterfile1[,
 CrossTable(Children_Masterfile1$hassmissmoderatepoor)
 x <- wtd.table(Children_Masterfile1$hassmissmoderatepoor)
 questionr::freq(x)
-CrossTable(x)
+# CrossTable(x)
 
 
 
@@ -881,3 +918,14 @@ x <- wtd.table(Children_Masterfile1$severelydeprived, weight = Children_Masterfi
 questionr::freq(x)
 
 # The output represents the share of children severely deprived.
+
+print("All run through by now")
+
+cn<-colnames(Children_Masterfile1)
+ct<-as.data.frame(table(Children_Masterfile1$HL6, Children_Masterfile1$severelydeprived))
+ct_age<-table(Children_Masterfile1$HL6)
+
+for(i in c(1:18)){
+  ct$pct[i]<-ct$Freq[i]/ct_age[i]
+  ct$pct[i+18]<-ct$Freq[i+18]/ct_age[i]
+}

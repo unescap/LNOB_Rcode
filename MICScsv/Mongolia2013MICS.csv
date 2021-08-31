@@ -245,3 +245,4 @@ Dwalking,mn,difficulty,walking,,MAF9,no,and,MresponseV,Factor,NA,0 var names fou
 Dremembering,mn,difficulty,remembering,,MAF10,no,and,MresponseV,Factor,NA,0 var names found
 Dselfcare,mn,difficulty,self-care,,MAF11,no,and,MresponseV,Factor,NA,0 var names found
 Dcommunicating,mn,difficulty,communicating,,MAF12,no,and,MresponseV,Factor,NA,0 var names found
+EarlyChildhoodEducation,ch,attend,early childhood education,programme,UB8,no,and,ResponseV,Factor,EC5,1 var names found

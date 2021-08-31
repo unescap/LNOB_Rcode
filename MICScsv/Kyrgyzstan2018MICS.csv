@@ -214,3 +214,4 @@ WaterOnstieHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Fac
 HandwashHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 SafeSanitationHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 NotCrowdedHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
+EarlyChildhoodEducation,ch,attend,early childhood education,programme,UB8,no,and,ResponseV,Factor,UB8,"More than one columns, usual name chosen"

@@ -67,7 +67,8 @@ source(paste(r_folder,"TreeAndLogistic.R",sep=""))
 source(paste(r_folder,"general_output.R",sep=""))
 
 csvfile_name<-"MICS"
-edcationcsv<-"EducationMICS_testing"
+# edcationcsv<-"EducationMICS_testing"
+edcationcsv<-"EducationMICS"
 religioncsv<-"ReligionMICS"
 
 ### Create logger
@@ -123,6 +124,9 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       return(drupalIndex)
     }
   }
+
+  dataSet<-unique(meta_data$DataSet)
+  dataSet<-dataSet[!(dataSet %in% c("DataSet", "mn"))]
   
   if(use_version>1) {
     if(is.null(validationfile)) {
@@ -130,16 +134,17 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       return(drupalIndex)
     }
     else validationdata<-read.table(validationfile, sep=",", header=T, colClasses="character")
-    Rlist<-unique(validationdata$IndicatorName)
+    dataSet<-unique(validationdata$dataset[validationdata$country_code==country_code 
+                                           & validationdata$version_code==version_code])
+    Rlist<-unique(validationdata$IndicatorName[validationdata$country_code==country_code 
+                                               & validationdata$version_code==version_code])
   }
   
   info(logger, "Run_together function called.")
   
   # Type of Datasets: hh, hl, wm, ch, mn
-  dataSet<-unique(meta_data$DataSet)
-  dataSet<-dataSet[!(dataSet %in% c("DataSet", "mn"))]
-  
-  # dataSet<-c("wm")
+
+  dataSet<-c("hh")
   for(ds in dataSet){
 
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
@@ -150,10 +155,10 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     dataList<-meta_data[meta_data$DataSet==ds, ]
     responseList<-dataList[dataList$IndicatorType=="ResponseV", ]
     
-    responseList<-responseList[!(responseList$NickName %in% c("Covid", "Covid1", 
-                                                        "Covid2", "LearningHL", 
-                                                        "WaterOnstieHL", "HandwashHL", 
-                                                        "SafeSanitationHL", "NotCrowdedHL")),]
+    # responseList<-responseList[!(responseList$NickName %in% c("Covid", "Covid1", 
+    #                                                     "Covid2", "LearningHL", 
+    #                                                     "WaterOnstieHL", "HandwashHL", 
+    #                                                     "SafeSanitationHL", "NotCrowdedHL")),]
     
     
     if(ds=="hh") educationList<-education_data[education_data$DataSet=="hl", ]
@@ -243,32 +248,37 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
 
     #print(sum(df$SampleWeight))
     
-    # Response variables to model 
-    # if(use_version>1){
-    #   responseList<-responseList[responseList$NickName %in% Rlist ,]
-    #   responseList<-responseList[!responseList$NickName %in% c("Covid", "LearningHL", 
-    #                                                            "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") ,]
-    #   
-    # }
-    # 
+    # Response variables to model
+    if(use_version>1){
+      responseList<-responseList[responseList$NickName %in% Rlist ,]
+      # responseList<-responseList[!responseList$NickName %in% c("Covid", "LearningHL",
+      #                                                          "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") ,]
+
+    }
+
 
     # responseList<-dataList[dataList$NickName=="MobilePhone" & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("Covid") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("BasicWater") & dataList$IndicatorType=="ResponseV", ]
+    responseList<-dataList[dataList$NickName %in% c("BasicWater") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("SecondaryEducation2035", "HigherEducation2535", "SecondaryEducation35plus") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("EarlyEducation25", "EarlyEducation35") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("CleanWater") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("CleanFuel") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("SafeSanitation") & dataList$IndicatorType=="ResponseV", ]
+    # responseList<-dataList[dataList$NickName %in% c("AccessElectricity", "ContraceptiveMethod") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("ContraceptiveMethod") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("MobilePhone") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("HealthInsurance") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("ProfessionalHelp") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName=="InternetUse" & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("Covid", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
+    # responseList<-dataList[dataList$NickName %in% c("SecondaryEducation2035", "SecondaryEducation35plus") & dataList$IndicatorType=="ResponseV", ]
     
-
+    # responseList<-dataList[dataList$NickName %in% c("Covid"), ]
+    # responseList<-dataList[dataList$NickName %in% c("EarlyChildhoodEducation"), ]
+    # responseList<-dataList[dataList$NickName %in% c("CleanWater", "BasicWater") & dataList$IndicatorType=="ResponseV", ]
+    
+    
     rn<-nrow(responseList)
     if(rn>0){
     for(i in c(1:rn)){
