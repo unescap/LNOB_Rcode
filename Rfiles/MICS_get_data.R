@@ -609,7 +609,7 @@ SecondaryEducation2035<-function(datause, dataList, k, educationList){
   }
   
   # print(table(datause[, k], datause$var2tab))
-  print(mean(datause$var2tab))
+  # exportGradeAge(datause)   # this is made for Turkmenistan 2019
   return(datause)
 }
 
@@ -644,9 +644,21 @@ SecondaryEducation35plus<-function(datause, dataList, k, educationList){
   datause$var2tab[datause[, k] == educationList$Levels[i] & (datause[ , gradeK]>= educationList$Grade[i] & datause[ , gradeK]<90)]<-1
   }
   # print(table(datause[, k], datause[ , gradeK]))
-  print(mean(datause$var2tab))
+  # exportGradeAge(datause)   # this is made for Turkmenistan 2019
   return(datause)
 }
+
+
+#### wrote for Turkmensitan 2019, one time run
+exportGradeAge<-function(datause){
+  sumGroup<-aggregate(datause$SampleWeight, by=list(datause$Age, datause$ED5A, datause$ED5B), 
+                      FUN=sum)
+  write.table(sumGroup, "/home/yw/Workspace/rstudio/LNOB_Rcode/output/Trial/dev/AgeGroupTurkmenistan.csv", 
+              sep=",", append = TRUE,   col.names = F, row.names = F)
+  
+}
+
+
 
 
 HigherEducation2535<-function(datause, dataList, k, educationList){
@@ -1460,12 +1472,18 @@ NUnder5<-function(datause){
  
  
  EducationHL<-function(datause, dataList, k, educationList){
-   
-   datause$Elevel<-as.numeric(as.character(datause[, k]))
+   # levels of education in the hl dataset
+   datause$Elevel<-as.numeric(as.character(datause[, k])) ### education levels
+   gradeV<-dataList$VarName[dataList$NickName=="Grade"]
+   gradeK<-match(gradeV, colnames(datause), nomatch = 0)
+   datause$Grade<-as.numeric(as.character(datause[, gradeK]))
    datause$EducationHL <-"Lower"
    max_level<-max(educationList$Levels)
    min_level<-min(educationList$Levels)
-   datause$EducationHL[datause$Elevel >=min_level & datause$Elevel <=max_level ]<-"Secondary"
+   PrimaryGrade<-educationList$Grade[educationList$Education=="Pimary"]
+   
+   datause$EducationHL[datause$Elevel ==min_level & datause$Grade>PrimaryGrade]<-"Secondary"
+   datause$EducationHL[datause$Elevel >min_level & datause$Elevel <=max_level ]<-"Secondary"
    datause$EducationHL[datause$Elevel> max_level & datause$Elevel < 8 ]<-"Higher"
    datause$EducationHL<-factor(datause$EducationHL, levels = c("Lower", "Secondary", "Higher"), ordered = TRUE)
    
@@ -1475,15 +1493,16 @@ NUnder5<-function(datause){
 ############ HR independent variables
 HighestEducation<-function(datause, dataList, educationList){
 
-    datause$Elevel<-as.numeric(as.character(datause$HighestEducation))
-    datause$HighestEducation <-"Lower"
-    max_level<-max(educationList$Levels)
-    min_level<-min(educationList$Levels)
-    datause$HighestEducation[datause$Elevel >=min_level & datause$Elevel <=max_level ]<-"Secondary"
-    datause$HighestEducation[datause$Elevel> max_level & datause$Elevel < 8 ]<-"Higher"
-    datause$HighestEducation<-factor(datause$HighestEducation, levels = c("Lower", "Secondary", "Higher"), ordered = TRUE)
-    
+    # datause$Elevel<-as.numeric(as.character(datause$HighestEducation))
+    # datause$HighestEducation <-"Lower"
+    # max_level<-max(educationList$Levels)
+    # min_level<-min(educationList$Levels)
+    # datause$HighestEducation[datause$Elevel >=min_level & datause$Elevel <=max_level ]<-"Secondary"
+    # datause$HighestEducation[datause$Elevel> max_level & datause$Elevel < 8 ]<-"Higher"
+    # datause$HighestEducation<-factor(datause$HighestEducation, levels = c("Lower", "Secondary", "Higher"), ordered = TRUE)
+    # 
 
+  print(table(datause$HighestEducation))
   return(datause)
 }
 
@@ -1527,6 +1546,7 @@ MarriageStatus<-function(datause, dataList, k){
 
 
 Education<-function(datause, dataList, k, educationList){
+  ### from wm dataset
   datause$Education<-"Lower" 
   datause$Education[datause[,k] <= educationList$Grade]<-"Lower"
   datause$Education[datause[,k]>educationList$Grade &  datause[,k]<= educationList$Levels]<-"Secondary"
@@ -1535,25 +1555,7 @@ Education<-function(datause, dataList, k, educationList){
   
   #### country dependent, has to be specified in MICSStandard.csv
   return(datause)
-  
-  # gradeV<-dataList$VarName[dataList$NickName=="Grade"]
-  # gradek<-match(gradeV, colnames(datause))
-  # 
-  # datause$Education<-"Lower" 
-  # 
-  # ngrd<-nrow(educationList)
-  # if(ngrd>1){
-  #   for(i in c(1:ngrd)){
-  #     if(educationList$Grade[i]==0) datause$Education[datause[, k]== educationList$Levels[i]]<-"Secondary"
-  #     else datause$Education[datause[,gradek]>=educationList$Grade[i] & datause[,gradek]<90 &  datause[, k]== educationList$Levels[i]]<-"Secondary"
-  #   }
-  # }
-  # else datause$Education[datause[, gradek]>=educationList$Grade  & datause[,gradek]<90 &  datause[,k]== educationList$Levels]<-"Secondary"
-  # 
-  # datause$Education[datause[,k]>max(educationList$Levels) & datause[,k]<8]<-"Higher"
-  # 
-  # datause$Education<-factor(datause$Education, levels = c("Lower" , "Secondary", "Higher"), ordered = TRUE)
-  # return(datause)
+
 }
 
 
@@ -1680,15 +1682,16 @@ return(c(1, 2, 3, 4, 5))   #  1 = Electricity
 importMICSdata<-function(data_folder, country_code, year_code, data_type, var_list, regionVar=NULL, provinceVar=NULL, la=FALSE){
   v<-toupper(var_list)
 
+  print(v)
   country_directory <- paste(data_folder, country_code, year_code, sep = "")
   data_type_directory <- paste(country_directory, paste(data_type, "sav", sep="."), sep = "/")
   print(data_type_directory)
   df<-read.spss(data_type_directory, 
                 use.value.labels = la, trim_values=TRUE, to.data.frame = TRUE)
   
-  col_index<-match(v, toupper(colnames(df)))
-  col_index<-col_index[!is.na(col_index)]
-  
+  col_index<-match(v, toupper(colnames(df)), nomatch = 0)
+  col_index<-col_index[col_index>0]
+  print(col_index)
   df<-df[ , col_index]
 
   if(!is.null(regionVar)){
@@ -1712,7 +1715,7 @@ importMICSdata<-function(data_folder, country_code, year_code, data_type, var_li
 
 
 add_highestEducation <- function(df, meta_data, data_folder, country_code, version_code,
-                                 dataList) {
+                                 dataList, educationList) {
   
   dataList2<-meta_data[meta_data$DataSet=="hl", ]
   df2<-importMICSdata(data_folder, country_code, version_code, "hl", unique(dataList2$VarName))  
@@ -1721,10 +1724,14 @@ add_highestEducation <- function(df, meta_data, data_folder, country_code, versi
   k1<-match(id1, colnames(df2))
   id2<-dataList2$VarName[dataList2$NickName=="HouseholdNumber"]
   k2<-match(id2, colnames(df2))
-  id3<-dataList2$VarName[dataList2$NickName=="Education"]
+  id3<-dataList2$VarName[dataList2$NickName=="EducationHL"]
   k3<-match(id3, colnames(df2))
-  colnames(df2)[c(k1, k2, k3)]<-c("cluster_id", "HouseholdNumber", "Education")
-  df2<-df2[!is.na(df2$Education) & df2$Education<8, ]
+  df2<-EducationHL(df2, dataList2, k3, educationList)
+  k4<-match("EducationHL", colnames(df2))
+  print(table(df2$EducationHL))
+  
+  colnames(df2)[c(k1, k2, k4)]<-c("cluster_id", "HouseholdNumber", "Education")
+  # df2<-df2[!is.na(df2$Education) & df2$Education<8, ]
   max_edu<-aggregate(df2$Education, by=list(df2$cluster_id, df2$HouseholdNumber), FUN=max)
   colnames(max_edu)<-c("cluster_id", "HouseholdNumber", "HighestEducation")
   
@@ -1744,6 +1751,8 @@ add_reglist<-function(data_folder, country_code, version_code, datause, meta_dat
   ### 1  import hh data that has the religion/ethnicity/language variable
 
   dataList2<-meta_data[meta_data$DataSet=="hh" & (meta_data$IndicatorType=="ID" | meta_data$NickName %in% regList), ]
+
+  # return(datause)
   df2<-importMICSdata(data_folder, country_code, version_code, "hh", unique(dataList2$VarName)) 
 
   ### 2 using get_data function to get the labels of the religion/ethnicity/language variable
@@ -1759,7 +1768,7 @@ add_reglist<-function(data_folder, country_code, version_code, datause, meta_dat
   k3<-match(id3, colnames(df2))
   colnames(df2)[c(k1, k2)]<-c("cluster_id", "HouseholdNumber")
   colnames(df2)[k3]<-regList[1]
-  
+
   id1<-dataList$VarName[dataList$NickName=="cluster_id"]
   k1<-match(id1, colnames(datause))
   id2<-dataList$VarName[dataList$NickName=="HouseholdNumber"]

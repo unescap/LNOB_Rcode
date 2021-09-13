@@ -40,6 +40,7 @@ run_together_rel<-function(source_folder, data_folder, output_folder, country_co
   }
 }
 
+data_folder<-mics_data_folder
 csvfile_name<-"MICS"
 
 run_together_rel(csv_folder, data_folder, output_folder,"Afghanistan",	"2010",  csvfile_name)

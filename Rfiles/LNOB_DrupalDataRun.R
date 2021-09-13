@@ -156,8 +156,8 @@ drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Mongolia", "2018
 #                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
 # drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2019",  csvfile_name, edcationcsv,
 #                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Tonga", "2019",  csvfile_name, edcationcsv,
-#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Tonga", "2019",  csvfile_name, edcationcsv,
+                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
 # drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Tonga", "2019",  csvfile_name, edcationcsv,
 #                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
 # 
@@ -167,8 +167,8 @@ drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Mongolia", "2018
 # drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2015",  csvfile_name, edcationcsv,
 #                       religioncsv, TRUE, TRUE, use_version=3, validatedcsv, initialIndex=drupalI)
 # 
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv,
-#                        NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv,
+                       NULL, FALSE, TRUE, use_version=3, validatedcsv, drupalI)
 # drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv,
 #                        religioncsv, religion = TRUE, TRUE, use_version=3, validatedcsv, drupalI)
 # drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Vietnam", "2010",  csvfile_name, edcationcsv,

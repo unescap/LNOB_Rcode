@@ -183,7 +183,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     if(ds=="hh"){
       ##### obtaining highest education level for household from hl data set
       df <- add_highestEducation(df, meta_data, data_folder, country_code, version_code,
-                                dataList)
+                                dataList, educationList)
       
     }
     else if(ds %in% c("ch", "wm") ) {
@@ -205,22 +205,24 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
 
     if(religion) {
       regList<-unique(religion_data$NickName)
+
       #### first, if religion information exists in hh dataset, as indicated in the relidionMICS.csv, not in other datasets, we have to add it
       religionVar<-dataList$VarName[dataList$NickName=="Religion"]
       if(length(religionVar)>0) k<-match(religionVar, colnames(df), nomatch = 0)
       else k<-0
-      print(c("reglist", regList))
+      
       k1<-length(intersect(c("Religion"), regList))
+      print(c("religion", k, k1))
       if(k==0 & k1>0){
         df<-add_reglist(data_folder, country_code, version_code, df, meta_data, dataList, c("Religion"), religion_data)
       }
-      
+
       #### second, if Ethnicity exists in hh dataset, not in other datasets, we need to add one of them, 
       ethnicityVar<-dataList$VarName[dataList$NickName=="Ethnicity"]
       k<-match(ethnicityVar, colnames(df), nomatch = 0)
       k1<-length(intersect(c("Ethnicity"), regList))
       if(k==0 & k1>0){
-        df<-add_reglist(country_code, version_code, df, meta_data, dataList, c("Ethnicity"), religion_data)
+        df<-add_reglist(data_folder, country_code, version_code, df, meta_data, dataList, c("Ethnicity"), religion_data)
       }
       
       #### Third, when ethnicity is not available, but Language exist in hh dataset, not in other datasets, we need to add one of them, 
@@ -228,12 +230,12 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       k2<-match(languageVar, colnames(df), nomatch = 0)
       k3<-length(intersect(c("Language"), regList))
       if(k==0 & k1==0 & k2==0 & k3>0){
-        df<-add_reglist(country_code, version_code, df, meta_data, dataList, c("Language"), religion_data)
+        df<-add_reglist(data_folder, country_code, version_code, df, meta_data, dataList, c("Language"), religion_data)
       }
     }
               
       
-    print("···debug; checking colmun names")
+    print("···debug; checking column names")
     print(colnames(df))
      
     # Sample Weight Pre-processing 
@@ -246,11 +248,12 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
 
     df$SampleWeight[is.na(df$SampleWeight)] <- 0
 
-    #print(sum(df$SampleWeight))
-    
+
     # Response variables to model
     if(use_version>1){
       responseList<-responseList[responseList$NickName %in% Rlist ,]
+      
+      
       # responseList<-responseList[!responseList$NickName %in% c("Covid", "LearningHL",
       #                                                          "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") ,]
 
@@ -260,7 +263,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     # responseList<-dataList[dataList$NickName=="MobilePhone" & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("Covid") & dataList$IndicatorType=="ResponseV", ]
-    responseList<-dataList[dataList$NickName %in% c("BasicWater") & dataList$IndicatorType=="ResponseV", ]
+    # responseList<-dataList[dataList$NickName %in% c("BasicWater") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("SecondaryEducation2035", "HigherEducation2535", "SecondaryEducation35plus") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("EarlyEducation25", "EarlyEducation35") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("CleanWater") & dataList$IndicatorType=="ResponseV", ]
