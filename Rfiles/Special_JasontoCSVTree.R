@@ -7,7 +7,7 @@ source_folder<- "/home/yw/Workspace/rstudio/LNOB_Rcode/"
 data_folder<-paste(source_folder, "output/",sep="") 
 r_folder<-paste(source_folder, "Rfiles/", sep="")
 
-tree_folder<-paste(data_folder, "durpalData20210908covidAdditioanlVariables/tree_data/", sep = "")
+tree_folder<-paste(data_folder, "OrlandoDataCovid20210917/tree_data/", sep = "")
 
 data_list<-list.files(tree_folder, ".rds")
 

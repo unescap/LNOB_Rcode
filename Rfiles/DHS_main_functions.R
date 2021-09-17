@@ -32,8 +32,8 @@ library(dplyr)
 library(stringr)
 
 ######################################
-r_folder<-paste(source_folder, "Rfiles/", sep="")
-csv_folder<-paste(source_folder, "DHScsv/", sep="")
+# r_folder<-paste(source_folder, "Rfiles/", sep="")
+csv_folder<-dhs_csv_folder
 
 
 if(! dir.exists(r_folder)) {
@@ -93,7 +93,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   # specify data set for debugginh
   # dataSet<-c("PR", "IR")
   # dataSet<-c("HR")
-  dataSet<-c("PR")
+
   # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
   # Iterate through each type of dataset. 
 
@@ -113,7 +113,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   ###### this file must contain the following columns
   ###### SurveyIndicator	IndicatorName	SurveyID	country_code	version_code	dataset	MeanY	SurveySource	IndicatorName
   ###### eg: Afghanistan2010+AccessElectricity	AccessElectricity	AFG2010	Afghanistan	2010	hh	0.432169681883751	MICS	AccessElectricity
-
+  dataSet<-c("PR")
   print(dataSet)
   for(ds in dataSet) {
     print(ds)
@@ -182,9 +182,10 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     #                        "HealthcareFar", "HealthcareNotAccessible", 
     #                        "HealthcareNotUsed", "HealthcareDiscouraged")
     # unique_responseList<-c("AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence")
-    # unique_responseList<-c("Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR")
+    unique_responseList<-c("Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR")
+    # unique_responseList<-c("NotCrowdedPR")
     # unique_responseList<-c("Covid", "NotCrowdedPR")
-    unique_responseList<-c("Covid")
+    # unique_responseList<-c("Covid")
     # unique_responseList<-c("InternetUse")
     # unique_responseList<-c("SafeSanitation")
     # unique_responseList<-c("PhysicalViolence")
@@ -204,12 +205,9 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # Iterate through each response variable for current dataset type. 
     if(use_version>1){
       unique_responseList<-unique_responseList[unique_responseList %in% Rlist]
-      # unique_responseList<-unique_responseList[!unique_responseList %in%c("Covid", 
-      #                      "LearningPR", "WaterOnsitePR", "HandWashPR", "NotCrowdedPR", "SafeSanitationPR")]
 
     }
     
-    unique_responseList<-unique_responseList[!unique_responseList %in% c("HandWash", "NotCrowded")] 
     print(unique_responseList)
     for(rv in unique_responseList) {
       print(rv)

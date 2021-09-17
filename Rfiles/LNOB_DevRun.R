@@ -9,29 +9,19 @@ library(httr)
 library(jsonlite)
 
 # for financial inclusiion
-csvfile_name1 <-"DHSstandard_unmet"
-csvfile_name2 <-"DHSstandard"
-csvfile_name3 <- "DHSstandardKH71"
-csvfile_name4 <- "DHSstandardKH61"
-csvfile_name5 <- "DHSstandardIA52"
-csvfile_name6 <- "DHSstandardIA71"
-csvfile_name7 <- "DHSstandardTL61"
-csvfile_name8 <- "DHSstandardAM61"   # education variable SH17A
-csvfile_name9 <- "DHSstandardBD70"   # special questionaire on mobile phone for hh members over 13 yo
 
 
 #### change to validated.csv: previously PR dataset was used for mobile phone in India survey.
 #### we are manually changing it to IR dataset.
-validatedcsv<-"/home/yw/Workspace/rstudio/LNOB_Rcode/CSVdatabase/validated.csv"
 
-r_folder<-paste(source_folder, "Rfiles/", sep="")
+
 # source(paste(r_folder,"ConfigDHS_ywvalidation.R",sep=""))
 
 #### must have this file, only surveyXindicator on this file with validated results can have drupal data
 
 ### every time you run this program, we create an empty folder to store all drupal data in this run
 
-output_folder<-paste(source_folder, "output/", sep="")
+
 if(!dir.exists(output_folder)) dir.create(output_folder)
 folder_index<-"Trial"   #format(Sys.time(), "%Y%m%d%H%M%S")
 drupal_folder<-paste(output_folder, folder_index, sep="")

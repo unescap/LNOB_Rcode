@@ -56,8 +56,8 @@ library(cgwtools) # Library for resave .Rdata files
 library(dplyr)
 library(ggplot2)
 
-r_folder<-paste(source_folder, "Rfiles/", sep="")
-csv_folder<-paste(source_folder, "MICScsv/", sep="")
+# r_folder<-paste(source_folder, "Rfiles/", sep="")
+csv_folder<-mics_csv_folder
 
 #  source(paste(r_folder,"MICS_education.R",sep="")) this file must be run to get informaiton on education for a new survey
 source(paste(r_folder,"ShapleyValue.R",sep=""))
@@ -141,10 +141,10 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
   }
   
   info(logger, "Run_together function called.")
-  
+  covid_varlist<-c("Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL")
   # Type of Datasets: hh, hl, wm, ch, mn
 
-  dataSet<-c("hh")
+  dataSet<-c("hl")
   for(ds in dataSet){
 
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
@@ -155,12 +155,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     dataList<-meta_data[meta_data$DataSet==ds, ]
     responseList<-dataList[dataList$IndicatorType=="ResponseV", ]
     
-    # responseList<-responseList[!(responseList$NickName %in% c("Covid", "Covid1", 
-    #                                                     "Covid2", "LearningHL", 
-    #                                                     "WaterOnstieHL", "HandwashHL", 
-    #                                                     "SafeSanitationHL", "NotCrowdedHL")),]
-    
-    
+
     if(ds=="hh") educationList<-education_data[education_data$DataSet=="hl", ]
     else educationList<-education_data[education_data$DataSet==ds, ]
     
@@ -194,7 +189,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
 
     if(ds=="hl") {
       df <- add_birthhistory(df, dataList) #not needed anymore?
-      if("Covid1" %in% responseList$NickName | "Covid2" %in% responseList$NickName | "Covid" %in% responseList$NickName){
+      if(length(intersect(responseList$NickName, covid_varlist))>0) {
           Indicators <- c("ID", "Learning", "WallRoof", "Handwash", "NotCrowded", "ResponseV", "AuxResonpse") 
           dataList2<-meta_data[meta_data$DataSet=="hh" & meta_data$IndicatorType %in% Indicators, ]
           df <- add_hhdata(df, data_folder, country_code, version_code,
@@ -250,14 +245,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
 
 
     # Response variables to model
-    if(use_version>1){
-      responseList<-responseList[responseList$NickName %in% Rlist ,]
-      
-      
-      # responseList<-responseList[!responseList$NickName %in% c("Covid", "LearningHL",
-      #                                                          "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") ,]
 
-    }
 
 
     # responseList<-dataList[dataList$NickName=="MobilePhone" & dataList$IndicatorType=="ResponseV", ]
@@ -280,7 +268,12 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     # responseList<-dataList[dataList$NickName %in% c("Covid"), ]
     # responseList<-dataList[dataList$NickName %in% c("EarlyChildhoodEducation"), ]
     # responseList<-dataList[dataList$NickName %in% c("CleanWater", "BasicWater") & dataList$IndicatorType=="ResponseV", ]
+    responseList<-dataList[dataList$NickName %in% c("Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
+    # responseList<-dataList[dataList$NickName %in% c("NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
     
+    if(use_version>1){
+      responseList<-responseList[responseList$NickName %in% Rlist ,]
+    }
     
     rn<-nrow(responseList)
     if(rn>0){

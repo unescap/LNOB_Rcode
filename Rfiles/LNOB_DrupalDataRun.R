@@ -10,7 +10,8 @@ library(jsonlite)
 
 #### change to validated.csv: previously PR dataset was used for mobile phone in India survey.
 #### we are manually changing it to IR dataset.
-validatedcsv<-"/home/yw/Workspace/rstudio/LNOB_Rcode/CSVdatabase/validated20210817.csv"
+# validatedcsv<-"/home/yw/Workspace/rstudio/LNOB_Rcode/CSVdatabase/validated20210817.csv"
+validatedcsv<-"/home/yw/Workspace/rstudio/LNOB_Rcode/CSVdatabase/validated_ECE.csv"
 
 r_folder<-paste(source_folder, "Rfiles/", sep="")
 # source(paste(r_folder,"ConfigDHS_ywvalidation.R",sep=""))

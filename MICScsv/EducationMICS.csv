@@ -63,6 +63,7 @@ Levels,DataSet,SurveyName,Education,Grade
 5,wm,Mongolia2018,EducationLevels,2
 7,ch,Nepal2019,MotherEducationLevels,4
 5,hl,Nepal2019,SecondaryEducation,12
+2,hl,Nepal2019,Primary,99
 7,wm,Nepal2019,EducationLevels,4
 3,ch,Thailand2012,MotherEducationLevels,2
 3,hl,Thailand2012,SecondaryEducation,6

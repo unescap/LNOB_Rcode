@@ -1481,7 +1481,7 @@ NUnder5<-function(datause){
    max_level<-max(educationList$Levels)
    min_level<-min(educationList$Levels)
    PrimaryGrade<-educationList$Grade[educationList$Education=="Pimary"]
-   
+   ### here we assume the min_level and primary level are the same
    datause$EducationHL[datause$Elevel ==min_level & datause$Grade>PrimaryGrade]<-"Secondary"
    datause$EducationHL[datause$Elevel >min_level & datause$Elevel <=max_level ]<-"Secondary"
    datause$EducationHL[datause$Elevel> max_level & datause$Elevel < 8 ]<-"Higher"

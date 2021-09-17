@@ -8,21 +8,11 @@ library(foreign)
 library(httr)
 library(jsonlite)
 
-# for financial inclusiion
-csvfile_name1 <-"DHSstandard_unmet"
-csvfile_name2 <-"DHSstandard"
-csvfile_name3 <- "DHSstandardKH71"
-csvfile_name4 <- "DHSstandardKH61"
-csvfile_name5 <- "DHSstandardIA52"
-csvfile_name6 <- "DHSstandardIA71"
-csvfile_name7 <- "DHSstandardTL61"
-csvfile_name8 <- "DHSstandardAM61"   # education variable SH17A
-csvfile_name9 <- "DHSstandardBD70"   # special questionaire on mobile phone for hh members over 13 yo
-
 
 #### change to validated.csv: previously PR dataset was used for mobile phone in India survey.
 #### we are manually changing it to IR dataset.
-validatedcsv<-"/home/yw/Workspace/rstudio/LNOB_Rcode/CSVdatabase/validated_covid.csv"
+# validatedcsv<-"/home/yw/Workspace/rstudio/LNOB_Rcode/CSVdatabase/validated_covid.csv"
+validatedcsv<-"/home/yw/Workspace/rstudio/LNOB_Rcode/CSVdatabase/validated20210917.csv"
 
 r_folder<-paste(source_folder, "Rfiles/", sep="")
 
@@ -79,7 +69,7 @@ drupalI<-run_together(csv_folder, data_folder, drupal_folder, "TL","71", "2016",
 # drupalI<-run_together(csv_folder, data_folder, drupal_folder, "ID","63", "2012", NULL, NULL, csvfile_name2, TRUE, FALSE, regionFlag, use_version=uv, validatedcsv, drupalI)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "ID","71", "2017", NULL, NULL, csvfile_name2, TRUE, FALSE, regionFlag, use_version=uv, validatedcsv, drupalI)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, FALSE, regionFlag, use_version=uv, validatedcsv, drupalI)
-# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, TRUE, regionFlag, use_version=uv, validatedcsv, drupalI)
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, TRUE, regionFlag, use_version=uv, validatedcsv, drupalI)
 
 
 source(paste(r_folder,"MICS_main_functions.R",sep=""))
