@@ -15,7 +15,7 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
   
   overallmean<-write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
   validation<-FALSE
-  if(use_version==3){
+  if(use_version>=3){
 
     validation_result<-validate(country_code, version_code, rv, overallmean, validationdata)
     validation<-validation_result$validation
@@ -31,7 +31,7 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
   #### tree
   #### add a data type parameter, if numeric, we use a different criterion
   sub_string<-NULL
-  if(use_version==1 | validation){
+  if(use_version==1 | (use_version==3 & validation)){
     
     if(region_flag){
       regionList<-unique(datause$REGION)
@@ -54,12 +54,15 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
       result_log$SampleSize<-sum(datauseRG$SampleWeight)
       result_log$SampleMean<-sum(datauseRG$SampleWeight[datauseRG$var2tab==1]) / sum(datauseRG$SampleWeight)
       t0<-drupalIndex
+
       tree_result<-write_tree(survey_source, datauseRG, country_ISO, year_code, rg, 
                               formula_string, title_string,  sub_string, rv, rtp, 
                               religion, ds_output_folder, ds, filename, use_version, drupalIndex)
   
       drupalIndex<-c(tree_result$drupalIndex)
 
+      print(drupalIndex)
+      
       if(drupalIndex>t0  | use_version==1)  {      
         result_log$TreeFileID=paste("R", t0, sep="")
         result_log$tree_stat<-c(tree_result$tree_stat)
@@ -98,6 +101,9 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
                        append = FALSE,   col.names = T, row.names = F)
     }
     return(drupalIndex)
+  }
+  else if(use_version==4 & validation){
+    # LCA analysis
   }
   else {
     result_log_National<-t(result_log_National)

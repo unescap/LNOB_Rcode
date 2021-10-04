@@ -430,7 +430,14 @@ NotCrowded<-function(datause, dataList){
   
 
   datause$NumberRoom<-as.numeric(as.character(datause$NumberRoom))
-  #datause$NumberMember<-as.numeric(as.character(datause$NumberMember))
+  print("summary number of rooms")
+  print(summary(datause$NumberRoom))
+  NaNumberRoom<-is.na(datause$NumberRoom) | datause$NumberRoom==0 | datause$NumberRoom==99
+  datause$NaNumberRoom[NaNumberRoom]<-"Missing"
+  datause$NaNumberRoom[!NaNumberRoom]<-"NotMissing"
+  print("Missing info on number of rooms")
+  print(table(datause$NaNumberRoom)/length(datause$NaNumberRoom))
+
   datause<-calculateHMexBabies(datause, dataList)
   
   datause<-datause[!is.na(datause$NumberRoom), ]

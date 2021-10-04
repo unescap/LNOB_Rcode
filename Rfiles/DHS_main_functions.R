@@ -62,7 +62,8 @@ source(paste(r_folder,"TreeAndLogistic.R",sep=""))
 # a validation file must be provided
 
 run_together<-function(csv_folder, original_data_folder, output_folder, country_code, version_code, year_code, mrversion_code=NULL,
-                       prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE, region_flag=FALSE, use_version=1, validationfile=NULL, initialIndex=0)
+                       prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE, region_flag=FALSE, use_version=1, validationfile=NULL,
+                       initialIndex=0, indicator_selection=list(dataSet=NULL, IndList=NULL))
   
   #### use_version 1 is the research mode, the default
   #### use version 3 is the publication mode, one must have a validation file, only validated results will be sent to publication
@@ -113,10 +114,12 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   ###### this file must contain the following columns
   ###### SurveyIndicator	IndicatorName	SurveyID	country_code	version_code	dataset	MeanY	SurveySource	IndicatorName
   ###### eg: Afghanistan2010+AccessElectricity	AccessElectricity	AFG2010	Afghanistan	2010	hh	0.432169681883751	MICS	AccessElectricity
-  dataSet<-c("PR")
-  print(dataSet)
+  if(!is.null(indicator_selection$dataSet)) 
+        dataSet<-intersect(indicator_selection$dataSet, dataSet)
+
+  if(length(dataSet)==0) return(drupalIndex)
   for(ds in dataSet) {
-    print(ds)
+
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
     ########
     ds_output_folder <- ds_output(output_folder, ds)
@@ -143,11 +146,11 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     }
     
     # Printing current iteration of datatype.  
-    message <- paste("## File name: ", filename, "  ############################")
-    print(message)
-    # info(logger, message)
-    message <- paste("## Current dataset: ", match(ds, dataSet), " of ", length(dataSet))
-    print(message)
+    # message <- paste("## File name: ", filename, "  ############################")
+    # print(message)
+    # # info(logger, message)
+    # message <- paste("## Current dataset: ", match(ds, dataSet), " of ", length(dataSet))
+    # print(message)
     # info(logger, message) 
     
     ### Read the datafile downloaded from DHS into R with columns specified in DHSstandard.csv (in meta_data).
@@ -182,7 +185,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     #                        "HealthcareFar", "HealthcareNotAccessible", 
     #                        "HealthcareNotUsed", "HealthcareDiscouraged")
     # unique_responseList<-c("AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence")
-    unique_responseList<-c("Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR")
+    # unique_responseList<-c("Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR")
     # unique_responseList<-c("NotCrowdedPR")
     # unique_responseList<-c("Covid", "NotCrowdedPR")
     # unique_responseList<-c("Covid")
@@ -208,18 +211,20 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
 
     }
     
-    print(unique_responseList)
+    if(!is.null(indicator_selection$IndList)){
+      unique_responseList<-intersect(unique_responseList, indicator_selection$IndList)
+    }
+
     for(rv in unique_responseList) {
-      print(rv)
-      
+
       rtp<-unique(responseList$DataType[responseList$NickName==rv])
 
       # Printing current iteration of response variable. 
       message <- paste("Random variable: ", rv, "  ------------------")
       print(message)
       # info(logger, message)
-      message <- paste("Current Response Variable: ", match(rv, unique_responseList), " of ", length(unique_responseList))
-      print(message)
+      # message <- paste("Current Response Variable: ", match(rv, unique_responseList), " of ", length(unique_responseList))
+      # print(message)
       # info(logger, message)
 
       

@@ -88,8 +88,10 @@ logger <- create.logger(logfile = logger_location, level = 'DEBUG')
 #######################################
 
 run_together<-function(csv_folder, data_folder, output_folder, country_code, version_code,  csvfile_name, education_name, 
-                       religion_name=NULL,  religion=FALSE, region_flag=FALSE, use_version=1, validationfile=NULL, initialIndex=0)
+                       religion_name=NULL,  religion=FALSE, region_flag=FALSE, use_version=1, validationfile=NULL,
+                       initialIndex=0, indicator_selection=list(dataSet=NULL, IndList=NULL))
 {
+
   drupalIndex<-initialIndex
   country_ISO<-country_ISO(country_code)
   svnm<-paste(country_code, version_code, sep="")
@@ -144,7 +146,11 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
   covid_varlist<-c("Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL")
   # Type of Datasets: hh, hl, wm, ch, mn
 
-  dataSet<-c("hl")
+  if(!is.null(indicator_selection$dataSet)) 
+    dataSet<-intersect(indicator_selection$dataSet, dataSet)
+
+  if(length(dataSet)==0) return(drupalIndex)
+  
   for(ds in dataSet){
 
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
@@ -207,7 +213,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       else k<-0
       
       k1<-length(intersect(c("Religion"), regList))
-      print(c("religion", k, k1))
+      # print(c("religion", k, k1))
       if(k==0 & k1>0){
         df<-add_reglist(data_folder, country_code, version_code, df, meta_data, dataList, c("Religion"), religion_data)
       }
@@ -230,8 +236,8 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     }
               
       
-    print("···debug; checking column names")
-    print(colnames(df))
+    # print("···debug; checking column names")
+    # print(colnames(df))
      
     # Sample Weight Pre-processing 
     swV<-toupper(dataList$VarName[dataList$NickName=="SampleWeight"])
@@ -275,6 +281,9 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       responseList<-responseList[responseList$NickName %in% Rlist ,]
     }
     
+    if(!is.null(indicator_selection$IndList)){
+      responseList<-responseList[responseList$NickName %in% indicator_selection$IndList ,]
+    }
     rn<-nrow(responseList)
     if(rn>0){
     for(i in c(1:rn)){
@@ -296,6 +305,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       
       indvar<- indList(rv)
 
+      print(indvar)
       if(religion) {
         indvar<-c(indvar, regList)
         # Retrieve dataset for given Response/Independent variables. 
@@ -348,7 +358,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     }
     }
   }
-  if(use_version==3) return(drupalIndex)
+    return(drupalIndex)
 }
 
 ######################################

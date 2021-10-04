@@ -88,7 +88,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   else if (rv=="LearningPR") datause<-Learning(df, dataList)   
   else if (rv=="NotCrowdedPR") datause<-NotCrowded(df, dataList, k) 
   else if (rv %in% c("HealthcareNotAffordable", "HealthcareFar", "HealthcareNotAccessible", 
-                   "HealthcareNotUsed")) datause<-HealthCare(df, dataList, k) 
+                   "HealthcareNotUsed", "HealthcareAppointmentDifficulty")) datause<-HealthCare(df, dataList, k) 
   else if (rv %in% c("HealthcareDiscouraged")) datause<-HealthcareDiscouraged(df, dataList, k) 
   
   
@@ -169,7 +169,7 @@ indList<-function(rv, caste = FALSE ){
   else if (rv=="Land") 
     iv<-c("PoorerHousehold", "HHSex", "HighestEducation") 
   else if(rv %in% c("ProfessionalHelp", "HealthcareNotAffordable", 
-                    "HealthcareFar", "HealthcareNotAccessible", 
+                    "HealthcareFar", "HealthcareNotAccessible", "HealthcareAppointmentDifficulty",
                     "HealthcareNotUsed", "HealthcareDiscouraged"))
     iv<-c("PoorerHousehold", "Residence", "aGroup", "MarriageStatus", "NUnder5", "Education")
   else if (rv %in% c("ContraceptiveMethod")) 
@@ -1029,6 +1029,8 @@ HandWash<-function(datause, dataList, k){
 NotCrowded<-function(datause, dataList, k){
   datause$var2tab<- 0
   datause[, k]<-as.numeric(as.character(datause[, k]))
+  print("Summary of number of rooms")
+  print(summary(datause[, k]))
   nV<-dataList$VarName[dataList$NickName == "NumberMember"]
   nk<-match(nV, colnames(datause))
   # old denifition
@@ -1041,6 +1043,7 @@ NotCrowded<-function(datause, dataList, k){
   datause<-calculateHMexBabies(datause, dataList)
   density<-datause$NumHMgt2
   room<-!is.na(datause[, k]) & datause[, k]>0 & datause[, k]<99
+  print(table(room)/length(room))
   density[room]<-datause$NumHMgt2[room]/datause[room, k]
   datause$var2tab[density<=2]<-1
   return(datause)
