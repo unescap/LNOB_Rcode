@@ -8,8 +8,7 @@ library(foreign)
 library(httr)
 library(jsonlite)
 
-#### change to validated.csv: previously PR dataset was used for mobile phone in India survey.
-#### we are manually changing it to IR dataset.
+# Currently, the version number (a global variable):
 V<<-"v1"
 
 #### must have this file, only surveyXindicator on this file with validated results can have drupal data
@@ -36,7 +35,7 @@ ifelse(use_version>1,
 
 if(!dir.exists(drupal_folder)) dir.create(drupal_folder)
 
-sink(paste(drupal_folder, "/printout.txt", sep = ""))
+#sink(paste(drupal_folder, "/printout.txt", sep = ""))
 
 ##### we will save different data types in four different subfolders
 ##### data_type are: "tree_data", "d_index",  "region_tree_data", "region_d_index"
@@ -54,14 +53,18 @@ drupalI<- 1
 
 data_folder<-dhs_data_folder
 source(paste(r_folder,"DHS_main_functions.R",sep=""))
-
-#  special run for the MV health indicators
-indicator_selection <- list(dataSet=c("IR"), IndList=c("HealthcareNotAffordable", "HealthcareFar", 
-                                                       "HealthcareNotAccessible", "HealthcareNotUsed", 
-                                                       "HealthcareAppointmentDifficulty", "HealthcareDiscouraged"))
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "MV","71", "2016", NULL, NULL, csvfile_name10, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "MV","52", "2009", NULL, NULL, csvfile_name10, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
-# end of special run for the MV health indicators
+# indicator_selection <- list(dataSet=c("PR"), IndList=c("Covid"))
+# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "PG","70", "2018", NULL, NULL, csvfile_name10, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
+# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "BD","70", "2018", NULL, NULL, csvfile_name10, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
+# sink()
+# 
+# #  special run for the MV health indicators
+# indicator_selection <- list(dataSet=c("IR"), IndList=c("HealthcareNotAffordable", "HealthcareFar", 
+#                                                        "HealthcareNotAccessible", "HealthcareNotUsed", 
+#                                                        "HealthcareAppointmentDifficulty", "HealthcareDiscouraged"))
+# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "MV","71", "2016", NULL, NULL, csvfile_name10, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
+# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "MV","52", "2009", NULL, NULL, csvfile_name10, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
+# # end of special run for the MV health indicators
 
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "AF","70", "2015", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "AM","61", "2010", NULL, NULL, csvfile_name8, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
@@ -96,6 +99,16 @@ source(paste(r_folder,"MICS_main_functions.R",sep=""))
 #### running MICS:
 data_folder<-mics_data_folder
 print(csv_folder)
+
+# indicator_selection <- list(dataSet=c("hl"), IndList=c("SecondaryEducation2035", "SecondaryEducation35plus"))
+# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2015",  csvfile_name, edcationcsv,
+#                       NULL, religion_flag, region_flag, use_version, validatedcsv, initialIndex=drupalI, indicator_selection)
+# 
+# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv,
+#                        NULL, religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
+
+
+
 # no religion
 # 
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv,
@@ -138,7 +151,7 @@ drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Tonga", "2019", 
                        NULL, religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
 
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2015",  csvfile_name, edcationcsv,
-                      NULL, religion_flag, region_flag, use_version, validatedcsv, initialIndex=drupalI)
+                      NULL, religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
 
 drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv,
                        NULL, religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
@@ -152,7 +165,7 @@ drupalI<- run_together(csv_folder, data_folder, drupal_folder, "VietNam", "2013"
 
 
 # with religion
-religion_flag<-TRUE
+# religion_flag<-TRUE
 
 # drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv,
 #                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
@@ -209,6 +222,7 @@ religion_flag<-TRUE
 # drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv,
 #                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
 
+
 # drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Vietnam", "2010",  csvfile_name, edcationcsv,
 #                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
 
@@ -218,7 +232,7 @@ religion_flag<-TRUE
 # 
 #
 
-sink()
+# sink()
 
 # # # ###  no Uzbekistan 2006 csv file
 # # # run_together(csv_folder, data_folder, drupal_folder, "Uzbekistan", "2006",  csvfile_name, edcationcsv)

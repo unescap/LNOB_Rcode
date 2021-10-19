@@ -19,7 +19,7 @@ source(paste(r_folder,"http_request.R",sep=""))
 # pubDatafolder<-paste(data_folder,"drupalDataFinancialInclusion20210819/",sep="")
 
 # pubDatafolder<-paste(data_folder,"drupalDataCovid20210915/",sep="") # need "covid added to indicator taxonomy"
-pubDatafolder<-paste(data_folder,"drupalDataECE20210916/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalDataECE20210916/",sep="")
 # pubDatafolder<-paste(data_folder,"drupalDataInvestigated20210830/",sep="")
 # pubDatafolder<-paste(data_folder,"drupalDataMongolia2018BasicWater20210831/",sep="")
 
@@ -250,29 +250,36 @@ drupalFilesPush<-gettingDrupalFiles(api_base, key)
 # print(table(wrong_version))
 # wrong_lao<-lao_drupal[wrong_version, ]
 
-for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
-# for (type in c("region_d_index", "region_tree_data")) {
-# # for (type in c("d_index", "tree_data")) {
-    pubfolder<-paste(pubDatafolder, type, "/", sep="")
-    print(pubfolder)
-    push_together(pubfolder, drupalFilesPush, api_base, key)
-}
+# for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
+# # for (type in c("region_d_index", "region_tree_data")) {
+# # # for (type in c("d_index", "tree_data")) {
+#     pubfolder<-paste(pubDatafolder, type, "/", sep="")
+#     print(pubfolder)
+#     push_together(pubfolder, drupalFilesPush, api_base, key)
+# }
 
 # push_together(pubfolder, drupalFilesPush, api_base, key) 
 
-# country<-unique(drupalRecords$field_geo)
-# country<-country[-c(1, 2)] # Afghanistan and Indian published already
 
-# for (ci in country){
-# r<-http_publish(ci, api_base, key)
-# print(r)
-# }
 # print(r)
 # publishing lao data on July 7th
 # http_publish("242", api_base, key)
 
-
-
-
-
-
+####  Oct. 7th, publishing data on early childhood education and covid
+# t1<-drupalFilesPush$treeDataDf
+# t2<-drupalFilesPush$dIndexDataDf
+# t3<-drupalFilesPush$regionTreeDataDf
+# t4<-drupalFilesPush$regionDDataDf
+# 
+# table(t1$field_indicator_name[t1$moderation_state=="Draft"])
+# table(t2$field_indicator_name[t2$moderation_state=="Draft"])
+# table(t3$field_indicator_name[t3$moderation_state=="Draft"])
+# table(t4$field_indicator_name[t4$moderation_state=="Draft"])
+# 
+# country<-unique(t1$field_geo)
+# # country<-country[-c(1, 2)] # Afghanistan and Indian published already
+# 
+# for (ci in country){
+#   r<-http_publish(ci, api_base, key)
+#   print(r)
+# }

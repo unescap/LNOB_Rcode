@@ -2,6 +2,8 @@ library(haven)
 library(dplyr) # To arrange and clean our dataset and files
 library(rpart)
 library(rpart.plot)
+source("/home/yw/Workspace/rstudio/LNOB_Rcode/Rfiles/TreeAndLogistic.R")
+
 
 importData<-function(data_folder, dt, varList){
   # data_folder where the mics data is stored
@@ -68,7 +70,7 @@ crowdingdep<-function(Children_Masterfile1){
   print(table(Children_Masterfile1$severcrowdingdep))
   print("Tabulation of moderate overcrowding")
   print(table(Children_Masterfile1$modercrowdingdep))
-  return(Children_Masterfile1)
+  return(Children_Masterfile1[Children_Masterfile1$crowdingMissing==0, ])
   
 }
 
@@ -291,29 +293,51 @@ Children_Masterfile1$hassmissmoderatepoor <-rowSums(is.na(Children_Masterfile1[,
                         "moderatesanitationdeprived", "moderatestunting", "Moderedugroup", "moderatehealth")]), na.rm = TRUE)
 Children_Masterfile1$hassmissmoderatepoorInfo<-Children_Masterfile1$hassmissmoderatepoor
                                     + is.na(Children_Masterfile1[,c("Moderateinfo")])
+
 print("Missing data on moderate")
 print(table(Children_Masterfile1$hassmissmoderatepoor))
+print("Missing data on moderate with info")
+print(table(Children_Masterfile1$hassmissmoderatepoorInfo))
 
 
 Children_Masterfile1$summoderpoor <- rowSums(Children_Masterfile1[, c("modercrowdingdep", "moderatewaterdep", "moderatesanitationdeprived", "moderatestunting", "Moderedugroup", "moderatehealth")], na.rm = TRUE)
 Children_Masterfile1$Summoderpoor <- ifelse(Children_Masterfile1$hassmissmoderatepoor == 6, ".", Children_Masterfile1$summoderpoor)
 Children_Masterfile1$moderatelydeprived <- ifelse(Children_Masterfile1$Summoderpoor == 0, 0, ifelse(Children_Masterfile1$Summoderpoor >= 1, 1, NA))
 
+Children_Masterfile1$summoderpoorInfo <- rowSums(Children_Masterfile1[, c("modercrowdingdep", "moderatewaterdep", "moderatesanitationdeprived", "moderatestunting", "Moderedugroup", "moderatehealth", "Moderateinfo")], na.rm = TRUE)
+Children_Masterfile1$SummoderpoorInfo <- ifelse(Children_Masterfile1$hassmissmoderatepoorInfo == 6, ".", Children_Masterfile1$summoderpoorInfo)
+Children_Masterfile1$moderatelydeprivedInfo <- ifelse(Children_Masterfile1$SummoderpoorInfo == 0, 0, ifelse(Children_Masterfile1$SummoderpoorInfo >= 1, 1, NA))
+
+
+
 Children_Masterfile1$hassmissseverepoor <-rowSums(is.na(Children_Masterfile1[,c("severcrowdingdep", "severewaterdep", "severesanitationdeprived", "severestunting", "sevedugroup", "severehealth")]), na.rm = TRUE)
 Children_Masterfile1$hassmissseverepoorInfo<-Children_Masterfile1$hassmissseverepoor
-+ is.na(Children_Masterfile1[,c("Severeinfo")])
+                                             + is.na(Children_Masterfile1[,c("Severeinfo")])
 
 print("Missing data on serever")
 print(table(Children_Masterfile1$hassmissseverepoor))
+print("Missing data on serever with info")
+print(table(Children_Masterfile1$hassmissseverepoorInfo))
 
 Children_Masterfile1$summoderpoor <- rowSums(Children_Masterfile1[, c("severcrowdingdep", "severewaterdep", "severesanitationdeprived", "severestunting", "sevedugroup", "severehealth")], na.rm = TRUE)
 Children_Masterfile1$Summoderpoor <- ifelse(Children_Masterfile1$hassmissseverepoor == 6, ".", Children_Masterfile1$summoderpoor)
 Children_Masterfile1$severelydeprived <- ifelse(Children_Masterfile1$Summoderpoor == 0, 0, ifelse(Children_Masterfile1$Summoderpoor >= 1, 1, NA))
 
+Children_Masterfile1$summoderpoorInfo <- rowSums(Children_Masterfile1[, c("severcrowdingdep", "severewaterdep", "severesanitationdeprived", "severestunting", "sevedugroup", "severehealth", "Severeinfo")], na.rm = TRUE)
+Children_Masterfile1$SummoderpoorInfo <- ifelse(Children_Masterfile1$hassmissseverepoorInfo == 6, ".", Children_Masterfile1$summoderpoorInfo)
+Children_Masterfile1$severelydeprivedInfo <- ifelse(Children_Masterfile1$SummoderpoorInfo == 0, 0, ifelse(Children_Masterfile1$SummoderpoorInfo >= 1, 1, NA))
+
+
 print("Severe deprived problem")
 print(table(Children_Masterfile1$severelydeprived))
 print("Moderate deprived problem")
 print(table(Children_Masterfile1$moderatelydeprived))
+
+print("Severe deprived problem with info")
+print(table(Children_Masterfile1$severelydeprivedInfo))
+print("Moderate deprived problem with info")
+print(table(Children_Masterfile1$moderatelydeprivedInfo))
+
 
 return(Children_Masterfile1)
 }
@@ -361,6 +385,21 @@ createIndvar<-function(datause){
   return(datause)
 }
 
+generate_trees<-function(source_folder, rvList, iv, datause, title, e=FALSE, region="National"){
+  for (rv in rvList){
+    print(rv)
+    print(table(datause[, rv]))
+    datause[is.na(datause[, rv]), rv]<-0
+    # datause[datause[, rv], rv]<-1
+    print(table(datause[, rv]))
+  
+    filename<-rv
+    formula_string<-paste(rv, paste(iv, collapse=" + "), sep=" ~ ")
+    title_string<-paste(title, paste(iv, collapse=" + "), sep=" : ")
+    build_tree(source_folder, "Mongolia", "2018", datause, rv,
+             "Factor", formula_string, title_string, sub_string=NULL, filename, e=FALSE, region)
+  }  
+}
 
 data_folder<-"/home/yw/Workspace/rstudio/SDD2017/sav_download/Mongolia2018/"
 hh_data<-importData(data_folder, "hh", c("HH1", "HH2", "HH48", "HC3", "HC1I", "WS1", "WS11", 
@@ -382,8 +421,11 @@ merged_data<-mics_merge(hl_data, hh_data)
 merged_data<-mics_merge(merged_data, ch_data)
 
 # print(table(merged_data$HL6))
-datause<-merged_data[merged_data$HL6<18, ]
+datause<-merged_data[merged_data$HL6<=17, ]
+agetab<-tabulate(datause$HL6)
+
 datause<-crowdingdep(datause)
+agetab2<-tabulate(datause$HL6)
 
 datause<-waterdep(datause)
 datause<-sanitationdep(datause)
@@ -402,16 +444,33 @@ filename<-NULL
 region<-"National"
 datause$SampleWeight<-datause$hhweight
 
-iv<-c("PoorerHousehold", "Residence", "Sex", "AgeGroup",  "hassmissmoderatepoor") 
-formula_string<-paste("moderatelydeprived", paste(iv, collapse=" + "), sep=" ~ ")
-title_string<-paste("Moderatedly deprived", paste(iv, collapse=" + "), sep=" : ")
-build_tree(source_folder, "Mongolia", "2018", datause, "Moderate",
-                     "Factor", formula_string, title_string, sub_string=NULL, filename, e=FALSE, region)
-  
-  
-iv<-c("PoorerHousehold", "Residence", "Sex", "AgeGroup", "hassmissseverepoor")
-formula_string<-paste("severelydeprived", paste(iv, collapse=" + "), sep=" ~ ")
-title_string<-paste("Severely deprived", paste(iv, collapse=" + "), sep=" : ")
-build_tree(source_folder, "Mongolia", "2018", datause, "Severe",
-           "Factor", formula_string, title_string, sub_string=NULL, filename, e=FALSE, region)
+iv<-c("PoorerHousehold", "Residence", "Sex" ) #, "AgeGroup")  #,  "hassmissmoderatepoor") 
+# iv<-c("AgeGroup")  #,  "hassmissmoderatepoor") 
 
+rvList<-c("moderatelydeprivedInfo","severelydeprivedInfo")
+title<-"Deprived with Information deprivation"
+generate_trees(source_folder, rvList, iv, datause, title, e=FALSE, region="National")
+
+# rvList<-c("modercrowdingdep", "moderatewaterdep", "moderatesanitationdeprived", 
+#       "moderatestunting", "Moderedugroup", "moderatehealth", "Moderateinfo",
+#       "moderatelydeprived")
+# title<-"Moderatedly deprived"
+# generate_trees(source_folder, rvList, iv, datause, title, e=FALSE, region="National")
+#   
+# rvList<-c("severcrowdingdep", "severewaterdep", "severesanitationdeprived", "severestunting", "sevedugroup", "severehealth", "Severeinfo",
+#           "severelydeprived")
+# title<-"Severely deprived"
+# generate_trees(source_folder, rvList, iv, datause, title, e=FALSE, region="National")
+#   
+agePlot<-as.data.frame(cbind(Age=c(1:17, 1:17), SampleCount=c(agetab,agetab2), 
+                             description=c(rep(1, 17), rep(2, 17))))
+
+library(ggplot2)
+agePlot$description<-factor(agePlot$description, labels=c("All", "MissingExcluded"))
+c<-ggplot(agePlot, aes(Age,SampleCount, color=description)) +
+   geom_point() +
+   geom_line() +
+   scale_color_brewer(palette="Set1")
+pdf("/home/yw/Workspace/rstudio/LNOB_Rcode/Unicef Files/agecount.pdf")
+print(c)
+dev.off()

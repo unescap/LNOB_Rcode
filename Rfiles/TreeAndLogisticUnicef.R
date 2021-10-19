@@ -17,12 +17,6 @@ build_tree<-function(source_folder, country_code, version_code, datause, Respons
                    method=treemethod, control = rpart.control(cp = cp_chosen/nrow(datause), maxdepth=6, 
                                                               minbucket = min_node, minsplit=2*min_node))
 
-  newdatause<-datause
-  newdatause$PoorerHousehold<-"0"
-  newP<-predict(treefit, newdata=newdatause)
-  print("NewAverage under silumation")
-  print(summary(newP))
-  print(sum(newP*newdatause$SampleWeight)/sum(newdatause$SampleWeight))
   # print(summary(treefit))
   # First save: Saving object as .Rdata file for Shiny output
   # if (region == FALSE) { 
@@ -121,7 +115,7 @@ build_tree<-function(source_folder, country_code, version_code, datause, Respons
     ###### end summarizing the max leaf and min leaf #####################
     
     total_weight<-sum(datause$SampleWeight)
-    y_bar<-sum(datause$SampleWeight*datause$var2tab)/total_weight
+    y_bar<-sum(datause$SampleWeight*datause[, Response_var])/total_weight
     vi_list<-names(treefit$variable.importance)
     tree_stat<-list(SampleSize=total_weight, meanY=y_bar, max=c(frame_max),
                     min=c(frame_min), max_node=xy_max, min_node=xy_min, importance=vi_list)
@@ -133,9 +127,9 @@ build_tree<-function(source_folder, country_code, version_code, datause, Respons
     
     ### only need pdf graph if it is national 
     if(region=="National"){
-      if(e==TRUE) pdf(paste(source_folder, "Tree_ethnicity_", Response_var,  country_code,
+      if(e==TRUE) pdf(paste(source_folder, filename, "_ethnicity_", Response_var,  country_code,
                              version_code,  ".pdf", sep = ""))
-      else pdf(paste(source_folder, "Tree", Response_var,  country_code,
+      else pdf(paste(source_folder, filename, Response_var,  country_code,
                      version_code,  ".pdf", sep = ""))
       
       treeplot<- prp(treefit, main=title_string, sub=sub_string,

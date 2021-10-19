@@ -146,11 +146,13 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
   covid_varlist<-c("Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL")
   # Type of Datasets: hh, hl, wm, ch, mn
 
+  print(indicator_selection)
   if(!is.null(indicator_selection$dataSet)) 
     dataSet<-intersect(indicator_selection$dataSet, dataSet)
 
   if(length(dataSet)==0) return(drupalIndex)
-  
+
+  print(dataSet)  
   for(ds in dataSet){
 
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
@@ -274,16 +276,18 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     # responseList<-dataList[dataList$NickName %in% c("Covid"), ]
     # responseList<-dataList[dataList$NickName %in% c("EarlyChildhoodEducation"), ]
     # responseList<-dataList[dataList$NickName %in% c("CleanWater", "BasicWater") & dataList$IndicatorType=="ResponseV", ]
-    responseList<-dataList[dataList$NickName %in% c("Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
+    # responseList<-dataList[dataList$NickName %in% c("Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
     # responseList<-dataList[dataList$NickName %in% c("NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
     
     if(use_version>1){
       responseList<-responseList[responseList$NickName %in% Rlist ,]
     }
     
+    print(responseList)
     if(!is.null(indicator_selection$IndList)){
       responseList<-responseList[responseList$NickName %in% indicator_selection$IndList ,]
     }
+    print(responseList)
     rn<-nrow(responseList)
     if(rn>0){
     for(i in c(1:rn)){

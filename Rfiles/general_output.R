@@ -120,7 +120,7 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
 
 validate<-function(country_code, version_code, rv, overallmean, validationdata){
   #### using original mean value from orlando
-  y<-validationdata$meanY[validationdata$country_code==country_code & validationdata$version_code==version_code & validationdata$IndicatorName==rv]
+  y<-validationdata$MeanY[validationdata$country_code==country_code & validationdata$version_code==version_code & validationdata$IndicatorName==rv]
   y<-as.numeric(as.character(y))
   print("y value from validated file")
   print(y)

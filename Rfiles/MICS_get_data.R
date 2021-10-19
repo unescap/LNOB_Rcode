@@ -30,8 +30,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
                        "EarlyEducation24", "EarlyEducation36", "EarlyChildhoodEducation",
                        "ContraceptiveMethod")))
                     df<-df[!is.na(df[,k]), ]  ### for Thailand 2019, they have missing value for access to electricity and must be excluded.
-                                              ### this may be the wrong way to do it
-        
+                                              
         
         if(length(df[!is.na(df[, k]), k])<=1) {
          print(paste("Response variable -- ", rv, "(",  VarName, ") has not valid observations"))
@@ -585,6 +584,7 @@ MultiDeprivation<-function(datause, dataList, k){
 
 
 SecondaryEducation2035<-function(datause, dataList, k, educationList){
+  educationList<-educationList[educationList$Education=="SecondaryEducation", ]
   ageV<-dataList$VarName[dataList$NickName=="Age"]
   ageK<-match(ageV, colnames(datause))
   gradeV<-dataList$VarName[dataList$NickName=="Grade"]
@@ -622,7 +622,7 @@ SecondaryEducation2035<-function(datause, dataList, k, educationList){
 
 
 SecondaryEducation35plus<-function(datause, dataList, k, educationList){
- 
+  educationList<-educationList[educationList$Education=="SecondaryEducation", ]
   ageV<-dataList$VarName[dataList$NickName=="Age"]
   ageK<-match(ageV, colnames(datause))
   gradeV<-dataList$VarName[dataList$NickName=="Grade"]
@@ -1486,11 +1486,11 @@ NUnder5<-function(datause){
    datause$Grade<-as.numeric(as.character(datause[, gradeK]))
    datause$EducationHL <-"Lower"
    max_level<-max(educationList$Levels)
-   min_level<-min(educationList$Levels)
    PrimaryGrade<-educationList$Grade[educationList$Education=="Pimary"]
-   ### here we assume the min_level and primary level are the same
-   datause$EducationHL[datause$Elevel ==min_level & datause$Grade>PrimaryGrade]<-"Secondary"
-   datause$EducationHL[datause$Elevel >min_level & datause$Elevel <=max_level ]<-"Secondary"
+   # a few surveys bundle primary and secondary in to one level, in this case, > primary grade is considered secondary
+   # when the primary is separated from secondary levels, we set primary grade to be 99 in the csv file
+   datause$EducationHL[datause$Elevel ==PrimaryGrade & datause$Grade>PrimaryGrade]<-"Secondary"
+   datause$EducationHL[datause$Elevel >PrimaryGrade & datause$Elevel <=max_level ]<-"Secondary"
    datause$EducationHL[datause$Elevel> max_level & datause$Elevel < 8 ]<-"Higher"
    datause$EducationHL<-factor(datause$EducationHL, levels = c("Lower", "Secondary", "Higher"), ordered = TRUE)
    
@@ -1500,15 +1500,7 @@ NUnder5<-function(datause){
 ############ HR independent variables
 HighestEducation<-function(datause, dataList, educationList){
 
-    # datause$Elevel<-as.numeric(as.character(datause$HighestEducation))
-    # datause$HighestEducation <-"Lower"
-    # max_level<-max(educationList$Levels)
-    # min_level<-min(educationList$Levels)
-    # datause$HighestEducation[datause$Elevel >=min_level & datause$Elevel <=max_level ]<-"Secondary"
-    # datause$HighestEducation[datause$Elevel> max_level & datause$Elevel < 8 ]<-"Higher"
-    # datause$HighestEducation<-factor(datause$HighestEducation, levels = c("Lower", "Secondary", "Higher"), ordered = TRUE)
-    # 
-
+  # variable created by the function 
   print(table(datause$HighestEducation))
   return(datause)
 }

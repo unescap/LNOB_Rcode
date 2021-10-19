@@ -90,7 +90,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   # Type of Datasets: IR, HR, PR, MR.
   dataSet<-unique(meta_data$DataSet)
   dataSet<-dataSet[!dataSet=="MR"]
-  
+  print(dataSet)
   # specify data set for debugginh
   # dataSet<-c("PR", "IR")
   # dataSet<-c("HR")
@@ -114,10 +114,16 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   ###### this file must contain the following columns
   ###### SurveyIndicator	IndicatorName	SurveyID	country_code	version_code	dataset	MeanY	SurveySource	IndicatorName
   ###### eg: Afghanistan2010+AccessElectricity	AccessElectricity	AFG2010	Afghanistan	2010	hh	0.432169681883751	MICS	AccessElectricity
-  if(!is.null(indicator_selection$dataSet)) 
+  print(!is.null(indicator_selection$dataSet))
+  print(dataSet)
+  if(!is.null(indicator_selection$dataSet)){ 
+    print(dataSet)
         dataSet<-intersect(indicator_selection$dataSet, dataSet)
+  }
 
+  print(dataSet)
   if(length(dataSet)==0) return(drupalIndex)
+  
   for(ds in dataSet) {
 
     # Creating output folder: Example ~ ./dat_download/Afghanistan 2015/HR 
