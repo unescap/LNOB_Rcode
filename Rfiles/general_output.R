@@ -5,14 +5,17 @@
 # drupal_data<-function()
 
 #### in use_version 3, checking if the overall level is within 1% of the validated results
-output_data<-function(datause, survey_source, country_code, version_code, country_ISO, year_code, rv, rtp, indvar, ds, ds_output_folder, validationdata, 
-                      religion, region_flag, use_version, drupalIndex){
+output_data<-function(datause, survey_source, country_code, version_code, country_ISO, year_code, rv, 
+                      rtp, indvar, ds, ds_output_folder, validationdata, 
+                      religion, region_flag, use_version, drupalIndex)
+  {
 
 
   #### to validate if this is needed
-  print(ds_output_folder)
+  print("########### generating output now #############")
+  ### initializing the output file to be written
   result_log_National<-ResultList(survey_source, country_code, version_code, country_ISO, year_code, ds, rv, religion, "National", !is.null(datause))
-  
+
   overallmean<-write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
   validation<-FALSE
   if(use_version>=3){
@@ -20,14 +23,16 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
     validation_result<-validate(country_code, version_code, rv, overallmean, validationdata)
     validation<-validation_result$validation
     result_log_National$NationalValidated=validation
+
     result_log_National$ValidationResult=validation_result$validationResult
     result_log_National$NationalmeanYFromValidation=validation_result$mean
   }
   
   result_log_National$NationalmeanYfromR<-overallmean
-  
+
   formula_string<-paste("var2tab", paste(indvar, collapse=" + "), sep=" ~ ")
   title_string<-paste(rv, paste(indvar, collapse=" + "), sep=" ~ ")
+
   #### tree
   #### add a data type parameter, if numeric, we use a different criterion
   sub_string<-NULL
@@ -36,9 +41,11 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
     if(region_flag){
       regionList<-unique(datause$REGION)
     } else regionList<-c("National")
-    
 
+
+    NewLNOBcsv<-paste(ds_output_folder, "NewLNOBdata.csv", sep="")
     for(rg in regionList){
+      print(rg)
       if(rg=="National") {
         datauseRG<-datause
         logcsv<-paste(ds_output_folder, "NationalLogfile.csv", sep="")
@@ -47,58 +54,88 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
         datauseRG<-datause[datause$REGION==rg, ]
         logcsv<-paste(ds_output_folder, "RegionalLogfile.csv", sep="")
       }
-      result_log<-result_log_National
       
+      result_log<-result_log_National
       result_log$RegionName<-rg
+
+
       result_log$formula<-formula_string
-      result_log$SampleSize<-sum(datauseRG$SampleWeight)
-      result_log$SampleMean<-sum(datauseRG$SampleWeight[datauseRG$var2tab==1]) / sum(datauseRG$SampleWeight)
+      SampleSize<-sum(datauseRG$SampleWeight)
+      result_log$SampleSize<-SampleSize
+
+      SampleMean<-sum(datauseRG$SampleWeight[datauseRG$var2tab==1]) / sum(datauseRG$SampleWeight)
+      result_log$SampleMean<-SampleMean
+      
       t0<-drupalIndex
 
+      # if(SampleSize<100 | SampleMean>0.99 | SampleMean<0.01){
+      # 
+      #   newLNOBdata<-newLNOBList(survey_source, ds, country_code, country_ISO, rg, version_code, year_code, religion)
+      #   newLNOBdata<-t(unlist(updateLNOBdata(newLNOBdata, rg, validation, title_string,
+      #                                        SampleMean, SampleSize, "No Analysis", NULL, NULL)))
+      #   result_log$DindexFileID="NoFILE"
+      #   result_log$d_index<-NA
+      #   result_log$HOI<-NA
+      #   result_log$TreeFileID="NoFILE"
+      #   result_log$tree_stat<-NULL
+      # }
+      # else {
       tree_result<-write_tree(survey_source, datauseRG, country_ISO, year_code, rg, 
                               formula_string, title_string,  sub_string, rv, rtp, 
                               religion, ds_output_folder, ds, filename, use_version, drupalIndex)
   
       drupalIndex<-c(tree_result$drupalIndex)
 
-      print(drupalIndex)
-      
-      if(drupalIndex>t0  | use_version==1)  {      
-        result_log$TreeFileID=paste("R", t0, sep="")
-        result_log$tree_stat<-c(tree_result$tree_stat)
-      }
-      else {
-        result_log$TreeFileID="NoFILE"
-        result_log$tree_stat<-NULL
-      }
-      #### disable D and Logistic for validation
-      #### HOI and dis-similarity index calculation
-      #### not sure if this works for numeric
-      t0<-drupalIndex
+       if(drupalIndex>t0  | use_version==1)  {      
+          result_log$TreeFileID=paste("R", t0, sep="")
+          result_log$tree_stat<-c(tree_result$tree_stat)
+        }
+        else {
+          result_log$TreeFileID="NoFILE"
+          result_log$tree_stat<-NULL
+        }
+        #### disable D and Logistic for validation
+        #### HOI and dis-similarity index calculation
+        #### not sure if this works for numeric
+        t0<-drupalIndex
 
-      d_result<-write_HOI_D(survey_source, datauseRG, country_ISO, year_code, rg, rv, ds, religion, indvar, 
+        d_result<-write_HOI_D(survey_source, datauseRG, country_ISO, year_code, rg, rv, ds, religion, indvar, 
                             ds_output_folder, filename, use_version, drupalIndex)
 
-      drupalIndex<-c(d_result$drupalIndex)
+        drupalIndex<-c(d_result$drupalIndex)
 
-      if(drupalIndex>t0 | use_version==1) {       
-        result_log$DindexFileID=paste("R", t0, sep="")
-        result_log$d_index<-c(d_result$Overall_D)
-        result_log$HOI<-c(d_result$HOI)
-      }
-      else {
-        result_log$DindexFileID="NoFILE"
-        result_log$d_index<-NA
-        result_log$HOI<-NA
-      }
+        if(drupalIndex>t0 | use_version==1) {       
+          result_log$DindexFileID=paste("R", t0, sep="")
+          result_log$d_index<-c(d_result$Overall_D)
+          result_log$HOI<-c(d_result$HOI)
+        }
+        else {
+          result_log$DindexFileID="NoFILE"
+          result_log$d_index<-NA
+          result_log$HOI<-NA
+        }
       
-      result_log<-t(unlist(result_log)) 
-
-      if(file.exists(logcsv))
-        write.table(result_log, logcsv, sep=",", 
+        result_log<-t(unlist(result_log)) 
+        newLNOBdata<-newLNOBList(survey_source, ds, country_code, country_ISO, rg, version_code, year_code, religion)
+        newLNOBdata<-t(unlist(updateLNOBdata(newLNOBdata, rg, validation, title_string, 
+                                           SampleMean, SampleSize, d_result$Overall_D, tree_result$tree_stat)))
+      # }
+        if(file.exists(logcsv)){
+          write.table(result_log, logcsv, sep=",", 
+                      append = TRUE,   col.names = F, row.names = F)
+        }
+        else {
+          write.table(result_log, logcsv, sep=",", 
+                      append = FALSE,   col.names = T, row.names = F)
+        }
+        if(file.exists(NewLNOBcsv)){
+          write.table(newLNOBdata, NewLNOBcsv, sep=",", 
                     append = TRUE,   col.names = F, row.names = F)
-      else write.table(result_log, logcsv, sep=",", 
-                       append = FALSE,   col.names = T, row.names = F)
+        }
+        else {
+        write.table(newLNOBdata, NewLNOBcsv, sep=",", 
+                    append = FALSE,   col.names = T, row.names = F)
+        }
     }
     return(drupalIndex)
   }
@@ -117,6 +154,8 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
   }
 
 }
+
+
 
 validate<-function(country_code, version_code, rv, overallmean, validationdata){
   #### using original mean value from orlando
@@ -484,7 +523,107 @@ ResultList<-function(survey_source, country_code, version_code, country_ISO, yea
 
 
 
-isoTOcountry<-function(country_ISO)
+isoToCountry<-function(iso)
 {
-  return(NULL)
+  if(iso=="AFG") country<-"Afghanistan"
+  else if(iso=="ARM") country<-"Armenia"
+  else if(iso=="BGD") country<-"Bangladesh"
+  else if(iso=="BTN") country<-"Bhutan"
+  else if(iso=="GEO") country<-"Georgia"
+  else if(iso=="IND") country<-"India"
+  else if(iso=="IDN") country<-"Indonesia" 
+  else if(iso=="KAZ") country<-"Kazakhstan"
+  else if(iso=="KHM") country<-"Cambodia"
+  else if(iso=="KGZ") country<-"Kyrgyzstan"
+  else if(iso=="KIR") country<-"Kiribati"
+  else if(iso=="LAO") country<-"Lao"
+  else if(iso=="MNG") country<-"Mongolia"
+  else if(iso=="MDV") country<-"Maldives"
+  else if(iso=="MMR") country<-"Myanmar"
+  else if(iso=="NPL") country<-"Nepal"
+  else if(iso=="PAK") country<-"Pakistan"
+  else if(iso=="PNG") country<-"Papua New Guinea"
+  else if(iso=="PHL") country<-"Philippines"
+  else if(iso=="THA") country<-"Thailand"
+  else if(iso=="TJK") country<-"Tajikistan"
+  else if(iso=="TLS") country<-"Timor-Leste"
+  else if(iso=="TON") country<-"Tonga"
+  else if(iso=="TUR") country<-"Turkey"
+  else if(iso=="VNM") country<-"VietNam"
+  else if(iso=="TKM") country<-"Turkmenistan"
+  else country<-paste("NotFound", iso)
+    
+  return(country)
+}
+
+newLNOBList<-function(Data_source, Data_set, Country_code, Country_ISO, Region,
+                      Version, Year, Additional_variable){
+  
+        Result<-list(DataSource=Data_source,
+                     DataSet=Data_set,
+                     CountryCode=Country_code, 
+                     Country=isoToCountry(Country_ISO), 
+                     Province=NA,
+                     VersionCode=Version, 
+                     Year=Year, 
+                     Latest=1, 
+                     Additional_variable=ifelse(Additional_variable, 1, 0),
+                      Validation_results=" ", 
+                      Region=Region, 
+                      Analysis_model=" ", 
+                      Sample_Size=" ",
+                      D_Index=" ",
+                      Overall_Mean=" ",
+                      Max_Leaf_Size=" ",
+                      Max_Leaf_Access=" ",
+                      Min_Leaf_Size=" ",
+                      Min_Leaf_Access=" ",
+                      Gap=" ",
+                      Max_Leaf_Characteristics=" ",
+                      Min_Leaf_Characteristics=" ",
+                      MIV_1=" ",
+                      MIV_2=" ",
+                      MIV_3=" ",
+                      MIV_4=" ",
+                      MIV_5=" ",
+                      MIV_6=" ",
+                      MIV_7=" ",
+                      MIV_8=" ",
+                      MIV_1_Value=" ",
+                      MIV_2_Value=" ",
+                      MIV_3_Value=" ",
+                      MIV_4_Value=" ",
+                      MIV_5_Value=" ",
+                      MIV_6_Value=" ",
+                      MIV_7_Value=" ",
+                      MIV_8_Value=" ")
+  return(Result)
+}
+
+
+updateLNOBdata<-function(newLNOBdata, rg, validation, title_string, SampleMean, SampleSize, Overall_D, tree_stat, mivs)
+{
+  if(!rg=="National") newLNOBdata$Region<-"Sub-National"
+  newLNOBdata$Validation_results=ifelse(validation, 1, 0)
+  newLNOBdata$Analysis_model<-title_string
+  newLNOBdata$Province<-ifelse(rg=="National", "--", rg)
+  newLNOBdata$Sample_Size<-SampleSize
+  newLNOBdata$D_Index<-Overall_D
+  newLNOBdata$Overall_Mean<-SampleMean
+  if(!is.null(tree_stat)){
+    newLNOBdata$Max_Leaf_Size<-tree_stat$max$wt
+    newLNOBdata$Max_Leaf_Access<-tree_stat$max$yval
+    newLNOBdata$Min_Leaf_Size<-tree_stat$min$wt
+    newLNOBdata$Min_Leaf_Access<-tree_stat$min$yval
+    newLNOBdata$Gap<-tree_stat$max$yval - tree_stat$min$yval
+    newLNOBdata$Max_Leaf_Characteristics<-tree_stat$max_node
+    newLNOBdata$Min_Leaf_Characteristics<-tree_stat$min_node
+  
+    nv<-length(tree_stat$importance)
+    for(i in c(1:nv)) {
+      newLNOBdata[paste("MIV", i, sep="_")]<-tree_stat$importance[i]
+      newLNOBdata[paste("MIV", i, "Value", sep="_")]<-tree_stat$importancevalue[i]
+    }
+  }
+  return(newLNOBdata)
 }

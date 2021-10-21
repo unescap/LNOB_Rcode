@@ -17,12 +17,6 @@ build_tree<-function(source_folder, country_code, version_code, datause, Respons
                    method=treemethod, control = rpart.control(cp = cp_chosen/nrow(datause), maxdepth=6, 
                                                               minbucket = min_node, minsplit=2*min_node))
 
-  newdatause<-datause
-  newdatause$PoorerHousehold<-"0"
-  newP<-predict(treefit, newdata=newdatause)
-  print("NewAverage under silumation")
-  print(summary(newP))
-  print(sum(newP*newdatause$SampleWeight)/sum(newdatause$SampleWeight))
   # print(summary(treefit))
   # First save: Saving object as .Rdata file for Shiny output
   # if (region == FALSE) { 
@@ -52,23 +46,30 @@ build_tree<-function(source_folder, country_code, version_code, datause, Respons
   # write.table(data2, paste(source_folder, "ALLTrees.csv", sep=""), sep=",",
   #             col.names = FALSE  , row.names = FALSE, append = TRUE)
 
-
+  # print(treefit$frame)
   if(!is.null(treefit$splits)) {  
     frame1<-treefit$frame
 
     ####commented out on May 25th, only write the tress structures
     frame1$rows<-as.numeric(rownames(frame1))
 
-    frame_max<-frame1[frame1$var=="<leaf>" & frame1$yval==max(frame1$yval), c(3,5)] #extract total weight, yval
-    frame_min<-frame1[frame1$var=="<leaf>" & frame1$yval==min(frame1$yval), c(3,5)]
+
+    maxn1<-max(frame1$wt[frame1$var=="<leaf>" & frame1$yval==max(frame1$yval)])
+    maxn2<-max(frame1$wt[frame1$var=="<leaf>" & frame1$yval==min(frame1$yval)])
+    
+    frame_max<-frame1[frame1$var=="<leaf>" & frame1$yval==max(frame1$yval) & frame1$wt==maxn1, c(3,5)] #extract total weight, yval
+    frame_min<-frame1[frame1$var=="<leaf>" & frame1$yval==min(frame1$yval) & frame1$wt==maxn2, c(3,5)]
+    
+    
     title_string<-paste( title_string, ": \n", country_code, version_code)
     
-    row_max<-frame1$rows[frame1$var=="<leaf>" & frame1$yval>=max(frame1$yval)]
-    row_min<-frame1$rows[frame1$var=="<leaf>" & frame1$yval<=min(frame1$yval)]
+    row_max<-frame1$rows[frame1$var=="<leaf>" & frame1$yval>=max(frame1$yval) & frame1$wt==maxn1]
+    row_min<-frame1$rows[frame1$var=="<leaf>" & frame1$yval<=min(frame1$yval) & frame1$wt==maxn2]
     
+
     if(length(row_max)>1) row_max<-max(row_max)
     if(length(row_min)>1) row_min<-max(row_min)
-    
+
     ###### start summarizing the max leaf and min leaf #####################
     where_max<-match(row_max, frame1$rows)
     description_max<-NULL
@@ -123,8 +124,9 @@ build_tree<-function(source_folder, country_code, version_code, datause, Respons
     total_weight<-sum(datause$SampleWeight)
     y_bar<-sum(datause$SampleWeight*datause$var2tab)/total_weight
     vi_list<-names(treefit$variable.importance)
+    vi_values<-treefit$variable.importance
     tree_stat<-list(SampleSize=total_weight, meanY=y_bar, max=c(frame_max),
-                    min=c(frame_min), max_node=xy_max, min_node=xy_min, importance=vi_list)
+                    min=c(frame_min), max_node=xy_max, min_node=xy_min, importance=vi_list, importancevalue=vi_values)
 
     ##### calculating weighted sample %
     tree_stat$max$wt<-tree_stat$max$wt/tree_stat$SampleSize

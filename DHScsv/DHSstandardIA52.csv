@@ -1,7 +1,6 @@
 VarName,NickName,DataSet,DataType,IndicatorType,Comment
 V313,ContraceptiveMethod,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""aGroup"", ""NUnder5"", ""Education"""
 HIDX,ProfessionalHelp,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""aGroup"", ""MarriageStatus"", ""NUnder5"", ""Education"""
-D108,NoSexualViolence,IR,Factor,ResponseV,
 V481,HealthInsurance,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""aGroup"""
 V171A,InternetUse,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""aGroup"""
 V511,ChildMarriage15,IR,Factor,ResponseV,
@@ -105,13 +104,24 @@ D104,AllViolence,IR,Factor,ResponseV,#emotional
 D106,AllViolence,IR,Factor,ResponseV,#sexual
 D107,AllViolence,IR,Factor,ResponseV,#severe sexual
 D108,AllViolence,IR,Factor,ResponseV,#physical
+D104,NoAllViolence,IR,Factor,ResponseV,#emotional
+D106,NoAllViolence,IR,Factor,ResponseV,#sexual
+D107,NoAllViolence,IR,Factor,ResponseV,#severe sexual
+D108,NoAllViolence,IR,Factor,ResponseV,#physical
 D106,SexualPhysicalViolence,IR,Factor,ResponseV,
 D107,SexualPhysicalViolence,IR,Factor,ResponseV,
 D108,SexualPhysicalViolence,IR,Factor,ResponseV,
+D106,NoSexualPhysicalViolence,IR,Factor,ResponseV,
+D107,NoSexualPhysicalViolence,IR,Factor,ResponseV,
+D108,NoSexualPhysicalViolence,IR,Factor,ResponseV,
 D108,SexualViolence,IR,Factor,ResponseV,
+D108,NoSexualViolence,IR,Factor,ResponseV,
 D107,PhysicalViolence,IR,Factor,ResponseV,
 D106,PhysicalViolence,IR,Factor,ResponseV,
+D107,NoPhysicalViolence,IR,Factor,ResponseV,
+D106,NoPhysicalViolence,IR,Factor,ResponseV,
 D104,EmotionalViolence,IR,Factor,ResponseV,
+D104,NoEmotionalViolence,IR,Factor,ResponseV,
 HV225,SharedToilet,HR,Factor,SafeSanitation,
 HV005,SampleWeight,HR,INT,Weight,
 HV005,SampleWeight,PR,INT,Weight,

@@ -34,8 +34,8 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   ###### you have to add it here
   
   if (rv == "MobilePhonePR" ) datause<-MobilePhone(df, k)
-  else if (rv == "MobilePhone" ) datause<-MobilePhone(df, k)
-  else if (rv == "MobilePhoneHH" ) datause<-MobilePhone(df, k)
+  else if (rv =="MobilePhone" ) datause<-MobilePhone(df, k)
+  else if (rv =="MobilePhoneHH" ) datause<-MobilePhone(df, k)
   else if(rv=="AccessElectricity") datause<-AccessElectricity(df, dataList, k)
   else if(rv=="CleanFuel") datause <- CleanFuel(df, k)
   else if (rv=="BankCardHH") datause <- BankCardHH(df, k)
@@ -57,8 +57,8 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   else if (rv=="ChildHealth") datause<- ChildHealth(df, dataList, k)
   else if (rv=="Stunting") datause<- Stunting(df, dataList, k)
   else if (rv=="Overweight") datause<-  Overweight(df, dataList, k)
-  else if (rv== "Wasting") datause<- Wasting(df, dataList, k)
-  else if (rv== "ContraceptiveMethod") datause<- ContraceptiveMethod(df, dataList, k)
+  else if (rv=="Wasting") datause<- Wasting(df, dataList, k)
+  else if (rv=="ContraceptiveMethod") datause<- ContraceptiveMethod(df, dataList, k)
   else if (rv=="ProfessionalHelp") datause<- ProfessionalHelp(df, dataList, svnm)  ### no need for k for this one variable
   else if (rv=="HealthInsurance") datause<- HealthInsurance(df, dataList, k, mrDatalist)
   else if (rv=="InternetUse") datause<- InternetUse(df, dataList, k, svnm)
@@ -66,6 +66,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   else if (rv=="ChildMarriage18") datause<- ChildMarriage18(df, dataList, k)
   else if (rv=="TeenagePregnancy") datause<- TeenagePregnancy(df, dataList, k)
   else if (rv=="AllViolence") datause<- AllViolence(df, dataList, k)
+  else if (rv=="NoAllViolence") datause<- NoAllViolence(df, dataList, k)
   else if (rv=="SexualPhysicalViolence") datause<- SexualPhysicalViolence(df, dataList, k)
   else if (rv=="NoSexualPhysicalViolence") datause<- NoSexualPhysicalViolence(df, dataList, k)
   else if (rv=="PhysicalViolence") datause<- PhysicalViolence(df, dataList, k)
@@ -73,6 +74,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   else if (rv=="SexualViolence") datause<- SexualViolence(df, dataList, k)
   else if (rv=="NoSexualViolence") datause<-NoSexualViolence(df, dataList, k)
   else if (rv=="EmotionalViolence") datause<- EmotionalViolence(df, dataList, k)
+  else if (rv=="NoEmotionalViolence") datause<- NoEmotionalViolence(df, dataList, k)
   else if (rv=="MobileFinance") datause<- MobileFinance(df, dataList, k)
   else if (rv=="BankAccount") datause<- BankAccount(df, dataList, k)
   else if (rv=="HandWash") datause<- HandWash(df, dataList, k)
@@ -174,8 +176,9 @@ indList<-function(rv, caste = FALSE ){
     iv<-c("PoorerHousehold", "Residence", "aGroup", "MarriageStatus", "NUnder5", "Education")
   else if (rv %in% c("ContraceptiveMethod")) 
     iv<-c("PoorerHousehold", "Residence", "aGroup", "NUnder5", "Education")
-  else if (rv %in% c("NoSexualViolence",  "AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", 
-                     "EmotionalViolence", "NoSexualPhysicalViolence", "NoPhysicalViolence"))
+  else if (rv %in% c("AllViolence", "NoAllViolence", "SexualPhysicalViolence", "NoSexualPhysicalViolence",
+                     "SexualViolence", "NoSexualViolence", "EmotionalViolence", "NoEmotionalViolence",
+                      "PhysicalViolence", "NoPhysicalViolence"))
     iv<-c("PoorerHousehold", "Residence", "aGroup", "NUnder5", "Education")
           # return to basic model on voilence variables, June 14 2021 email
           #  , "HusbandAge", "HusbandEducation", "HusbandAlcohol", "FatherBeatMother", 
@@ -893,6 +896,13 @@ AllViolence<-function(datause, dataList, k){
   return(datause)
 }
 
+NoAllViolence<-function(datause, dataList, k){
+
+  datause<-AllViolence(datause, dataList, k)
+  if(is.null(datause)) return(NULL)
+  datause$var2tab<- 1- datause$var2tab
+  return(datause)
+}
 
 SexualPhysicalViolence<-function(datause, dataList, k){
   datause<-DataOfViolence(datause, dataList)
@@ -956,13 +966,22 @@ NoSexualViolence<-function(datause, dataList, k){
 
 EmotionalViolence<-function(datause, dataList, k){
   datause<-DataOfViolence(datause, dataList)
-
+  
   datause$var2tab<- 0
   # datause$var2tab[datause[,k] %in% c(1, 2, 3)]<-1
-   l<-length(k)
-   for(i in c(1:l))
-     datause$var2tab[datause[,k[i]]  %in% c(1, 2, 3)]<-1 
+  l<-length(k)
+  for(i in c(1:l))
+    datause$var2tab[datause[,k[i]]  %in% c(1, 2, 3)]<-1 
   
+  return(datause)
+  
+
+}
+
+NoEmotionalViolence<-function(datause, dataList, k){
+  datause<-EmotionalViolence(datause, dataList, k)
+  if(is.null(datause)) return(NULL)
+  datause$var2tab<-1-datause$var2tab
   return(datause)
 }
 

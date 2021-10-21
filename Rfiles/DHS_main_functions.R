@@ -269,7 +269,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
       
       #### start of output
       result_log<-ResultList("DHS", country_ISO, version_code, country_ISO, year_code, ds, rv, caste, "National", !is.null(datause))
-      
+
       if(is.null(datause)) { 
         result_log$NationalValidated="NoData"
         print("Data not generated") 
