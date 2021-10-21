@@ -226,12 +226,15 @@ Humiliate,wm,say or do,humiliate,infront of others,DVD4A,no,and,EmotionalViolenc
 Threaten,wm,threaten,hurt or harm,someone,DVD4B,no,and,EmotionalViolence,Factor,DVD4B,1 var names found
 Insult,wm,insult,feel bad,yourself,DVD4C,no,and,EmotionalViolence,Factor,DVD4C,1 var names found
 PhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
+NoPhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
 SexualViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
-EmotionalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
-SexualPhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
 NoSexualViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
-AllViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
+EmotionalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
+NoEmotionalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
+SexualPhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
 NoSexualPhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
+AllViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
+NoAllViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
 NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType,VarName,Search_result
 cluster_id,mn,cluster,number,,HH1,yes,and,ID,ID,HH1,Default
 HouseholdNumber,mn,household,number,,HH2,yes,and,ID,ID,HH2,Default
