@@ -242,7 +242,7 @@ checkingDrupalFiles<-function(drupalFiles, comm_vars){
 }
 
 # 
-# drupalFilesPush<-gettingDrupalFiles(api_base, key)
+drupalFilesPush<-gettingDrupalFiles(api_base, key)
 
 # lao_drupal<-drupalRecords[drupalRecords$field_geo_name=="Lao", ]
 
