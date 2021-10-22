@@ -1509,18 +1509,22 @@ NUnder5<-function(datause){
  
  EducationHL<-function(datause, dataList, k, educationList){
    # levels of education in the hl dataset
+   print(educationList)
    datause$Elevel<-as.numeric(as.character(datause[, k])) ### education levels
+   print(table(datause$Elevel))
    gradeV<-dataList$VarName[dataList$NickName=="Grade"]
    gradeK<-match(gradeV, colnames(datause), nomatch = 0)
    datause$Grade<-as.numeric(as.character(datause[, gradeK]))
    datause$EducationHL <-"Lower"
    max_level<-max(educationList$Levels)
-   PrimaryGrade<-educationList$Grade[educationList$Education=="Pimary"]
+   PrimaryGrade<-educationList$Grade[educationList$Education=="Primary"]
+   PrimaryLevel<-educationList$Levels[educationList$Education=="Primary"]
+
    # a few surveys bundle primary and secondary in to one level, in this case, > primary grade is considered secondary
    # when the primary is separated from secondary levels, we set primary grade to be 99 in the csv file
-   datause$EducationHL[datause$Elevel ==PrimaryGrade & datause$Grade>PrimaryGrade]<-"Secondary"
-   datause$EducationHL[datause$Elevel >PrimaryGrade & datause$Elevel <=max_level ]<-"Secondary"
-   datause$EducationHL[datause$Elevel> max_level & datause$Elevel < 8 ]<-"Higher"
+   datause$EducationHL[datause$Elevel ==PrimaryLevel & datause$Grade>PrimaryGrade]<-"Secondary"
+   datause$EducationHL[datause$Elevel > PrimaryLevel & datause$Elevel <=max_level ]<-"Secondary"
+   datause$EducationHL[datause$Elevel > max_level & datause$Elevel < 8 ]<-"Higher"
    datause$EducationHL<-factor(datause$EducationHL, levels = c("Lower", "Secondary", "Higher"), ordered = TRUE)
    
    return(datause)
@@ -1719,7 +1723,7 @@ importMICSdata<-function(data_folder, country_code, year_code, data_type, var_li
   
   col_index<-match(v, toupper(colnames(df)), nomatch = 0)
   col_index<-col_index[col_index>0]
-  print(col_index)
+
   df<-df[ , col_index]
 
   if(!is.null(regionVar)){
