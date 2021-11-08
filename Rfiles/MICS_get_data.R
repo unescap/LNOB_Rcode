@@ -10,7 +10,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
      else if(VarName=="NO KEYWORDS") k<-0
       else k<-match(VarName, toupper(colnames(df)))    ### variable name not defined, need some calculation
 
-      print(VarName)
+      # print(VarName)
       if(is.na(k) | length(k)==0){
         print(paste("Response variable -- ", rv, "(",  VarName, ") not found"))
         return(NULL)
@@ -25,13 +25,16 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
         # for the following indicators, missing values are counted as "0", and must be included
         # for other indicators, missing value means the questions are not applicable to the respondents
         # and missing values must be excluded 
-        if(!(rv %in% c("EarlyChildBearing", "NoEarlyChildbearing", "ChildMarriage15", "ChildMarriage18", "NoChildMarriage15", "NoChildMarriage18", "InternetUse",
-                       "SecondaryEducation2035", "SecondaryEducation35plus", "HigherEducation2535", "HigherEducation35plus", #### changing this on Aug 30 2021, AF2010
+
+        if(!(rv %in% c("EarlyChildBearing", "NoEarlyChildbearing", "ChildMarriage15", "ChildMarriage18", 
+                       "NoChildMarriage15", "NoChildMarriage18", "InternetUse",
+                       "SecondaryEducation2035", "SecondaryEducation35plus", "HigherEducation2535",
+                       "HigherEducation35plus", #### changing this on Aug 30 2021, AF2010
                        "EarlyEducation24", "EarlyEducation36", "EarlyChildhoodEducation",
                        "ContraceptiveMethod")))
                     df<-df[!is.na(df[,k]), ]  ### for Thailand 2019, they have missing value for access to electricity and must be excluded.
-                                              
-        
+
+
         if(length(df[!is.na(df[, k]), k])<=1) {
          print(paste("Response variable -- ", rv, "(",  VarName, ") has not valid observations"))
          return(NULL)
@@ -93,7 +96,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
              else if(rv== "Covid2" ) datause<-  Covid2(df, dataList, svnm)
              else if(rv== "Covid" ) datause<-  Covid(df, dataList, svnm)
              else if(rv== "LearningHL" ) datause<-  Learning(df, dataList)
-             else if(rv== "WaterOnstieHL" ) datause<-  WaterOnsite(df, dataList, svnm)
+             else if(rv== "WaterOnsiteHL" ) datause<-  WaterOnsite(df, dataList, svnm)
              else if(rv==  "HandwashHL" ) datause<-  HandWash(df, dataList)
              else if(rv==  "SafeSanitationHL" ) datause<-  SafeSanitationHL(df, dataList, svnm)
              else if(rv==  "NotCrowdedHL" ) datause<-  NotCrowded(df, dataList)
@@ -181,7 +184,7 @@ indList<-function(rv){
     return(c("PoorerHousehold", "Residence", "Education"))
   else if (rv %in% c("MobilePhone", "HealthInsurance", "InternetUse", "FinancialInclusion"))
     return(c("PoorerHousehold", "Residence", "aGroup", "Education"))
-  else if(rv %in% c("Covid1", "Covid2", "Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL"))
+  else if(rv %in% c("Covid1", "Covid2", "Covid", "LearningHL", "WaterOnsiteHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL"))
     return(c("PoorerHousehold", "Residence", "aGroupHL", "EducationHL", "Sex"))   ### education
 }
 
@@ -215,13 +218,12 @@ MobilePhone<-function(datause, k){
     print(c("Mobilephone levels"))
     datause$var2tab<- 0
     levels<- as.numeric(as.character(unique(datause[, k])))
-    print( levels)
     levels<-levels[!levels==9]
     levels<-levels[order(levels)]
-    print( levels)
+
     ln<-max(1, length(levels)-1)
     levels<-levels[c(1:ln)]
-    print( levels)
+    
     datause$var2tab[datause[, k] %in% levels]<-1   # 1 means "yes"
     return(datause)
   }
@@ -261,6 +263,7 @@ InternetUse<-function(datause, dataList, k, svnm){
     n<-max(1, (length(levels)-1))
     levels<-levels[c(1:n)]
     }
+    print(levels)
     datause$var2tab<- 0
     datause$var2tab[datause[, k] %in% levels]<-1   # 1 means "yes"
 
@@ -303,7 +306,7 @@ AccessElectricity<-function(datause, dataList, k){
 CleanFuel<-function(datause, k){
   #### recoding?
   if(k==0) return(NULL)
-  print(table(datause[,k]))
+
   datause[,k]<-as.numeric(as.character(datause[, k]))
 
   fuel_code<-cookfuel_code()
@@ -1122,7 +1125,7 @@ DVdata<-function(df, dataList){
   cmK<-match(cmV, colnames(df))
   emK<-match(emV, colnames(df))
   wK<-match(wV, colnames(df))
-  print(wK)
+
   if(length(wK)>0) df$SampleWeight<-as.numeric(as.character(df[, wK]))
   
   if(length(pK)==0 | length(cmK)==0 | length(emK)==0) {
@@ -1135,19 +1138,24 @@ DVdata<-function(df, dataList){
   }
   else {
     ### no missing info ob privacy
+
     datause<-df[!is.na(df[, pK]), ]
     datause<-datause[datause[, pK]==1, ]
+
     #### currently married or previously married
-    datause<-datause[!is.na(df[, cmK]), ]
+    datause<-datause[!is.na(datause[, cmK]), ]
     datause1<-datause[datause[,cmK] %in% c(1,2), ]
+
     datause2<-datause[datause[,cmK]==3, ]
     datause2<-datause2[!is.na(datause2[,emK]), ]
     datause2<-datause2[datause2[,emK] %in% c(1,2), ]
+
     datause<-rbind(datause1, datause2)
+
   }
 
 
-  print(nrow(datause))
+  
   print(sum(datause$SampleWeight))
   return(datause)
 }
@@ -1160,7 +1168,8 @@ PhysicalViolence<-function(df, dataList){
    for(rbvi in rbV){
      rbki<-match(rbvi, colnames(datause))
      if(length(rbki)>0) {
-       if(!is.na(rbki)) datause$var2tab[datause[ ,rbki]==1]<- 1 
+       
+       if(!is.na(rbki)) datause$var2tab[datause[ ,rbki] %in% c(1, 2)]<- 1 
      }
    }
  }
@@ -1183,7 +1192,7 @@ SexualViolence<-function(df, dataList){
     for(rbvi in rbV){
       rbki<-match(rbvi, colnames(datause))
       if(length(rbki)>0) {
-        if(!is.na(rbki)) datause$var2tab[datause[ ,rbki]==1]<- 1 
+        if(!is.na(rbki)) datause$var2tab[datause[ ,rbki] %in% c(1, 2)]<- 1 
       }
     }
   }
@@ -1205,7 +1214,7 @@ EmotionalViolence<-function(df, dataList){
     for(rbvi in rbV){
       rbki<-match(rbvi, colnames(datause))
       if(length(rbki)>0) {
-        if(!is.na(rbki)) datause$var2tab[datause[ ,rbki]==1]<- 1 
+        if(!is.na(rbki)) datause$var2tab[datause[ ,rbki] %in% c(1, 2)]<- 1 
       }
     }
   }
@@ -1594,16 +1603,20 @@ Education<-function(datause, dataList, k, educationList){
 Religion<-function(datause, dataList, k, religion_data){
   religion_code<-religion_data[religion_data$NickName=="Religion", ]
   rk<-nrow(religion_code)
-  datause$tmp<-datause[, k]
+  datause$tmp<-as.numeric(as.character(datause[, k]))
+  datause$tmp[is.na(datause$tmp)]<-999
+  print(table(datause$tmp))
   if(length(k)>0 & rk>0){
     if(is.na(k)) return(datause)
     datause$Religion<-"MinorReligion"
     for(i in c(1:rk)){
+      print(table(datause$Religion))
       codei<-religion_code$Levels[i]
       labeli<-religion_code$Labels[i]
       datause$Religion[datause$tmp==codei]<-labeli
       }
   }
+  print(table(datause$Religion))
   return(datause)
 }
 
@@ -1621,6 +1634,7 @@ Language<-function(datause, dataList, k, religion_data){
       datause$Language[datause$tmp==codei]<-labeli
     }
   }
+  print(table(datause$Language))
   return(datause)
 }
 
@@ -1638,6 +1652,7 @@ Ethnicity<-function(datause, dataList, k, religion_data){
       datause$Ethnicity[datause$tmp==codei]<-labeli
     }
   }
+  print(table(datause$Ethnicity))
   return(datause)
   
 }
@@ -1760,7 +1775,6 @@ add_highestEducation <- function(df, meta_data, data_folder, country_code, versi
   k3<-match(id3, colnames(df2))
   df2<-EducationHL(df2, dataList2, k3, educationList)
   k4<-match("EducationHL", colnames(df2))
-  print(table(df2$EducationHL))
   
   colnames(df2)[c(k1, k2, k4)]<-c("cluster_id", "HouseholdNumber", "Education")
   # df2<-df2[!is.na(df2$Education) & df2$Education<8, ]
@@ -1830,7 +1844,6 @@ add_hhdata <- function(df, data_folder, country_code, version_code,
   id2<-dataList$VarName[dataList$NickName=="HouseholdNumber"]
   k2<-match(id2, colnames(df), nomatch = 0)
   if(k1>0 & k2>0) colnames(df)[c(k1, k2)]<-c("cluster_id", "HouseholdNumber")
-  #print(colnames(df))
   
   df<-merge(df, df2, by=c("cluster_id", "HouseholdNumber"), all.x=TRUE)   
   

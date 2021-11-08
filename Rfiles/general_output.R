@@ -18,7 +18,7 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
 
   overallmean<-write_value(datause, country_code, version_code, rv, ds, ds_output_folder)
   validation<-FALSE
-  if(use_version>=3){
+  if(use_version>=2){
 
     validation_result<-validate(country_code, version_code, rv, overallmean, validationdata)
     validation<-validation_result$validation
@@ -68,7 +68,7 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
       
       t0<-drupalIndex
 
-      # if(SampleSize<100 | SampleMean>0.99 | SampleMean<0.01){
+
       # 
       #   newLNOBdata<-newLNOBList(survey_source, ds, country_code, country_ISO, rg, version_code, year_code, religion)
       #   newLNOBdata<-t(unlist(updateLNOBdata(newLNOBdata, rg, validation, title_string,
@@ -80,12 +80,16 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
       #   result_log$tree_stat<-NULL
       # }
       # else {
-      tree_result<-write_tree(survey_source, datauseRG, country_ISO, year_code, rg, 
+      
+      if(SampleMean<0.99 & SampleMean>0.01){
+            tree_result<-write_tree(survey_source, datauseRG, country_ISO, year_code, rg, 
                               formula_string, title_string,  sub_string, rv, rtp, 
                               religion, ds_output_folder, ds, filename, use_version, drupalIndex)
   
-      drupalIndex<-c(tree_result$drupalIndex)
-
+             drupalIndex<-c(tree_result$drupalIndex)
+      }
+      else tree_result<-NULL
+      
        if(drupalIndex>t0  | use_version==1)  {      
           result_log$TreeFileID=paste("R", t0, sep="")
           result_log$tree_stat<-c(tree_result$tree_stat)
@@ -382,6 +386,7 @@ country_ISO<-function(country_code){
   else if(country_code=="Tonga") iso<-"TON"
   else if(country_code %in% c("VietNam", "Vietnam")) iso<-"VNM"
   else if(country_code=="Turkmenistan") iso<-"TKM"
+  else if(country_code=="Tuvalu") iso<-"TUV"
   else iso<-country_code  
   return(iso)
   
@@ -551,6 +556,7 @@ isoToCountry<-function(iso)
   else if(iso=="TUR") country<-"Turkey"
   else if(iso=="VNM") country<-"VietNam"
   else if(iso=="TKM") country<-"Turkmenistan"
+  else if(iso=="TUV") country<-"Tuvalu"
   else country<-paste("NotFound", iso)
     
   return(country)
@@ -625,5 +631,6 @@ updateLNOBdata<-function(newLNOBdata, rg, validation, title_string, SampleMean, 
       newLNOBdata[paste("MIV", i, "Value", sep="_")]<-tree_stat$importancevalue[i]
     }
   }
+  else newLNOBdata$Max_Leaf_Size<-tree_stat$max$wt<-"No tree generated"
   return(newLNOBdata)
 }

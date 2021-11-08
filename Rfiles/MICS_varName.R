@@ -17,7 +17,9 @@ ifelse(!dir.exists(outputcsv_folder), dir.create(outputcsv_folder), FALSE)
 
 # csvfile_name<-"MICS_Var_Search_keys"
 # csvfile_name<-"MICS_NewKeys_covid"
-csvfile_name<-"MICS_NewKeys_ECE"
+# csvfile_name<-"MICS_NewKeys_ECE"
+csvfile_name<-"MICS_NewKeys_DV"
+
 get_label_data<-function(data_folder, country_code, year_code, data_type){
   savfilename<-paste(data_folder, 
             paste(country_code, year_code, sep=""), 
@@ -149,34 +151,33 @@ attributesMICSdata<-function(data_folder, country_code, year_code, inputcsv_fold
 }
 
 data_folder<-mics_data_folder
- attributesMICSdata(data_folder, "Bangladesh", "2019", inputcsv_folder, outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder, "Bhutan", "2010", inputcsv_folder, outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder, "Georgia", "2018", inputcsv_folder, outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder, "Kiribati", "2019", inputcsv_folder, outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder, "Kazakhstan", "2015", inputcsv_folder, outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder, "Kyrgyzstan", "2018", inputcsv_folder, outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder, "Lao", "2017", inputcsv_folder, outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder, "Mongolia", "2018",inputcsv_folder, outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder, "Uzbekistan", "2006",inputcsv_folder, outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder, "Vanuatu", "2007", inputcsv_folder,outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder, "VietNam", "2013",inputcsv_folder, outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder, "Thailand", "2019",inputcsv_folder, outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder, "Tonga", "2019", inputcsv_folder,outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder, "Turkmenistan", "2019", inputcsv_folder, outputcsv_folder, csvfile_name)
 
- attributesMICSdata(data_folder, "Kyrgyzstan", "2014",  inputcsv_folder,outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder,  "Turkmenistan", "2015",  inputcsv_folder,outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder,   "Lao", "2011",  inputcsv_folder,outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder,  "Thailand", "2012",  inputcsv_folder,outputcsv_folder, csvfile_name)
- attributesMICSdata(data_folder, "Vietnam", "2010",  inputcsv_folder,outputcsv_folder, csvfile_name)
- 
-attributesMICSdata(data_folder, "Kazakhstan", "2010",  inputcsv_folder,outputcsv_folder, csvfile_name)
-attributesMICSdata(data_folder, "Mongolia", "2013",  inputcsv_folder,outputcsv_folder, csvfile_name)
- 
-attributesMICSdata(data_folder, "Afghanistan", "2010",  inputcsv_folder,outputcsv_folder, csvfile_name)
-attributesMICSdata(data_folder,  "Thailand", "2015",  inputcsv_folder,outputcsv_folder, csvfile_name)
- 
-attributesMICSdata(data_folder, "Nepal", "2019",  inputcsv_folder, outputcsv_folder, csvfile_name)
+attributesMICSdata(data_folder, "Tuvalu", "2019", inputcsv_folder, outputcsv_folder, csvfile_name)
+
+#  attributesMICSdata(data_folder, "Bangladesh", "2019", inputcsv_folder, outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "Bhutan", "2010", inputcsv_folder, outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "Georgia", "2018", inputcsv_folder, outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "Kiribati", "2019", inputcsv_folder, outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "Kazakhstan", "2015", inputcsv_folder, outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "Kyrgyzstan", "2018", inputcsv_folder, outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "Lao", "2017", inputcsv_folder, outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "Mongolia", "2018",inputcsv_folder, outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "Uzbekistan", "2006",inputcsv_folder, outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "Vanuatu", "2007", inputcsv_folder,outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "VietNam", "2013",inputcsv_folder, outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "Thailand", "2019",inputcsv_folder, outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "Tonga", "2019", inputcsv_folder,outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "Turkmenistan", "2019", inputcsv_folder, outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "Kyrgyzstan", "2014",  inputcsv_folder,outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder,  "Turkmenistan", "2015",  inputcsv_folder,outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder,   "Lao", "2011",  inputcsv_folder,outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder,  "Thailand", "2012",  inputcsv_folder,outputcsv_folder, csvfile_name)
+#  attributesMICSdata(data_folder, "Vietnam", "2010",  inputcsv_folder,outputcsv_folder, csvfile_name)
+# attributesMICSdata(data_folder, "Kazakhstan", "2010",  inputcsv_folder,outputcsv_folder, csvfile_name)
+# attributesMICSdata(data_folder, "Mongolia", "2013",  inputcsv_folder,outputcsv_folder, csvfile_name)
+# attributesMICSdata(data_folder, "Afghanistan", "2010",  inputcsv_folder,outputcsv_folder, csvfile_name)
+# attributesMICSdata(data_folder,  "Thailand", "2015",  inputcsv_folder,outputcsv_folder, csvfile_name)
+# attributesMICSdata(data_folder, "Nepal", "2019",  inputcsv_folder, outputcsv_folder, csvfile_name)
 
 # sink(paste(csv_folder, "MICS_all_VarNamesCheck.txt", sep = ""))
 # country_code<-c( "Afghanistan", "Bhutan", "Georgia", "Kazakhstan", "Kazakhstan",

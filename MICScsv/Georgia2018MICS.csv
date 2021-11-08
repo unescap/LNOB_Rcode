@@ -247,7 +247,7 @@ Dselfcare,mn,difficulty,self-care,,MAF11,no,and,MresponseV,Factor,MAF11,1 var na
 Dcommunicating,mn,difficulty,communicating,,MAF12,no,and,MresponseV,Factor,MAF12,1 var names found
 Covid,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
 LearningHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
-WaterOnstieHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
+WaterOnsiteHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 HandwashHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 SafeSanitationHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 NotCrowdedHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually

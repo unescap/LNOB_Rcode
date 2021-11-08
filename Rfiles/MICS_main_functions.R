@@ -143,10 +143,9 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
   }
   
   info(logger, "Run_together function called.")
-  covid_varlist<-c("Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL")
+  covid_varlist<-c("Covid", "LearningHL", "WaterOnsiteHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL")
   # Type of Datasets: hh, hl, wm, ch, mn
 
-  print(indicator_selection)
   if(!is.null(indicator_selection$dataSet)) 
     dataSet<-intersect(indicator_selection$dataSet, dataSet)
 
@@ -251,43 +250,14 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
 
     df$SampleWeight[is.na(df$SampleWeight)] <- 0
 
-
-    # Response variables to model
-
-
-
-    # responseList<-dataList[dataList$NickName=="MobilePhone" & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("Covid") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("BasicWater") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("SecondaryEducation2035", "HigherEducation2535", "SecondaryEducation35plus") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("EarlyEducation25", "EarlyEducation35") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("CleanWater") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("CleanFuel") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("AccessElectricity", "ContraceptiveMethod") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("ContraceptiveMethod") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("MobilePhone") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("HealthInsurance") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("ProfessionalHelp") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName=="InternetUse" & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("Covid", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("SecondaryEducation2035", "SecondaryEducation35plus") & dataList$IndicatorType=="ResponseV", ]
-    
-    # responseList<-dataList[dataList$NickName %in% c("Covid"), ]
-    # responseList<-dataList[dataList$NickName %in% c("EarlyChildhoodEducation"), ]
-    # responseList<-dataList[dataList$NickName %in% c("CleanWater", "BasicWater") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("Covid", "LearningHL", "WaterOnstieHL", "HandwashHL", "SafeSanitationHL", "NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
-    # responseList<-dataList[dataList$NickName %in% c("NotCrowdedHL") & dataList$IndicatorType=="ResponseV", ]
-    
     if(use_version>1){
       responseList<-responseList[responseList$NickName %in% Rlist ,]
     }
     
-    print(responseList)
     if(!is.null(indicator_selection$IndList)){
       responseList<-responseList[responseList$NickName %in% indicator_selection$IndList ,]
     }
-    print(responseList)
+
     rn<-nrow(responseList)
     if(rn>0){
     for(i in c(1:rn)){
@@ -309,19 +279,16 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
       
       indvar<- indList(rv)
 
-      print(indvar)
+      # print(indvar)
       if(religion) {
         indvar<-c(indvar, regList)
         # Retrieve dataset for given Response/Independent variables. 
       }
-      pass_message <- "Successfuly retrieved dataset for given RV/IV [get_data]"
+
 
       datause <- catch_error(get_data(df, rv, dataList, indvar, svnm, educationList, religion_data))
       
-      # k<-match("Residence", colnames(datause), nomatch = 0)
-      # if(k>0) print((table(datause$Residence, datause$HH6)))
-      # else print("No residence var found")
-        info(logger, paste(pass_message))
+
         mr_ds<-unique(meta_data[!is.na(meta_data$VarName) & meta_data$NickName==rv & meta_data$IndicatorType=="MresponseV", c("DataSet")])
         
         # if mn exists and response variable name in it has been found

@@ -249,7 +249,7 @@ Covid2,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No 
 EducationHL,hl,highest,level,education,ED5A,no,or23,IndependentV,Factor,ED5A,"More than one columns, usual name chosen"
 Covid,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
 LearningHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
-WaterOnstieHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
+WaterOnsiteHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 HandwashHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 SafeSanitationHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 NotCrowdedHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually

@@ -45,11 +45,11 @@ HighestEducation,hh,no keywords,,,No keywords,No keywords,No keywords,Independen
 PoorerHousehold,hh,wealth,index,quintile,WINDEX5,yes,Only,IndependentV,Factor
 NumberMember,hh,number,member,,HH11,no,and,NotCrowded,numeric
 NumberRoom,hh,number,room,sleep,HC2,no,and,NotCrowded,numeric
-HouseholdBasic,hh,no keywords,,,WS1,No keywords,No keywords,ResponseV,Factor
-HouseholdTechNeed,hh,no keywords,,,HC9B,No keywords,No keywords,ResponseV,Factor
+HouseholdBasic,hh,no keywords,,,WS1,No keywords,No keywords,ResponseV0,Factor
+HouseholdTechNeed,hh,no keywords,,,HC9B,No keywords,No keywords,ResponseV0,Factor
 MultiDeprivation,hh,no keywords,,,HC15,No keywords,No keywords,ResponseV0,Factor
 NotCrowded,hh,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor
-CleanWater,hh,main,source,drinking water,WS1,no,and,ResponseV,Factor
+CleanWater,hh,main,source,drinking water,WS1,no,and,ResponseV0,Factor
 BasicWater,hh,main,source,drinking water,WS1,no,and,ResponseV,Factor
 WaterTime,hh,time,get,water,WS4,no,and,AuxResonpse,Factor
 WaterLocation,hh,location,water,source,WS3,no,and,AuxResonpse,Factor
@@ -57,7 +57,7 @@ HandWash,hh,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor
 CleanFuel,hh,cook,stove,type,EU1,no,and,ResponseV,Factor
 AccessElectricity,hh,electricity,,,HC8A,no,and,ResponseV,Factor
 BankCardHH,hh,bank,have,own,HC19,no,or23,ResponseV,Factor
-Land,hh,land,own,have,HC15,no,or23,ResponseV,Factor
+Land,hh,land,own,have,HC15,no,or23,ResponseV0,Factor
 MobilePhoneHH,hh,mobile,phone,,HC9B,no,and,ResponseV,Factor
 SmartPhoneHH,hh,smart,phone,,HC9K,no,and,MobilePhoneHH,Factor
 SafeSanitation,hh,toilet,kind,type,WS8,no,or23,ResponseV,Factor
@@ -88,8 +88,8 @@ Religion,hl,religion,,,RELIGION,no,and,IndependentV,Factor
 Language,hl,language,,,LANGUAGE,no,and,IndependentV,Factor
 Region,hl,region,,,HH7,yes,Only,Region,Factor
 Province,hl,province,,,HH7A,yes,Only,Province,Factor
-EarlyChildBearing,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor
-NoEarlyChildbearing,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor
+EarlyChildBearing,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor
+NoEarlyChildbearing,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor
 DateFB,wm,date,birth,first,WDOBFC,no,and,EarlyChildBearing,Date
 cluster_id,wm,cluster,number,,HH1,yes,and,ID,ID
 HouseholdNumber,wm,household,number,,HH2,yes,and,ID,ID
@@ -137,10 +137,10 @@ BeatingForCooking,wm,beating,burn,food,DV1E,no,and,ReasonBeating,Factor
 BeatingForOut,wm,beating,out,,DV1A,no,and,ReasonBeating,Factor
 BeatingForSex,wm,beating,refuse,sex,DV1D,no,and,ReasonBeating,Factor
 MobilePhone,wm,mobile phone,own,have,MT11,no,or23,ResponseV,Factor
-ChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor
-ChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor
-NoChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor
-NoChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor
+ChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV0,Factor
+ChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV0,Factor
+NoChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV0,Factor
+NoChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV0,Factor
 ContraceptiveMethod,wm,avoid,pregnancy,currently,CP2,no,and,ResponseV,Factor
 HealthInsurance,wm,health,insurance,,WB18,no,and,ResponseV0,Factor
 InternetUse,wm,internet,last,months,MT10,no,and,ResponseV,Factor
@@ -218,18 +218,19 @@ Province,mn,province,,,HH7A,yes,Only,Province,Factor
 BankFinance,mn,account,bank,financial,MWB21,no,and,FinancialInclusion,Factor
 MobileFinance,mn,mobile,phone,financial,MMT11A,no,and,FinancialInclusion,Factor
 FinancialInclusion,mn,no keywords,,,no keywords,no keywords,no keywords,MresponseV,Factor
-Dseeing,wm,difficulty,seeing,,AF6,no,and,ResponseV,Factor
-Dhearing,wm,difficulty,hearing,,AF8,no,and,ResponseV,Factor
-Dwalking,wm,difficulty,walking,,AF9,no,and,ResponseV,Factor
-Dremembering,wm,difficulty,remembering,,AF10,no,and,ResponseV,Factor
-Dselfcare,wm,difficulty,self-care,,AF11,no,and,ResponseV,Factor
-Dcommunicating,wm,difficulty,communicating,,AF12,no,and,ResponseV,Factor
+Dseeing,wm,difficulty,seeing,,AF6,no,and,ResponseV0,Factor
+Dhearing,wm,difficulty,hearing,,AF8,no,and,ResponseV0,Factor
+Dwalking,wm,difficulty,walking,,AF9,no,and,ResponseV0,Factor
+Dremembering,wm,difficulty,remembering,,AF10,no,and,ResponseV0,Factor
+Dselfcare,wm,difficulty,self-care,,AF11,no,and,ResponseV0,Factor
+Dcommunicating,wm,difficulty,communicating,,AF12,no,and,ResponseV0,Factor
 Dseeing,mn,difficulty,seeing,,MAF6,no,and,MresponseV,Factor
 Dhearing,mn,difficulty,hearing,,MAF8,no,and,MresponseV,Factor
 Dwalking,mn,difficulty,walking,,MAF9,no,and,MresponseV,Factor
 Dremembering,mn,difficulty,remembering,,MAF10,no,and,MresponseV,Factor
 Dselfcare,mn,difficulty,self-care,,MAF11,no,and,MresponseV,Factor
 Dcommunicating,mn,difficulty,communicating,,MAF12,no,and,MresponseV,Factor
+EarlyChildhoodEducation,ch,currently,attending,early childhood education,UB8,no,and,ResponseV,Factor
 Internet,hh,Internet,,,HC13,no,and,Learning,Factor
 Radio,hh,radio,,,HC7B,no,and,Learning,Factor
 Television,hh,television,,,HC9A,no,and,Learning,Factor
@@ -237,8 +238,14 @@ Telephone,hh,fixed,line,telephone,HC7A,no,and,Learning,Factor
 MobilePhonehh,hh,mobile,phone,,HC12,no,and,Learning,Factor
 Wall,hh,main material,exterior wall,,HC6,no,and,WallRoof,Factor
 Roof,hh,main material,roof,,HC5,no,and,WallRoof,Factor
-Covid1,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor
-Covid2,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor
+Covid1,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor
+Covid2,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor
 EducationHL,hl,highest,level,education,ED5A,no,or23,IndependentV,Factor
 aGroupHL,hl,age,,,HL6,no,Only,IndependentV,numeric
-EarlyChildhoodEducation,ch,currently,attending,early childhood education,UB8,no,and,ResponseV,Factor
+Covid,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor
+LearningHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+WaterOnsiteHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+HandwashHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+SafeSanitationHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+NotCrowdedHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+Dvweight,wm,women selected,dv,sample weight,DVHWEIGHT,no,and,DomesticViolence,Factor

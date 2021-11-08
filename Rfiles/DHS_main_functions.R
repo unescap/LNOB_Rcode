@@ -90,7 +90,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   # Type of Datasets: IR, HR, PR, MR.
   dataSet<-unique(meta_data$DataSet)
   dataSet<-dataSet[!dataSet=="MR"]
-  print(dataSet)
+
   # specify data set for debugginh
   # dataSet<-c("PR", "IR")
   # dataSet<-c("HR")
@@ -114,14 +114,11 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   ###### this file must contain the following columns
   ###### SurveyIndicator	IndicatorName	SurveyID	country_code	version_code	dataset	MeanY	SurveySource	IndicatorName
   ###### eg: Afghanistan2010+AccessElectricity	AccessElectricity	AFG2010	Afghanistan	2010	hh	0.432169681883751	MICS	AccessElectricity
-  print(!is.null(indicator_selection$dataSet))
-  print(dataSet)
+
   if(!is.null(indicator_selection$dataSet)){ 
-    print(dataSet)
         dataSet<-intersect(indicator_selection$dataSet, dataSet)
   }
 
-  print(dataSet)
   if(length(dataSet)==0) return(drupalIndex)
   
   for(ds in dataSet) {
@@ -145,7 +142,9 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     
     # File name: Example ~ MVIR71FL.
     ### here line 119 for TDB code for picking up data file names
+
     filename<-paste(country_code, ds, version_code, "FL", sep="")
+    print(filename)
     if(ds=="PR") {
       if(!is.null(prversion_code)) 
        filename<-paste(country_code, ds, prversion_code, "FL", sep="")

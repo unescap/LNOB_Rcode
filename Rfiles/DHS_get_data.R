@@ -1379,6 +1379,9 @@ Religion<-function(datause, dataList, k, eth){
 Under5<-function(datause, dataList, k){
   
   datause$Under5<-datause[, k]
+  print("######## number of children under 5 ##########")
+  print(table(datause$Under5))
+  print(sum(datause$SampleWeight[datause$Under5==0])/sum(datause$SampleWeight))
   return(datause) 
 }
 

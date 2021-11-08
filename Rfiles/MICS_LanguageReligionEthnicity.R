@@ -30,10 +30,13 @@ run_together_rel<-function(source_folder, data_folder, output_folder, country_co
          df<-importMICSdata(data_folder, country_code, version_code, ds, unique(dataList$VarName))
          if(!is.null(df)) {
            print("·································")
-           print(c(country_code, version_code, rv))
+           print(c(country_code, version_code, ds, rv))
+           df<-as.numeric(as.character(df))
+           df[is.na(df)]<-999
            print(table(df)/length(df)*100)
          }
          df<-importMICSdata(data_folder, country_code, version_code, ds, unique(dataList$VarName), la=TRUE)
+
          if(!is.null(df)) print(table(df)/length(df)*100)
       }
     }
@@ -42,15 +45,17 @@ run_together_rel<-function(source_folder, data_folder, output_folder, country_co
 
 data_folder<-mics_data_folder
 csvfile_name<-"MICS"
+run_together_rel(csv_folder, data_folder, output_folder,"Tuvalu",	"2019",  csvfile_name)
 
-run_together_rel(csv_folder, data_folder, output_folder,"Afghanistan",	"2010",  csvfile_name)
-run_together_rel(csv_folder, data_folder, output_folder, "Bhutan",	"2010",  csvfile_name)
-run_together_rel(csv_folder, data_folder, output_folder,"Kazakhstan",	"2010",  csvfile_name)
-run_together_rel(csv_folder, data_folder, output_folder,"Kyrgyzstan",	"2014",  csvfile_name)
-run_together_rel(csv_folder, data_folder, output_folder, "Lao",	"2011",  csvfile_name)
-run_together_rel(csv_folder, data_folder, output_folder,"Mongolia",	"2013",  csvfile_name)
-run_together_rel(csv_folder, data_folder, output_folder,"Thailand",	"2012",  csvfile_name)
-run_together_rel(csv_folder, data_folder, output_folder,"Vietnam",	"2010",  csvfile_name)
+
+# run_together_rel(csv_folder, data_folder, output_folder,"Afghanistan",	"2010",  csvfile_name)
+# run_together_rel(csv_folder, data_folder, output_folder, "Bhutan",	"2010",  csvfile_name)
+# run_together_rel(csv_folder, data_folder, output_folder,"Kazakhstan",	"2010",  csvfile_name)
+# run_together_rel(csv_folder, data_folder, output_folder,"Kyrgyzstan",	"2014",  csvfile_name)
+# run_together_rel(csv_folder, data_folder, output_folder, "Lao",	"2011",  csvfile_name)
+# run_together_rel(csv_folder, data_folder, output_folder,"Mongolia",	"2013",  csvfile_name)
+# run_together_rel(csv_folder, data_folder, output_folder,"Thailand",	"2012",  csvfile_name)
+# run_together_rel(csv_folder, data_folder, output_folder,"Vietnam",	"2010",  csvfile_name)
 
 
 # run_together_rel(source_folder, data_folder, output_folder, "Bhutan", "2010",  csvfile_name)
@@ -85,8 +90,4 @@ run_together_rel(csv_folder, data_folder, output_folder,"Vietnam",	"2010",  csvf
 # print(table(df))
 # df<-importMICSdata(data_folder,  "Kiribati", "2019", "hh", "WS4", la=FALSE)
 # print(table(df))
-
-
-
-
 

@@ -210,7 +210,7 @@ Dselfcare,wm,difficulty,self-care,,AF11,no,and,ResponseV,Factor,AF11,1 var names
 Dcommunicating,wm,difficulty,communicating,,AF12,no,and,ResponseV,Factor,AF12,1 var names found
 Covid,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
 LearningHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
-WaterOnstieHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
+WaterOnsiteHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 HandwashHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 SafeSanitationHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 NotCrowdedHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
