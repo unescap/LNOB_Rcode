@@ -1,8 +1,9 @@
 
 
 get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
-  
+  print(rv)
   VarName<- dataList$VarName[dataList$NickName==rv & dataList$IndicatorType %in% c("ResponseV", "MresponseV", "PresponseV")]
+  print(VarName)
   k<-match(VarName, colnames(df), nomatch = 0)
   # print(k)
   l<-length(k)
@@ -78,11 +79,11 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   else if (rv=="MobileFinance") datause<- MobileFinance(df, dataList, k)
   else if (rv=="BankAccount") datause<- BankAccount(df, dataList, k)
   else if (rv=="HandWash") datause<- HandWash(df, dataList, k)
-  else if (rv=="NotCrowded") datause<- NotCrowded(df, dataList, k)
+  # else if (rv=="NotCrowded") datause<- NotCrowded(df, dataList, k)
   else if (rv=="AdolescentBirthRate") datause<- AdolescentBirthRate(df, dataList, k)
   else if (rv=="FinancialInclusion") datause<- FinancialInclusion(df, dataList, k)
-  else if (rv=="Covid1") datause<- Covid1(df, dataList, k, svnm)  
-  else if (rv=="Covid2") datause<- Covid2(df, dataList, k, svnm)   
+  # else if (rv=="Covid1") datause<- Covid1(df, dataList, k, svnm)  
+  # else if (rv=="Covid2") datause<- Covid2(df, dataList, k, svnm)   
   else if (rv=="Covid") datause<- Covid(df, dataList, k, svnm)    # to be defined
   else if (rv=="HandWashPR") datause<- HandWash(df, dataList, k)
   else if (rv=="SafeSanitationPR") datause<- SafeSanitation(df, dataList, k, svnm)
@@ -144,6 +145,8 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
         colnames(datause)[k]<-iv      
       }
       
+      print(iv)
+      print(table(datause[, iv]))
     }
 
     return(datause)
@@ -1046,6 +1049,7 @@ HandWash<-function(datause, dataList, k){
 }
 
 NotCrowded<-function(datause, dataList, k){
+
   datause$var2tab<- 0
   datause[, k]<-as.numeric(as.character(datause[, k]))
   print("Summary of number of rooms")
@@ -1067,6 +1071,8 @@ NotCrowded<-function(datause, dataList, k){
   datause$var2tab[density<=2]<-1
   return(datause)
 }
+
+
 calculateHMexBabies<-function(datause, dataList){
   
   ageV<-dataList$VarName[dataList$NickName == "Age"]
@@ -1321,13 +1327,14 @@ PoorerHousehold<-function(datause, dataList, k){
 
 
 MotherEducation<-function(datause, dataList, k){
+  datause[,k]<-as.numeric(as.character(datause[,k]))
   datause$MotherEducation<-"Lower" 
   datause$MotherEducation[datause[,k] ==0]<-"Lower"
   datause$MotherEducation[datause[,k] ==1]<-"Lower"
   datause$MotherEducation[datause[,k] == 2]<-"Secondary"
-  datause$MotherEducation[is.na(datause[,k]==3)]<-"Higher"
+  datause$MotherEducation[datause[,k] ==3]<-"Higher"
   datause$MotherEducation<-factor(datause$MotherEducation, levels = c("Lower", "Secondary", "Higher"), ordered = TRUE)
-  #}
+  print(table(datause[, k], datause$MotherEducation))
   return(datause)
 }
 

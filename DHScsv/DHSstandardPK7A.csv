@@ -34,7 +34,7 @@ HV243A,MobilePhoneHH,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", 
 HV247,MultiDeprivation,HR,Factor,ResponseV,# no definition
 HV205,SafeSanitation,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""HighestEducation"""
 HV230A,HandWash,HR,Factor,ResponseV,# place observed
-HV216,NotCrowded,HR,Factor,ResponseV,#Number of HH members
+HV216,NotCrowded,HR,Factor,ResponseV0,#Number of HH members
 HV225,SharedToilet,HR,Factor,SafeSanitation,
 HV005,SampleWeight,HR,INT,Weight,
 HV204,WaterTime,HR,INT,AuxResonpse,

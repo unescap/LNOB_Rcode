@@ -215,6 +215,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
       unique_responseList<-unique_responseList[unique_responseList %in% Rlist]
 
     }
+    else unique_responseList<-unique_responseList[!(unique_responseList %in% c("Covid1", "Covid2"))]
     
     if(!is.null(indicator_selection$IndList)){
       unique_responseList<-intersect(unique_responseList, indicator_selection$IndList)

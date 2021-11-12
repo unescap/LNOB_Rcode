@@ -595,6 +595,7 @@ newLNOBList<-function(Data_source, Data_set, Country_code, Country_ISO, Region,
                       MIV_6=" ",
                       MIV_7=" ",
                       MIV_8=" ",
+                      MIV_9=" ",
                       MIV_1_Value=" ",
                       MIV_2_Value=" ",
                       MIV_3_Value=" ",
@@ -602,7 +603,8 @@ newLNOBList<-function(Data_source, Data_set, Country_code, Country_ISO, Region,
                       MIV_5_Value=" ",
                       MIV_6_Value=" ",
                       MIV_7_Value=" ",
-                      MIV_8_Value=" ")
+                      MIV_8_Value=" ",
+                      MIV_9_Value=" ")
   return(Result)
 }
 

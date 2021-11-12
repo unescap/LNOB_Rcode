@@ -91,9 +91,9 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
              else if(rv== "EarlyChildBearing" ) datause<-  EarlyChildBearing(df, dataList, k)
              else if(rv== "NoEarlyChildbearing" ) datause<-  NoEarlyChildbearing(df, dataList, k)
              else if(rv== "HandWash" ) datause<-HandWash(df, dataList)
-             else if(rv== "NotCrowded" ) datause<-  NotCrowded(df, dataList)
-             else if(rv== "Covid1" ) datause<-  Covid1(df, dataList, svnm)
-             else if(rv== "Covid2" ) datause<-  Covid2(df, dataList, svnm)
+             # else if(rv== "NotCrowded" ) datause<-  NotCrowded(df, dataList)
+             # else if(rv== "Covid1" ) datause<-  Covid1(df, dataList, svnm)
+             # else if(rv== "Covid2" ) datause<-  Covid2(df, dataList, svnm)
              else if(rv== "Covid" ) datause<-  Covid(df, dataList, svnm)
              else if(rv== "LearningHL" ) datause<-  Learning(df, dataList)
              else if(rv== "WaterOnsiteHL" ) datause<-  WaterOnsite(df, dataList, svnm)
@@ -149,6 +149,8 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
        #### if no need for recoding
        colnames(datause)[k]<-iv      
      }
+       
+       print(table(datause[, iv]))
    }
   
   ### analyzing subset of the data
@@ -1109,6 +1111,7 @@ ReasonBeating<-function(datause, dataList, k){
   return(datause)
   
 }
+
 NoViolenceJustifiedAgainstWomen<-function(datause, dataList, k){
   datause<-ReasonBeating(datause, dataList, k)
   datause$var2tab<- 1- datause$var2tab

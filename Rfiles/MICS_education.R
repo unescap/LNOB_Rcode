@@ -1,7 +1,7 @@
 library(data.table)
 library(foreign)
 
-
+source_folder <- "/home/yw/Workspace/rstudio/LNOB_Rcode/"
 csv_folder<-paste(source_folder, "MICScsv/", sep="")
 r_folder<-paste(source_folder, "Rfiles/", sep="")
 
@@ -62,8 +62,8 @@ csvfile_name<-"MICS"
 
 data_folder<-mics_data_folder
 
-sink(paste(output_folder, "Education_print_hl.txt", sep=""))
-run_together_edu(source_folder, data_folder, output_folder, "Tuvalu", "2019", csvfile_name)
+
+# run_together_edu(source_folder, data_folder, output_folder, "Tuvalu", "2019", csvfile_name)
 
 
 # run_together_edu(source_folder, data_folder, output_folder, "Afghanistan", "2010", csvfile_name)
@@ -88,7 +88,7 @@ run_together_edu(source_folder, data_folder, output_folder, "Tuvalu", "2019", cs
 # run_together_edu(source_folder, data_folder, output_folder, "Turkmenistan", "2019",  csvfile_name)
 # run_together_edu(source_folder, data_folder, output_folder, "Vietnam", "2010",  csvfile_name)
 # run_together_edu(source_folder, data_folder, output_folder, "VietNam", "2013",  csvfile_name)
-sink()
+
 
 # checking water code
 # df<-importMICSdata(data_folder,  "Turkmenistan", "2019", "hh", "WS1", la=TRUE)

@@ -55,7 +55,7 @@ Levels,DataSet,SurveyName,Education,Grade
 2,hl,Mongolia2013,SecondaryEducation,12
 3,hl,Mongolia2013,SecondaryEducation,2
 2,hl,Mongolia2013,Primary,5
-3,wm,Mongolia2013,EducationLevels,0
+5,wm,Mongolia2013,EducationLevels,2
 5,ch,Mongolia2018,MotherEducationLevels,2
 1,hl,Mongolia2018,SecondaryEducation,12
 3,hl,Mongolia2018,SecondaryEducation,2

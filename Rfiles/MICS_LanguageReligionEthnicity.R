@@ -1,6 +1,6 @@
 library(data.table)
 library(foreign)
-
+source_folder <- "/home/yw/Workspace/rstudio/LNOB_Rcode/"
 csv_folder<-paste(source_folder, "MICScsv/", sep="")
 r_folder<-paste(source_folder, "Rfiles/", sep="")
 
@@ -10,7 +10,7 @@ source(paste(r_folder,"MICS_get_data.R",sep=""))
 run_together_rel<-function(source_folder, data_folder, output_folder, country_code, version_code,  csvfile_name, Flag_New=TRUE, religion=FALSE)
 {
   csvfile_name<-paste(country_code, version_code, csvfile_name, sep="")
-  
+  print(paste(source_folder, csvfile_name, ".csv", sep=""))
   meta_data<-read.table(paste(source_folder, csvfile_name, ".csv", sep=""), sep=",", header=T, colClasses="character")
   rvList<-c("Religion", "Ethnicity", "Language")
   dataSet<-unique(meta_data$DataSet)
@@ -45,7 +45,7 @@ run_together_rel<-function(source_folder, data_folder, output_folder, country_co
 
 data_folder<-mics_data_folder
 csvfile_name<-"MICS"
-run_together_rel(csv_folder, data_folder, output_folder,"Tuvalu",	"2019",  csvfile_name)
+# run_together_rel(csv_folder, data_folder, output_folder,"Tuvalu",	"2019",  csvfile_name)
 
 
 # run_together_rel(csv_folder, data_folder, output_folder,"Afghanistan",	"2010",  csvfile_name)
@@ -66,7 +66,7 @@ run_together_rel(csv_folder, data_folder, output_folder,"Tuvalu",	"2019",  csvfi
 # run_together_rel(source_folder, data_folder, output_folder, "Georgia", "2018",  csvfile_name)
 # run_together_rel(source_folder, data_folder, output_folder, "Kazakhstan", "2015",  csvfile_name)
 # run_together_rel(source_folder, data_folder, output_folder, "Kyrgyzstan", "2018",  csvfile_name)
-# run_together_rel(source_folder, data_folder, output_folder, "Lao", "2017",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Lao", "2017",  csvfile_name)
 # run_together_rel(source_folder, data_folder, output_folder, "Mongolia", "2018",  csvfile_name)
 # run_together_rel(source_folder, data_folder, output_folder, "Turkmenistan", "2019",  csvfile_name)
 # run_together_rel(source_folder, data_folder, output_folder, "Tonga", "2019",  csvfile_name)

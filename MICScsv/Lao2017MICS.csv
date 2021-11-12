@@ -36,9 +36,9 @@ Soap3,hh,ash,mud,,HW7C,no,and,Handwash,Factor,NA,0 var names found
 SoapB2,hh,detergent,,,HW3BB,no,and,Handwash,Factor,,2 var names found
 cluster_id,hh,cluster number,,,HH1,yes,and,ID,ID,HH1,Default
 HouseholdNumber,hh,household number,,,HH2,yes,Only,ID,ID,HH2,Default
-Ethnicity,hh,ethnicity,household,head,ETHNICITY,no,and,IndependentV,Factor,NA,0 var names found
+Ethnicity,hh,ethnicity,household,head,ETHNICITY,no,and,IndependentV,Factor,ETHNICITY,0 var names found
 HHSex,hh,sex,household,head,HHSEX,no,and,IndependentV,Factor,HHSEX,1 var names found
-Language,hh,language,household,head,LANGUAGE,no,and,IndependentV,Factor,NA,0 var names found
+Language,hh,language,household,head,LANGUAGE,no,and,IndependentV,Factor,HH16,0 var names found
 Religion,hh,religion,household,head,RELIGION,no,and,IndependentV,Factor,HC1A,1 var names found
 NUnder5,hh,children,under,5,HH14,no,and,IndependentV,numeric,HH51,1 var names found
 Residence,hh,area,,,HH6,no,Only,IndependentV,Factor,HH6,"More than one columns, usual name chosen"

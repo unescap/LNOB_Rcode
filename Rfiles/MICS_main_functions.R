@@ -253,7 +253,10 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
     if(use_version>1){
       responseList<-responseList[responseList$NickName %in% Rlist ,]
     }
-    
+    else responseList<-responseList[!(responseList$NickName %in% c("Covid1", "Covid2")),]
+      
+      
+      
     if(!is.null(indicator_selection$IndList)){
       responseList<-responseList[responseList$NickName %in% indicator_selection$IndList ,]
     }

@@ -140,7 +140,7 @@ HV232,HandWashSoap,HR,Factor,AuxResonpse,
 HV232C,HandWashSoap2,HR,Factor,AuxResonpse,
 HV232D,HandWashSoap3,HR,Factor,AuxResonpse,
 HV232E,HandWashSoap4,HR,Factor,AuxResonpse,
-HV216,NotCrowded,HR,Factor,ResponseV,#Number of HH members
+HV216,NotCrowded,HR,Factor,ResponseV0,#Number of HH members
 HV009,NumberMember,HR,Factor,AuxResonpse,
 HV112,MotherLineNumber,PR,ID,ID,
 B8,AdolescentBirthRate,IR,numeric,ResponseV0,age of children
