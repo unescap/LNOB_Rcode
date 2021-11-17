@@ -88,7 +88,7 @@ logger <- create.logger(logfile = logger_location, level = 'DEBUG')
 #######################################
 
 run_together<-function(csv_folder, data_folder, output_folder, country_code, version_code,  csvfile_name, education_name, 
-                       religion_name=NULL,  religion=FALSE, region_flag=FALSE, use_version=1, validationfile=NULL,
+                       religion_name=NULL,  religion=FALSE, region_flag=FALSE, use_version=1, validationfile=NULL, survey_vesion,
                        initialIndex=0, indicator_selection=list(dataSet=NULL, IndList=NULL))
 {
 
@@ -140,6 +140,7 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
                                            & validationdata$version_code==version_code])
     Rlist<-unique(validationdata$IndicatorName[validationdata$country_code==country_code 
                                                & validationdata$version_code==version_code])
+    print(Rlist)
   }
   
   info(logger, "Run_together function called.")
@@ -322,10 +323,10 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
         } 
         else {
           drupalIndex<-output_data(datause, "MICS", country_code, version_code, country_ISO, version_code,  rv, rtp, indvar, ds, ds_output_folder, validationdata, 
-                                   religion, region_flag=FALSE, use_version, drupalIndex)
+                                   religion, region_flag=FALSE, use_version, survey_vesion, drupalIndex)
           if(region_flag){
             drupalIndex<-output_data(datause, "MICS", country_code, version_code, country_ISO, version_code, rv, rtp, indvar, ds, ds_output_folder, validationdata, 
-                                     religion, region_flag=TRUE, use_version, drupalIndex)
+                                     religion, region_flag=TRUE, use_version, survey_vesion, drupalIndex)
             
           }
         }

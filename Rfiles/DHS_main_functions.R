@@ -62,7 +62,7 @@ source(paste(r_folder,"TreeAndLogistic.R",sep=""))
 # a validation file must be provided
 
 run_together<-function(csv_folder, original_data_folder, output_folder, country_code, version_code, year_code, mrversion_code=NULL,
-                       prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE, region_flag=FALSE, use_version=1, validationfile=NULL,
+                       prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE, region_flag=FALSE, use_version=1,  validationfile=NULL, survey_vesion,
                        initialIndex=0, indicator_selection=list(dataSet=NULL, IndList=NULL))
   
   #### use_version 1 is the research mode, the default
@@ -286,10 +286,10 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
         print(caste)
         drupalIndex<-output_data(datause, "DHS", country_code, version_code, country_ISO, year_code, rv, rtp, indvar, ds, 
                                  ds_output_folder, validationdata, 
-                                 religion=caste, region_flag=FALSE, use_version, drupalIndex)
+                                 religion=caste, region_flag=FALSE, use_version, survey_vesion, drupalIndex)
         if(region_flag){
           drupalIndex<-output_data(datause, "DHS", country_code, version_code, country_ISO, year_code, rv, rtp, indvar, ds, ds_output_folder, validationdata, 
-                                   religion=caste, region_flag=TRUE, use_version, drupalIndex)
+                                   religion=caste, region_flag=TRUE, use_version, survey_vesion, drupalIndex)
           
         }
       }

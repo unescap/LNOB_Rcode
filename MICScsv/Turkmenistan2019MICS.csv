@@ -38,7 +38,7 @@ cluster_id,hh,cluster number,,,HH1,yes,and,ID,ID,HH1,Default
 HouseholdNumber,hh,household number,,,HH2,yes,Only,ID,ID,HH2,Default
 Ethnicity,hh,ethnicity,household,head,ETHNICITY,no,and,IndependentV,Factor,NA,0 var names found
 HHSex,hh,sex,household,head,HHSEX,no,and,IndependentV,Factor,HHSEX,1 var names found
-Language,hh,language,household,head,LANGUAGE,no,and,IndependentV,Factor,LANGUAGE,"More than one columns, usual name chosen"
+Language,hh,language,household,head,LANGUAGE,no,and,IndependentV,Factor,HELANGUAGE,"More than one columns, usual name chosen"
 Religion,hh,religion,household,head,RELIGION,no,and,IndependentV,Factor,NA,0 var names found
 NUnder5,hh,children,under,5,HH14,no,and,IndependentV,numeric,HH51,1 var names found
 Residence,hh,area,,,HH6,no,Only,IndependentV,Factor,HH6,1 var names found

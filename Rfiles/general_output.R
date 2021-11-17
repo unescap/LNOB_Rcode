@@ -7,7 +7,7 @@
 #### in use_version 3, checking if the overall level is within 1% of the validated results
 output_data<-function(datause, survey_source, country_code, version_code, country_ISO, year_code, rv, 
                       rtp, indvar, ds, ds_output_folder, validationdata, 
-                      religion, region_flag, use_version, drupalIndex)
+                      religion, region_flag, use_version, survey_version, drupalIndex)
   {
 
 
@@ -120,7 +120,7 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
         }
       
         result_log<-t(unlist(result_log)) 
-        newLNOBdata<-newLNOBList(survey_source, ds, country_code, country_ISO, rg, version_code, year_code, religion)
+        newLNOBdata<-newLNOBList(survey_source, ds, country_code, country_ISO, rg, version_code, year_code, survey_version, rv, religion)
         newLNOBdata<-t(unlist(updateLNOBdata(newLNOBdata, rg, validation, title_string, 
                                            SampleMean, SampleSize, d_result$Overall_D, tree_result$tree_stat)))
       # }
@@ -143,9 +143,9 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
     }
     return(drupalIndex)
   }
-  else if(use_version==4 & validation){
-    # LCA analysis
-  }
+  # else if(use_version==4 & validation){
+  #   # LCA analysis
+  # }
   else {
     result_log_National<-t(result_log_National)
     logcsv<-paste(ds_output_folder, "noAnalysislogfile.csv", sep="")
@@ -563,7 +563,7 @@ isoToCountry<-function(iso)
 }
 
 newLNOBList<-function(Data_source, Data_set, Country_code, Country_ISO, Region,
-                      Version, Year, Additional_variable){
+                      Version, Year, survey_version, rv, Additional_variable){
   
         Result<-list(DataSource=Data_source,
                      DataSet=Data_set,
@@ -572,7 +572,8 @@ newLNOBList<-function(Data_source, Data_set, Country_code, Country_ISO, Region,
                      Province=NA,
                      VersionCode=Version, 
                      Year=Year, 
-                     Latest=1, 
+                     Latest=survey_version,
+                     IndicatorName=rv,
                      Additional_variable=ifelse(Additional_variable, 1, 0),
                       Validation_results=" ", 
                       Region=Region, 

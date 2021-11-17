@@ -116,11 +116,14 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
  
 # if(length(datause$var2tab[datause$var2tab>=1])>0 & length(datause$var2tab[datause$var2tab==0])>0) {
 
+  print(indvar)
    for(iv in indvar){
        
        VarName<- toupper(dataList$VarName[dataList$NickName==iv & dataList$IndicatorType=="IndependentV"])
-       
+
        k<-match(VarName, toupper(colnames(datause)), nomatch = 0)
+       print(c(k, iv, VarName))
+       
       if(k == 0 & (iv %in% c("Religion", "Ethnicity", "Language")))
         k<-match(iv, colnames(datause), nomatch = 0)
 
@@ -1171,7 +1174,7 @@ PhysicalViolence<-function(df, dataList){
    for(rbvi in rbV){
      rbki<-match(rbvi, colnames(datause))
      if(length(rbki)>0) {
-       
+       print(table(datause[ ,rbki])/nrow(datause))
        if(!is.na(rbki)) datause$var2tab[datause[ ,rbki] %in% c(1, 2)]<- 1 
      }
    }
@@ -1195,6 +1198,7 @@ SexualViolence<-function(df, dataList){
     for(rbvi in rbV){
       rbki<-match(rbvi, colnames(datause))
       if(length(rbki)>0) {
+        print(table(datause[ ,rbki])/nrow(datause))
         if(!is.na(rbki)) datause$var2tab[datause[ ,rbki] %in% c(1, 2)]<- 1 
       }
     }
@@ -1217,6 +1221,7 @@ EmotionalViolence<-function(df, dataList){
     for(rbvi in rbV){
       rbki<-match(rbvi, colnames(datause))
       if(length(rbki)>0) {
+        print(table(datause[ ,rbki])/nrow(datause))
         if(!is.na(rbki)) datause$var2tab[datause[ ,rbki] %in% c(1, 2)]<- 1 
       }
     }

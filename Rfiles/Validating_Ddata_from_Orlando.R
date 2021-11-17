@@ -1,5 +1,5 @@
 Orlando_data <- "/home/yw/Workspace/rstudio/SDD2021/from Orlando/"
-Oct22_version_data<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/NewLNOBdata20211111_Dindex/validation/"
+Oct22_version_data<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20211117115236/validation/"
 
 
 
@@ -39,7 +39,9 @@ Oct22_version_data<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/NewLNOBdata202
                                          "MobilePhone", "ChildHealth", "CleanWater", "HealthcareNotUsed", 
                                          "HealthcareNotAffordable", "HealthcareNotAccessible", "HealthcareFar", 
                                          "HealthcareDiscouraged", "BankCardPR", "ChildMarriage15", 
-                                         "ChildMarriage18", "HandWash", "Land")), ]
+                                         "ChildMarriage18", "HandWash", "Land", "EarlyChildBearing", 
+                                         "EarlyEducation24", "EarlyEducation36", "HouseholdBasic", "HouseholdTechNeed",
+                                         "MobilePhonePR", "NoChildMarriage15", "NoChildMarriage18", "NoEarlyChildbearing")), ]
   newData$Country<-trimws(newData$Country)
   newData$Year<-as.numeric(as.character(newData$Year))
   newData$Overall_Mean<-as.numeric(as.character(newData$Overall_Mean))
@@ -110,7 +112,7 @@ Oct22_version_data<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/NewLNOBdata202
   datause<-datause[!is.na(datause$D) & !is.na(datause$mean), ]
   
   datause<-datause[!(datause$ResV %in% c("ChildHealth", "CleanWater", "HealthcareNotUsed", "HealthcareNotAffordable",
-                                         "HealthcareNotAccessible", "HealthcareFar", "HealthcareDiscouraged")), ]
+                                         "HealthcareNotAccessible", "HealthcareFar", "HealthcareDiscouraged", "BankAccountPR")), ]
   datause<-datause[!(datause$Year %in% c(2006, 2007)), ]
   datause<-datause[!(datause$Country %in% c("Tonga (5 pc_", "Tonga (5 pc)", "Tonga (5 pc) ")), ]
   datause$Country[datause$Country=="Lao PDR"]<-"Lao"

@@ -212,19 +212,19 @@ Dcommunicating,wm,difficulty,communicating,,AF12,no,and,ResponseV,Factor,AF12,1 
 Privacy,wm,privacy,ensured,,DVD1,no,and,DomesticViolence,Factor,DVD1,1 var names found
 CurrentlyMarried,wm,currently married,living with a man,,MA1,no,and,DomesticViolence,Factor,MA1,1 var names found
 EverMarried,wm,ever married,lived with a man,,MA5,no,and,DomesticViolence,Factor,MA5,1 var names found
-Push,wm,push,shake,throw,DVD5A,no,and,PhysicalViolence,Factor,DVD5A,1 var names found
-Slap,wm,slap you,,,DVD5B,no,and,PhysicalViolence,Factor,DVD5B,1 var names found
-Twist,wm,twist,pull,,DVD5C,no,and,PhysicalViolence,Factor,DVD5C,1 var names found
-Punch,wm,punch,hurt,,DVD5D,no,and,PhysicalViolence,Factor,DVD5D,1 var names found
-Kick,wm,kick,drag,beat,DVD5E,no,and,PhysicalViolence,Factor,DVD5E,1 var names found
-Choke,wm,choke,burn,,DVD5F,no,and,PhysicalViolence,Factor,DVD5F,1 var names found
-Attack,wm,knife,sharp,weapon,DVD5G,no,and,PhysicalViolence,Factor,DVD5G,1 var names found
-ForcedSexualActs,wm,physically force,any sexual acts,did not want to,DVD5H,no,and,SexualViolence,Factor,DVD5H,1 var names found
-OtherSexualActs,wm,physically force,any other sexual acts,did not want to,DVD5I,no,and,SexualViolence,Factor,DVD5I,1 var names found
-ThreatSexualActs,wm,with threats,sexual acts,did not want to,DVD5J,no,and,SexualViolence,Factor,DVD5J,1 var names found
-Humiliate,wm,say or do,humiliate,infront of others,DVD4A,no,and,EmotionalViolence,Factor,DVD4A,1 var names found
-Threaten,wm,threaten,hurt or harm,someone,DVD4B,no,and,EmotionalViolence,Factor,DVD4B,1 var names found
-Insult,wm,insult,feel bad,yourself,DVD4C,no,and,EmotionalViolence,Factor,DVD4C,1 var names found
+Push,wm,push,shake,throw,DVD5A,no,and,PhysicalViolence,Factor,DVD5A1,1 var names found
+Slap,wm,slap you,,,DVD5B,no,and,PhysicalViolence,Factor,DVD5B1,1 var names found
+Twist,wm,twist,pull,,DVD5C,no,and,PhysicalViolence,Factor,DVD5C1,1 var names found
+Punch,wm,punch,hurt,,DVD5D,no,and,PhysicalViolence,Factor,DVD5D1,1 var names found
+Kick,wm,kick,drag,beat,DVD5E,no,and,PhysicalViolence,Factor,DVD5E1,1 var names found
+Choke,wm,choke,burn,,DVD5F,no,and,PhysicalViolence,Factor,DVD5F1,1 var names found
+Attack,wm,knife,sharp,weapon,DVD5G,no,and,PhysicalViolence,Factor,DVD5G1,1 var names found
+ForcedSexualActs,wm,physically force,any sexual acts,did not want to,DVD5H,no,and,SexualViolence,Factor,DVD5H1,1 var names found
+OtherSexualActs,wm,physically force,any other sexual acts,did not want to,DVD5I,no,and,SexualViolence,Factor,DVD5I1,1 var names found
+ThreatSexualActs,wm,with threats,sexual acts,did not want to,DVD5J,no,and,SexualViolence,Factor,DVD5J1,1 var names found
+Humiliate,wm,say or do,humiliate,infront of others,DVD4A,no,and,EmotionalViolence,Factor,DVD4A1,1 var names found
+Threaten,wm,threaten,hurt or harm,someone,DVD4B,no,and,EmotionalViolence,Factor,DVD4B1,1 var names found
+Insult,wm,insult,feel bad,yourself,DVD4C,no,and,EmotionalViolence,Factor,DVD4C1,1 var names found
 PhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
 NoPhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
 SexualViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,
