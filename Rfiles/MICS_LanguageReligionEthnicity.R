@@ -90,14 +90,14 @@ run_together_rel(csv_folder, data_folder, output_folder, "Lao", "2017",  csvfile
 run_together_rel(csv_folder, data_folder, output_folder,"Mongolia",	"2013",  csvfile_name)
 run_together_rel(csv_folder, data_folder, output_folder, "Mongolia", "2018",  csvfile_name)
 run_together_rel(csv_folder, data_folder, output_folder, "Nepal", "2019",  csvfile_name)
-run_together_rel(csv_folder, data_folder, output_folder,"Thailand",	"2012",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Thailand",	"2012",  csvfile_name)
 run_together_rel(csv_folder, data_folder, output_folder, "Thailand", "2015",  csvfile_name)
 run_together_rel(csv_folder, data_folder, output_folder, "Thailand", "2019",  csvfile_name)
 run_together_rel(csv_folder, data_folder, output_folder, "Tonga", "2019",  csvfile_name)
 run_together_rel(csv_folder, data_folder, output_folder, "Turkmenistan", "2015",  csvfile_name)
 run_together_rel(csv_folder, data_folder, output_folder, "Turkmenistan", "2019",  csvfile_name)
-run_together_rel(csv_folder, data_folder, output_folder,"Tuvalu",	"2019",  csvfile_name)
-run_together_rel(csv_folder, data_folder, output_folder,"Vietnam",	"2010",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Tuvalu",	"2019",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Vietnam",	"2010",  csvfile_name)
 run_together_rel(csv_folder, data_folder, output_folder, "VietNam", "2013",  csvfile_name)
 
 
@@ -119,3 +119,5 @@ run_together_rel(csv_folder, data_folder, output_folder, "VietNam", "2013",  csv
 # print(table(df))
 # df<-importMICSdata(data_folder,  "Tonga", "2019", "wm", "DVD5C", la=FALSE)
 # print(table(df))
+
+df<-importMICSdata(data_folder,  "Tonga", "2019", "wm", c("HH1", "CM10", "CEB"), la=FALSE)

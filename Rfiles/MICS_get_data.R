@@ -148,6 +148,8 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
      else if(iv=="Religion") datause<-Religion(datause, dataList, k, religion_data)
      else if(iv=="Language") datause<-Language(datause, dataList, k, religion_data)
      else if(iv=="Ethnicity") datause<-Ethnicity(datause, dataList, k, religion_data)
+     else if(iv=="HaveChildren") datause<-HaveChildren(datause, k)
+       
      else {
        #### if no need for recoding
        colnames(datause)[k]<-iv      
@@ -178,8 +180,10 @@ indList<-function(rv){
   else if(rv=="Land") 
     return(c("PoorerHousehold", "HHSex", "HighestEducation"))
   else if(rv=="ProfessionalHelp") 
-    return(c("PoorerHousehold", "Residence", "aGroup", "MarriageStatus", "NUnder5", "Education"))
-  else if (rv %in% c("ContraceptiveMethod", "ReasonBeating", "NoViolenceJustifiedAgainstWomen", 
+    return(c("PoorerHousehold", "Residence", "aGroup", "MarriageStatus", "HaveChildren", "Education"))
+  else if (rv %in% c("ContraceptiveMethod"))
+    return(c("PoorerHousehold", "Residence", "aGroup", "HaveChildren", "Education"))
+  else if (rv %in% c("ReasonBeating", "NoViolenceJustifiedAgainstWomen", 
                      "PhysicalViolence", "NoPhysicalViolence", "SexualViolence", "NoSexualViolence",
                      "EmotionalViolence", "NoEmotionalViolence", "SexualPhysicalViolence", "NoSexualPhysicalViolence", 
                      "AllViolence",  "NoAllViolence"))
@@ -1492,7 +1496,11 @@ NUnder5<-function(datause){
   return(datause) 
 }
   
-
+HaveChildren<-function(datause, k){
+  datause$HaveChildren<-as.numeric(as.character(datause[, k]))
+  datause$HaveChildren[is.na(datause$HaveChildren)]<-0
+  return(datause) 
+}
 
  Sex<-function(datause, dataList, k){
 
@@ -1984,8 +1992,6 @@ merge_mr <- function(mr_ds, meta_data, datause, dataList, country_code, version_
       
       mrdatause<-get_data(mrdf, rv, mrdataList, indvar, svnm, educationList,religion_data)
     }
-    print(colnames(mrdf))
-    print("mr data size:")
 
     
     if(!is.null(mrdatause)) {

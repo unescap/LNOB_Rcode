@@ -1,5 +1,5 @@
 
-build_tree<-function(source_folder, country_code, version_code, datause, Response_var,
+build_tree<-function(source_folder, source1, country_code, version_code, datause, Response_var,
                      datatype, formula_string, title_string, sub_string=NULL, filename, e=FALSE, region){  
 
   
@@ -41,10 +41,10 @@ build_tree<-function(source_folder, country_code, version_code, datause, Respons
   data2$EC<-e
   
   
-  # data2$Datasource<-source1
-  # print(paste(source_folder, "ALLTrees.csv", sep="/"))
-  # write.table(data2, paste(source_folder, "ALLTrees.csv", sep=""), sep=",",
-  #             col.names = FALSE  , row.names = FALSE, append = TRUE)
+  data2$Datasource<-source1
+  print(paste(source_folder, "ALLTrees.csv", sep="/"))
+  write.table(data2, paste(source_folder, "ALLTrees.csv", sep=""), sep=",",
+              col.names = FALSE  , row.names = FALSE, append = TRUE)
 
   # print(treefit$frame)
   if(!is.null(treefit$splits)) {  

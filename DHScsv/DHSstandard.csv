@@ -55,7 +55,8 @@ V025,Residence,IR,Factor,IndependentV,
 V190,PoorerHousehold,IR,Factor,IndependentV,# wealth Quintiles
 V012,aGroup,IR,INT,IndependentV,# Age
 V012,Age,IR,INT,IndependentV,# Age
-HIDX,NUnder5,IR,String,IndependentV,# BirthHistory
+HIDX,Nunder5,IR,String,BirthHistory,# BirthHistory
+V201,HaveChildren,IR,String,IndependentV,
 MIDX,BirthHistory,IR,String,ProfessionalHelp,
 V131,Ethnicity,IR,INT,IndependentV,
 RegionName,RegionName,IR,ID,IndependentV,

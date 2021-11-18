@@ -337,14 +337,3 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
 }
 
 ######################################
-# (csv_folder, data_folder, output_folder, country_code, version_code,  csvfile_name, education_name, 
-#  religion_name=NULL,  religion=FALSE, region_flag=FALSE, use_version=1, validationfile=NULL, initialIndex=0)
-
-# run_together(csv_folder, mics_data_folder, output_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv)
-# run_together(csv_folder, data_folder, output_folder, "Kazakhstan", "2015",  csvfile_name, edcationcsv)
-# run_together(csv_folder, data_folder, output_folder, "Tonga", "2019",  csvfile_name, edcationcsv)
-# run_together(csv_folder, data_folder, output_folder, "Kyrgyzstan", "2014",  csvfile_name, edcationcsv)
-# run_together(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv)
-# run_together(csv_folder, data_folder, output_folder, "Mongolia", "2013",  csvfile_name, edcationcsv)
-
-# run_together(csv_folder, data_folder, output_folder, "Mongolia", "2018",  csvfile_name, edcationcsv)

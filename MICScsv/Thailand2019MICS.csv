@@ -159,7 +159,7 @@ ContraceptiveMethod,wm,avoid,pregnancy,currently,CP2,no,and,ResponseV,Factor,CP2
 HealthInsurance,wm,health,insurance,,WB18,no,and,ResponseV,Factor,WB18,"More than one columns, usual name chosen"
 InternetUse,wm,internet,last,months,MT10,no,and,ResponseV,Factor,NA,0 var names found
 TeenPregnancy,wm,children,ever,born,CEB,no,and,ResponseV0,Factor,CEB,"More than one columns, usual name chosen"
-HaveChildren,wm,children,ever,born,CEB,no,and,TeenPregnancy,Factor,CEB,"More than one columns, usual name chosen"
+HaveChildren,wm,children,ever,born,CEB,no,and,IndependentV,Factor,CEB,"More than one columns, usual name chosen"
 PregnantNow,wm,currently,pregnant,,CP1,no,and,UnmetNeed,Factor,CP1,"More than one columns, usual name chosen"
 R1NoSex,wm,reason,no,sex,UN11A,no,and,UnmetNeed,Factor,UN12A,1 var names found
 AblePregnant,wm,able,pregnant,,UN10,no,and,UnmetNeed,Factor,UN11,1 var names found

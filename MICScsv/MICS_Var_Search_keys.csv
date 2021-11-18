@@ -145,7 +145,7 @@ ContraceptiveMethod,wm,avoid,pregnancy,currently,CP2,no,and,ResponseV,Factor
 HealthInsurance,wm,health,insurance,,WB18,no,and,ResponseV0,Factor
 InternetUse,wm,internet,last,months,MT10,no,and,ResponseV,Factor
 TeenPregnancy,wm,children,ever,born,CEB,no,and,ResponseV0,Factor
-HaveChildren,wm,children,ever,born,CEB,no,and,TeenPregnancy,Factor
+HaveChildren,wm,children,ever,born,CEB,no,and,IndependentV,Factor
 PregnantNow,wm,currently,pregnant,,CP1,no,and,UnmetNeed,Factor
 R1NoSex,wm,reason,no,sex,UN11A,no,and,UnmetNeed,Factor
 AblePregnant,wm,able,pregnant,,UN10,no,and,UnmetNeed,Factor

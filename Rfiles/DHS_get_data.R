@@ -112,7 +112,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
       VarName<- dataList$VarName[dataList$NickName==iv & dataList$IndicatorType=="IndependentV"]
       k<-match(VarName, colnames(datause))
       
-      if(length(k)==0){
+      if(!(iv=="NUnder5") & length(k)==0){
         print(paste("Independent variable -- ", iv, "(",  VarName, ") not found"))
         return(NULL)
       }
@@ -123,8 +123,8 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
       else if(iv=="PoorerHousehold") datause<-PoorerHousehold(datause, dataList, k)
       else if(iv=="aGroup") datause<-aGroup(datause, dataList, k)
       else if(iv=="aGroupPR") datause<-aGroupPR(datause, dataList, k)
-      else if(iv=="Under5") datause<-Under5(datause, dataList, k)
-      else if(iv=="NUnder5") datause<-NUnder5(datause, dataList, k)
+      else if(iv=="HaveChildren") datause<-HaveChildren(datause, dataList, k)
+      else if(iv=="NUnder5") datause<-NUnder5(datause)
       else if(iv=="Residence") datause<-Residence(datause, dataList, k)
       else if(iv=="Sex") datause<-Sex(datause, dataList, k)
       else if(iv=="HHSex") datause<-HHSex(datause, dataList, k)
@@ -167,7 +167,7 @@ indList<-function(rv, caste = FALSE ){
     iv<-c("PoorerHousehold", "Residence", "HighestEducation")
   else if(rv %in% c("ChildHealth", "NotStunting", "Stunting", "NotOverweight", 
                     "NotWasting", "Overweight", "Wasting"))
-    iv<-c("PoorerHousehold", "Residence", "MotherEducation", "Under5", "Sex")
+    iv<-c("PoorerHousehold", "Residence", "MotherEducation", "NUnder5", "Sex")
   else if (rv %in% c("HigherEducation2535", "HigherEducation35plus",
                      "SecondaryEducation2035", "SecondaryEducation35plus"))
     iv<-c("PoorerHousehold", "Residence", "Sex") 
@@ -176,9 +176,9 @@ indList<-function(rv, caste = FALSE ){
   else if(rv %in% c("ProfessionalHelp", "HealthcareNotAffordable", 
                     "HealthcareFar", "HealthcareNotAccessible", "HealthcareAppointmentDifficulty",
                     "HealthcareNotUsed", "HealthcareDiscouraged"))
-    iv<-c("PoorerHousehold", "Residence", "aGroup", "MarriageStatus", "NUnder5", "Education")
+    iv<-c("PoorerHousehold", "Residence", "aGroup", "MarriageStatus", "HaveChildren", "Education")
   else if (rv %in% c("ContraceptiveMethod")) 
-    iv<-c("PoorerHousehold", "Residence", "aGroup", "NUnder5", "Education")
+    iv<-c("PoorerHousehold", "Residence", "aGroup", "HaveChildren", "Education")
   else if (rv %in% c("AllViolence", "NoAllViolence", "SexualPhysicalViolence", "NoSexualPhysicalViolence",
                      "SexualViolence", "NoSexualViolence", "EmotionalViolence", "NoEmotionalViolence",
                       "PhysicalViolence", "NoPhysicalViolence"))
@@ -1090,6 +1090,43 @@ calculateHMexBabies<-function(datause, dataList){
   return(datause)
   } 
 }
+
+add_NUnder5<-function(df, data_folder, country_code, version_code, prversion_code, meta_data){
+
+  if(!is.null(prversion_code)) 
+    filename<-paste(country_code, "PR", prversion_code, "FL", sep="")
+  else  filename<-paste(country_code, "PR", version_code, "FL", sep="")
+  
+  data_path = paste(data_folder, filename, sep="/")
+  dataList<-meta_data[meta_data$DataSet=="PR", ]
+  ageV<-dataList$VarName[dataList$NickName == "Age"]
+  
+  
+  df2<-importDHSDAT(data_path, TRUE, c("HV001", "HV002", ageV))
+  age<-as.numeric(as.character(df2[, 3]))
+  df2<-df2[age<=5, ]
+  df2$ct<-1
+  Under5<-aggregate(df2$ct, list(df2$HV001, df2$HV002), sum)
+  
+  print(Under5[c(1:10), ])
+  k<-match("HV001", colnames(df), nomatch = 0)
+  if(k>0) {
+    colnames(Under5)<-c("HV001", "HV002", "NUnder5")
+    df<-merge(df, Under5, by=c("HV001", "HV002"), all.x=T)
+  }
+  else {
+    colnames(Under5)<-c("V001", "V002", "NUnder5")
+    df<-merge(df, Under5, by=c("V001", "V002"), all.x=T)
+  }
+
+  
+  
+  df$NUnder5[is.na(df$NUnder5)]<-0
+  return(df)
+}
+
+
+
 FinancialInclusion<-function(datause, dataList, k){
   # this variable is defined by 2 columns
   datause$var2tab<-0
@@ -1542,8 +1579,13 @@ HusbandAge<-function(datause, dataList, k)
   return(datause)
 }
 
-NUnder5<-function(datause, dataList, k){
-  datause$NUnder5<-nchar(trimws(as.character(datause[,k])))
+HaveChildren<-function(datause, dataList, k){
+  datause$HaveChildren<-as.numeric(as.character(datause[,k]))
+  datause$HaveChildren[is.na(datause$HaveChildren)]<-0
+  return(datause) 
+}
+
+NUnder5<-function(datause){
   return(datause) 
 }
 

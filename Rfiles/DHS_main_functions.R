@@ -150,14 +150,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
        filename<-paste(country_code, ds, prversion_code, "FL", sep="")
     }
     
-    # Printing current iteration of datatype.  
-    # message <- paste("## File name: ", filename, "  ############################")
-    # print(message)
-    # # info(logger, message)
-    # message <- paste("## Current dataset: ", match(ds, dataSet), " of ", length(dataSet))
-    # print(message)
-    # info(logger, message) 
-    
+
     ### Read the datafile downloaded from DHS into R with columns specified in DHSstandard.csv (in meta_data).
  
     ### sometimes the version_code for PR is different from HR & IR 
@@ -167,9 +160,14 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     
     df<-importDHSDAT(data_path, Flag_New, dataList$VarName)
     
+
     # Scale the Sample Weight values by factor of 1000000.
     swV<-dataList$VarName[dataList$NickName=="SampleWeight"]
     df<- scale_sample_weight(df, swV)
+    
+    if(ds %in% c("PR", "IR"))
+      df<-add_NUnder5(df, data_folder, country_code, version_code, prversion_code, meta_data)
+    
     
     # Preparing ethnicity dataset if it exists.
     eth<-NULL
@@ -182,34 +180,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     responseList<-dataList[dataList$IndicatorType=="ResponseV", ]
     unique_responseList <- unique(responseList$NickName)
 
-    # DEBUG
-    # debug <- unique_responseList[match("ChildMarriage18", unique_responseList)]
-    # unique_responseList<-c("NoSexualViolence",  "AllViolence", "SexualPhysicalViolence", "PhysicalViolence", 
-    #                        "SexualViolence",  "EmotionalViolence", "NoSexualPhysicalViolence", "NoPhysicalViolence")
-    # unique_responseList<-c("HealthcareNotAffordable", 
-    #                        "HealthcareFar", "HealthcareNotAccessible", 
-    #                        "HealthcareNotUsed", "HealthcareDiscouraged")
-    # unique_responseList<-c("AllViolence", "SexualPhysicalViolence", "PhysicalViolence", "SexualViolence", "EmotionalViolence")
-    # unique_responseList<-c("Covid", "LearningPR", "WaterOnsitePR", "SafeSanitationPR", "HandWashPR", "NotCrowdedPR")
-    # unique_responseList<-c("NotCrowdedPR")
-    # unique_responseList<-c("Covid", "NotCrowdedPR")
-    # unique_responseList<-c("Covid")
-    # unique_responseList<-c("InternetUse")
-    # unique_responseList<-c("SafeSanitation")
-    # unique_responseList<-c("PhysicalViolence")
-    # unique_responseList<-c("Covid1")
-    # unique_responseList<-c("NoPhysicalViolence", "NoSexualPhysicalViolence")
-    # unique_responseList<-c("MobilePhonePR", "BankCardPR")
-    # unique_responseList<-c("BankAccount")
-    # unique_responseList<-c("MobilePhone")
-    # unique_responseList<-c("BasicWater")
-    # unique_responseList<-c("ProfessionalHelp")
-    # unique_responseList<-c("MobilePhonePR")
-    # unique_responseList<-c("HigherEducation2535", "SecondaryEducation2035",
-    #                        "HigherEducation35plus", "SecondaryEducation35plus")
-    # unique_responseList<-c("FinancialInclusion")
-    
-    
+
     # Iterate through each response variable for current dataset type. 
     if(use_version>1){
       unique_responseList<-unique_responseList[unique_responseList %in% Rlist]
@@ -298,88 +269,3 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
   return(drupalIndex)
 } # function()
 
-# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "AF","70", "2015", NULL, NULL, csvfile_name2, TRUE, FALSE, FALSE, use_version=3, validatedcsv, drupalI)
-
-#######################################################################################
-# csvfile_name8 <- "DHSstandardMV71Region"
-# # MV 71 
-# 
-# # run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name8, TRUE, FALSE, FALSE)
-# 
-# run_together(csv_folder, data_folder, output_folder, "MV","71", "2017", NULL, NULL, csvfile_name8, TRUE, FALSE, TRUE)
-
-#######################################################################################
-
-# ### Run for all available data sets
-# available_data_names <- list.files(path = paste(csv_folder,"dat_download",sep=""))
-# 
-# ### Only Run for One Data Set
-# available_data_names <- "Cambodia 2014"
-# 
-# DHSstandard_type <- function(country_code, version_code) {
-# 
-#   if (country_code == "AZ" & version_code == 52) {
-#     return (csvfile_name1)
-#   }  
-#   else if (country_code == "KH" & version_code == 71) {
-#     return (csvfile_name3)
-#   }
-#   else if (country_code == "KH" & version_code == 61) {
-#     return (csvfile_name4)
-#   } else {
-#     return (csvfile_name2)
-#   }
-#   
-# }
-# 
-# for (name in available_data_names) {
-# 
-#   # Note: Must have folder structure as following ./dat_download/Afghanistan/AFBR70FL/AFBR70FL.DCF
-#   info(logger, paste("##############  ", name, "  ##############", sep = ""))
-#   message <- paste("## Current Country/Year: ", match(name, available_data_names), " of ", length(available_data_names))
-#   info(logger, message)
-#   
-#   # Country and Version code
-#   folder_name <- str_trim(DHSKey$folder, side = c("both", "left", "right"))
-#   country_code <- DHSKey$country_code[folder_name == name]
-#   version_code <- DHSKey$version_code[folder_name == name]
-# 
-#   # Set DHSstandard type:
-#   temp_csvfile_name <- DHSstandard_type(country_code, version_code)
-#   
-#   # Data folder of Country Year location
-#   data_folder_name <- paste(name,"/", sep = "")
-#   temp_data_folder <- paste(data_folder, data_folder_name , sep = "")
-# 
-#   # Output folder of Country Year location
-#   output_folder_name <- paste(name,"/", sep = "")
-#   temp_output_folder <- paste(output_folder, output_folder_name, sep = "")
-# 
-#   # Creating Output folder of Country Year
-#   ifelse(!dir.exists(temp_output_folder), dir.create(temp_output_folder), FALSE)
-# 
-#   # Call run_together function
-#   run_together(csv_folder, temp_data_folder, temp_output_folder, 
-#                country_code, version_code, 
-#                NULL, NULL, temp_csvfile_name, TRUE, FALSE)
-#   
-# }
-
-
-#######################################################################################
-# csvfile_name1 <-"DHSstandard_unmet"
-# csvfile_name2 <-"DHSstandard"
-# csvfile_name3 <- "DHSstandardKH71"
-# csvfile_name4 <- "DHSstandardKH61"
-# csvfile_name5 <- "DHSstandardIA52"
-# csvfile_name6 <- "DHSstandardIA71"
-# csvfile_name7 <- "DHSstandardTL61"
-# csvfile_name8 <- "DHSstandardAM61"   # education variable SH17A
-# csvfile_name9 <- "DHSstandardBD70"   # special questionaire on mobile phone for hh members over 13 yo
-# 
-# run_together<-function(csv_folder, original_data_folder, output_folder, country_code, version_code, 
-#                        year_code, mrversion_code=NULL,
-#                        prversion_code=NULL, csvfile_name, Flag_New=TRUE, caste=FALSE, region_flag=FALSE, use_version=1, validationfile=NULL, initialIndex=0)
-#   
-# run_together(csv_folder, dhs_data_folder, output_folder, "AM","61",
-#              "2010", NULL, NULL, csvfile_name8, TRUE, FALSE)

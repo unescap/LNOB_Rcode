@@ -234,7 +234,7 @@ write_tree <- function(survey_source, datause, country_code, version_code, regio
                         formula_string, title_string, sub_string, 
                        rv, rtp, religion, output_folder, ds, filename, use_version, drupalIndex) {
   
-  tree_stat<- catch_error(build_tree(output_folder, country_code, version_code, datause, rv, rtp, 
+  tree_stat<- catch_error(build_tree(output_folder, survey_source, country_code, version_code, datause, rv, rtp, 
                                      formula_string, title_string, sub_string, filename, e = religion, 
                                      region))
   if(!is.null(tree_stat$tree_stat))
