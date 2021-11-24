@@ -61,26 +61,17 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
 
       result_log$formula<-formula_string
       SampleSize<-sum(datauseRG$SampleWeight)
-      result_log$SampleSize<-SampleSize
+      if(SampleSize>0){
+        result_log$SampleSize<-SampleSize
 
-      SampleMean<-sum(datauseRG$SampleWeight[datauseRG$var2tab==1]) / sum(datauseRG$SampleWeight)
-      result_log$SampleMean<-SampleMean
+        sum1<-sum(datauseRG$SampleWeight[datauseRG$var2tab==1])
+        if(is.na(sum1)) sum1<-0
+        SampleMean<-sum1 / SampleSize
+        result_log$SampleMean<-SampleMean
       
-      t0<-drupalIndex
+        t0<-drupalIndex
 
 
-      # 
-      #   newLNOBdata<-newLNOBList(survey_source, ds, country_code, country_ISO, rg, version_code, year_code, religion)
-      #   newLNOBdata<-t(unlist(updateLNOBdata(newLNOBdata, rg, validation, title_string,
-      #                                        SampleMean, SampleSize, "No Analysis", NULL, NULL)))
-      #   result_log$DindexFileID="NoFILE"
-      #   result_log$d_index<-NA
-      #   result_log$HOI<-NA
-      #   result_log$TreeFileID="NoFILE"
-      #   result_log$tree_stat<-NULL
-      # }
-      # else {
-      
       if(SampleMean<0.99 & SampleMean>0.01){
             tree_result<-write_tree(survey_source, datauseRG, country_ISO, year_code, rg, 
                               formula_string, title_string,  sub_string, rv, rtp, 
@@ -140,6 +131,7 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
         write.table(newLNOBdata, NewLNOBcsv, sep=",", 
                     append = FALSE,   col.names = T, row.names = F)
         }
+      }
     }
     return(drupalIndex)
   }

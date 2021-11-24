@@ -80,7 +80,7 @@ drupalI<-run_together(csv_folder, data_folder, drupal_folder, "ID","71", "2017",
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
 
 # religion_flag<-TRUE
-# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, caste=TRUE, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, caste=TRUE, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
 
 
 source(paste(r_folder,"MICS_main_functions.R",sep=""))
@@ -158,98 +158,76 @@ drupalI<- run_together(csv_folder, data_folder, drupal_folder, "VietNam", "2013"
 
 # with religion
 
-#
-# religion_flag<-TRUE
-#
-# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv,
-#                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
-#
-# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv,
-#                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kyrgyzstan", "2014",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0.5, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Georgia", "2018",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kazakhstan", "2010",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kazakhstan", "2015",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kyrgyzstan", "2018",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kiribati", "2019",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Lao", "2017",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Mongolia", "2018",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Mongolia", "2013",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Lao", "2011",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Nepal", "2019",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2012",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2015",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0.5, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2019",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Tonga", "2019",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-#
-# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2015",  csvfile_name, edcationcsv,
-#                       religioncsv, TRUE, region_flag, use_version, validatedcsv, survey_vesion=0, initialIndex=drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Tuvalu", "2019",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Vietnam", "2010",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
-#
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "VietNam", "2013",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-#
-#
+
+religion_flag<-TRUE
+
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv,
+                      religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
+
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Bangladesh", "2019",  csvfile_name, edcationcsv,
+                      religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kyrgyzstan", "2014",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0.5, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Georgia", "2018",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kazakhstan", "2010",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kazakhstan", "2015",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kyrgyzstan", "2018",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Kiribati", "2019",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Lao", "2017",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Mongolia", "2018",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Mongolia", "2013",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Lao", "2011",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Nepal", "2019",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2012",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2015",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0.5, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Thailand", "2019",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Tonga", "2019",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2015",  csvfile_name, edcationcsv,
+                      religioncsv, TRUE, region_flag, use_version, validatedcsv, survey_vesion=0, initialIndex=drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Tuvalu", "2019",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Vietnam", "2010",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
+
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "VietNam", "2013",  csvfile_name, edcationcsv,
+                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+
 
 # sink()
 
-# # # ###  no Uzbekistan 2006 csv file
-# # # run_together(csv_folder, data_folder, drupal_folder, "Uzbekistan", "2006",  csvfile_name, edcationcsv)
-# # # run_together(csv_folder, data_folder, drupal_folder, "Uzbekistan", "2006",  csvfile_name, edcationcsv, religioncsv, religion = TRUE)
-# #
-# indicator_selection <- list(dataSet=c("hl"), IndList=c("SecondaryEducation2035", "SecondaryEducation35plus"))
-# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2015",  csvfile_name, edcationcsv,
-#                       NULL, religion_flag, region_flag, use_version, validatedcsv, initialIndex=drupalI, indicator_selection)
-# 
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Turkmenistan", "2019",  csvfile_name, edcationcsv,
-#                        NULL, religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
-
-# indicator_selection <- list(dataSet=c("PR"), IndList=c("Covid"))
-# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "PG","70", "2018", NULL, NULL, csvfile_name10, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
-# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "BD","70", "2018", NULL, NULL, csvfile_name10, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
-# 
-# #  special run for the MV health indicators
-# indicator_selection <- list(dataSet=c("IR"), IndList=c("HealthcareNotAffordable", "HealthcareFar", 
-#                                                        "HealthcareNotAccessible", "HealthcareNotUsed", 
-#                                                        "HealthcareAppointmentDifficulty", "HealthcareDiscouraged"))
-# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "MV","71", "2016", NULL, NULL, csvfile_name10, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
-# drupalI<-run_together(csv_folder, data_folder, drupal_folder, "MV","52", "2009", NULL, NULL, csvfile_name10, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
-# # end of special run for the MV health indicators
