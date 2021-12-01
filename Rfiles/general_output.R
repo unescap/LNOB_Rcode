@@ -7,7 +7,7 @@
 #### in use_version 3, checking if the overall level is within 1% of the validated results
 output_data<-function(datause, survey_source, country_code, version_code, country_ISO, year_code, rv, 
                       rtp, indvar, ds, ds_output_folder, validationdata, 
-                      religion, region_flag, use_version, survey_version, drupalIndex)
+                      religion, region_flag, use_version, survey_version, drupalIndex, is_experimental=0)
   {
 
 
@@ -75,7 +75,7 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
       if(SampleMean<0.99 & SampleMean>0.01){
             tree_result<-write_tree(survey_source, datauseRG, country_ISO, year_code, rg, 
                               formula_string, title_string,  sub_string, rv, rtp, 
-                              religion, ds_output_folder, ds, filename, use_version, drupalIndex)
+                              religion, ds_output_folder, ds, filename, use_version, drupalIndex, is_experimental)
   
              drupalIndex<-c(tree_result$drupalIndex)
       }
@@ -184,7 +184,22 @@ validate<-function(country_code, version_code, rv, overallmean, validationdata){
   } 
 }
 
-dataForDrupal<-function(data, type, survey_type, ds, title, formula, country_code, version_code, rv, region, moderation_state=NULL){
+construct_circum<-function(formula){
+  print(formula)
+  circumstances <- c()
+  if(grepl("Religion", formula)) circumstances <- c(circumstances, "501")
+  if(grepl("Ethnicity", formula)) circumstances <- c(circumstances, "502")
+  if(grepl("Language", formula)) circumstances <- c(circumstances, "505")
+  if(grepl("Caste", formula)) circumstances <- c(circumstances, "504")
+  
+  return(circumstances)
+}
+
+
+
+dataForDrupal<-function(data, type, survey_type, ds, title, formula, country_code, version_code, rv, region, moderation_state=NULL, is_experimental=0)
+  {
+  
   drupal_data = list(
     type = type,
     field_survey_type = survey_type,
@@ -193,7 +208,9 @@ dataForDrupal<-function(data, type, survey_type, ds, title, formula, country_cod
     field_geo = country_code,
     field_year = version_code,
     field_indicator = rv,
-    field_data = toString(data)
+    field_data = toString(data),
+    field_circumstances = construct_circum(formula),
+    field_is_experimental = is_experimental
     # field_region = region,
     # moderation_state = moderation_state
   )
@@ -224,7 +241,7 @@ write_value<-function(datause, country_code, version_code, rv,  ds, ds_output_fo
 
 write_tree <- function(survey_source, datause, country_code, version_code, region, 
                         formula_string, title_string, sub_string, 
-                       rv, rtp, religion, output_folder, ds, filename, use_version, drupalIndex) {
+                       rv, rtp, religion, output_folder, ds, filename, use_version, drupalIndex, is_experimental=0) {
   
   tree_stat<- catch_error(build_tree(output_folder, survey_source, country_code, version_code, datause, rv, rtp, 
                                      formula_string, title_string, sub_string, filename, e = religion, 
@@ -237,7 +254,7 @@ write_tree <- function(survey_source, datause, country_code, version_code, regio
       type<- ifelse(region=="National",  "tree_data", "region_tree_data")
       title_string<-paste(country_code, version_code, rv, region, ifelse(religion, "Religion", "NoReligion"), sep="-")
       drupal_data<-dataForDrupal(toString(toJSON(tree_stat$data2, flatten = TRUE)), type, survey_source, ds, title_string, formula_string, 
-                                 country_code, version_code, rv, region)
+                                 country_code, version_code, rv, region, is_experimental)
       
       rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
       wd_datatype(drupal_folder, type)
@@ -253,7 +270,7 @@ write_tree <- function(survey_source, datause, country_code, version_code, regio
 
 
 write_HOI_D <- function(survey_source, datause, country_code, version_code, region, rv, ds, religion,
-                        indvar, output_folder, filename, use_version, drupalIndex) {
+                        indvar, output_folder, filename, use_version, drupalIndex, is_experimental=0) {
   
   # Calculate 
   pass_message <- "Successfully calculated HOI and D"
@@ -264,11 +281,12 @@ write_HOI_D <- function(survey_source, datause, country_code, version_code, regi
   result<-cal_HOI_shapley(datause, indvar)
   if(use_version==3 & !is.null(result))
   {
+    formula_string<-paste("var2tab", paste(indvar, collapse=" + "), sep=" ~ ")
     title_string<-paste(country_code, version_code, rv, region, ifelse(religion, "Religion", "NoReligion"), sep="-")
     ### for version 3, we store the data in one folder for publication
     type<-ifelse(region=="National", "d_index", "region_d_index")
     drupal_data<-dataForDrupal(toJSON(result$drupalData, auto_unbox = TRUE), type, survey_source, ds, title_string, formula_string, 
-                                 country_code, version_code, rv, region)
+                                 country_code, version_code, rv, region,  is_experimental)
       
 
     wd_datatype(drupal_folder, type)
@@ -282,85 +300,87 @@ write_HOI_D <- function(survey_source, datause, country_code, version_code, regi
     return(list(drupalIndex=drupalIndex, Overall_D=result$Overall_D, HOI=result$HOI))
 }
 
-write_glm <- function(survey_source, datause, rtp, country_code, version_code, rv, ds, title_string, 
-                      indvar, output_folder, filename, use_version, drupalIndex) {
-  
-  # Build Logistic Regression model 
-  pass_message <- "Successfully built glm"
-  # catch_error does not seem to workk here 
-  
-  for(ivm in indvar) {
-    
-    if(!(ivm=="NUnder5")) datause[ , ivm]<-factor(datause[ , ivm], ordered = F)
-  }
-  
-  title_string<-paste(rv, paste(indvar, collapse=" + "), sep=" ~ ")
-  formula_string<-paste("var2tab", paste(indvar, collapse=" + "), sep=" ~ ")
-  
-  s.glm <- catch_error_prod(logistic(datause, rtp, formula_string, filename))
-  if (!is.null(s.glm)) { 
-    info(logger, paste(pass_message))
-  }
-  
-  if(use_version==3)
-  {
-    ### for version 3, we store the data in one folder for publication
-    drupal_data<-dataForDrupal(s.glm, "logit", survey_source, ds, title_string, formula_string, 
-                               country_code, version_code, rv)
-    rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
-    saveRDS(drupal_data, file = rdsname)
-    print(c(drupalIndex, rdsname, "------ saved in", getwd()))
-    return(drupalIndex+1)
-    
-  }
-  else  {
-    # Saving object as .Rdata file for Shiny output
-    resave(s.glm, file = paste("md",filename,".Rdata", sep=""))
-    
-    file_write<-paste(output_folder, "MICSLogit.csv", sep="")
-    # Write to output 
-    write.table(t(c(country_code, version_code, title_string)) , file_write,
-                sep=",", append = TRUE,   col.names = F, row.names = F)
-    pass_message <- "Successfully wrote MICSLogit.csv"
-    
-    # catch_error does not seem to work here
-    # catch_error(write.table(s.glm,  file_write,
-    #                         sep=",", append = TRUE,   col.names = T, row.names = T, na="")) 
-    
-    write.table(s.glm,  file_write,
-                sep=",", append = TRUE,   col.names = T, row.names = T, na="")
-    
-  }
-  
-}
-write_crosstab <- function(datause, country_code, version_code, title_string,
-                           indvar, output_folder, filename) {
-  
-  if(!is.na(match("Language", indvar))) indvar<-indvar[!indvar=="Language"]
-  formula_string<-paste("SampleWeight", paste(indvar, collapse=" + "), sep=" ~ ")
-  idv_sum<-aggregate(as.formula(formula_string), data=datause, sum)
-  
-  datause$SampleWeight2<-datause$SampleWeight*datause$var2tab
-  formula_string<-paste("SampleWeight2", paste(indvar, collapse=" + "), sep=" ~ ")
-  idv_sum2<-aggregate(as.formula(formula_string), data=datause, sum)
-  idv_sum$pct<-idv_sum2$SampleWeight2/idv_sum$SampleWeight*100
-  
-  
-  file_write<-paste(output_folder, "CrossTab.csv", sep="")
-  
-  # Write to output
-  write.table(t(c(country_code, version_code, title_string)) , file_write,
-              sep=",", append = TRUE,   col.names = F, row.names = F)
-  pass_message <- "Successfully wrote MICSLogit.csv"
-  
-  # catch_error does not seem to work here
-  # catch_error(write.table(s.glm,  file_write,
-  #                         sep=",", append = TRUE,   col.names = T, row.names = T, na=""))
-  
-  write.table(idv_sum,  file_write,
-              sep=",", append = TRUE,   col.names = T, row.names = T, na="")
-  
-}
+
+# These analysis is no longer used and maintained
+# write_glm <- function(survey_source, datause, rtp, country_code, version_code, rv, ds, title_string, 
+#                       indvar, output_folder, filename, use_version, drupalIndex) {
+#   
+#   # Build Logistic Regression model 
+#   pass_message <- "Successfully built glm"
+#   # catch_error does not seem to workk here 
+#   
+#   for(ivm in indvar) {
+#     
+#     if(!(ivm=="NUnder5")) datause[ , ivm]<-factor(datause[ , ivm], ordered = F)
+#   }
+#   
+#   title_string<-paste(rv, paste(indvar, collapse=" + "), sep=" ~ ")
+#   formula_string<-paste("var2tab", paste(indvar, collapse=" + "), sep=" ~ ")
+#   
+#   s.glm <- catch_error_prod(logistic(datause, rtp, formula_string, filename))
+#   if (!is.null(s.glm)) { 
+#     info(logger, paste(pass_message))
+#   }
+#   
+#   if(use_version==3)
+#   {
+#     ### no update on this since glm is no longer used
+#     drupal_data<-dataForDrupal(s.glm, "logit", survey_source, ds, title_string, formula_string, 
+#                                country_code, version_code, rv, is_experimental)
+#     rdsname<-paste(paste("R", drupalIndex, sep=""), "rds", sep=".")
+#     saveRDS(drupal_data, file = rdsname)
+#     print(c(drupalIndex, rdsname, "------ saved in", getwd()))
+#     return(drupalIndex+1)
+#     
+#   }
+#   else  {
+#     # Saving object as .Rdata file for Shiny output
+#     resave(s.glm, file = paste("md",filename,".Rdata", sep=""))
+#     
+#     file_write<-paste(output_folder, "MICSLogit.csv", sep="")
+#     # Write to output 
+#     write.table(t(c(country_code, version_code, title_string)) , file_write,
+#                 sep=",", append = TRUE,   col.names = F, row.names = F)
+#     pass_message <- "Successfully wrote MICSLogit.csv"
+#     
+#     # catch_error does not seem to work here
+#     # catch_error(write.table(s.glm,  file_write,
+#     #                         sep=",", append = TRUE,   col.names = T, row.names = T, na="")) 
+#     
+#     write.table(s.glm,  file_write,
+#                 sep=",", append = TRUE,   col.names = T, row.names = T, na="")
+#     
+#   }
+#   
+# }
+# write_crosstab <- function(datause, country_code, version_code, title_string,
+#                            indvar, output_folder, filename) {
+#   
+#   if(!is.na(match("Language", indvar))) indvar<-indvar[!indvar=="Language"]
+#   formula_string<-paste("SampleWeight", paste(indvar, collapse=" + "), sep=" ~ ")
+#   idv_sum<-aggregate(as.formula(formula_string), data=datause, sum)
+#   
+#   datause$SampleWeight2<-datause$SampleWeight*datause$var2tab
+#   formula_string<-paste("SampleWeight2", paste(indvar, collapse=" + "), sep=" ~ ")
+#   idv_sum2<-aggregate(as.formula(formula_string), data=datause, sum)
+#   idv_sum$pct<-idv_sum2$SampleWeight2/idv_sum$SampleWeight*100
+#   
+#   
+#   file_write<-paste(output_folder, "CrossTab.csv", sep="")
+#   
+#   # Write to output
+#   write.table(t(c(country_code, version_code, title_string)) , file_write,
+#               sep=",", append = TRUE,   col.names = F, row.names = F)
+#   pass_message <- "Successfully wrote MICSLogit.csv"
+#   
+#   # catch_error does not seem to work here
+#   # catch_error(write.table(s.glm,  file_write,
+#   #                         sep=",", append = TRUE,   col.names = T, row.names = T, na=""))
+#   
+#   write.table(idv_sum,  file_write,
+#               sep=",", append = TRUE,   col.names = T, row.names = T, na="")
+#   
+# }
 
 country_ISO<-function(country_code){
   
@@ -384,109 +404,6 @@ country_ISO<-function(country_code){
   
 }
 
-
-
-
-# Region 
-region_prod <- function(output_folder, country_code, version_code, 
-                        datause, rv,
-                        formula_string, title_string, sub_string,
-                        filename, indvar) {
-  
-  region_list <- unique(datause$RegionName)
-  
-  #filename = REBhutanHH2017
-  region_filename <- paste("RE",filename, sep = "")
-  region_tree_stat <- c()
-  region_result <- c()
-  
-  for (region in region_list) {
-    
-    message <- paste("REGION: ", region, "  ------------------")
-    print(message)
-    info(logger, message)
-    message <- paste("Current Region: ", match(region, region_list), " of ", length(region_list))
-    print(message)
-    info(logger, message)
-    
-    datause_region <- filter(datause, RegionName == region)
-    
-    #### Construct Decision Tree
-    sub_string<-NULL
-    religion<-FALSE
-    
-    region_folder <- paste(output_folder, "Region", "/", sep = "")
-    ifelse(!dir.exists(region_folder), dir.create(region_folder), FALSE)
-    
-    region_output_folder <- paste(region_folder, region, "/", sep = "")
-    ifelse(!dir.exists(region_output_folder), dir.create(region_output_folder), FALSE)
-    
-    pass_message <- "Successfully built Tree"
-    tree_stat<- catch_error(build_tree(region_output_folder, country_code, version_code, 
-                                       datause_region, rv,
-                                       formula_string, title_string, sub_string, 
-                                       e=religion, filename, region))
-    
-    tree_stat<-t(c(country_code, version_code, title_string, tree_stat))
-    
-    # Add region name to object 
-    tree_stat <- c(region, tree_stat)
-    
-    if (!is.null(tree_stat)) { 
-      
-      info(logger, paste(pass_message))
-      
-    }
-    
-    # Append data for .Rdata
-    region_tree_stat <- rbind(region_tree_stat, tree_stat)
-    
-    #### Construct HOI
-    # Calculate 
-    pass_message <- "Successfully calculated HOI and D"
-    
-    result<-catch_error(cal_HOI_shapley(datause_region, indvar))
-    
-    result<-c(country_code, version_code, title_string, result)
-    
-    if (!is.null(result)) { 
-      
-      info(logger, paste(pass_message))
-      
-    }
-    
-    region_result <- rbind(region_result, result)
-    
-    #### Construct Logistic Regression
-    # Null for now: add if required 
-    
-  }
-  
-  save(region_tree_stat, file = paste(region_filename, ".Rdata", sep=""))
-  resave(region_result, file = paste(region_filename, ".Rdata", sep=""))
-  
-}
-
-
-
-
-region_dev<-function(datause, country_code, version_code, 
-                     title_string, formula_string, sub_string, rv, rtp, religion, ds_output_folder, ds, filename){
-  
-  
-  write_tree(datause, country_code, version_code, 
-             title_string, formula_string, sub_string, rv, rtp, religion, ds_output_folder, ds, filename) 
-  
-  
-  #### HOI and dis-similarity index calculation
-  #### not sure if this works for numeric
-  write_HOI_D(datause, country_code, version_code, title_string, indvar, ds_output_folder, filename)
-  
-  #### logistic regression
-  #### have to use lm for numeric here
-  write_glm(datause, rtp, country_code, version_code, title_string, formula_string, ds_output_folder, filename)
-  
-}
 
 
 ResultList<-function(survey_source, country_code, version_code, country_ISO, year_code, ds, rv, religion, region, isNullData){

@@ -89,7 +89,7 @@ logger <- create.logger(logfile = logger_location, level = 'DEBUG')
 
 run_together<-function(csv_folder, data_folder, output_folder, country_code, version_code,  csvfile_name, education_name, 
                        religion_name=NULL,  religion=FALSE, region_flag=FALSE, use_version=1, validationfile=NULL, survey_vesion,
-                       initialIndex=0, indicator_selection=list(dataSet=NULL, IndList=NULL))
+                       initialIndex=0, indicator_selection=list(dataSet=NULL, IndList=NULL), is_experimental=0)
 {
 
   drupalIndex<-initialIndex
@@ -323,10 +323,10 @@ run_together<-function(csv_folder, data_folder, output_folder, country_code, ver
         } 
         else {
           drupalIndex<-output_data(datause, "MICS", country_code, version_code, country_ISO, version_code,  rv, rtp, indvar, ds, ds_output_folder, validationdata, 
-                                   religion, region_flag=FALSE, use_version, survey_vesion, drupalIndex)
+                                   religion, region_flag=FALSE, use_version, survey_vesion, drupalIndex, is_experimental)
           if(region_flag){
             drupalIndex<-output_data(datause, "MICS", country_code, version_code, country_ISO, version_code, rv, rtp, indvar, ds, ds_output_folder, validationdata, 
-                                     religion, region_flag=TRUE, use_version, survey_vesion, drupalIndex)
+                                     religion, region_flag=TRUE, use_version, survey_vesion, drupalIndex, is_experimental)
             
           }
         }

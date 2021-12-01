@@ -53,10 +53,9 @@ gettingDrupalFiles<-function(api_base, key){
   dIndexDataJson <- http_get("d_index_data", api_base, key)
   dIndexDataDf <- as.data.frame(dIndexDataJson)
   
-  # logitDataJson <- http_get("logit_data", api_base, key)
-  # logitDataDf <- as.data.frame(logitDataJson)
+
   geoid<-unique(treeDataDf$field_geo)
-  # regionTreeDataJson <- http_get("region_tree_data", api_base, key)
+
 
   n<-0
   for(tid in geoid){
@@ -79,7 +78,6 @@ gettingDrupalFiles<-function(api_base, key){
                geoDf=geoDf,
                treeDataDf=treeDataDf,
                dIndexDataDf=dIndexDataDf,
-               # logitDataDf=logitDataDf,
                regionTreeDataDf=regionTreeDataDf,
                regionDDataDf=regionDDataDf
          )) 
