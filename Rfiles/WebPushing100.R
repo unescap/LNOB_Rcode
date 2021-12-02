@@ -26,9 +26,9 @@ source(paste(r_folder,"http_request.R",sep=""))
 # pubDatafolder<-paste(data_folder,"drupalDataMICSEdufix20211022/",sep="")
 # pubDatafolder<-paste(data_folder,"drupalDataNoSexualVDHS20211022/",sep="")
 
-# pubDatafolder<-paste(data_folder,"drupalData20211201AFGreligionTrial/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalData20211202TONreligionTrial/",sep="")
 
-pubDatafolder<-paste(data_folder,"drupalData20211202TONreligionTrial/",sep="")
+ pubDatafolder<-paste(data_folder,"drupalData20211202LoadtoDevSite/",sep="")
 
 
 # runtime<-format(Sys.time(), "%Y%m%d%H%M%S")
@@ -62,19 +62,25 @@ gettingDrupalFiles<-function(api_base, key){
 
 
   n<-0
-  geoid<-c('121')
-  for(tid in geoid){
-    print(tid)
-  regionTreeDataJson <- http_get(paste("region_tree_data?field_geo_target_id=", as.integer(tid), sep=""), api_base, key)
-  ifelse (n==0, 
+  if(!is.null(geoid)){
+    for(tid in geoid){
+      print(tid)
+      regionTreeDataJson <- http_get(paste("region_tree_data?field_geo_target_id=", as.integer(tid), sep=""), api_base, key)
+      print(regionTreeDataJson)
+      ifelse (n==0, 
           regionTreeDataDf<-as.data.frame(regionTreeDataJson),
           regionTreeDataDf <- rbind(regionTreeDataDf, as.data.frame(regionTreeDataJson)))
 
-  regionDDataJson <- http_get(paste("region_d_index_data?field_geo_target_id=", as.integer(tid), sep=""), api_base, key)
-  ifelse(n==0, 
+      regionDDataJson <- http_get(paste("region_d_index_data?field_geo_target_id=", as.integer(tid), sep=""), api_base, key)
+      ifelse(n==0, 
          regionDDataDf <- as.data.frame(regionDDataJson), 
          regionDDataDf <- rbind(regionDDataDf, as.data.frame(regionDDataJson)))
-  n<-n+1
+      n<-n+1
+    }
+  }
+  else {
+    regionTreeDataDf<-NULL
+    regionDDataDf<-NULL
   }
   # #### organize regional taxonomy files, not ready yet   
   #### end getting durpal server files
@@ -148,7 +154,8 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
       }
     }
     else if(dt$type=="region_d_index") {
-      if (nrow(regionDDataDf) != 0) {
+      if (!is.null(regionDDataDf)) {
+        if(nrow(regionDDataDf) != 0) {
         # dt$title<-htmlspecialchars(dt$title)
         # dt$field_region<-htmlspecialchars(dt$field_region)
         currentDD = filter(regionDDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo,
@@ -157,10 +164,12 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
           dt$nid <- head(currentDD,1)$nid
           dt$moderation_state<- head(currentDD,1)$moderation_state
         }
+        }
       }
     }
     else if(dt$type=="region_tree_data") {
-      if (nrow(regionTreeDataDf) != 0) {
+      if (!is.null(regionTreeDataDf)){
+        if(nrow(regionTreeDataDf) != 0) {
         # dt$title<-htmlspecialchars(dt$title)
         # dt$field_region<-htmlspecialchars(dt$field_region)
         currentDD = filter(regionTreeDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo,
@@ -169,6 +178,7 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
           dt$nid <- head(currentDD,1)$nid
           dt$moderation_state<- head(currentDD,1)$moderation_state
         }
+      }
       }
     }
     # dt$moderation_state <- "Published"
@@ -191,23 +201,21 @@ push_together<-function(resultFolder, drupalFiles, api_base, key){
     dt<-readRDS(paste(resultFolder, dn, sep=""))
     # print(dt)
     ### these indicators are in the validation data, but not in drupal indicator table
-    if(! (dt$field_indicator %in% c("MobilePhonePR")))
-      {
-      dtDrupal<-drupalPush(dt, drupalFiles, api_base, key)
-      
-      dtDrupal$moderation_state <- "draft"
-      dt0<-append(dt0, list(dtDrupal))
 
-    }
+    dtDrupal<-drupalPush(dt, drupalFiles, api_base, key)
+    dtDrupal$moderation_state <- "draft"
+    dt0<-append(dt0, list(dtDrupal))
+
     if(length(dt0)==30){
       print("posting now ----")
-      Sys.sleep(5)
+      Sys.sleep(1)
       print(ct)
       endpoint <- "node-create"
       result <- http_post(endpoint,dt0, api_base, key)
       print(result)
       dt0<-list()
       ct<-ct+30
+      print(paste("------", ct, "--------posted" ))
     }
   }
 
@@ -257,13 +265,13 @@ drupalFilesPush<-gettingDrupalFiles(api_base, key)
 # print(table(wrong_version))
 # wrong_lao<-lao_drupal[wrong_version, ]
 
-for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
-# for (type in c("region_d_index", "region_tree_data")) {
+# for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
+# # for (type in c("region_d_index", "region_tree_data")) {
 # # for (type in c("d_index", "tree_data")) {
-    pubfolder<-paste(pubDatafolder, type, "/", sep="")
-    print(pubfolder)
-    push_together(pubfolder, drupalFilesPush, api_base, key)
-}
+#     pubfolder<-paste(pubDatafolder, type, "/", sep="")
+#     print(pubfolder)
+#     push_together(pubfolder, drupalFilesPush, api_base, key)
+# }
 
 # push_together(pubfolder, drupalFilesPush, api_base, key) 
 
@@ -271,6 +279,7 @@ for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
 # print(r)
 # publishing lao data on July 7th
 # http_publish("242", api_base, key)
+# http_publish("346", api_base, key)
 
 ####  Oct. 7th, publishing data on early childhood education and covid
 # t1<-drupalFilesPush$treeDataDf
@@ -317,3 +326,7 @@ for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
 #                                     region tree 9639    -1195 = 8444
 #                                     d 926               -139 =787
 #                                     tree 926            -139  =787
+
+
+
+# dt<-readRDS(paste(pubDatafolder,"d_index/", "R39620.rds", sep=""))
