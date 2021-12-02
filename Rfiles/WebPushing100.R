@@ -22,9 +22,13 @@ source(paste(r_folder,"http_request.R",sep=""))
 # pubDatafolder<-paste(data_folder,"drupalDataECE20210916/",sep="")
 # pubDatafolder<-paste(data_folder,"drupalDataInvestigated20210830/",sep="")
 # pubDatafolder<-paste(data_folder,"drupalDataMongolia2018BasicWater20210831/",sep="")
-pubDatafolder<-paste(data_folder,"drupalDataNonBarrierDV/",sep="")
-pubDatafolder<-paste(data_folder,"drupalDataMICSEdufix20211022/",sep="")
-pubDatafolder<-paste(data_folder,"drupalDataNoSexualVDHS20211022/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalDataNonBarrierDV/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalDataMICSEdufix20211022/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalDataNoSexualVDHS20211022/",sep="")
+
+# pubDatafolder<-paste(data_folder,"drupalData20211201AFGreligionTrial/",sep="")
+
+pubDatafolder<-paste(data_folder,"drupalData20211202TONreligionTrial/",sep="")
 
 
 # runtime<-format(Sys.time(), "%Y%m%d%H%M%S")
@@ -58,7 +62,9 @@ gettingDrupalFiles<-function(api_base, key){
 
 
   n<-0
+  geoid<-c('121')
   for(tid in geoid){
+    print(tid)
   regionTreeDataJson <- http_get(paste("region_tree_data?field_geo_target_id=", as.integer(tid), sep=""), api_base, key)
   ifelse (n==0, 
           regionTreeDataDf<-as.data.frame(regionTreeDataJson),

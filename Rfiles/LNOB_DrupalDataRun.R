@@ -147,15 +147,6 @@ drupalI<- run_together(csv_folder, data_folder, drupal_folder, "VietNam", "2013"
                        NULL, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
 
 
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Tuvalu", "2019",  csvfile_name, edcationcsv,
-#                        NULL, religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
-#
-#
-# religion_flag<-TRUE
-# drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Tuvalu", "2019",  csvfile_name, edcationcsv,
-#                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, drupalI, indicator_selection)
-
-
 # with religion
 
 
