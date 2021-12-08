@@ -199,18 +199,19 @@ construct_circum<-function(formula){
 
 dataForDrupal<-function(data, type, survey_type, ds, title, formula, country_code, version_code, rv, region, moderation_state=NULL, is_experimental=0)
   {
-  
+  current_time = as.numeric(Sys.time())
   drupal_data = list(
     type = type,
     field_survey_type = survey_type,
     field_dataset = ds,
     title = paste(title, V, sep="---"),   ### V is the version, a global variable specified in Config_ywdrupal.R
+    field_updated_date = current_time,
     field_geo = country_code,
     field_year = version_code,
     field_indicator = rv,
     field_data = toString(data),
     field_circumstances = construct_circum(formula),
-    field_is_experimental = is_experimental
+    field_is_experimental = if(is_experimental) 1 else 0
     # field_region = region,
     # moderation_state = moderation_state
   )
@@ -252,7 +253,7 @@ write_tree <- function(survey_source, datause, country_code, version_code, regio
 
     if(use_version==3){
       type<- ifelse(region=="National",  "tree_data", "region_tree_data")
-      title_string<-paste(country_code, version_code, rv, region, ifelse(religion, "Religion", "NoReligion"), sep="-")
+      title_string<-paste(country_code, version_code, rv, region, ifelse(religion, "Circumstances", "StandardAnalysis"), sep="-")
       drupal_data<-dataForDrupal(toString(toJSON(tree_stat$data2, flatten = TRUE)), type, survey_source, ds, title_string, formula_string, 
                                  country_code, version_code, rv, region, is_experimental)
       
@@ -282,7 +283,7 @@ write_HOI_D <- function(survey_source, datause, country_code, version_code, regi
   if(use_version==3 & !is.null(result))
   {
     formula_string<-paste("var2tab", paste(indvar, collapse=" + "), sep=" ~ ")
-    title_string<-paste(country_code, version_code, rv, region, ifelse(religion, "Religion", "NoReligion"), sep="-")
+    title_string<-paste(country_code, version_code, rv, region, ifelse(religion, "Circumstances", "StandardAnalysis"), sep="-")
     ### for version 3, we store the data in one folder for publication
     type<-ifelse(region=="National", "d_index", "region_d_index")
     drupal_data<-dataForDrupal(toJSON(result$drupalData, auto_unbox = TRUE), type, survey_source, ds, title_string, formula_string, 
