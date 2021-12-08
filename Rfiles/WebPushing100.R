@@ -60,20 +60,21 @@ gettingDrupalFiles<-function(api_base, key){
 
   geoid<-unique(treeDataDf$field_geo)
 
-
+  # geoid<-c('158')
   n<-0
   if(!is.null(geoid)){
     for(tid in geoid){
       print(tid)
-      regionTreeDataJson <- http_get(paste("region_tree_data?field_geo_target_id=", as.integer(tid), sep=""), api_base, key)
-      print(regionTreeDataJson)
-      ifelse (n==0, 
+      regionTreeDataJson <- http_get(paste("region_tree_data?geo_id=", as.integer(tid), sep=""), api_base, key)
+      # print(regionTreeDataJson)
+      ifelse (n==0,
           regionTreeDataDf<-as.data.frame(regionTreeDataJson),
           regionTreeDataDf <- rbind(regionTreeDataDf, as.data.frame(regionTreeDataJson)))
 
-      regionDDataJson <- http_get(paste("region_d_index_data?field_geo_target_id=", as.integer(tid), sep=""), api_base, key)
-      ifelse(n==0, 
-         regionDDataDf <- as.data.frame(regionDDataJson), 
+      regionDDataJson <- http_get(paste("region_d_index_data?geo_id=", as.integer(tid), sep=""), api_base, key)
+      # print(regionDDataJson)
+      ifelse(n==0,
+         regionDDataDf <- as.data.frame(regionDDataJson),
          regionDDataDf <- rbind(regionDDataDf, as.data.frame(regionDDataJson)))
       n<-n+1
     }
@@ -134,7 +135,7 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
       if (nrow(treeDataDf) > 0) {
         # dt$title<-htmlspecialchars(dt$title)
         currentDD = filter(treeDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo, 
-                           field_year == dt$field_year, title == dt$title)
+                           field_year == dt$field_year, field_is_experimental == dt$field_is_experimental, field_circumstances == toString(dt$field_circumstances))
         if (nrow(currentDD) != 0) {
           dt$nid <- head(currentDD,1)$nid
           dt$moderation_state<- head(currentDD,1)$moderation_state
@@ -146,7 +147,7 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
       if (nrow(dIndexDataDf) != 0) {
         # dt$title<-htmlspecialchars(dt$title)
         currentDD = filter(dIndexDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo, 
-                           field_year == dt$field_year, title == dt$title)
+                           field_year == dt$field_year, field_is_experimental == dt$field_is_experimental, field_circumstances == toString(dt$field_circumstances))
         if (nrow(currentDD) != 0) {
           dt$nid <- head(currentDD,1)$nid
           dt$moderation_state<- head(currentDD,1)$moderation_state
@@ -158,10 +159,12 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
         if(nrow(regionDDataDf) != 0) {
         # dt$title<-htmlspecialchars(dt$title)
         # dt$field_region<-htmlspecialchars(dt$field_region)
+        # print(paste(dt$field_region))
         currentDD = filter(regionDDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo,
-                           field_year == dt$field_year, title == dt$title, field_region == dt$field_region)
+                           field_year == dt$field_year, field_region == dt$field_region, field_is_experimental == dt$field_is_experimental, field_circumstances == toString(dt$field_circumstances))
         if (nrow(currentDD) != 0) {
           dt$nid <- head(currentDD,1)$nid
+          # print(dt$nid)
           dt$moderation_state<- head(currentDD,1)$moderation_state
         }
         }
@@ -173,9 +176,10 @@ drupalPush<-function(dt, drupalFiles, api_base, key){
         # dt$title<-htmlspecialchars(dt$title)
         # dt$field_region<-htmlspecialchars(dt$field_region)
         currentDD = filter(regionTreeDataDf, field_indicator == dt$field_indicator, field_geo == dt$field_geo,
-                           field_year == dt$field_year, title == dt$title, field_region == dt$field_region)
+                           field_year == dt$field_year, field_region == dt$field_region, field_is_experimental == dt$field_is_experimental, field_circumstances == toString(dt$field_circumstances))
         if (nrow(currentDD) != 0) {
           dt$nid <- head(currentDD,1)$nid
+          # print(dt$nid)
           dt$moderation_state<- head(currentDD,1)$moderation_state
         }
       }
@@ -197,16 +201,26 @@ push_together<-function(resultFolder, drupalFiles, api_base, key){
 
   dt0<-list()
   ct<-30
+  num<-0
   for(dn in data_list){
     dt<-readRDS(paste(resultFolder, dn, sep=""))
     # print(dt)
+    # if (dt$field_geo!="KHM") next;
     ### these indicators are in the validation data, but not in drupal indicator table
 
     dtDrupal<-drupalPush(dt, drupalFiles, api_base, key)
     dtDrupal$moderation_state <- "draft"
     dt0<-append(dt0, list(dtDrupal))
 
+    num<-num+1
+    if(!is.null(dt0[[num]]$result)) {
+      print('Non-existing indicator or country: ')
+      print(dt0[[num]]$drupalData$field_indicator)
+      print(dt0[[num]]$drupalData$field_geo)
+    }
+    
     if(length(dt0)==30){
+      
       print("posting now ----")
       Sys.sleep(1)
       print(ct)
@@ -215,6 +229,7 @@ push_together<-function(resultFolder, drupalFiles, api_base, key){
       print(result)
       dt0<-list()
       ct<-ct+30
+      num<-0
       print(paste("------", ct, "--------posted" ))
     }
   }
