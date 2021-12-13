@@ -1,0 +1,186 @@
+VarName,NickName,DataSet,DataType,IndicatorType,Comment
+V313,ContraceptiveMethod,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""aGroup"", ""NUnder5"", ""Education"""
+HIDX,ProfessionalHelp,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""aGroup"", ""MarriageStatus"", ""NUnder5"", ""Education"""
+V481,HealthInsurance,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""aGroup"""
+S112A,InternetUse,IR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""aGroup"""
+V511,ChildMarriage15,IR,Factor,ResponseV,
+V511,ChildMarriage18,IR,Factor,ResponseV,
+V208,TeenagePregnancy,IR,Factor,ResponseV0,
+SH110B,SolarElectricity,HR,Factor,AccessElectricity,
+HV108,SchoolYear,PR,INT,AuxResonpse,
+V044,ViolenceInterview,IR,Factor,AuxResonpse,
+V213,CurrentlyPregnant,IR,Factor,AuxResonpse,
+HV117,Eligible,PR,Factor,AuxResonpse,
+HV116,EverMarried,PR,Factor,AuxResonpse,
+V626,UnmetNeed,IR,Factor,ContraceptiveMethod,# V626 sometimes
+CASEID,CASEID,IR,ID,ID,
+HV001,cluster_id,HR,ID,ID,
+HV001,cluster_id,PR,ID,ID,
+V001,cluster_id,IR,ID,ID,
+HHID,HHID,HR,ID,ID,
+HHID,HHID,PR,ID,ID,
+HV002,HouseholdNumber,HR,ID,ID,
+HV002,HouseholdNumber,PR,ID,ID,
+V002,HouseholdNumber,IR,ID,ID,
+HV003,RLNumber,HR,ID,ID,
+HVIDX,RLNumber,PR,ID,ID,
+V003,RLNumber,IR,ID,ID,
+CASEID,CASEID,MR,ID,ID,
+MV001,cluster_id,MR,ID,ID,
+MV002,HouseholdNumber,MR,ID,ID,
+MV003,RLNumber,MR,ID,ID,
+HV109,Education,PR,Factor,IndependentV,
+V106,Education,IR,Factor,IndependentV,
+HV131,Ethnicity,PR,Factor,IndependentV,
+V131,Ethnicity,HR,Factor,IndependentV,
+HV219,HHSex,HR,Factor,IndependentV,
+V502,MarriageStatus,IR,Factor,IndependentV,
+HC61,MotherEducation,PR,Factor,IndependentV,
+HV024,Region,HR,Factor,IndependentV,
+HV024,Region,PR,Factor,IndependentV,
+V024,Region,IR,Factor,IndependentV,
+HV217,Relationship,HR,Factor,IndependentV,
+HV025,Residence,HR,Factor,IndependentV,
+HV025,Residence,PR,Factor,IndependentV,
+V025,Residence,IR,Factor,IndependentV,
+HV104,Sex,PR,Factor,IndependentV,
+HV270,PoorerHousehold,HR,Factor,IndependentV,# wealth Quintiles
+HV270,PoorerHousehold,PR,Factor,IndependentV,# wealth Quintiles
+V190,PoorerHousehold,IR,Factor,IndependentV,# wealth Quintiles
+V012,aGroup,IR,INT,IndependentV,# Age
+V012,Age,IR,INT,IndependentV,# Age
+HV105,Age,PR,INT,IndependentV,
+HV220,HHAge,HR,INT,IndependentV,
+HV014,Under5,HR,INT,IndependentV,
+HV014,Under5,PR,INT,IndependentV,
+HV106,HighestEducation,HR,String,IndependentV,# HouseholdEducation
+HIDX,NUnder5,IR,String,IndependentV,# BirthHistory
+V201,HaveChildren,IR,String,IndependentV,
+MIDX,BirthHistory,IR,String,ProfessionalHelp,
+V131,Ethnicity,IR,INT,IndependentV,
+MV190,PoorerHousehold,MR,Factor,IndependentV,
+MV024,Region,MR,Factor,IndependentV,
+MV025,Residence,MR,Factor,IndependentV,
+MV012,Age,MR,INT,IndependentV,
+MV012,aGroup,MR,INT,IndependentV,
+MV502,MarriageStatus,MR,Factor,IndependentV,
+MV106,Education,MR,Factor,IndependentV,
+MV201,TotalChildren,MR,INT,IndependentV,
+HV105,aGroup,PR,INT,IndependentV,
+MV481,HealthInsurance,MR,Factor,MresponseV,# if health insurance was asked for men's recode
+SM112A,InternetUse,MR,Factor,MresponseV,# if internetuse is asked in men's recode
+MV511,ChildMarriage15,MR,Factor,MresponseV,# If men's recode file exists with marriage information
+MV511,ChildMarriage18,MR,Factor,MresponseV,# If men's recode file exists with marriage information
+HV014,TeenagePregnancy,PR,INT,PresponseV0,
+M3A,ProfessionalAssitance1,IR,String,ProfessionalHelp,
+M3B,ProfessionalAssitance2,IR,String,ProfessionalHelp,
+M3C,ProfessionalAssitance3,IR,String,ProfessionalHelp,
+M3D,ProfessionalAssitance4,IR,String,ProfessionalHelp,
+M3E,ProfessionalAssitance5,IR,String,ProfessionalHelp,
+M3F,ProfessionalAssitance6,IR,String,ProfessionalHelp,
+HV206,AccessElectricity,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""HighestEducation"""
+HV247,BankCardHH,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""HighestEducation"""
+HV247,BankCardPR,PR,Factor,ResponseV0,
+HC13,ChildHealth,PR,Factor,ResponseV0,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
+HV226,CleanFuel,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""HighestEducation"""
+SH102,CleanWater,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""HighestEducation"""
+HV109,HigherEducation2535,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""Sex"""
+HV109,HigherEducation35plus,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""Sex"""
+HV201,HouseholdBasic,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""HighestEducation"""
+HV243A,HouseholdTechNeed,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""HighestEducation"""
+HV244,Land,HR,Factor,ResponseV,"# for rural only, ""PoorerHousehold"", ""HHSex"", ""HighestEducation"""
+HV243A,MobilePhoneHH,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""HighestEducation"""
+HV247,MultiDeprivation,HR,Factor,ResponseV,# no definition
+HC72,NotOverweight,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
+HC70,NotStunting,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
+HC72,NotWasting,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
+HC72,Overweight,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
+HV205,SafeSanitation,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""HighestEducation"""
+HV109,SecondaryEducation2035,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""Sex"""
+HV109,SecondaryEducation35plus,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""Sex"""
+HC70,Stunting,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
+HC72,Wasting,PR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""MotherEducation"", ""Under5"", ""Sex"""
+D104,AllViolence,IR,Factor,ResponseV,#emotional
+D106,AllViolence,IR,Factor,ResponseV,#sexual
+D107,AllViolence,IR,Factor,ResponseV,#severe sexual
+D108,AllViolence,IR,Factor,ResponseV,#physical
+D104,NoAllViolence,IR,Factor,ResponseV,#emotional
+D106,NoAllViolence,IR,Factor,ResponseV,#sexual
+D107,NoAllViolence,IR,Factor,ResponseV,#severe sexual
+D108,NoAllViolence,IR,Factor,ResponseV,#physical
+D106,SexualPhysicalViolence,IR,Factor,ResponseV,
+D107,SexualPhysicalViolence,IR,Factor,ResponseV,
+D108,SexualPhysicalViolence,IR,Factor,ResponseV,
+D106,NoSexualPhysicalViolence,IR,Factor,ResponseV,
+D107,NoSexualPhysicalViolence,IR,Factor,ResponseV,
+D108,NoSexualPhysicalViolence,IR,Factor,ResponseV,
+D108,SexualViolence,IR,Factor,ResponseV,
+D108,NoSexualViolence,IR,Factor,ResponseV,
+D107,PhysicalViolence,IR,Factor,ResponseV,
+D106,PhysicalViolence,IR,Factor,ResponseV,
+D107,NoPhysicalViolence,IR,Factor,ResponseV,
+D106,NoPhysicalViolence,IR,Factor,ResponseV,
+D104,EmotionalViolence,IR,Factor,ResponseV,
+D104,NoEmotionalViolence,IR,Factor,ResponseV,
+HV225,SharedToilet,HR,Factor,SafeSanitation,
+HV005,SampleWeight,HR,INT,Weight,
+HV005,SampleWeight,PR,INT,Weight,
+V005,SampleWeight,IR,INT,Weight,
+D005,ViolenceWeight,IR,INT,Weight,
+MV005,SampleWeight,MR,INT,Weight,
+HV024,Region,HR,ID,ID,
+V024,Region,IR,ID,ID,"# For de jure region of residence, see V139"
+V024,Region,PR,ID,ID,
+MV024,Region,MR,ID,ID,"# For de jure region of residence, see MV139"
+V169B,MobileFinance,IR,Factor,ResponseV,
+MV169B,MobileFinance,MR,Factor,MresponseV,
+HV230A,HandWash,HR,Factor,ResponseV,# place observed
+HV230B,HandWashWater,HR,Factor,AuxResonpse,
+HV232,HandWashSoap,HR,Factor,AuxResonpse,
+HV232C,HandWashSoap2,HR,Factor,AuxResonpse,
+HV232D,HandWashSoap3,HR,Factor,AuxResonpse,
+HV232E,HandWashSoap4,HR,Factor,AuxResonpse,
+HV216,NotCrowded,HR,Factor,ResponseV0,#Number of HH members
+HV009,NumberMember,HR,Factor,AuxResonpse,
+HV112,MotherLineNumber,PR,ID,ID,
+B8,AdolescentBirthRate,IR,numeric,ResponseV0,age of children
+V201,AdolescentBirthRate,IR,numeric,ResponseV0,total children ever born
+B3,AdolescentBirthRate,IR,numeric,ResponseV0,CMC date of birth of children
+V011,BirthDate,IR,numeric,AuxResonpse,CMC date of birth of respondent
+V008,InterviewDate,IR,numeric,AuxResonpse,
+HV013,AdolescentBirthRate,PR,numeric,PresponseV0,not used in the calculation
+V170,BankAccount,IR,Factor,ResponseV,
+MV170,BankAccount,MR,Factor,MresponseV,
+V170,FinancialInclusion,IR,Factor,ResponseV,
+V169B,FinancialInclusion,IR,Factor,ResponseV,
+MV170,FinancialInclusion,MR,Factor,MresponseV,
+MV169B,FinancialInclusion,MR,Factor,MresponseV,
+SH102,BasicWater,HR,Factor,ResponseV,"# ""PoorerHousehold"", ""Residence"", ""HighestEducation"""
+SH104,WaterTime,HR,INT,AuxResonpse,
+SH121U,Internet,PR,Factor,Learning,
+SH37N,Internet,PR,Factor,Learning,
+HV207,LearningPR,PR,Factor,ResponseV,
+HV207,Radio,PR,Factor,Learning,
+HV208,Television,PR,Factor,Learning,
+HV221,Telephone,PR,Factor,Learning,
+HV243A,MobilePhonePR,PR,Factor,Learning,
+SH102,WaterOnsitePR,PR,Factor,ResponseV,
+SH104,WaterTime,PR,Factor,Water,
+HV230A,HandWashPR,PR,Factor,ResponseV,
+HV214,Wall,PR,Factor,WallRoof,
+HV215,Roof,PR,Factor,WallRoof,
+HV216,NotCrowdedPR,PR,Factor,ResponseV,
+HV009,NumberMember,PR,Factor,NotCrowded,
+HV208,Covid1,PR,Factor,ResponseV0,# telvision data
+HV208,Covid2,PR,Factor,ResponseV0,# telvision data
+HV208,Covid,PR,Factor,ResponseV,# telvision data
+HV105,aGroupPR,PR,INT,IndependentV,
+HV109,EducationPR,PR,Factor,IndependentV,
+HV230B,HandWashWater,PR,Factor,HandWash,
+HV232,HandWashSoap,PR,Factor,HandWash,
+HV232C,HandWashSoap2,PR,Factor,HandWash,
+HV232D,HandWashSoap3,PR,Factor,HandWash,
+HV232E,HandWashSoap4,PR,Factor,HandWash,
+HV205,SafeSanitationPR,PR,Factor,ResponseV,
+HV225,SharedToilet,PR,Factor,SafeSanitation,
+SHH110D,MobilePhone,IR,Factor,ResponseV,

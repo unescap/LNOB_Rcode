@@ -123,7 +123,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
       else if(iv=="PoorerHousehold") datause<-PoorerHousehold(datause, dataList, k)
       else if(iv=="aGroup") datause<-aGroup(datause, dataList, k)
       else if(iv=="aGroupPR") datause<-aGroupPR(datause, dataList, k)
-      else if(iv=="HaveChildren") datause<-HaveChildren(datause, dataList, k)
+      else if(iv=="NumberBirths") datause<-NumberBirths(datause, dataList, k)
       else if(iv=="NUnder5") datause<-NUnder5(datause)
       else if(iv=="Residence") datause<-Residence(datause, dataList, k)
       else if(iv=="Sex") datause<-Sex(datause, dataList, k)
@@ -176,9 +176,9 @@ indList<-function(rv, caste = FALSE ){
   else if(rv %in% c("ProfessionalHelp", "HealthcareNotAffordable", 
                     "HealthcareFar", "HealthcareNotAccessible", "HealthcareAppointmentDifficulty",
                     "HealthcareNotUsed", "HealthcareDiscouraged"))
-    iv<-c("PoorerHousehold", "Residence", "aGroup", "MarriageStatus", "HaveChildren", "Education")
+    iv<-c("PoorerHousehold", "Residence", "aGroup", "MarriageStatus", "NumberBirths", "Education")
   else if (rv %in% c("ContraceptiveMethod")) 
-    iv<-c("PoorerHousehold", "Residence", "aGroup", "HaveChildren", "Education")
+    iv<-c("PoorerHousehold", "Residence", "aGroup", "NumberBirths", "Education")
   else if (rv %in% c("AllViolence", "NoAllViolence", "SexualPhysicalViolence", "NoSexualPhysicalViolence",
                      "SexualViolence", "NoSexualViolence", "EmotionalViolence", "NoEmotionalViolence",
                       "PhysicalViolence", "NoPhysicalViolence"))
@@ -1579,9 +1579,9 @@ HusbandAge<-function(datause, dataList, k)
   return(datause)
 }
 
-HaveChildren<-function(datause, dataList, k){
-  datause$HaveChildren<-as.numeric(as.character(datause[,k]))
-  datause$HaveChildren[is.na(datause$HaveChildren)]<-0
+NumberBirths<-function(datause, dataList, k){
+  datause$NumberBirths<-as.numeric(as.character(datause[,k]))
+  datause$NumberBirths[is.na(datause$NumberBirths)]<-0
   return(datause) 
 }
 

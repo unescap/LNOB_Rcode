@@ -148,7 +148,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, educationList,religion_data=N
      else if(iv=="Religion") datause<-Religion(datause, dataList, k, religion_data)
      else if(iv=="Language") datause<-Language(datause, dataList, k, religion_data)
      else if(iv=="Ethnicity") datause<-Ethnicity(datause, dataList, k, religion_data)
-     else if(iv=="HaveChildren") datause<-HaveChildren(datause, k)
+     else if(iv=="NumberBirths") datause<-NumberBirths(datause, k)
        
      else {
        #### if no need for recoding
@@ -180,9 +180,9 @@ indList<-function(rv){
   else if(rv=="Land") 
     return(c("PoorerHousehold", "HHSex", "HighestEducation"))
   else if(rv=="ProfessionalHelp") 
-    return(c("PoorerHousehold", "Residence", "aGroup", "MarriageStatus", "HaveChildren", "Education"))
+    return(c("PoorerHousehold", "Residence", "aGroup", "MarriageStatus", "NumberBirths", "Education"))
   else if (rv %in% c("ContraceptiveMethod"))
-    return(c("PoorerHousehold", "Residence", "aGroup", "HaveChildren", "Education"))
+    return(c("PoorerHousehold", "Residence", "aGroup", "NumberBirths", "Education"))
   else if (rv %in% c("ReasonBeating", "NoViolenceJustifiedAgainstWomen", 
                      "PhysicalViolence", "NoPhysicalViolence", "SexualViolence", "NoSexualViolence",
                      "EmotionalViolence", "NoEmotionalViolence", "SexualPhysicalViolence", "NoSexualPhysicalViolence", 
@@ -1496,9 +1496,9 @@ NUnder5<-function(datause){
   return(datause) 
 }
   
-HaveChildren<-function(datause, k){
-  datause$HaveChildren<-as.numeric(as.character(datause[, k]))
-  datause$HaveChildren[is.na(datause$HaveChildren)]<-0
+NumberBirths<-function(datause, k){
+  datause$NumberBirths<-as.numeric(as.character(datause[, k]))
+  datause$NumberBirths[is.na(datause$NumberBirths)]<-0
   return(datause) 
 }
 
