@@ -60,7 +60,10 @@ gettingDrupalFiles<-function(api_base, key){
 
   geoid<-unique(treeDataDf$field_geo)
 
+  print(geoid)
 
+  print("List of geoids -----")
+  geoid<-geoid[c(-1, -2, -3, -4, -5, -6, -7)]
   n<-0
   if(!is.null(geoid)){
     for(tid in geoid){
@@ -292,13 +295,27 @@ drupalFilesPush<-gettingDrupalFiles(api_base, key)
 # table(t3$field_indicator_name[t3$moderation_state=="Draft"])
 # table(t4$field_indicator_name[t4$moderation_state=="Draft"])
 # 
+
 # country<-unique(t1$field_geo)
 # # country<-country[-c(1, 2)] # Afghanistan and Indian published already
 # 
-# for (ci in country){
-#   r<-http_publish(ci, api_base, key)
-#   print(r)
-# }
+
+country<-c("121", "296", "340", "343", "349", "224", "223", "132",
+           "139", "146", "202", "235", "241", "237", "242", "268",
+           "276", "342", "346", "350", "352", "363", "158", "256",
+           "273", "289", "293")
+
+# "223" "242"
+country<-c("268",
+"276", "342", "346", "350", "352", "363", "158", "256",
+"273", "289", "293")
+
+sink("/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20211202LoadtoDevSite/pubLog.txt")
+for (ci in country){
+  r<-http_publish(ci, api_base, key)
+  print(r)
+}
+sink()
 
 #####  on oct 21st, collecting nids for the mics hh indicators and covid 
 #####  finding the indicators
