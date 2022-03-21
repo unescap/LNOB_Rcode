@@ -72,7 +72,9 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
         t0<-drupalIndex
 
 
-      if(SampleMean<0.99 & SampleMean>0.01){
+      # if(SampleMean<0.99 & SampleMean>0.01){
+        ### special setting, one time run
+        if(SampleMean<1 & SampleMean>0){
             tree_result<-write_tree(survey_source, datauseRG, country_ISO, year_code, rg, 
                               formula_string, title_string,  sub_string, rv, rtp, 
                               religion, ds_output_folder, ds, filename, use_version, drupalIndex, is_experimental)

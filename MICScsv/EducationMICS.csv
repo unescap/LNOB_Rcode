@@ -85,13 +85,13 @@ Levels,DataSet,SurveyName,Education,Grade
 3,wm,Tonga2019,EducationLevels,1
 5,ch,Turkmenistan2015,MotherEducationLevels,2
 1,hl,Turkmenistan2015,SecondaryEducation,10
-2,hl,Turkmenistan2015,SecondaryEducation,1
+2,hl,Turkmenistan2015,SecondaryEducation,9
 3,hl,Turkmenistan2015,SecondaryEducation,1
 1,hl,Turkmenistan2015,Primary,5
 3,wm,Turkmenistan2015,EducationLevels,0
 3,ch,Turkmenistan2019,MotherEducationLevels,0
 1,hl,Turkmenistan2019,SecondaryEducation,10
-2,hl,Turkmenistan2019,SecondaryEducation,1
+2,hl,Turkmenistan2019,SecondaryEducation,9
 3,hl,Turkmenistan2019,SecondaryEducation,1
 1,hl,Turkmenistan2019,Primary,5
 3,wm,Turkmenistan2019,EducationLevels,0

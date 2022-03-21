@@ -152,12 +152,12 @@ attributesMICSdata<-function(data_folder, country_code, year_code, inputcsv_fold
 
 data_folder<-mics_data_folder
 
-attributesMICSdata(data_folder, "Tuvalu", "2019", inputcsv_folder, outputcsv_folder, csvfile_name)
+# attributesMICSdata(data_folder, "Tuvalu", "2019", inputcsv_folder, outputcsv_folder, csvfile_name)
 
 #  attributesMICSdata(data_folder, "Bangladesh", "2019", inputcsv_folder, outputcsv_folder, csvfile_name)
 #  attributesMICSdata(data_folder, "Bhutan", "2010", inputcsv_folder, outputcsv_folder, csvfile_name)
 #  attributesMICSdata(data_folder, "Georgia", "2018", inputcsv_folder, outputcsv_folder, csvfile_name)
-#  attributesMICSdata(data_folder, "Kiribati", "2019", inputcsv_folder, outputcsv_folder, csvfile_name)
+attributesMICSdata(data_folder, "Kiribati", "2019", inputcsv_folder, outputcsv_folder, csvfile_name)
 #  attributesMICSdata(data_folder, "Kazakhstan", "2015", inputcsv_folder, outputcsv_folder, csvfile_name)
 #  attributesMICSdata(data_folder, "Kyrgyzstan", "2018", inputcsv_folder, outputcsv_folder, csvfile_name)
 #  attributesMICSdata(data_folder, "Lao", "2017", inputcsv_folder, outputcsv_folder, csvfile_name)
@@ -173,7 +173,7 @@ attributesMICSdata(data_folder, "Tuvalu", "2019", inputcsv_folder, outputcsv_fol
 #  attributesMICSdata(data_folder,   "Lao", "2011",  inputcsv_folder,outputcsv_folder, csvfile_name)
 #  attributesMICSdata(data_folder,  "Thailand", "2012",  inputcsv_folder,outputcsv_folder, csvfile_name)
 #  attributesMICSdata(data_folder, "Vietnam", "2010",  inputcsv_folder,outputcsv_folder, csvfile_name)
-# attributesMICSdata(data_folder, "Kazakhstan", "2010",  inputcsv_folder,outputcsv_folder, csvfile_name)
+attributesMICSdata(data_folder, "Kazakhstan", "2010",  inputcsv_folder,outputcsv_folder, csvfile_name)
 # attributesMICSdata(data_folder, "Mongolia", "2013",  inputcsv_folder,outputcsv_folder, csvfile_name)
 # attributesMICSdata(data_folder, "Afghanistan", "2010",  inputcsv_folder,outputcsv_folder, csvfile_name)
 # attributesMICSdata(data_folder,  "Thailand", "2015",  inputcsv_folder,outputcsv_folder, csvfile_name)

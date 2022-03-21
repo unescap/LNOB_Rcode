@@ -274,7 +274,7 @@ get_tree<-function(treefit, digits=2){
   term <- rep(" ", length(depth))
   term[frame$var == "<leaf>"] <- "*"
   z <- labels(x, digits=digits, minlength=0)
-  n <- frame$n
+  n <- frame$wt
   dvc<-format(signif(frame$dev, digits))
   z <- data.frame(node, z, n, dvc, yval, term)
   return(z)

@@ -1,28 +1,28 @@
-"NickName","DataSet","Key1","Key2","Key3","UsualVar","Default","Type","IndicatorType","DataType","VarName","Search_result"
-"Privacy","wm","privacy","ensured","","DVD1","no","and","DomesticViolence","Factor",NA,NA
-"CurrentlyMarried","wm","currently married","living with a man","","MA1","no","and","DomesticViolence","Factor",NA,NA
-"EverMarried","wm","ever married","lived with a man","","MA5","no","and","DomesticViolence","Factor",NA,NA
-"Dvweight","wm","women selected","dv","sample weight","DVHWEIGHT","no","and","DomesticViolence","Factor",NA,NA
-"Push","wm","push","shake","throw","DVD5A","no","and","PhysicalViolence","Factor",NA,NA
-"Slap","wm","slap you","","","DVD5B","no","and","PhysicalViolence","Factor",NA,NA
-"Twist","wm","twist","pull","","DVD5C","no","and","PhysicalViolence","Factor",NA,NA
-"Punch","wm","punch","hurt","","DVD5D","no","and","PhysicalViolence","Factor",NA,NA
-"Kick","wm","kick","drag","beat","DVD5E","no","and","PhysicalViolence","Factor",NA,NA
-"Choke","wm","choke","burn","","DVD5F","no","and","PhysicalViolence","Factor",NA,NA
-"Attack","wm","knife","sharp","weapon","DVD5G","no","and","PhysicalViolence","Factor",NA,NA
-"ForcedSexualActs","wm","physically force","any sexual acts","did not want to","DVD5H","no","and","SexualViolence","Factor",NA,NA
-"OtherSexualActs","wm","physically force","any other sexual acts","did not want to","DVD5I","no","and","SexualViolence","Factor",NA,NA
-"ThreatSexualActs","wm","with threats","sexual acts","did not want to","DVD5J","no","and","SexualViolence","Factor",NA,NA
-"Humiliate","wm","say or do","humiliate","infront of others","DVD4A","no","and","EmotionalViolence","Factor",NA,NA
-"Threaten","wm","threaten","hurt or harm","someone","DVD4B","no","and","EmotionalViolence","Factor",NA,NA
-"Insult","wm","insult","feel bad","yourself","DVD4C","no","and","EmotionalViolence","Factor",NA,NA
-"PhysicalViolence","wm","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor",NA,NA
-"NoPhysicalViolence","wm","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor",NA,NA
-"SexualViolence","wm","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor",NA,NA
-"NoSexualViolence","wm","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor",NA,NA
-"EmotionalViolence","wm","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor",NA,NA
-"NoEmotionalViolence","wm","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor",NA,NA
-"SexualPhysicalViolence","wm","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor",NA,NA
-"NoSexualPhysicalViolence","wm","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor",NA,NA
-"AllViolence","wm","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor",NA,NA
-"NoAllViolence","wm","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor",NA,NA
+NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType,VarName,Search_result
+Privacy,wm,privacy,,,DVD1,no,and,DomesticViolence,Factor,NA,NA
+CurrentlyMarried,wm,currently married,living with a man,,MA1,no,and,DomesticViolence,Factor,NA,NA
+EverMarried,wm,ever married,lived with a man,,MA5,no,and,DomesticViolence,Factor,NA,NA
+Dvweight,wm,weight,dv,,DVHWEIGHT,no,and,DomesticViolence,Factor,NA,NA
+Push,wm,push,shake,throw,DVD5A,no,and,PhysicalViolence,Factor,NA,NA
+Slap,wm,slap you,,,DVD5B,no,and,PhysicalViolence,Factor,NA,NA
+Twist,wm,twist,pull,,DVD5C,no,and,PhysicalViolence,Factor,NA,NA
+Punch,wm,punch,hurt,,DVD5D,no,and,PhysicalViolence,Factor,NA,NA
+Kick,wm,kick,drag,beat,DVD5E,no,and,PhysicalViolence,Factor,NA,NA
+Choke,wm,choke,burn,,DVD5F,no,and,PhysicalViolence,Factor,NA,NA
+Attack,wm,knife,weapon,,DVD5G,no,and,PhysicalViolence,Factor,NA,NA
+ForcedSexualActs,wm,physically force,sexual,did not want to,DVD5H,no,and,SexualViolence,Factor,NA,NA
+OtherSexualActs,wm,physically force,other sexual,did not want to,DVD5I,no,and,SexualViolence,Factor,NA,NA
+ThreatSexualActs,wm,with threats,sexual acts,did not want to,DVD5J,no,and,SexualViolence,Factor,NA,NA
+Humiliate,wm,say or do,humiliate,of others,DVD4A,no,and,EmotionalViolence,Factor,NA,NA
+Threaten,wm,threaten,hurt or harm,someone,DVD4B,no,and,EmotionalViolence,Factor,NA,NA
+Insult,wm,insult,feel bad,yourself,DVD4C,no,and,EmotionalViolence,Factor,NA,NA
+PhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,NA,NA
+NoPhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,NA,NA
+SexualViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,NA,NA
+NoSexualViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,NA,NA
+EmotionalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,NA,NA
+NoEmotionalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,NA,NA
+SexualPhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,NA,NA
+NoSexualPhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,NA,NA
+AllViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,NA,NA
+NoAllViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,NA,NA

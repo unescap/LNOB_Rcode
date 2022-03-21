@@ -88,7 +88,7 @@ source(paste(r_folder,"MICS_main_functions.R",sep=""))
 #### running MICS:
 data_folder<-mics_data_folder
 print(csv_folder)
-
+csvfile_name<-"MICS"
 
 
 

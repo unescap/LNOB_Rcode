@@ -120,7 +120,11 @@ run_together_rel(csv_folder, data_folder, output_folder, "VietNam", "2013",  csv
 # df<-importMICSdata(data_folder,  "Tonga", "2019", "wm", "DVD5C", la=FALSE)
 # print(table(df))
 
-df<-importMICSdata(data_folder,  "Tuvalu", "2019", "wm", c("CEB", "CM11", "CM12", "CM15", "CM17", "BH11"), la=FALSE)
-df$livetotal<-df$BH11+df$CM17
-df$failed<-df$CEB-df$livetotal
-table(df$failed)
+# df<-importMICSdata(data_folder,  "Tuvalu", "2019", "wm", c("CEB", "CM11", "CM12", "CM15", "CM17", "BH11"), la=FALSE)
+# df$livetotal<-df$BH11+df$CM17
+# df$failed<-df$CEB-df$livetotal
+# table(df$failed)
+
+
+# df<-importMICSdata(data_folder,  "Turkmenistan", "2019", "wm", "WB4", la=FALSE)
+# df<-importMICSdata(data_folder,  "Turkmenistan", "2019", "hh", "WS1", la=FALSE)

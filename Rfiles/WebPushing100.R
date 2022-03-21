@@ -25,12 +25,13 @@ source(paste(r_folder,"http_request.R",sep=""))
 # pubDatafolder<-paste(data_folder,"drupalDataNonBarrierDV/",sep="")
 # pubDatafolder<-paste(data_folder,"drupalDataMICSEdufix20211022/",sep="")
 # pubDatafolder<-paste(data_folder,"drupalDataNoSexualVDHS20211022/",sep="")
-
 # pubDatafolder<-paste(data_folder,"drupalData20211202TONreligionTrial/",sep="")
+# pubDatafolder<-paste(data_folder,"drupalData20211202LoadtoDevSite/",sep="")
+# pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData202201039newcases/"
+# pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220304violencedatagap/"
+pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220321NEET/"
 
-pubDatafolder<-paste(data_folder,"drupalData20211202LoadtoDevSite/",sep="")
-
-
+  
 # runtime<-format(Sys.time(), "%Y%m%d%H%M%S")
 ### it is by design that this data folder name change every time
 ### you need to type in the correct folder name and then run "Source", all .rds files
@@ -280,15 +281,15 @@ drupalFilesPush<-gettingDrupalFiles(api_base, key)
 # print(table(wrong_version))
 # wrong_lao<-lao_drupal[wrong_version, ]
 
-# for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
-# # for (type in c("region_d_index", "region_tree_data")) {
-# # for (type in c("d_index", "tree_data")) {
-#     pubfolder<-paste(pubDatafolder, type, "/", sep="")
-#     print(pubfolder)
-#     push_together(pubfolder, drupalFilesPush, api_base, key)
-# }
+for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
+# for (type in c("region_d_index", "region_tree_data")) {
+# for (type in c("d_index", "tree_data")) {
+    pubfolder<-paste(pubDatafolder, type, "/", sep="")
+    print(pubfolder)
+    push_together(pubfolder, drupalFilesPush, api_base, key)
+}
 
-# push_together(pubfolder, drupalFilesPush, api_base, key) 
+# push_together(pubfolder, drupalFilesPush, api_base, key)
 
 
 # print(r)

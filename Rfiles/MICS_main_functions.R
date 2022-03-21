@@ -66,7 +66,7 @@ source(paste(r_folder,"MICS_Unmet_Need.R",sep=""))
 source(paste(r_folder,"TreeAndLogistic.R",sep=""))
 source(paste(r_folder,"general_output.R",sep=""))
 
-csvfile_name<-"MICS"
+
 # edcationcsv<-"EducationMICS_testing"
 edcationcsv<-"EducationMICS"
 religioncsv<-"ReligionMICS"
