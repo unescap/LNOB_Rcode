@@ -669,15 +669,13 @@ SecondaryEducation2035<-function(datause, dataList, k, educationList, svnm){
     else  datause$var2tab[datause[, k] == educationList$Levels[i] & (datause[ , gradeK]>= educationList$Grade[i] & datause[ , gradeK]<90) & !is.na(datause[,k])]<-1
   }
   
-  # print(table(datause[, k], datause$var2tab))
-  # exportGradeAge(datause)   # this is made for Turkmenistan 2019
   return(datause)
 }
 
 
 SecondaryEducation35plus<-function(datause, dataList, k, educationList, svnm){
   educationList<-educationList[educationList$Education=="SecondaryEducation", ]
-  ageV<-dataList$VarName[dataList$NickName=="BirthYear"]
+  ageV<-dataList$VarName[dataList$NickName=="Age"]
   ageK<-match(ageV, colnames(datause))
   gradeV<-dataList$VarName[dataList$NickName=="Grade"]
   gradeK<-match(gradeV, colnames(datause))
@@ -697,13 +695,13 @@ SecondaryEducation35plus<-function(datause, dataList, k, educationList, svnm){
   
   datause$var2tab<-0
   max_level<-max(educationList$Levels)
-  #datause$var2tab[datause[, k] > max_level & datause[, k] < 8 & !is.na(datause[,k])]<-1
-  datause$var2tab[datause[, k] > max_level & datause[, k] < 8]<-1
+  datause$var2tab[datause[, k] > max_level & datause[, k] < 8 & !is.na(datause[,k])]<-1
+  # datause$var2tab[datause[, k] > max_level & datause[, k] < 8]<-1
   
   for(i in c(1:nrow_grd)){
   # datause$var2tab[datause[, k] == educationList$Levels[i] & (datause[ , gradeK]>= educationList$Grade[i] & datause[ , gradeK]<90) & !is.na(datause[,k])]<-1
     if(svnm %in% c("Turkmenistan2019", "Turkmenistan2015") & educationList$Levels[i]==1){
-      byV<-dataList$VarName[dataList$NickName=="Age"]
+      byV<-dataList$VarName[dataList$NickName=="BirthYear"]
       byK<-match(byV, colnames(datause))
       birthyear<-as.numeric(as.character(datause[, byK]))
       datause$var2tab[datause[, k] == 1 & (datause[ , gradeK]>= 10 & datause[ , gradeK]<90)]<-1

@@ -85,13 +85,13 @@ Levels,DataSet,SurveyName,Education,Grade
 3,wm,Tonga2019,EducationLevels,1
 5,ch,Turkmenistan2015,MotherEducationLevels,2
 1,hl,Turkmenistan2015,SecondaryEducation,10
-2,hl,Turkmenistan2015,SecondaryEducation,9
+2,hl,Turkmenistan2015,SecondaryEducation,1
 3,hl,Turkmenistan2015,SecondaryEducation,1
 1,hl,Turkmenistan2015,Primary,5
 3,wm,Turkmenistan2015,EducationLevels,0
 3,ch,Turkmenistan2019,MotherEducationLevels,0
 1,hl,Turkmenistan2019,SecondaryEducation,10
-2,hl,Turkmenistan2019,SecondaryEducation,9
+2,hl,Turkmenistan2019,SecondaryEducation,1
 3,hl,Turkmenistan2019,SecondaryEducation,1
 1,hl,Turkmenistan2019,Primary,5
 3,wm,Turkmenistan2019,EducationLevels,0
@@ -109,3 +109,7 @@ Levels,DataSet,SurveyName,Education,Grade
 1,hl,Tuvalu2019,Primary,99
 2,ch,Tuvalu2019,MotherEducationLevels,1
 2,wm,Tuvalu2019,EducationLevels,1
+2,hl,Samoa2019,SecondaryEducation,13
+1,hl,Samoa2019,Primary,99
+2,ch,Samoa2019,MotherEducationLevels,1
+2,wm,Samoa2019,EducationLevels,1

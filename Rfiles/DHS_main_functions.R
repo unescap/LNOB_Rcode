@@ -72,7 +72,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
 {
   drupalIndex<-initialIndex
   svnm<-paste(country_code, version_code, sep="")
-  country_ISO<-iso_code(country_code)
+  country_ISO<-country_ISO(country_code)
   if(country_ISO=="NotFound") {
     print("ISO code not found, using the DHS country code instead")
     country_ISO<-country_code
@@ -85,18 +85,12 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     return(drupalIndex)
   }
 
+  print(csvfile_name)
   meta_data<-read.table(csvfile_name, sep=",", header=T, colClasses="character")
   # info(logger, "Run_together function called.")
   # Type of Datasets: IR, HR, PR, MR.
   dataSet<-unique(meta_data$DataSet)
   dataSet<-dataSet[!dataSet=="MR"]
-
-  # specify data set for debugginh
-  # dataSet<-c("PR", "IR")
-  # dataSet<-c("HR")
-
-  # DataSet provides survey dataset shortname (HR, IR, or PR) and response/independent variables for each dataset
-  # Iterate through each type of dataset. 
 
 
   if(use_version>1) {
@@ -110,6 +104,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
                                                  & validationdata$version_code==version_code])
     Rlist<-unique(validationdata$IndicatorName[validationdata$country_code==country_code 
                                                & validationdata$version_code==version_code])
+    print(Rlist)
   }
   ###### this file must contain the following columns
   ###### SurveyIndicator	IndicatorName	SurveyID	country_code	version_code	dataset	MeanY	SurveySource	IndicatorName
@@ -131,12 +126,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # Sample Weight transformation 
     dataList<-meta_data[meta_data$DataSet==ds, ]
 
-    # Example: ./dat_download/Afghanistan 2015/
-    # this function is defined in ConfigInput.R 
     country_data_folder<-dhs_country_data(original_data_folder, country_code, version_code)
-    # print(country_data_folder)
-    # Example: ./dat_download/Afghanistan 2015/AFIR70FL/
-    # data_folder <- paste(country_data_folder, paste(filename, "/", sep = ""), sep="")
     data_folder<-country_data_folder
     
     
@@ -165,7 +155,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     swV<-dataList$VarName[dataList$NickName=="SampleWeight"]
     df<- scale_sample_weight(df, swV)
     
-    if(ds %in% c("PR", "IR"))
+    if(ds %in% c("PR", "IR", "KR"))
       df<-add_NUnder5(df, data_folder, country_code, version_code, prversion_code, meta_data)
     
     
@@ -179,7 +169,6 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
     # Prepare Response Variable List. 
     responseList<-dataList[dataList$IndicatorType=="ResponseV", ]
     unique_responseList <- unique(responseList$NickName)
-
 
     # Iterate through each response variable for current dataset type. 
     if(use_version>1){
@@ -199,12 +188,7 @@ run_together<-function(csv_folder, original_data_folder, output_folder, country_
       # Printing current iteration of response variable. 
       message <- paste("Random variable: ", rv, "  ------------------")
       print(message)
-      # info(logger, message)
-      # message <- paste("Current Response Variable: ", match(rv, unique_responseList), " of ", length(unique_responseList))
-      # print(message)
-      # info(logger, message)
 
-      
       # Retrieve Inpendent variable list. 
       indvar<- indList(rv, caste = caste )
       

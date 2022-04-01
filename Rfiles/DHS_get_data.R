@@ -17,18 +17,20 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
      !(rv %in% c("HealthcareNotAffordable", 
                  "HealthcareFar", "HealthcareNotAccessible", 
                  "HealthcareNotUsed", "HealthcareDiscouraged"))){
-    for(i in c(1:l))
+    knull<-0
+    for(i in c(1:l)){
       if(is.na(k[i])) {
         print(paste("Response variable -- ", rv, "(",  VarName[i], ") not found"))
-        return(NULL)
       }
-    df[, k[i]]<-as.numeric(as.character(df[,k[i]]))
-    
-    
-    if(length(df[!is.na(df[, k[i]]), k[i]])<=1) {
-      print(paste("Response variable -- ", rv, "(",  VarName, ") has not valid observations"))
-      return(NULL)
+      else {
+         df[, k[i]]<-as.numeric(as.character(df[,k[i]]))
+        if(length(df[!is.na(df[, k[i]]), k[i]])<=1) {
+        print(paste("Response variable -- ", rv, "(",  VarName, ") has not valid observations"))
+        }
+         else knull <- knull+1
     }
+    }
+    if(knull==0) return(NULL)
   }
   ###### Programmer Note1:
   ###### if you want to add a new response variable, 
@@ -48,8 +50,8 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   else if (rv=="HouseholdTechNeed") datause<- HouseholdTechNeed(df, dataList)
   else if (rv=="Land") datause<- Land(df, dataList, k)
   else if (rv=="MultiDeprivation") datause<- MultiDeprivation(df, dataList, k, svnm) 
-  else if (rv=="SecondaryEducation2035") datause<- SecondaryEducation2035(df, dataList, k, svnm)
-  else if (rv=="SecondaryEducation35plus") datause<- SecondaryEducation35plus(df, dataList, k, svnm)
+  else if (rv=="SecondaryEducation2035") datause<- SecondaryEducation2035(df, dataList, k)
+  else if (rv=="SecondaryEducation35plus") datause<- SecondaryEducation35plus(df, dataList, k)
   else if (rv=="HigherEducation2535")    datause<- HigherEducation2535(df, dataList, k)
   else if (rv=="HigherEducation35plus") datause<- HigherEducation35plus(df, dataList, k)
   else if (rv=="NotStunting") datause<- NotStunting(df, dataList, k)
@@ -59,6 +61,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   else if (rv=="Stunting") datause<- Stunting(df, dataList, k)
   else if (rv=="Overweight") datause<-  Overweight(df, dataList, k)
   else if (rv=="Wasting") datause<- Wasting(df, dataList, k)
+  else if (rv=="EarlyChildhoodEducation") datause<-EarlyChildhoodEducation(df, dataList, k, svnm)
   else if (rv=="ContraceptiveMethod") datause<- ContraceptiveMethod(df, dataList, k)
   else if (rv=="ProfessionalHelp") datause<- ProfessionalHelp(df, dataList, svnm)  ### no need for k for this one variable
   else if (rv=="HealthInsurance") datause<- HealthInsurance(df, dataList, k, mrDatalist)
@@ -76,6 +79,8 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   else if (rv=="NoSexualViolence") datause<-NoSexualViolence(df, dataList, k)
   else if (rv=="EmotionalViolence") datause<- EmotionalViolence(df, dataList, k)
   else if (rv=="NoEmotionalViolence") datause<- NoEmotionalViolence(df, dataList, k)
+  else if (rv=="ReasonBeating") datause<- ReasonBeating(df, dataList, k)
+  else if (rv=="NoViolenceJustifiedAgainstWomen") datause<- NoViolenceJustifiedAgainstWomen(df, dataList, k)
   else if (rv=="MobileFinance") datause<- MobileFinance(df, dataList, k)
   else if (rv=="BankAccount") datause<- BankAccount(df, dataList, k)
   else if (rv=="HandWash") datause<- HandWash(df, dataList, k)
@@ -99,7 +104,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   
   # print(sum(datause$var2tab*datause$SampleWeight)/sum(datause$SampleWeight)*100)
   # print(mean(datause$var2tab)*100)
-
+  datause<-datause[!is.na(datause$SampleWeight), ]
   if(is.null(datause)) {
     print("No data available")
     return(NULL)
@@ -144,9 +149,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
         #### if no need for recoding
         colnames(datause)[k]<-iv      
       }
-      
-      print(iv)
-      print(table(datause[, iv]))
+
     }
 
     return(datause)
@@ -166,7 +169,7 @@ indList<-function(rv, caste = FALSE ){
                "CleanFuel", "HouseholdTechNeed", "MobilePhoneHH", "BankCardHH", "MultiDeprivation", "HandWash", "NotCrowded", "BasicWater"))
     iv<-c("PoorerHousehold", "Residence", "HighestEducation")
   else if(rv %in% c("ChildHealth", "NotStunting", "Stunting", "NotOverweight", 
-                    "NotWasting", "Overweight", "Wasting"))
+                    "NotWasting", "Overweight", "Wasting", "EarlyChildhoodEducation"))
     iv<-c("PoorerHousehold", "Residence", "MotherEducation", "NUnder5", "Sex")
   else if (rv %in% c("HigherEducation2535", "HigherEducation35plus",
                      "SecondaryEducation2035", "SecondaryEducation35plus"))
@@ -181,7 +184,7 @@ indList<-function(rv, caste = FALSE ){
     iv<-c("PoorerHousehold", "Residence", "aGroup", "NumberBirths", "Education")
   else if (rv %in% c("AllViolence", "NoAllViolence", "SexualPhysicalViolence", "NoSexualPhysicalViolence",
                      "SexualViolence", "NoSexualViolence", "EmotionalViolence", "NoEmotionalViolence",
-                      "PhysicalViolence", "NoPhysicalViolence"))
+                      "PhysicalViolence", "NoPhysicalViolence", "ReasonBeating", "NoViolenceJustifiedAgainstWomen"))
     iv<-c("PoorerHousehold", "Residence", "aGroup", "NUnder5", "Education")
           # return to basic model on voilence variables, June 14 2021 email
           #  , "HusbandAge", "HusbandEducation", "HusbandAlcohol", "FatherBeatMother", 
@@ -595,7 +598,40 @@ Wasting<-function(datause, dataList, k){
   
 }
 
+EarlyChildhoodEducation<-function(df, dataList, k, svnm){
+  caV<-dataList$VarName[dataList$NickName=="Age"]
+  caK<-match(caV, colnames(df))
+  df$Age<-as.numeric(as.character(df[, caK]))
+  datause<-df[!is.na(df$Age), ]
+  
+  if(svnm %in% c('KH72')){  ### for cambodia, only youngest child was asked about
+    yV<-dataList$VarName[dataList$NickName=="Youngest"]
+    yK<-match(yV, colnames(datause))
+    datause<-datause[!is.na(datause[, yK]), ]
+  }
+  
+  if(svnm %in% c("TL71")){  ### for timo leste, only child living with mother was asked about
+    yV<-dataList$VarName[dataList$NickName=="LivingWithMother"]
+    yK<-match(yV, colnames(datause))
+    datause<-datause[!is.na(datause[, yK]), ]
+  }
 
+  if(svnm=="TL71") datause<-datause[datause$Age==3, ]
+  else if(svnm=="KY61") datause<-datause[datause$Age>=5 & datause$Age<=6, ]
+  else  if(svnm %in% c('KH72', 'MV71', 'MM71', "NP61", 'TJ61')) datause<-datause[datause$Age>=3 & datause$Age<=4, ]
+  else if(svnm %in% c("IA74")) datause<-datause[datause$Age>=3, ]  ## India claimed to have 3-6 yos, but the KR only have 3-4
+  
+
+  datause$var2tab<-0 
+  if(svnm=="IA74") datause$var2tab[datause[, k] %in% c(1,2)]<-1
+  else if(svnm=="KY61") {
+    yV<-dataList$VarName[dataList$NickName=="Preschool"]
+    datause$var2tab[datause[, k] ==2 & datause[, yV]==0]<-1
+  }
+  else if(svnm=="NP61") datause$var2tab[datause[, k] %in% c(94, 95) ]<-1
+  else  datause$var2tab[datause[, k]==1]<-1
+  return(datause)
+}
 
 ######### IR response variables
 ContraceptiveMethod<-function(datause, dataList, k){
@@ -875,14 +911,15 @@ DataOfViolence<-function(datause, dataList){
   ViV<-dataList$VarName[dataList$NickName=="ViolenceInterview"]
   ViK<-match(ViV, colnames(datause))
   datause<-datause[!is.na(datause[, ViK]), ]
-  datause<-datause[datause[, ViK]==1, ]
+  datause<-datause[datause[, ViK] %in% c(1), ] ### changed from 1 to 1,2
   datause<-datause[datause$V502 %in% c(1,2), ]
   
   SwV<-dataList$VarName[dataList$NickName=="ViolenceWeight"]
   SwK<-match(SwV, colnames(datause))
   datause$SampleWeight<-as.numeric(as.character(datause[, SwK]))/1000000
   datause<-datause[!is.na(datause$SampleWeight), ]
-  
+  print(nrow(datause))
+  print(sum(datause$SampleWeight))
   return(datause)
 }
 
@@ -894,7 +931,7 @@ AllViolence<-function(datause, dataList, k){
   
   for(i in k){
 
-    datause$var2tab[datause[ , i]  %in% c(1, 2, 3) ]<-1
+    datause$var2tab[!is.na(datause[ , i]) & datause[ , i]  %in% c(1, 2) ]<-1
   }
   return(datause)
 }
@@ -912,7 +949,7 @@ SexualPhysicalViolence<-function(datause, dataList, k){
   l<-length(k)
   datause$var2tab<- 0
   for(i in c(1:l))
-    datause$var2tab[datause[,k[i]]  %in% c(1, 2, 3)]<-1 
+    datause$var2tab[datause[,k[i]]  %in% c(1, 2)]<-1 
   
   return(datause)
 }
@@ -935,8 +972,8 @@ PhysicalViolence<-function(datause, dataList, k){
   for(i in c(1:l)){
     #print(c("missing value", colnames(datause)[k[i]], sum(datause$SampleWeight[is.na(datause[,k[i]])])))
     datause<-datause[!is.na(datause[,k[i]]), ]
-    cond0<-(datause[,k[i]] %in% c(1, 2, 3, 4))
-    datause$var2tab[datause[,k[i]]  %in% c(1, 2, 3, 4)]<-1 
+    cond0<-(datause[,k[i]] %in% c(1, 2))
+    datause$var2tab[datause[,k[i]]  %in% c(1, 2)]<-1 
   }
   return(datause)
 }
@@ -953,7 +990,7 @@ SexualViolence<-function(datause, dataList, k){
   datause<-DataOfViolence(datause, dataList)
   datause$var2tab<- 0
   for(i in k)
-    datause$var2tab[datause[,i]  %in% c(1, 2, 3)]<-1 
+    datause$var2tab[datause[,i]  %in% c(1, 2)]<-1 
   
   return(datause)
   
@@ -974,8 +1011,7 @@ EmotionalViolence<-function(datause, dataList, k){
   # datause$var2tab[datause[,k] %in% c(1, 2, 3)]<-1
   l<-length(k)
   for(i in c(1:l))
-    datause$var2tab[datause[,k[i]]  %in% c(1, 2, 3)]<-1 
-  
+    datause$var2tab[datause[,k[i]]  %in% c(1, 2)]<-1 
   return(datause)
   
 
@@ -983,6 +1019,28 @@ EmotionalViolence<-function(datause, dataList, k){
 
 NoEmotionalViolence<-function(datause, dataList, k){
   datause<-EmotionalViolence(datause, dataList, k)
+  if(is.null(datause)) return(NULL)
+  datause$var2tab<-1-datause$var2tab
+  return(datause)
+}
+
+
+ReasonBeating<-function(datause, dataList, k){
+  datause$var2tab<- 0
+  l<-length(k)
+  datause$nacount<-0
+  for(i in c(1:l)){
+    datause$var2tab[!is.na(datause[,k[i]]) & datause[,k[i]]==1]<-1 
+    datause$nacount[is.na(datause[,k[i]])]<-datause$nacount[is.na(datause[,k[i]])]+1
+  }
+  datause<-datause[datause$nacount<l, ]
+  return(datause)
+  
+  
+}
+
+NoViolenceJustifiedAgainstWomen<-function(datause, dataList, k){
+  datause<-ReasonBeating(datause, dataList, k)
   if(is.null(datause)) return(NULL)
   datause$var2tab<-1-datause$var2tab
   return(datause)
@@ -1004,7 +1062,7 @@ BankAccount<-function(datause, dataList, k){
 
 HandWash<-function(datause, dataList, k){
   datause$var2tab<- 0
-  print(k)
+
   datause[, k]<-as.numeric(as.character(datause[, k]))
   
   if(length(datause[!is.na(datause[,k]),k])==0){
@@ -1044,7 +1102,6 @@ HandWash<-function(datause, dataList, k){
   
   datause$var2tab[place & water & soap] <-1
   
-  print(table(datause$var2tab))
   return(datause)
 }
 
@@ -1052,8 +1109,7 @@ NotCrowded<-function(datause, dataList, k){
 
   datause$var2tab<- 0
   datause[, k]<-as.numeric(as.character(datause[, k]))
-  print("Summary of number of rooms")
-  print(summary(datause[, k]))
+
   nV<-dataList$VarName[dataList$NickName == "NumberMember"]
   nk<-match(nV, colnames(datause))
   # old denifition
@@ -1066,7 +1122,7 @@ NotCrowded<-function(datause, dataList, k){
   datause<-calculateHMexBabies(datause, dataList)
   density<-datause$NumHMgt2
   room<-!is.na(datause[, k]) & datause[, k]>0 & datause[, k]<99
-  print(table(room)/length(room))
+
   density[room]<-datause$NumHMgt2[room]/datause[room, k]
   datause$var2tab[density<=2]<-1
   return(datause)
@@ -1076,7 +1132,7 @@ NotCrowded<-function(datause, dataList, k){
 calculateHMexBabies<-function(datause, dataList){
   
   ageV<-dataList$VarName[dataList$NickName == "Age"]
-  print(ageV)
+
   agek<-match(ageV, colnames(datause), nomatch = 0)
   if(agek==0) return(NULL)
   else{
@@ -1107,8 +1163,7 @@ add_NUnder5<-function(df, data_folder, country_code, version_code, prversion_cod
   df2<-df2[age<=5, ]
   df2$ct<-1
   Under5<-aggregate(df2$ct, list(df2$HV001, df2$HV002), sum)
-  
-  print(Under5[c(1:10), ])
+
   k<-match("HV001", colnames(df), nomatch = 0)
   if(k>0) {
     colnames(Under5)<-c("HV001", "HV002", "NUnder5")
@@ -1131,7 +1186,7 @@ FinancialInclusion<-function(datause, dataList, k){
   # this variable is defined by 2 columns
   datause$var2tab<-0
   tw<-sum(datause$SampleWeight)
-  print(tw)
+
   for(i in c(1,2)){
     ki<-k[i]
     vi<-as.numeric(as.character(datause[,ki]))
@@ -1423,9 +1478,6 @@ Religion<-function(datause, dataList, k, eth){
 Under5<-function(datause, dataList, k){
   
   datause$Under5<-datause[, k]
-  print("######## number of children under 5 ##########")
-  print(table(datause$Under5))
-  print(sum(datause$SampleWeight[datause$Under5==0])/sum(datause$SampleWeight))
   return(datause) 
 }
 
@@ -1748,7 +1800,7 @@ merge_mr <- function(mr_ds, meta_data, datause, dataList, country_code, version_
     
       datause$Sex<-1
       mrdatause$Sex<-2
-      print(match(commonVar, colnames(datause)))
+
       datause<-datause[, commonVar]
       mrdatause<-mrdatause[, commonVar]
       datause<-rbind(datause, mrdatause)
@@ -1778,7 +1830,6 @@ merge_pr <- function(pr_ds, meta_data,datause, dataList, country_code, version_c
 
   prdf<-importDHSDAT(paste(data_folder, filename, sep="/"), Flag_New, prdataList$VarName)
   
-  print(colnames(prdf))
   swK<-match(swV, colnames(prdf))
   if(length(swK)==0 | sum(is.na(prdf[, swK]))==nrow(prdf))
     prdf$SampleWeight<-1
@@ -1792,7 +1843,6 @@ merge_pr <- function(pr_ds, meta_data,datause, dataList, country_code, version_c
   
   prdf<-prdf[prdf$HV104==2 & prdf$HV117==0 & (prdf$HV116==" " | prdf$HV116==0), ]   ### only female, ineligible and not married
   
-  print(table(prdf$HV013))
   if(!is.null(prdf)) prdatause<-get_data(prdf, rv, prdataList, indvar, svnm, eth)
   
   if(!is.null(prdatause)) {
@@ -1811,7 +1861,6 @@ merge_pr <- function(pr_ds, meta_data,datause, dataList, country_code, version_c
     }
     commonVar<-c("cluster_id", "HouseholdNumber", "RLNumber", "SampleWeight", indvar, "var2tab", "REGION")
     
-    print(colnames(prdatause))
     datause<-datause[, commonVar]
     prdatause<-prdatause[, commonVar] 
     prdatause$var2tab<-0 ### assume unmarried teenagers have no birth 
@@ -1833,31 +1882,5 @@ merge_pr <- function(pr_ds, meta_data,datause, dataList, country_code, version_c
 # Arguments: [1] Single factor value 
 # Returns: Single numeric value 
 as.numeric.factor <- function(x) {as.numeric(levels(x))[x]}
-
-
-
-iso_code<-function(country_code){
-  if(country_code=="IA") iso<-"IND"
-  else if(country_code=="AF") iso<-"AFG"
-  else if(country_code=="AM") iso<-"ARM"
-  else if(country_code=="BD") iso<-"BGD"
-  else if(country_code=="KH") iso<-"KHM"
-  else if(country_code=="MV") iso<-"MDV"
-  else if(country_code=="MM") iso<-"MMR"
-  else if(country_code=="NP") iso<-"NPL"
-  else if(country_code=="PK") iso<-"PAK"
-  else if(country_code=="PG") iso<-"PNG"
-  else if(country_code=="PH") iso<-"PHL"
-  else if(country_code=="TJ") iso<-"TJK"
-  else if(country_code=="TL") iso<-"TLS"
-  else if(country_code=="TR") iso<-"TUR"
-  else if(country_code=="ID") iso<-"IDN"
-  else if(country_code=="KY") iso<-"KGZ"
-  else iso<-"NotFound"
-  
-  return(iso)
-  
-}
-
 
 

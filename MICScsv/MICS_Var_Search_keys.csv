@@ -1,251 +1,288 @@
-"NickName","DataSet","Key1","Key2","Key3","UsualVar","Default","Type","IndicatorType","DataType"
-"cluster_id","ch","cluster","number","","HH1","yes","and","ID","ID"
-"RLNumber","ch","line","number","","LN","yes","and","ID","ID"
-"HouseholdNumber","ch","household","number","","HH2","yes","Only","ID","ID"
-"Age","ch","age","months","","CAGE","no","and","IndependentV","numeric"
-"Ethnicity","ch","ethnicity","","","ETHNICITY","no","and","IndependentV","Factor"
-"MotherEducation","ch","education","mother","","MELEVEL","no","and","IndependentV","Factor"
-"Residence","ch","area","","","HH6","no","Only","IndependentV","Factor"
-"Sex","ch","sex","","","HL4","no","Only","IndependentV","Factor"
-"NUnder5","ch","no keywords","","","No keywords","No keywords","No keywords","IndependentV","numeric"
-"PoorerHousehold","ch","wealth","index","quintile","WINDEX5","yes","Only","IndependentV","Factor"
-"Height","ch","height","centimetres","","AN4","no","and","NotUsed","numeric"
-"Weight","ch","weight","kilograms","","AN3","no","and","NotUsed","numeric"
-"NotOverweight","ch","weight for height","z-score","who","WAZ","no","and","ResponseV","numeric"
-"NotStunting","ch","height for age","z-score","who","HAZ","no","and","ResponseV","numeric"
-"NotWasting","ch","weight for height","z-score","who","WHZ","no","and","ResponseV","numeric"
-"Overweight","ch","weight for height","z-score","who","WAZ","no","and","ResponseV","numeric"
-"Stunting","ch","height for age","z-score","who","HAZ","no","and","ResponseV","numeric"
-"Wasting","ch","weight for height","z-score","who","WHZ","no","and","ResponseV","numeric"
-"ChildHealth","ch","child","measured","","AN4A","no","and","ResponseV0","Factor"
-"SampleWeight","ch","sample","weight","","CHWEIGHT","yes","Only","Weight","numeric"
-"Religion","ch","religion","","","RELIGION","no","and","IndependentV","Factor"
-"Language","ch","language","","","LANGUAGE","no","and","IndependentV","Factor"
-"Region","ch","region","","","HH7","yes","Only","Region","Factor"
-"Province","ch","province","","","HH7A","yes","Only","Province","Factor"
-"SharedToilet","hh","toilet","shared","","WS15","no","and","AuxResonpse","Factor"
-"SoapB1","hh","bar","soap","","HW3BA","no","and","Handwash","Factor"
-"SoapB3","hh","liquid","soap","","HW3BC","no","and","Handwash","Factor"
-"HandWashPlace","hh","wash","hand","place","HW1","no","and","Handwash","Factor"
-"HandWashWater","hh","wash","hand","water","HW2","no","and","Handwash","Factor"
-"HandWashSoap","hh","soap","place","hand","HW3","no","and","Handwash","Factor"
-"Soap1","hh","bar","soap","","HW7A","no","and","Handwash","Factor"
-"Soap2","hh","detergent","","","HW7B","no","and","Handwash","Factor"
-"Soap3","hh","ash","mud","","HW7C","no","and","Handwash","Factor"
-"SoapB2","hh","detergent","","","HW3BB","no","and","Handwash","Factor"
-"cluster_id","hh","cluster number","","","HH1","yes","and","ID","ID"
-"HouseholdNumber","hh","household number","","","HH2","yes","Only","ID","ID"
-"Ethnicity","hh","ethnicity","household","head","ETHNICITY","no","and","IndependentV","Factor"
-"HHSex","hh","sex","household","head","HHSEX","no","and","IndependentV","Factor"
-"Language","hh","language","household","head","LANGUAGE","no","and","IndependentV","Factor"
-"Religion","hh","religion","household","head","RELIGION","no","and","IndependentV","Factor"
-"NUnder5","hh","children","under","5","HH14","no","and","IndependentV","numeric"
-"Residence","hh","area","","","HH6","no","Only","IndependentV","Factor"
-"HighestEducation","hh","no keywords","","","No keywords","No keywords","No keywords","IndependentV","Factor"
-"PoorerHousehold","hh","wealth","index","quintile","WINDEX5","yes","Only","IndependentV","Factor"
-"NumberMember","hh","number","member","","HH11","no","and","NotCrowded","numeric"
-"NumberRoom","hh","number","room","sleep","HC2","no","and","NotCrowded","numeric"
-"HouseholdBasic","hh","no keywords","","","WS1","No keywords","No keywords","ResponseV0","Factor"
-"HouseholdTechNeed","hh","no keywords","","","HC9B","No keywords","No keywords","ResponseV0","Factor"
-"MultiDeprivation","hh","no keywords","","","HC15","No keywords","No keywords","ResponseV0","Factor"
-"NotCrowded","hh","no keywords","","","No keywords","No keywords","No keywords","ResponseV0","Factor"
-"CleanWater","hh","main","source","drinking water","WS1","no","and","ResponseV0","Factor"
-"BasicWater","hh","main","source","drinking water","WS1","no","and","ResponseV","Factor"
-"WaterTime","hh","time","get","water","WS4","no","and","AuxResonpse","Factor"
-"WaterLocation","hh","location","water","source","WS3","no","and","AuxResonpse","Factor"
-"HandWash","hh","no keywords","","","No keywords","No keywords","No keywords","ResponseV0","Factor"
-"CleanFuel","hh","cook","stove","type","EU1","no","and","ResponseV","Factor"
-"AccessElectricity","hh","electricity","","","HC8A","no","and","ResponseV","Factor"
-"BankCardHH","hh","bank","have","own","HC19","no","or23","ResponseV","Factor"
-"Land","hh","land","own","have","HC15","no","or23","ResponseV0","Factor"
-"MobilePhoneHH","hh","mobile","phone","","HC9B","no","and","ResponseV","Factor"
-"SmartPhoneHH","hh","smart","phone","","HC9K","no","and","MobilePhoneHH","Factor"
-"SafeSanitation","hh","toilet","kind","type","WS8","no","or23","ResponseV","Factor"
-"SampleWeight","hh","sample weight","","","HHWEIGHT","yes","Only","Weight","numeric"
-"Region","hh","region","","","HH7","yes","Only","Region","Factor"
-"Province","hh","province","","","HH7A","yes","Only","Province","Factor"
-"BirthYear","hl","birth","year","","HL5M","no","and","BirthRate","numeric"
-"BirthMonth","hl","birth","month","","HL5Y","no","and","BirthRate","numeric"
-"MotherLineNumber","hl","mother","number","","MLINE","no","and","BirthRate","numeric"
-"cluster_id","hl","cluster","number","","HH1","yes","and","ID","ID"
-"RLNumber","hl","line","number","","HL1","yes","and","ID","ID"
-"HouseholdNumber","hl","household","number","","HH2","yes","and","ID","ID"
-"Age","hl","age","","","HL6","no","Only","IndependentV","numeric"
-"Ethnicity","hl","ethnicity","","","ETHNICITY","no","and","IndependentV","Factor"
-"Residence","hl","area","","","HH6","no","Only","IndependentV","Factor"
-"Sex","hl","sex","","","HL4","no","Only","IndependentV","Factor"
-"Education","hl","highest","level","education","ED5A","no","or23","IndependentV","Factor"
-"Grade","hl","highest","grade","completed","ED5B","no","or23","IndependentV","numeric"
-"PoorerHousehold","hl","wealth","index","quintile","WINDEX5","yes","Only","IndependentV","Factor"
-"AdolescentBirthRate","hl","no keywords","","","No keywords","No keywords","No keywords","ResponseV0","numeric"
-"HigherEducation2535","hl","highest","level","education","ED4A","no","and","ResponseV","Factor"
-"HigherEducation35plus","hl","highest","level","education","ED4A","no","and","ResponseV","Factor"
-"SecondaryEducation2035","hl","highest","level","education","ED4A","no","and","ResponseV","Factor"
-"SecondaryEducation35plus","hl","highest","level","education","ED4A","no","and","ResponseV","Factor"
-"AdolescentBR","hl","no keywords","","","No keywords","No keywords","No keywords","ResponseV0","numeric"
-"SampleWeight","hl","sample weight","","","HHWEIGHT","yes","Only","Weight","numeric"
-"Religion","hl","religion","","","RELIGION","no","and","IndependentV","Factor"
-"Language","hl","language","","","LANGUAGE","no","and","IndependentV","Factor"
-"Region","hl","region","","","HH7","yes","Only","Region","Factor"
-"Province","hl","province","","","HH7A","yes","Only","Province","Factor"
-"EarlyChildBearing","wm","no keywords","","","No keywords","No keywords","No keywords","ResponseV0","Factor"
-"NoEarlyChildbearing","wm","no keywords","","","No keywords","No keywords","No keywords","ResponseV0","Factor"
-"DateFB","wm","date","birth","first","WDOBFC","no","and","EarlyChildBearing","Date"
-"cluster_id","wm","cluster","number","","HH1","yes","and","ID","ID"
-"HouseholdNumber","wm","household","number","","HH2","yes","and","ID","ID"
-"RLNumber","wm","line","number","","LN","yes","and","ID","ID"
-"Age","wm","age of woman","","","WB4","no","Only","IndependentV","numeric"
-"aGroup","wm","age of woman","","","WB4","no","Only","IndependentV","numeric"
-"CurrentWorking","wm","employed","last","month","WB11","no","and","IndependentV","Factor"
-"Education","wm","education","","","welevel","no","and","IndependentV","Factor"
-"Ethnicity","wm","ethnicity","","","ETHNICITY","no","and","IndependentV","Factor"
-"Grade","wm","highest","grade","","WB5","no","and","IndependentV","numeric"
-"MarriageStatus","wm","marital","union","status","MSTATUS","no","and","IndependentV","Factor"
-"Residence","wm","area","","","HH7","no","Only","IndependentV","Factor"
-"NUnder5","wm","no keywords","","","No keywords","No keywords","No keywords","IndependentV","numeric"
-"PoorerHousehold","wm","wealth","index","quintile","WINDEX5","no","and","IndependentV","Factor"
-"ModernContra1","wm","current method","female","sterilization","CP4A","no","and","ModernContraceptive","Factor"
-"ModernContra10","wm","current method","jelly","foam","CP4J","no","and","ModernContraceptive","Factor"
-"ModernContra3","wm","current method","injectables","","CP4D","no","and","ModernContraceptive","Factor"
-"ModernContra4","wm","current method","implants","","CP4E","no","and","ModernContraceptive","Factor"
-"ModernContra5","wm","current method","pill","","CP4F","no","and","ModernContraceptive","Factor"
-"ModernContra6","wm","current method","iud","","CP4C","no","and","ModernContraceptive","Factor"
-"ModernContra7","wm","current method","male","condom","CP4G","no","and","ModernContraceptive","Factor"
-"ModernContra8","wm","current method","female","condom","CP4H","no","and","ModernContraceptive","Factor"
-"ModernContra9","wm","current method","diaphragm","","CP4I","no","and","ModernContraceptive","Factor"
-"ModernContra11","wm","lactational","amenorrhoea","","CP4K","no","and","ModernContraceptive","Factor"
-"ModernContra2","wm","current method","male","sterilization","CP4B","no","and","ModernContraceptive","Factor"
-"FrequencyNewspaper","wm","frequency","newspaper","","MT2","no","and","not used","Factor"
-"FrequencyRadio","wm","frequency","radio","","MT3","no","and","not used","Factor"
-"FrequencyTV","wm","frequency","tv","","MT4","no","and","not used","Factor"
-"ProfessionalAssitance5","wm","assistance","delivery","birth attendant","MN19F","no","and","ProfessionalHelp","Factor"
-"ProfessionalAssitance6","wm","assistance","delivery","health worker","MN19G","no","and","ProfessionalHelp","Factor"
-"ProfessionalAssitance1","wm","assistance","delivery","doctor","MN19A","no","and","ProfessionalHelp","Factor"
-"ProfessionalAssitance2","wm","assistance","delivery","nurse","MN19D","no","and","ProfessionalHelp","Factor"
-"ProfessionalAssitance3","wm","assistance","delivery","midwife","MN19B","no","and","ProfessionalHelp","Factor"
-"ProfessionalAssitance3","wm","assistance","delivery","auxiliary","MN19C","no","and","ProfessionalHelp","Factor"
-"ProfessionalAssitance4","wm","assistance","delivery","feldsher","MN19D","no","and","ProfessionalHelp","Factor"
-"ProfessionalAssitance7","wm","assistance","delivery","gynaecologist","","no","and","ProfessionalHelp","Factor"
-"ProfessionalAssitance8","wm","assistance","delivery","physician","","no","and","ProfessionalHelp","Factor"
-"ProfessionalAssitance9","wm","assistance","delivery","qualified","","no","and","ProfessionalHelp","Factor"
-"ProfessionalHelp","wm","place","delivery","","MN18","no","and","ResponseV","Factor"
-"ReasonBeating","wm","no keywords","","","No keywords","No keywords","No keywords","ResponseV","Factor"
-"NoViolenceJustifiedAgainstWomen","wm","no keywords","","","No keywords","No keywords","No keywords","ResponseV","Factor"
-"BeatingForArgue","wm","beating","argues","","DV1C","no","and","ReasonBeating","Factor"
-"BeatingForChildren","wm","beating","children","","DV1B","no","and","ReasonBeating","Factor"
-"BeatingForCooking","wm","beating","burn","food","DV1E","no","and","ReasonBeating","Factor"
-"BeatingForOut","wm","beating","out","","DV1A","no","and","ReasonBeating","Factor"
-"BeatingForSex","wm","beating","refuse","sex","DV1D","no","and","ReasonBeating","Factor"
-"MobilePhone","wm","mobile phone","own","have","MT11","no","or23","ResponseV","Factor"
-"ChildMarriage15","wm","age","first","marriage","WAGEM","no","and","ResponseV0","Factor"
-"ChildMarriage18","wm","age","first","marriage","WAGEM","no","and","ResponseV0","Factor"
-"NoChildMarriage15","wm","age","first","marriage","WAGEM","no","and","ResponseV0","Factor"
-"NoChildMarriage18","wm","age","first","marriage","WAGEM","no","and","ResponseV0","Factor"
-"ContraceptiveMethod","wm","avoid","pregnancy","currently","CP2","no","and","ResponseV","Factor"
-"HealthInsurance","wm","health","insurance","","WB18","no","and","ResponseV0","Factor"
-"InternetUse","wm","internet","last","months","MT10","no","and","ResponseV","Factor"
-"TeenPregnancy","wm","children","ever","born","CEB","no","and","ResponseV0","Factor"
-"NumberBirths","wm","children","ever","born","CEB","no","and","IndependentV","Factor"
-"PregnantNow","wm","currently","pregnant","","CP1","no","and","UnmetNeed","Factor"
-"R1NoSex","wm","reason","no","sex","UN11A","no","and","UnmetNeed","Factor"
-"AblePregnant","wm","able","pregnant","","UN10","no","and","UnmetNeed","Factor"
-"AgeFirstSex","wm","age","first","sex","SB1","no","and","UnmetNeed","numeric"
-"DateInterviewed","wm","interview","date","","WDOI","no","and","UnmetNeed","Date"
-"DateLastBirth","wm","date","birth","last","WDOBLC","no","and","UnmetNeed","Date"
-"DateMarried","wm","marriage","date","","WDOM","no","and","UnmetNeed","Date"
-"EverContraception","wm","ever","avoid","pregnancy","CP2A","no","and","UnmetNeed","Factor"
-"InterviewComplete","wm","interview","result","","WM7","no","and","UnmetNeed","Factor"
-"InterviewM","wm","interview","month","","WM6M","no","and","UnmetNeed","numeric"
-"InterviewY","wm","interview","year","","WM6Y","no","and","UnmetNeed","numeric"
-"LastBirthM","wm","month","last","birth","CM12M","no","and","UnmetNeed","numeric"
-"LastBirthY","wm","year","last","birth","CM12Y","no","and","UnmetNeed","numeric"
-"LastPeriodN","wm","last","period","number","UN13N","no","and","UnmetNeed","numeric"
-"LastPeriodU","wm","last","period","unit","UN13U","no","and","UnmetNeed","Factor"
-"MonthFB","wm","month","first","birth","CM2M","no","and","UnmetNeed","numeric"
-"MonthWB","wm","month","woman","birth","WB1M","no","and","UnmetNeed","numeric"
-"PregnantNowWanted","wm","wanted","pregnant","","UN2","no","and","UnmetNeed0","Factor"
-"R2Menopausal","wm","reason","menopausal","","UN11B","no","and","UnmetNeed","Factor"
-"R3NoPeriod","wm","reason","never","menstruated","UN11C","no","and","UnmetNeed","Factor"
-"R4Hysterectomy","wm","reason","hysterectomy","","UN11D","no","and","UnmetNeed","Factor"
-"R5WantPregnant","wm","reason","trying","pregnant","UN11E","no","and","UnmetNeed","Factor"
-"R6Amenorrheic","wm","reason","amenorrheic","","UN11F","no","and","UnmetNeed","Factor"
-"R7BreastFeed","wm","reason","breastfeeding","","UN11G","no","and","UnmetNeed","Factor"
-"R8TooOld","wm","reason","too old","","UN11H","no","and","UnmetNeed","Factor"
-"WaitN","wm","desired","wait","number","DB3N","no","and","UnmetNeed","numeric"
-"WaitU","wm","desired","wait","unit","DB3U","no","and","UnmetNeed","Factor"
-"WantChild","wm","another child","currently pregnant","not","UN7","no","and","UnmetNeed","Factor"
-"WantChild2","wm","another child","currently pregnant","","UN5","no","and","UnmetNeed","Factor"
-"WantedLast","wm","wanted","last","","DB2","no","and","UnmetNeed","Factor"
-"WantedLater","wm","wanted","later","","UN4","no","and","UnmetNeed","Factor"
-"WMBirthDate","wm","date","birth","woman","WDOB","no","and","UnmetNeed","Date"
-"YearFB","wm","year","first","birth","CM2Y","no","and","UnmetNeed","numeric"
-"YearWB","wm","year","woman","birth","WB1Y","no","and","UnmetNeed","numeric"
-"SampleWeight","wm","sample weight","","","wmweight","yes","Only","Weight","numeric"
-"Religion","wm","religion","","","RELIGION","no","and","IndependentV","Factor"
-"Language","wm","language","","","LANGUAGE","no","and","IndependentV","Factor"
-"Region","wm","region","","","HH7","yes","Only","Region","Factor"
-"Province","wm","province","","","HH7A","yes","Only","Province","Factor"
-"BankFinance","wm","account","bank","financial","WB21","no","and","FinancialInclusion","Factor"
-"MobileFinance","wm","mobile","phone","financial","MT11A","no","and","FinancialInclusion","Factor"
-"FinancialInclusion","wm","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor"
-"cluster_id","mn","cluster","number","","HH1","yes","and","ID","ID"
-"HouseholdNumber","mn","household","number","","HH2","yes","and","ID","ID"
-"RLNumber","mn","line","number","","LN","yes","and","ID","ID"
-"Age","mn","age of man","","","MWB4","no","Only","IndependentV","numeric"
-"aGroup","mn","age of man","","","MWB4","no","Only","IndependentV","numeric"
-"CurrentWorking","mn","employed","last","month","MWB11","no","and","IndependentV","Factor"
-"Education","mn","education","","","mwelevel","no","and","IndependentV","Factor"
-"Ethnicity","mn","ethnicity","","","ETHNICITY","no","and","IndependentV","Factor"
-"Grade","mn","highest","grade","","MWB6B","no","and","IndependentV","numeric"
-"MarriageStatus","mn","marital","union","status","MMSTATUS","no","and","IndependentV","Factor"
-"Residence","mn","area","","","HH6","no","Only","IndependentV","Factor"
-"NUnder5","mn","no keywords","","","No keywords","No keywords","No keywords","IndependentV","numeric"
-"PoorerHousehold","mn","wealth","index","quintile","WINDEX5","no","and","IndependentV","Factor"
-"FrequencyNewspaper","mn","frequency","newspaper","","MMT1","no","and","not used","Factor"
-"FrequencyRadio","mn","frequency","radio","","MMT2","no","and","not used","Factor"
-"FrequencyTV","mn","frequency","tv","","MMT3","no","and","not used","Factor"
-"MobilePhone","mn","mobile phone","own","have","MMT11","no","or23","MresponseV","Factor"
-"ChildMarriage15","mn","age","first","marriage","MWAGEM","no","and","MresponseV","numeric"
-"ChildMarriage18","mn","age","first","marriage","MWAGEM","no","and","MresponseV","numeric"
-"NoChildMarriage15","mn","age","first","marriage","MWAGEM","no","and","MresponseV","numeric"
-"NoChildMarriage18","mn","age","first","marriage","MWAGEM","no","and","MresponseV","numeric"
-"HealthInsurance","mn","health","insurance","","MWB18","no","and","MresponseV","Factor"
-"InternetUse","mn","internet","last","months","MMT10","no","and","MresponseV","Factor"
-"Religion","mn","religion","","","RELIGION","no","and","IndependentV","Factor"
-"Language","mn","language","","","LANGUAGE","no","and","IndependentV","Factor"
-"Region","mn","region","","","HH7","yes","Only","Region","Factor"
-"Province","mn","province","","","HH7A","yes","Only","Province","Factor"
-"BankFinance","mn","account","bank","financial","MWB21","no","and","FinancialInclusion","Factor"
-"MobileFinance","mn","mobile","phone","financial","MMT11A","no","and","FinancialInclusion","Factor"
-"FinancialInclusion","mn","no keywords","","","no keywords","no keywords","no keywords","MresponseV","Factor"
-"Dseeing","wm","difficulty","seeing","","AF6","no","and","ResponseV0","Factor"
-"Dhearing","wm","difficulty","hearing","","AF8","no","and","ResponseV0","Factor"
-"Dwalking","wm","difficulty","walking","","AF9","no","and","ResponseV0","Factor"
-"Dremembering","wm","difficulty","remembering","","AF10","no","and","ResponseV0","Factor"
-"Dselfcare","wm","difficulty","self-care","","AF11","no","and","ResponseV0","Factor"
-"Dcommunicating","wm","difficulty","communicating","","AF12","no","and","ResponseV0","Factor"
-"Dseeing","mn","difficulty","seeing","","MAF6","no","and","MresponseV","Factor"
-"Dhearing","mn","difficulty","hearing","","MAF8","no","and","MresponseV","Factor"
-"Dwalking","mn","difficulty","walking","","MAF9","no","and","MresponseV","Factor"
-"Dremembering","mn","difficulty","remembering","","MAF10","no","and","MresponseV","Factor"
-"Dselfcare","mn","difficulty","self-care","","MAF11","no","and","MresponseV","Factor"
-"Dcommunicating","mn","difficulty","communicating","","MAF12","no","and","MresponseV","Factor"
-"EarlyChildhoodEducation","ch","currently","attending","early childhood education","UB8","no","and","ResponseV","Factor"
-"Internet","hh","Internet","","","HC13","no","and","Learning","Factor"
-"Radio","hh","radio","","","HC7B","no","and","Learning","Factor"
-"Television","hh","television","","","HC9A","no","and","Learning","Factor"
-"Telephone","hh","fixed","line","telephone","HC7A","no","and","Learning","Factor"
-"MobilePhonehh","hh","mobile","phone","","HC12","no","and","Learning","Factor"
-"Wall","hh","main material","exterior wall","","HC6","no","and","WallRoof","Factor"
-"Roof","hh","main material","roof","","HC5","no","and","WallRoof","Factor"
-"Covid1","hl","no keywords","","","No keywords","No keywords","No keywords","ResponseV0","Factor"
-"Covid2","hl","no keywords","","","No keywords","No keywords","No keywords","ResponseV0","Factor"
-"EducationHL","hl","highest","level","education","ED5A","no","or23","IndependentV","Factor"
-"aGroupHL","hl","age","","","HL6","no","Only","IndependentV","numeric"
-"Covid","hl","no keywords","","","No keywords","No keywords","No keywords","ResponseV","Factor"
-"LearningHL","hl","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor"
-"WaterOnsiteHL","hl","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor"
-"HandwashHL","hl","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor"
-"SafeSanitationHL","hl","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor"
-"NotCrowdedHL","hl","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor"
-"Dvweight","wm","women selected","dv","sample weight","DVHWEIGHT","no","and","DomesticViolence","Factor"
+NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType
+cluster_id,ch,cluster,number,,HH1,yes,and,ID,ID
+RLNumber,ch,line,number,,LN,yes,and,ID,ID
+HouseholdNumber,ch,household,number,,HH2,yes,Only,ID,ID
+Age,ch,age,months,,CAGE,no,and,IndependentV,numeric
+Ethnicity,ch,ethnicity,,,ETHNICITY,no,and,IndependentV,Factor
+MotherEducation,ch,education,mother,,MELEVEL,no,and,IndependentV,Factor
+Residence,ch,area,,,HH6,no,Only,IndependentV,Factor
+Sex,ch,sex,,,HL4,no,Only,IndependentV,Factor
+NUnder5,ch,no keywords,,,No keywords,No keywords,No keywords,IndependentV,numeric
+PoorerHousehold,ch,wealth,index,quintile,WINDEX5,yes,Only,IndependentV,Factor
+Height,ch,height,centimetres,,AN4,no,and,NotUsed,numeric
+Weight,ch,weight,kilograms,,AN3,no,and,NotUsed,numeric
+NotOverweight,ch,weight for height,z-score,who,WAZ,no,and,ResponseV,numeric
+NotStunting,ch,height for age,z-score,who,HAZ,no,and,ResponseV,numeric
+NotWasting,ch,weight for height,z-score,who,WHZ,no,and,ResponseV,numeric
+Overweight,ch,weight for height,z-score,who,WAZ,no,and,ResponseV,numeric
+Stunting,ch,height for age,z-score,who,HAZ,no,and,ResponseV,numeric
+Wasting,ch,weight for height,z-score,who,WHZ,no,and,ResponseV,numeric
+ChildHealth,ch,child,measured,,AN4A,no,and,ResponseV0,Factor
+SampleWeight,ch,sample,weight,,CHWEIGHT,yes,Only,Weight,numeric
+Religion,ch,religion,,,RELIGION,no,and,IndependentV,Factor
+Language,ch,language,,,LANGUAGE,no,and,IndependentV,Factor
+Region,ch,region,,,HH7,yes,Only,Region,Factor
+Province,ch,province,,,HH7A,yes,Only,Province,Factor
+SharedToilet,hh,toilet,shared,,WS15,no,and,AuxResonpse,Factor
+SoapB1,hh,bar,soap,,HW3BA,no,and,Handwash,Factor
+SoapB3,hh,liquid,soap,,HW3BC,no,and,Handwash,Factor
+HandWashPlace,hh,wash,hand,place,HW1,no,and,Handwash,Factor
+HandWashWater,hh,wash,hand,water,HW2,no,and,Handwash,Factor
+HandWashSoap,hh,soap,place,hand,HW3,no,and,Handwash,Factor
+Soap1,hh,bar,soap,,HW7A,no,and,Handwash,Factor
+Soap2,hh,detergent,,,HW7B,no,and,Handwash,Factor
+Soap3,hh,ash,mud,,HW7C,no,and,Handwash,Factor
+SoapB2,hh,detergent,,,HW3BB,no,and,Handwash,Factor
+cluster_id,hh,cluster number,,,HH1,yes,and,ID,ID
+HouseholdNumber,hh,household number,,,HH2,yes,Only,ID,ID
+Ethnicity,hh,ethnicity,household,head,ETHNICITY,no,and,IndependentV,Factor
+HHSex,hh,sex,household,head,HHSEX,no,and,IndependentV,Factor
+Language,hh,language,household,head,LANGUAGE,no,and,IndependentV,Factor
+Religion,hh,religion,household,head,RELIGION,no,and,IndependentV,Factor
+NUnder5,hh,children,under,5,HH14,no,and,IndependentV,numeric
+Residence,hh,area,,,HH6,no,Only,IndependentV,Factor
+HighestEducation,hh,no keywords,,,No keywords,No keywords,No keywords,IndependentV,Factor
+PoorerHousehold,hh,wealth,index,quintile,WINDEX5,yes,Only,IndependentV,Factor
+NumberMember,hh,number,member,,HH11,no,and,NotCrowded,numeric
+NumberRoom,hh,number,room,sleep,HC2,no,and,NotCrowded,numeric
+HouseholdBasic,hh,no keywords,,,WS1,No keywords,No keywords,ResponseV0,Factor
+HouseholdTechNeed,hh,no keywords,,,HC9B,No keywords,No keywords,ResponseV0,Factor
+MultiDeprivation,hh,no keywords,,,HC15,No keywords,No keywords,ResponseV0,Factor
+NotCrowded,hh,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor
+CleanWater,hh,main,source,drinking water,WS1,no,and,ResponseV0,Factor
+BasicWater,hh,main,source,drinking water,WS1,no,and,ResponseV,Factor
+WaterTime,hh,time,get,water,WS4,no,and,AuxResonpse,Factor
+WaterLocation,hh,location,water,source,WS3,no,and,AuxResonpse,Factor
+HandWash,hh,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor
+CleanFuel,hh,cook,stove,type,EU1,no,and,ResponseV,Factor
+AccessElectricity,hh,electricity,,,HC8A,no,and,ResponseV,Factor
+BankCardHH,hh,bank,have,own,HC19,no,or23,ResponseV,Factor
+Land,hh,land,own,have,HC15,no,or23,ResponseV0,Factor
+MobilePhoneHH,hh,mobile,phone,,HC9B,no,and,ResponseV,Factor
+SmartPhoneHH,hh,smart,phone,,HC9K,no,and,MobilePhoneHH,Factor
+SafeSanitation,hh,toilet,kind,type,WS8,no,or23,ResponseV,Factor
+SampleWeight,hh,sample weight,,,HHWEIGHT,yes,Only,Weight,numeric
+Region,hh,region,,,HH7,yes,Only,Region,Factor
+Province,hh,province,,,HH7A,yes,Only,Province,Factor
+BirthYear,hl,birth,year,,HL5M,no,and,BirthRate,numeric
+BirthMonth,hl,birth,month,,HL5Y,no,and,BirthRate,numeric
+MotherLineNumber,hl,mother,number,,MLINE,no,and,BirthRate,numeric
+cluster_id,hl,cluster,number,,HH1,yes,and,ID,ID
+RLNumber,hl,line,number,,HL1,yes,and,ID,ID
+HouseholdNumber,hl,household,number,,HH2,yes,and,ID,ID
+Age,hl,age,,,HL6,no,Only,IndependentV,numeric
+Ethnicity,hl,ethnicity,,,ETHNICITY,no,and,IndependentV,Factor
+Residence,hl,area,,,HH6,no,Only,IndependentV,Factor
+Sex,hl,sex,,,HL4,no,Only,IndependentV,Factor
+Education,hl,highest,level,education,ED5A,no,or23,IndependentV,Factor
+Grade,hl,highest,grade,completed,ED5B,no,or23,IndependentV,numeric
+PoorerHousehold,hl,wealth,index,quintile,WINDEX5,yes,Only,IndependentV,Factor
+AdolescentBirthRate,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,numeric
+HigherEducation2535,hl,highest,level,education,ED4A,no,and,ResponseV,Factor
+HigherEducation35plus,hl,highest,level,education,ED4A,no,and,ResponseV,Factor
+SecondaryEducation2035,hl,highest,level,education,ED4A,no,and,ResponseV,Factor
+SecondaryEducation35plus,hl,highest,level,education,ED4A,no,and,ResponseV,Factor
+AdolescentBR,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,numeric
+SampleWeight,hl,sample weight,,,HHWEIGHT,yes,Only,Weight,numeric
+Religion,hl,religion,,,RELIGION,no,and,IndependentV,Factor
+Language,hl,language,,,LANGUAGE,no,and,IndependentV,Factor
+Region,hl,region,,,HH7,yes,Only,Region,Factor
+Province,hl,province,,,HH7A,yes,Only,Province,Factor
+EarlyChildBearing,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor
+NoEarlyChildbearing,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor
+DateFB,wm,date,birth,first,WDOBFC,no,and,EarlyChildBearing,Date
+cluster_id,wm,cluster,number,,HH1,yes,and,ID,ID
+HouseholdNumber,wm,household,number,,HH2,yes,and,ID,ID
+RLNumber,wm,line,number,,LN,yes,and,ID,ID
+Age,wm,age of woman,,,WB4,no,Only,IndependentV,numeric
+aGroup,wm,age of woman,,,WB4,no,Only,IndependentV,numeric
+CurrentWorking,wm,employed,last,month,WB11,no,and,IndependentV,Factor
+Education,wm,education,,,welevel,no,and,IndependentV,Factor
+Ethnicity,wm,ethnicity,,,ETHNICITY,no,and,IndependentV,Factor
+Grade,wm,highest,grade,,WB5,no,and,IndependentV,numeric
+MarriageStatus,wm,marital,union,status,MSTATUS,no,and,IndependentV,Factor
+Residence,wm,area,,,HH7,no,Only,IndependentV,Factor
+NUnder5,wm,no keywords,,,No keywords,No keywords,No keywords,IndependentV,numeric
+PoorerHousehold,wm,wealth,index,quintile,WINDEX5,no,and,IndependentV,Factor
+ModernContra1,wm,current method,female,sterilization,CP4A,no,and,ModernContraceptive,Factor
+ModernContra10,wm,current method,jelly,foam,CP4J,no,and,ModernContraceptive,Factor
+ModernContra3,wm,current method,injectables,,CP4D,no,and,ModernContraceptive,Factor
+ModernContra4,wm,current method,implants,,CP4E,no,and,ModernContraceptive,Factor
+ModernContra5,wm,current method,pill,,CP4F,no,and,ModernContraceptive,Factor
+ModernContra6,wm,current method,iud,,CP4C,no,and,ModernContraceptive,Factor
+ModernContra7,wm,current method,male,condom,CP4G,no,and,ModernContraceptive,Factor
+ModernContra8,wm,current method,female,condom,CP4H,no,and,ModernContraceptive,Factor
+ModernContra9,wm,current method,diaphragm,,CP4I,no,and,ModernContraceptive,Factor
+ModernContra11,wm,lactational,amenorrhoea,,CP4K,no,and,ModernContraceptive,Factor
+ModernContra2,wm,current method,male,sterilization,CP4B,no,and,ModernContraceptive,Factor
+FrequencyNewspaper,wm,frequency,newspaper,,MT2,no,and,not used,Factor
+FrequencyRadio,wm,frequency,radio,,MT3,no,and,not used,Factor
+FrequencyTV,wm,frequency,tv,,MT4,no,and,not used,Factor
+ProfessionalAssitance5,wm,assistance,delivery,birth attendant,MN19F,no,and,ProfessionalHelp,Factor
+ProfessionalAssitance6,wm,assistance,delivery,health worker,MN19G,no,and,ProfessionalHelp,Factor
+ProfessionalAssitance1,wm,assistance,delivery,doctor,MN19A,no,and,ProfessionalHelp,Factor
+ProfessionalAssitance2,wm,assistance,delivery,nurse,MN19D,no,and,ProfessionalHelp,Factor
+ProfessionalAssitance3,wm,assistance,delivery,midwife,MN19B,no,and,ProfessionalHelp,Factor
+ProfessionalAssitance3,wm,assistance,delivery,auxiliary,MN19C,no,and,ProfessionalHelp,Factor
+ProfessionalAssitance4,wm,assistance,delivery,feldsher,MN19D,no,and,ProfessionalHelp,Factor
+ProfessionalAssitance7,wm,assistance,delivery,gynaecologist,,no,and,ProfessionalHelp,Factor
+ProfessionalAssitance8,wm,assistance,delivery,physician,,no,and,ProfessionalHelp,Factor
+ProfessionalAssitance9,wm,assistance,delivery,qualified,,no,and,ProfessionalHelp,Factor
+ProfessionalHelp,wm,place,delivery,,MN18,no,and,ResponseV,Factor
+ReasonBeating,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor
+NoViolenceJustifiedAgainstWomen,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor
+BeatingForArgue,wm,beating,argues,,DV1C,no,and,ReasonBeating,Factor
+BeatingForChildren,wm,beating,children,,DV1B,no,and,ReasonBeating,Factor
+BeatingForCooking,wm,beating,burn,food,DV1E,no,and,ReasonBeating,Factor
+BeatingForOut,wm,beating,out,,DV1A,no,and,ReasonBeating,Factor
+BeatingForSex,wm,beating,refuse,sex,DV1D,no,and,ReasonBeating,Factor
+MobilePhone,wm,mobile phone,own,have,MT11,no,or23,ResponseV,Factor
+ChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV0,Factor
+ChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV0,Factor
+NoChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV0,Factor
+NoChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV0,Factor
+ContraceptiveMethod,wm,avoid,pregnancy,currently,CP2,no,and,ResponseV,Factor
+HealthInsurance,wm,health,insurance,,WB18,no,and,ResponseV0,Factor
+InternetUse,wm,internet,last,months,MT10,no,and,ResponseV,Factor
+TeenPregnancy,wm,children,ever,born,CEB,no,and,ResponseV0,Factor
+NumberBirths,wm,children,ever,born,CEB,no,and,IndependentV,Factor
+PregnantNow,wm,currently,pregnant,,CP1,no,and,UnmetNeed,Factor
+R1NoSex,wm,reason,no,sex,UN11A,no,and,UnmetNeed,Factor
+AblePregnant,wm,able,pregnant,,UN10,no,and,UnmetNeed,Factor
+AgeFirstSex,wm,age,first,sex,SB1,no,and,UnmetNeed,numeric
+DateInterviewed,wm,interview,date,,WDOI,no,and,UnmetNeed,Date
+DateLastBirth,wm,date,birth,last,WDOBLC,no,and,UnmetNeed,Date
+DateMarried,wm,marriage,date,,WDOM,no,and,UnmetNeed,Date
+EverContraception,wm,ever,avoid,pregnancy,CP2A,no,and,UnmetNeed,Factor
+InterviewComplete,wm,interview,result,,WM7,no,and,UnmetNeed,Factor
+InterviewM,wm,interview,month,,WM6M,no,and,UnmetNeed,numeric
+InterviewY,wm,interview,year,,WM6Y,no,and,UnmetNeed,numeric
+LastBirthM,wm,month,last,birth,CM12M,no,and,UnmetNeed,numeric
+LastBirthY,wm,year,last,birth,CM12Y,no,and,UnmetNeed,numeric
+LastPeriodN,wm,last,period,number,UN13N,no,and,UnmetNeed,numeric
+LastPeriodU,wm,last,period,unit,UN13U,no,and,UnmetNeed,Factor
+MonthFB,wm,month,first,birth,CM2M,no,and,UnmetNeed,numeric
+MonthWB,wm,month,woman,birth,WB1M,no,and,UnmetNeed,numeric
+PregnantNowWanted,wm,wanted,pregnant,,UN2,no,and,UnmetNeed0,Factor
+R2Menopausal,wm,reason,menopausal,,UN11B,no,and,UnmetNeed,Factor
+R3NoPeriod,wm,reason,never,menstruated,UN11C,no,and,UnmetNeed,Factor
+R4Hysterectomy,wm,reason,hysterectomy,,UN11D,no,and,UnmetNeed,Factor
+R5WantPregnant,wm,reason,trying,pregnant,UN11E,no,and,UnmetNeed,Factor
+R6Amenorrheic,wm,reason,amenorrheic,,UN11F,no,and,UnmetNeed,Factor
+R7BreastFeed,wm,reason,breastfeeding,,UN11G,no,and,UnmetNeed,Factor
+R8TooOld,wm,reason,too old,,UN11H,no,and,UnmetNeed,Factor
+WaitN,wm,desired,wait,number,DB3N,no,and,UnmetNeed,numeric
+WaitU,wm,desired,wait,unit,DB3U,no,and,UnmetNeed,Factor
+WantChild,wm,another child,currently pregnant,not,UN7,no,and,UnmetNeed,Factor
+WantChild2,wm,another child,currently pregnant,,UN5,no,and,UnmetNeed,Factor
+WantedLast,wm,wanted,last,,DB2,no,and,UnmetNeed,Factor
+WantedLater,wm,wanted,later,,UN4,no,and,UnmetNeed,Factor
+WMBirthDate,wm,date,birth,woman,WDOB,no,and,UnmetNeed,Date
+YearFB,wm,year,first,birth,CM2Y,no,and,UnmetNeed,numeric
+YearWB,wm,year,woman,birth,WB1Y,no,and,UnmetNeed,numeric
+SampleWeight,wm,sample weight,,,wmweight,yes,Only,Weight,numeric
+Religion,wm,religion,,,RELIGION,no,and,IndependentV,Factor
+Language,wm,language,,,LANGUAGE,no,and,IndependentV,Factor
+Region,wm,region,,,HH7,yes,Only,Region,Factor
+Province,wm,province,,,HH7A,yes,Only,Province,Factor
+BankFinance,wm,account,bank,financial,WB21,no,and,FinancialInclusion,Factor
+MobileFinance,wm,mobile,phone,financial,MT11A,no,and,FinancialInclusion,Factor
+FinancialInclusion,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+cluster_id,mn,cluster,number,,HH1,yes,and,ID,ID
+HouseholdNumber,mn,household,number,,HH2,yes,and,ID,ID
+RLNumber,mn,line,number,,LN,yes,and,ID,ID
+Age,mn,age of man,,,MWB4,no,Only,IndependentV,numeric
+aGroup,mn,age of man,,,MWB4,no,Only,IndependentV,numeric
+CurrentWorking,mn,employed,last,month,MWB11,no,and,IndependentV,Factor
+Education,mn,education,,,mwelevel,no,and,IndependentV,Factor
+Ethnicity,mn,ethnicity,,,ETHNICITY,no,and,IndependentV,Factor
+Grade,mn,highest,grade,,MWB6B,no,and,IndependentV,numeric
+MarriageStatus,mn,marital,union,status,MMSTATUS,no,and,IndependentV,Factor
+Residence,mn,area,,,HH6,no,Only,IndependentV,Factor
+NUnder5,mn,no keywords,,,No keywords,No keywords,No keywords,IndependentV,numeric
+PoorerHousehold,mn,wealth,index,quintile,WINDEX5,no,and,IndependentV,Factor
+FrequencyNewspaper,mn,frequency,newspaper,,MMT1,no,and,not used,Factor
+FrequencyRadio,mn,frequency,radio,,MMT2,no,and,not used,Factor
+FrequencyTV,mn,frequency,tv,,MMT3,no,and,not used,Factor
+MobilePhone,mn,mobile phone,own,have,MMT11,no,or23,MresponseV,Factor
+ChildMarriage15,mn,age,first,marriage,MWAGEM,no,and,MresponseV,numeric
+ChildMarriage18,mn,age,first,marriage,MWAGEM,no,and,MresponseV,numeric
+NoChildMarriage15,mn,age,first,marriage,MWAGEM,no,and,MresponseV,numeric
+NoChildMarriage18,mn,age,first,marriage,MWAGEM,no,and,MresponseV,numeric
+HealthInsurance,mn,health,insurance,,MWB18,no,and,MresponseV,Factor
+InternetUse,mn,internet,last,months,MMT10,no,and,MresponseV,Factor
+Religion,mn,religion,,,RELIGION,no,and,IndependentV,Factor
+Language,mn,language,,,LANGUAGE,no,and,IndependentV,Factor
+Region,mn,region,,,HH7,yes,Only,Region,Factor
+Province,mn,province,,,HH7A,yes,Only,Province,Factor
+BankFinance,mn,account,bank,financial,MWB21,no,and,FinancialInclusion,Factor
+MobileFinance,mn,mobile,phone,financial,MMT11A,no,and,FinancialInclusion,Factor
+FinancialInclusion,mn,no keywords,,,no keywords,no keywords,no keywords,MresponseV,Factor
+Dseeing,wm,difficulty,seeing,,AF6,no,and,ResponseV0,Factor
+Dhearing,wm,difficulty,hearing,,AF8,no,and,ResponseV0,Factor
+Dwalking,wm,difficulty,walking,,AF9,no,and,ResponseV0,Factor
+Dremembering,wm,difficulty,remembering,,AF10,no,and,ResponseV0,Factor
+Dselfcare,wm,difficulty,self-care,,AF11,no,and,ResponseV0,Factor
+Dcommunicating,wm,difficulty,communicating,,AF12,no,and,ResponseV0,Factor
+Dseeing,mn,difficulty,seeing,,MAF6,no,and,MresponseV,Factor
+Dhearing,mn,difficulty,hearing,,MAF8,no,and,MresponseV,Factor
+Dwalking,mn,difficulty,walking,,MAF9,no,and,MresponseV,Factor
+Dremembering,mn,difficulty,remembering,,MAF10,no,and,MresponseV,Factor
+Dselfcare,mn,difficulty,self-care,,MAF11,no,and,MresponseV,Factor
+Dcommunicating,mn,difficulty,communicating,,MAF12,no,and,MresponseV,Factor
+EarlyChildhoodEducation,ch,currently,attending,early childhood education,UB8,no,and,ResponseV,Factor
+Internet,hh,Internet,,,HC13,no,and,Learning,Factor
+Radio,hh,radio,,,HC7B,no,and,Learning,Factor
+Television,hh,television,,,HC9A,no,and,Learning,Factor
+Telephone,hh,fixed,line,telephone,HC7A,no,and,Learning,Factor
+MobilePhonehh,hh,mobile,phone,,HC12,no,and,Learning,Factor
+Wall,hh,main material,exterior wall,,HC6,no,and,WallRoof,Factor
+Roof,hh,main material,roof,,HC5,no,and,WallRoof,Factor
+Covid1,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor
+Covid2,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor
+EducationHL,hl,highest,level,education,ED5A,no,or23,IndependentV,Factor
+aGroupHL,hl,age,,,HL6,no,Only,IndependentV,numeric
+Covid,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor
+LearningHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+WaterOnsiteHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+HandwashHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+SafeSanitationHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+NotCrowdedHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+Privacy,wm,privacy,,,DVD1,no,and,DomesticViolence,Factor
+CurrentlyMarried,wm,currently married,living with a man,,MA1,no,and,DomesticViolence,Factor
+EverMarried,wm,ever married,lived with a man,,MA5,no,and,DomesticViolence,Factor
+Dvweight,wm,weight,dv,,DVHWEIGHT,no,and,DomesticViolence,Factor
+Push,wm,push,shake,throw,DVD5A,no,and,PhysicalViolence,Factor
+Slap,wm,slap you,,,DVD5B,no,and,PhysicalViolence,Factor
+Twist,wm,twist,pull,,DVD5C,no,and,PhysicalViolence,Factor
+Punch,wm,punch,hurt,,DVD5D,no,and,PhysicalViolence,Factor
+Kick,wm,kick,drag,beat,DVD5E,no,and,PhysicalViolence,Factor
+Choke,wm,choke,burn,,DVD5F,no,and,PhysicalViolence,Factor
+Attack,wm,knife,weapon,,DVD5G,no,and,PhysicalViolence,Factor
+ForcedSexualActs,wm,physically force,sexual,did not want to,DVD5H,no,and,SexualViolence,Factor
+OtherSexualActs,wm,physically force,other sexual,did not want to,DVD5I,no,and,SexualViolence,Factor
+ThreatSexualActs,wm,with threats,sexual acts,did not want to,DVD5J,no,and,SexualViolence,Factor
+Humiliate,wm,say or do,humiliate,of others,DVD4A,no,and,EmotionalViolence,Factor
+Threaten,wm,threaten,hurt or harm,someone,DVD4B,no,and,EmotionalViolence,Factor
+Insult,wm,insult,feel bad,yourself,DVD4C,no,and,EmotionalViolence,Factor
+PhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+NoPhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+SexualViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+NoSexualViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+EmotionalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+NoEmotionalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+SexualPhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+NoSexualPhysicalViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+AllViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+NoAllViolence,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor
+NEET,wm,attend school,last 4 weeks ,,WB14C,no,and,ResponseV,Factor
+InEducation,wm,attend school,last 4 weeks ,,WB14C,no,and,NEET,Factor
+InEducation2,wm,attend school,school year,,WB9,no,and,NEET,Factor
+InTraining1,wm,attend,training,last 4 weeks ,WB14D,no,and,NEET,Factor
+InTraining2,wm,attend,courses,last 4 weeks ,WB14E,no,and,NEET,Factor
+InEmployment1,wm,work,for,pay,WB14G,no,and,NEET,Factor
+InEmployment2,wm,generate,income,,WB14H,no,and,NEET,Factor
+InEmployment3,wm,help,paid job,business,WB14I,no,and,NEET,Factor
+InEmployment6,wm,on vacation,holidays,,WB14KB,no,and,NEET,Factor
+InEmployment7,wm,paid,maternity,leave,WB14KD,no,and,NEET,Factor
+aGroupNEET,wm,age of woman,,,WB4,no,Only,IndependentV,numeric

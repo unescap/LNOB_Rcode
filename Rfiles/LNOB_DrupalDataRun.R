@@ -60,38 +60,38 @@ drupalI<-run_together(csv_folder, data_folder, drupal_folder, "BD","61", "2011",
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "BD","70", "2014", NULL, NULL, csvfile_name9, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0.5, drupalI, indicator_selection)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "KH","61", "2010", NULL, NULL, csvfile_name4, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "KH","72", "2014", NULL, NULL, csvfile_name3, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "KY","61", "2012", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "MV","71", "2017", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "MM","71", "2016", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "NP","61", "2011", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
+### I manually changed KR version code from 73 to 72 for KH72 survey
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "KY","61", "2012", NULL, NULL, csvfile_name17, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "MV","71", "2017", NULL, NULL, csvfile_name10, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "MM","71", "2016", NULL, NULL, csvfile_name13, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "NP","61", "2011", NULL, NULL, csvfile_name16, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "NP","7H", "2016", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0.5, drupalI, indicator_selection)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "PK","61", "2012", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "PK","71", "2017", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "PG","70", "2018", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "PH","61", "2013", NULL, "62", csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "PH","70", "2017", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "TJ","61", "2012", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "PH","61", "2013", NULL, "62", csvfile_name11, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "PH","70", "2017", NULL, NULL, csvfile_name12, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "TJ","61", "2012", NULL, NULL, csvfile_name15, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "TJ","70", "2017", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "TL","61", "2009", NULL, NULL, csvfile_name7, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "TL","71", "2016", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "TL","71", "2016", NULL, NULL, csvfile_name14, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "TR","61", "2013", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "ID","63", "2012", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "ID","71", "2017", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","74", "2016", "74", NULL, csvfile_name6, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
 
-# religion_flag<-TRUE
-drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","71", "2016", "74", NULL, csvfile_name6, TRUE, caste=TRUE, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+religion_flag<-TRUE
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","74", "2016", "74", NULL, csvfile_name6, TRUE, caste=TRUE, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+
+
 
 
 source(paste(r_folder,"MICS_main_functions.R",sep=""))
-
 #### running MICS:
 data_folder<-mics_data_folder
 print(csv_folder)
 csvfile_name<-"MICS"
-
-
-
 # no religion
 religion_flag<-FALSE
 
@@ -146,12 +146,15 @@ drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Vietnam", "2010"
 drupalI<- run_together(csv_folder, data_folder, drupal_folder, "VietNam", "2013",  csvfile_name, edcationcsv,
                        NULL, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
 
-
-# with religion
-
-
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Samoa", "2019",  csvfile_name, edcationcsv,
+                        NULL, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+# # 
+# # 
+# # with religion
+# 
+# 
 religion_flag<-TRUE
-
+# 
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "Afghanistan", "2010",  csvfile_name, edcationcsv,
                       religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=0, drupalI, indicator_selection)
 
@@ -219,6 +222,10 @@ drupalI<- run_together(csv_folder, data_folder, drupal_folder, "VietNam", "2013"
                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
 
 
+drupalI<- run_together(csv_folder, data_folder, drupal_folder, "Samoa", "2019",  csvfile_name, edcationcsv,
+                        religioncsv, religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
 
-# sink()
 
+# # 
+# # # sink()
+# # 

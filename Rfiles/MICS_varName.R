@@ -15,10 +15,10 @@ inputcsv_folder<-paste(source_folder, "MICScsv/", sep="")
 outputcsv_folder<-paste(inputcsv_folder, "trial/", sep="")
 ifelse(!dir.exists(outputcsv_folder), dir.create(outputcsv_folder), FALSE)
 
-# csvfile_name<-"MICS_Var_Search_keys"
+csvfile_name<-"MICS_Var_Search_keys"
 # csvfile_name<-"MICS_NewKeys_covid"
 # csvfile_name<-"MICS_NewKeys_ECE"
-csvfile_name<-"MICS_NewKeys_DV"
+# csvfile_name<-"MICS_NewKeys_DV"
 
 get_label_data<-function(data_folder, country_code, year_code, data_type){
   savfilename<-paste(data_folder, 
@@ -173,11 +173,12 @@ attributesMICSdata(data_folder, "Kiribati", "2019", inputcsv_folder, outputcsv_f
 #  attributesMICSdata(data_folder,   "Lao", "2011",  inputcsv_folder,outputcsv_folder, csvfile_name)
 #  attributesMICSdata(data_folder,  "Thailand", "2012",  inputcsv_folder,outputcsv_folder, csvfile_name)
 #  attributesMICSdata(data_folder, "Vietnam", "2010",  inputcsv_folder,outputcsv_folder, csvfile_name)
-attributesMICSdata(data_folder, "Kazakhstan", "2010",  inputcsv_folder,outputcsv_folder, csvfile_name)
+# attributesMICSdata(data_folder, "Kazakhstan", "2010",  inputcsv_folder,outputcsv_folder, csvfile_name)
 # attributesMICSdata(data_folder, "Mongolia", "2013",  inputcsv_folder,outputcsv_folder, csvfile_name)
 # attributesMICSdata(data_folder, "Afghanistan", "2010",  inputcsv_folder,outputcsv_folder, csvfile_name)
 # attributesMICSdata(data_folder,  "Thailand", "2015",  inputcsv_folder,outputcsv_folder, csvfile_name)
 # attributesMICSdata(data_folder, "Nepal", "2019",  inputcsv_folder, outputcsv_folder, csvfile_name)
+attributesMICSdata(data_folder, "Samoa", "2019",  inputcsv_folder, outputcsv_folder, csvfile_name)
 
 # sink(paste(csv_folder, "MICS_all_VarNamesCheck.txt", sep = ""))
 # country_code<-c( "Afghanistan", "Bhutan", "Georgia", "Kazakhstan", "Kazakhstan",

@@ -29,14 +29,12 @@ source(paste(r_folder,"http_request.R",sep=""))
 # pubDatafolder<-paste(data_folder,"drupalData20211202LoadtoDevSite/",sep="")
 # pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData202201039newcases/"
 # pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220304violencedatagap/"
-pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220321NEET/"
+# pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220321NEET/"
+# pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220323MICSVAWgap/"
+# pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220324Samoa2019/"
+pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220330ReloadAll/"
 
   
-# runtime<-format(Sys.time(), "%Y%m%d%H%M%S")
-### it is by design that this data folder name change every time
-### you need to type in the correct folder name and then run "Source", all .rds files
-### in this folder will be pushed to the drupal server
-
 
 ### plan: to create one .rds file for each result, with a data structure that describe it
 ###       save all of the r data in one folder (created each time we start running use_version 3 in run_together)
@@ -272,24 +270,15 @@ checkingDrupalFiles<-function(drupalFiles, comm_vars){
 # 
 drupalFilesPush<-gettingDrupalFiles(api_base, key)
 
-# lao_drupal<-drupalRecords[drupalRecords$field_geo_name=="Lao", ]
 
-# print(table(lao_drupal$field_indicator[lao_drupal$drupalTableName=="tree_data"]))
-# 
-# tree_lao<-lao_drupal[lao_drupal$drupalTableName=="tree_data", ]
-# wrong_version<-grepl("v1.1", lao_drupal$title)
-# print(table(wrong_version))
-# wrong_lao<-lao_drupal[wrong_version, ]
 
-for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
-# for (type in c("region_d_index", "region_tree_data")) {
-# for (type in c("d_index", "tree_data")) {
-    pubfolder<-paste(pubDatafolder, type, "/", sep="")
-    print(pubfolder)
-    push_together(pubfolder, drupalFilesPush, api_base, key)
-}
-
-# push_together(pubfolder, drupalFilesPush, api_base, key)
+# for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
+# # for (type in c("region_d_index", "region_tree_data")) {
+# # for (type in c("d_index", "tree_data")) {
+#     pubfolder<-paste(pubDatafolder, type, "/", sep="")
+#     print(pubfolder)
+#     push_together(pubfolder, drupalFilesPush, api_base, key)
+# }
 
 
 # print(r)
@@ -297,52 +286,3 @@ for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
 # http_publish("242", api_base, key)
 # http_publish("346", api_base, key)
 
-####  Oct. 7th, publishing data on early childhood education and covid
-# t1<-drupalFilesPush$treeDataDf
-# t2<-drupalFilesPush$dIndexDataDf
-# t3<-drupalFilesPush$regionTreeDataDf
-# t4<-drupalFilesPush$regionDDataDf
-# 
-# table(t1$field_indicator_name[t1$moderation_state=="Draft"])
-# table(t2$field_indicator_name[t2$moderation_state=="Draft"])
-# table(t3$field_indicator_name[t3$moderation_state=="Draft"])
-# table(t4$field_indicator_name[t4$moderation_state=="Draft"])
-# 
-# country<-unique(t1$field_geo)
-# # country<-country[-c(1, 2)] # Afghanistan and Indian published already
-# 
-# for (ci in country){
-#   r<-http_publish(ci, api_base, key)
-#   print(r)
-# }
-
-#####  on oct 21st, collecting nids for the mics hh indicators and covid 
-#####  finding the indicators
-# indicatorD<-c("AccessElectricity", "BankCardHH", "BasicWater", "CleanFuel", "Covid", "MobilePhoneHH",
-#               "SafeSanitation")
-# indicatorD_id<-drupalFilesPush$indicatorDf$tid[drupalFilesPush$indicatorDf$Name %in% indicatorD]
-# 
-# nid_trees<-drupalFilesPush$treeDataDf$nid[drupalFilesPush$treeDataDf$field_indicator_name %in% indicatorD
-#                                           & drupalFilesPush$treeDataDf$field_survey_type=="MICS"]
-# 
-# nid_ds<-drupalFilesPush$dIndexDataDf$nid[drupalFilesPush$dIndexDataDf$field_indicator %in% indicatorD_id
-#                                           & drupalFilesPush$dIndexDataDf$field_survey_type=="MICS"]
-# nid_regiontrees<-drupalFilesPush$regionDDataDf$nid[drupalFilesPush$regionDDataDf$field_indicator_name %in% indicatorD
-#                                           & drupalFilesPush$regionDDataDf$field_survey_type=="MICS"]
-# nid_regionds<-drupalFilesPush$regionTreeDataDf$nid[drupalFilesPush$regionTreeDataDf$field_indicator_name %in% indicatorD
-#                                           & drupalFilesPush$regionTreeDataDf$field_survey_type=="MICS"]
-
-# sink("/home/yw/Workspace/rstudio/LNOB_Rcode/output/deleted/nids.txt")
-# for(i in c(1:length(nids)))
-# print(as.numeric(nids[i]))
-# sink()
-# 2726 nids sent
-
-# currently total nids on the website: region d 10188     -1253 =8935
-#                                     region tree 9639    -1195 = 8444
-#                                     d 926               -139 =787
-#                                     tree 926            -139  =787
-
-
-
-# dt<-readRDS(paste(pubDatafolder,"d_index/", "R39620.rds", sep=""))

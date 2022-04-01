@@ -385,24 +385,39 @@ write_HOI_D <- function(survey_source, datause, country_code, version_code, regi
 #   
 # }
 
+
 country_ISO<-function(country_code){
   
-  if(country_code=="Bangladesh") iso<-"BGD"
-  else if(country_code=="Afghanistan") iso<-"AFG"
-  else if(country_code=="Bhutan") iso<-"BTN"
-  else if(country_code=="Georgia") iso<-"GEO"
-  else if(country_code=="Kazakhstan") iso<-"KAZ"
-  else if(country_code=="Kyrgyzstan") iso<-"KGZ"
-  else if(country_code=="Kiribati") iso<-"KIR"
-  else if(country_code=="Lao") iso<-"LAO"
-  else if(country_code=="Mongolia") iso<-"MNG"
-  else if(country_code=="Nepal") iso<-"NPL"
-  else if(country_code=="Thailand") iso<-"THA"
-  else if(country_code=="Tonga") iso<-"TON"
+  if(country_code %in% c("BD","Bangladesh")) iso<-"BGD"
+  else if(country_code %in% c("AF", "Afghanistan")) iso<-"AFG"
+  else if(country_code %in% c("Bhutan")) iso<-"BTN"
+  else if(country_code %in% c("Georgia")) iso<-"GEO"
+  else if(country_code %in% c("Kazakhstan")) iso<-"KAZ"
+  else if(country_code %in% c("KY", "Kyrgyzstan")) iso<-"KGZ"
+  else if(country_code %in% c("Kiribati")) iso<-"KIR"
+  else if(country_code %in% c("Lao")) iso<-"LAO"
+  else if(country_code %in% c("Mongolia")) iso<-"MNG"
+  else if(country_code %in% c("NP", "Nepal")) iso<-"NPL"
+  else if(country_code %in% c("Thailand")) iso<-"THA"
+  else if(country_code %in% c("Tonga")) iso<-"TON"
   else if(country_code %in% c("VietNam", "Vietnam")) iso<-"VNM"
-  else if(country_code=="Turkmenistan") iso<-"TKM"
-  else if(country_code=="Tuvalu") iso<-"TUV"
-  else iso<-country_code  
+  else if(country_code %in% c("Turkmenistan")) iso<-"TKM"
+  else if(country_code %in% c("Tuvalu")) iso<-"TUV"
+  else if(country_code %in% c("Samoa")) iso<-"WSM"
+  else if(country_code=="IA") iso<-"IND"
+  else if(country_code=="AM") iso<-"ARM"
+  else if(country_code=="KH") iso<-"KHM"
+  else if(country_code=="MV") iso<-"MDV"
+  else if(country_code=="MM") iso<-"MMR"
+  else if(country_code=="PK") iso<-"PAK"
+  else if(country_code=="PG") iso<-"PNG"
+  else if(country_code=="PH") iso<-"PHL"
+  else if(country_code=="TJ") iso<-"TJK"
+  else if(country_code=="TL") iso<-"TLS"
+  else if(country_code=="TR") iso<-"TUR"
+  else if(country_code=="ID") iso<-"IDN"
+  else iso<-"NotFound"
+ 
   return(iso)
   
 }
@@ -469,6 +484,7 @@ isoToCountry<-function(iso)
   else if(iso=="VNM") country<-"VietNam"
   else if(iso=="TKM") country<-"Turkmenistan"
   else if(iso=="TUV") country<-"Tuvalu"
+  else if(iso=="WSM") country<-"Samoa"
   else country<-paste("NotFound", iso)
     
   return(country)

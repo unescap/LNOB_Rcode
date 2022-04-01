@@ -22,17 +22,17 @@ HV014,Under5,HR,INT,IndependentV,
 HV106,HighestEducation,HR,String,IndependentV,# HouseholdEducation
 RegionName,RegionName,HR,ID,IndependentV,
 RegionName,RegionName,HR,ID,IndependentV,
-HV206,AccessElectricity,HR,Factor,ResponseV,"# \""PoorerHousehold\"
-HV247,BankCardHH,HR,Factor,ResponseV,"# \""PoorerHousehold\"
-HV226,CleanFuel,HR,Factor,ResponseV,"# \""PoorerHousehold\"
-HV201,CleanWater,HR,Factor,ResponseV,"# \""PoorerHousehold\"
-HV201,BasicWater,HR,Factor,ResponseV,"# \""PoorerHousehold\"
-HV201,HouseholdBasic,HR,Factor,ResponseV,"# \""PoorerHousehold\"
-HV243A,HouseholdTechNeed,HR,Factor,ResponseV,"# \""PoorerHousehold\"
-HV244,Land,HR,Factor,ResponseV,"# for rural only, \""PoorerHousehold\"
-HV243A,MobilePhoneHH,HR,Factor,ResponseV,"# \""PoorerHousehold\"
+HV206,AccessElectricity,HR,Factor,ResponseV,
+HV247,BankCardHH,HR,Factor,ResponseV,
+HV226,CleanFuel,HR,Factor,ResponseV,
+HV201,CleanWater,HR,Factor,ResponseV,
+HV201,BasicWater,HR,Factor,ResponseV,
+HV201,HouseholdBasic,HR,Factor,ResponseV,
+HV243A,HouseholdTechNeed,HR,Factor,ResponseV,
+HV244,Land,HR,Factor,ResponseV,
+HV243A,MobilePhoneHH,HR,Factor,ResponseV,
 HV247,MultiDeprivation,HR,Factor,ResponseV,# no definition
-HV205,SafeSanitation,HR,Factor,ResponseV,"# \""PoorerHousehold\"
+HV205,SafeSanitation,HR,Factor,ResponseV,
 HV230A,HandWash,HR,Factor,ResponseV,# place observed
 HV216,NotCrowded,HR,Factor,ResponseV0,#Number of HH members
 HV225,SharedToilet,HR,Factor,SafeSanitation,
@@ -42,7 +42,7 @@ V044,ViolenceInterview,IR,Factor,AuxResonpse,
 V213,CurrentlyPregnant,IR,Factor,AuxResonpse,
 V011,BirthDate,IR,numeric,AuxResonpse,CMC date of birth of respondent
 V008,InterviewDate,IR,numeric,AuxResonpse,
-V624,UnmetNeed,IR,Factor,ContraceptiveMethod,# V626 sometimes
+V626A,UnmetNeed,IR,Factor,ContraceptiveMethod,# V626 sometimes
 CASEID,CASEID,IR,ID,ID,
 V001,cluster_id,IR,ID,ID,
 V002,HouseholdNumber,IR,ID,ID,
@@ -55,7 +55,7 @@ V025,Residence,IR,Factor,IndependentV,
 V190,PoorerHousehold,IR,Factor,IndependentV,# wealth Quintiles
 V012,aGroup,IR,INT,IndependentV,# Age
 V012,Age,IR,INT,IndependentV,# Age
-HIDX,NUnder5,IR,String,IndependentV,# BirthHistory
+HIDX,Nunder5,IR,String,BirthHistory,# BirthHistory
 V201,NumberBirths,IR,String,IndependentV,
 MIDX,BirthHistory,IR,String,ProfessionalHelp,
 V131,Ethnicity,IR,INT,IndependentV,
@@ -83,10 +83,10 @@ D101E,WhereAbout,IR,Factor,MaritalControl,
 V743A,DecisionHealth,IR,Factor,WifeDecisionPower,
 V743B,DecisionPurchase,IR,Factor,WifeDecisionPower,
 V743D,DecisionVisit,IR,Factor,WifeDecisionPower,
-V313,ContraceptiveMethod,IR,Factor,ResponseV,"# \""PoorerHousehold\"
-HIDX,ProfessionalHelp,IR,Factor,ResponseV,"# \""PoorerHousehold\"
-V481,HealthInsurance,IR,Factor,ResponseV,"# \""PoorerHousehold\"
-V171A,InternetUse,IR,Factor,ResponseV,"# \""PoorerHousehold\"
+V313,ContraceptiveMethod,IR,Factor,ResponseV,
+HIDX,ProfessionalHelp,IR,Factor,ResponseV,
+V481,HealthInsurance,IR,Factor,ResponseV0,
+V171A,InternetUse,IR,Factor,ResponseV,
 V511,ChildMarriage15,IR,Factor,ResponseV,
 V511,ChildMarriage18,IR,Factor,ResponseV,
 V169B,MobileFinance,IR,Factor,ResponseV,
@@ -113,7 +113,7 @@ MV502,MarriageStatus,MR,Factor,IndependentV,
 MV106,Education,MR,Factor,IndependentV,
 MV201,TotalChildren,MR,INT,IndependentV,
 RegionName,RegionName,MR,ID,IndependentV,
-MV481,HealthInsurance,MR,Factor,MresponseV,# if health insurance was asked for men's recode
+MV481,HealthInsurance,MR,Factor,MresponseV0,# if health insurance was asked for men's recode
 MV171A,InternetUse,MR,Factor,MresponseV,# if internetuse is asked in men's recode
 MV511,ChildMarriage15,MR,Factor,MresponseV,# If men's recode file exists with marriage information
 MV511,ChildMarriage18,MR,Factor,MresponseV,# If men's recode file exists with marriage information
@@ -143,18 +143,18 @@ HV014,Under5,PR,INT,IndependentV,
 HV105,aGroup,PR,INT,IndependentV,
 HV014,TeenagePregnancy,PR,INT,PresponseV0,
 HV013,AdolescentBirthRate,PR,numeric,PresponseV0,not used in the calculation
-HV109,HigherEducation2535,PR,Factor,ResponseV,"# \""PoorerHousehold\"
-HV109,HigherEducation35plus,PR,Factor,ResponseV,"# \""PoorerHousehold\"
-HC72,NotOverweight,PR,Factor,ResponseV,"# \""PoorerHousehold\"
-HC70,NotStunting,PR,Factor,ResponseV,"# \""PoorerHousehold\"
-HC72,NotWasting,PR,Factor,ResponseV,"# \""PoorerHousehold\"
-HC72,Overweight,PR,Factor,ResponseV,"# \""PoorerHousehold\"
-HV109,SecondaryEducation2035,PR,Factor,ResponseV,"# \""PoorerHousehold\"
-HV109,SecondaryEducation35plus,PR,Factor,ResponseV,"# \""PoorerHousehold\"
-HC70,Stunting,PR,Factor,ResponseV,"# \""PoorerHousehold\"
-HC72,Wasting,PR,Factor,ResponseV,"# \""PoorerHousehold\"
-HV247,BankCardPR,PR,Factor,ResponseV0,
-HC13,ChildHealth,PR,Factor,ResponseV0,"# \""PoorerHousehold\"
+HV109,HigherEducation2535,PR,Factor,ResponseV,
+HV109,HigherEducation35plus,PR,Factor,ResponseV,
+HC72,NotOverweight,PR,Factor,ResponseV,
+HC70,NotStunting,PR,Factor,ResponseV,
+HC72,NotWasting,PR,Factor,ResponseV,
+HC72,Overweight,PR,Factor,ResponseV,
+HV109,SecondaryEducation2035,PR,Factor,ResponseV,
+HV109,SecondaryEducation35plus,PR,Factor,ResponseV,
+HC70,Stunting,PR,Factor,ResponseV,
+HC72,Wasting,PR,Factor,ResponseV,
+HV247,BankCardPR,PR,Factor,ResponseV,
+HC13,ChildHealth,PR,Factor,ResponseV0,
 HV005,SampleWeight,PR,INT,Weight,
 SH121U,Internet,PR,Factor,Learning,
 SH37N,Internet,PR,Factor,Learning,
@@ -162,6 +162,7 @@ HV207,LearningPR,PR,Factor,ResponseV,
 HV207,Radio,PR,Factor,Learning,
 HV208,Television,PR,Factor,Learning,
 HV221,Telephone,PR,Factor,Learning,
+HV243A,MobilePhonePR,PR,Factor,ResponseV,
 HV243A,MobilePhonePR,PR,Factor,Learning,
 HV201,WaterOnsitePR,PR,Factor,ResponseV,
 HV204,WaterTime,PR,Factor,Water,
@@ -184,6 +185,28 @@ HV205,SafeSanitationPR,PR,Factor,ResponseV,
 HV225,SharedToilet,PR,Factor,SafeSanitation,
 V169A,MobilePhone,IR,Factor,ResponseV,
 MV169A,MobilePhone,MR,Factor,ResponseV,
+V467C,HealthcareNotAffordable,IR,Factor,ResponseV,
+V467D,HealthcareFar,IR,Factor,ResponseV,
+V467C,HealthcareNotAccessible,IR,Factor,ResponseV,
+V467D,HealthcareNotAccessible,IR,Factor,ResponseV,
+V467B,HealthcareNotUsed,IR,Factor,ResponseV,
+V467C,HealthcareNotUsed,IR,Factor,ResponseV,
+V467D,HealthcareNotUsed,IR,Factor,ResponseV,
+V467E,HealthcareNotUsed,IR,Factor,ResponseV,
+V467F,HealthcareNotUsed,IR,Factor,ResponseV,
+V467G,HealthcareNotUsed,IR,Factor,ResponseV,
+V467H,HealthcareNotUsed,IR,Factor,ResponseV,
+V467I,HealthcareNotUsed,IR,Factor,ResponseV,
+V467J,HealthcareNotUsed,IR,Factor,ResponseV,
+V467K,HealthcareNotUsed,IR,Factor,ResponseV,
+V467B,HealthcareDiscouraged,IR,Factor,ResponseV,
+V467E,HealthcareDiscouraged,IR,Factor,ResponseV,
+V467F,HealthcareDiscouraged,IR,Factor,ResponseV,
+V467G,HealthcareDiscouraged,IR,Factor,ResponseV,
+V467H,HealthcareDiscouraged,IR,Factor,ResponseV,
+V467I,HealthcareDiscouraged,IR,Factor,ResponseV,
+V467J,HealthcareDiscouraged,IR,Factor,ResponseV,
+V467K,HealthcareDiscouraged,IR,Factor,ResponseV,
 D103A,AllViolence,IR,Factor,ResponseV,#emotional
 D103B,AllViolence,IR,Factor,ResponseV,#emotional
 D103C,AllViolence,IR,Factor,ResponseV,#emotional
@@ -266,3 +289,4 @@ V744B,NoViolenceJustifiedAgainstWomen,IR,Factor,ResponseV,
 V744C,NoViolenceJustifiedAgainstWomen,IR,Factor,ResponseV,
 V744D,NoViolenceJustifiedAgainstWomen,IR,Factor,ResponseV,
 V744E,NoViolenceJustifiedAgainstWomen,IR,Factor,ResponseV,
+SH17,EarlyChildhoodEducation,PR,Factor,ResponseV,#based on KY

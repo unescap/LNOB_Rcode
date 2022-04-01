@@ -3,6 +3,7 @@ library(foreign)
 
 source_folder <- "/home/yw/Workspace/rstudio/LNOB_Rcode/"
 csv_folder<-paste(source_folder, "MICScsv/", sep="")
+data_folder<-mics_data_folder
 r_folder<-paste(source_folder, "Rfiles/", sep="")
 
 source(paste(r_folder,"MICS_get_data.R",sep=""))
@@ -15,7 +16,7 @@ run_together_edu<-function(source_folder, data_folder, output_folder, country_co
   meta_data<-read.table(paste(csv_folder, csvfile_name, ".csv", sep=""), sep=",", header=T, colClasses="character")
   dataSet<-unique(meta_data$DataSet)
   dataSet<-c("hl", "wm", "ch")
-  dataSet<-c("hl")
+  # dataSet<-c("hl")
   
   for(ds in dataSet){
     print(ds)
@@ -44,7 +45,7 @@ run_together_edu<-function(source_folder, data_folder, output_folder, country_co
     vn<-toupper(dataList$VarName[dataList$NickName==nn])
     vk<-match(vn, colnames(df))
     print(table(df[, vk]))
-    df$HL6<-as.numeric(as.character(df$HL6))
+    # df$HL6<-as.numeric(as.character(df$HL6))
     if(ds=="hl"){
       df$age_group<-1
       df$age_group[df$HL6>=20 & df$HL6<=35]<-2
@@ -98,6 +99,7 @@ data_folder<-mics_data_folder
 # run_together_edu(source_folder, data_folder, output_folder, "Vietnam", "2010",  csvfile_name)
 # run_together_edu(source_folder, data_folder, output_folder, "VietNam", "2013",  csvfile_name)
 
+# run_together_edu(source_folder, data_folder, output_folder, "Samoa", "2019",  csvfile_name)
 
 # checking water code
 # df<-importMICSdata(data_folder,  "Turkmenistan", "2019", "hl", "WS1", la=TRUE)
@@ -107,8 +109,8 @@ data_folder<-mics_data_folder
 # df<-importMICSdata(data_folder,  "Turkmenistan", "2015", "hl", "HC8", la=TRUE)
 # print(table(df)/length(df))
  
-df<-importMICSdata(data_folder,  "Turkmenistan", "2015", "hl", "HL5Y", la=FALSE)
-print(table(df))
+# df<-importMICSdata(data_folder,  "Turkmenistan", "2015", "hl", "HL5Y", la=FALSE)
+# print(table(df))
 
 # checking woman burth date
 # df<-importMICSdata(data_folder,  "Lao", "2017", "hh", "HH6A", la=FALSE)
@@ -143,21 +145,33 @@ print(table(df))
  # df<-importMICSdata(data_folder,   "Afghanistan", "2010", "hh", "WS4", la=FALSE)
  # print(table(df))
  
- df<-importMICSdata(data_folder,   "Kazakhstan", "2010", "wm", "DA5G3", la=TRUE)
- print(table(df)/length(df))
- print(table(df))
- df<-importMICSdata(data_folder,   "Kazakhstan", "2010", "wm", "DA5G3", la=FALSE)
- print(table(df)/length(df))
- print(table(df))
- 
- df<-importMICSdata(data_folder,   "Tuvalu", "2019", "wm", "DVD5G1", la=TRUE)
- print(table(df)/length(df))
- print(table(df))
- df<-importMICSdata(data_folder,   "Tuvalu", "2019", "wm", "DVD5G1", la=FALSE)
- print(table(df)/length(df))
- print(table(df))
+ # df<-importMICSdata(data_folder,   "Kazakhstan", "2010", "wm", "DA5G3", la=TRUE)
+ # print(table(df)/length(df))
+ # print(table(df))
+ # df<-importMICSdata(data_folder,   "Kazakhstan", "2010", "wm", "DA5G3", la=FALSE)
+ # print(table(df)/length(df))
+ # print(table(df))
  
  
+ # 
+ # df<-importMICSdata(data_folder,   "Tuvalu", "2019", "wm", "DVD5G1", la=TRUE)
+ # print(table(df)/length(df))
+ # print(table(df))
+ # df<-importMICSdata(data_folder,   "Tuvalu", "2019", "wm", "DVD5G1", la=FALSE)
+ # print(table(df)/length(df))
+ # print(table(df))
+ # 
+ 
+
+
+df<-importMICSdata(data_folder,   "Samoa", "2019", "hh", "EU1", la=TRUE)
+print(table(df)/length(df))
+print(table(df))
+df<-importMICSdata(data_folder,   "Samoa", "2019", "hh", "EU1", la=FALSE)
+print(table(df)/length(df))
+print(table(df))
+
+
 # 
 # # run_together_edu(csv_folder, data_folder, output_folder, "Afghanistan", "2010",  csvfile_name)
 # run_together_edu(csv_folder, data_folder, output_folder, "VietNam", "2013",  csvfile_name)
