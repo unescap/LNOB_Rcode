@@ -296,7 +296,7 @@ BasicWater<-function(datause, dataList, k, svnm){
   datause[,wtk]<-as.numeric(as.character(datause[,wtk]))
   onpremise<-(datause[,wtk]==996)
   datause[onpremise,wtk]<-0
-  if(svnm=="IA7A") more_30<- datause[,wtk]>30
+  if(svnm=="IA7B") more_30<- datause[,wtk]>30
   else more_30<- datause[,wtk]>=30
   datause$var2tab<-1
   iws_code<-water_code(svnm)
@@ -621,7 +621,7 @@ EarlyChildhoodEducation<-function(df, dataList, k, svnm){
   else if(svnm=="KY61") datause<-datause[datause$Age>=5 & datause$Age<=6, ]
   else  if(svnm %in% c('KH72', 'MV71', 'MM71', "NP61", 'TJ61')) datause<-datause[datause$Age>=3 & datause$Age<=4, ]
   else if(svnm %in% c("IA74")) datause<-datause[datause$Age>=3, ]  ## India claimed to have 3-6 yos, but the KR only have 3-4
-  else if(svnm %in% c("IA7A")) datause<-datause[datause$Age>=2 & datause$Age<=4, ]  ## India claimed to have 2-4 yos
+  else if(svnm %in% c("IA7B")) datause<-datause[datause$Age>=2 & datause$Age<=4, ]  ## India claimed to have 2-4 yos
 
   datause$var2tab<-0 
   if(svnm=="IA74") datause$var2tab[datause[, k] %in% c(1,2)]<-1
@@ -644,7 +644,7 @@ ContraceptiveMethod<-function(datause, dataList, k, svnm){
     datause$UnmetNeed<-as.numeric(as.character(datause$UnmetNeed))
   }
   
-  if(svnm=="IA7A"){
+  if(svnm=="IA7B"){
     # currently married only
     msV<-dataList$VarName[dataList$NickName=="MarriageStatus"]
     msK<-match(msV, colnames(datause))
@@ -1706,7 +1706,7 @@ water_code<-function(svnm){
   #### not clean
   if(svnm %in% c("ID63")) return(c(32, 33, 34, 35, 42, 43, 44, 45, 46, 51, 61, 62, 91, 96) )
   else if(svnm %in% c("ID71")) return(c(32, 33, 34, 35, 42, 43, 44, 45, 46, 61, 62, 91, 96) )
-  else if(svnm %in% c("IA7A")) return(c(32,  42, 43, 96) )
+  else if(svnm %in% c("IA7B")) return(c(32,  42, 43, 96) )
   else return(c(32, 33, 34, 35, 42, 43, 44, 45, 46,  62, 91, 96, 61) )
   ### 51-rain water  61-Tanker truck   71- Bottled water  
   ### 51, 61, 71,   some times Tanker truck is still not improved
