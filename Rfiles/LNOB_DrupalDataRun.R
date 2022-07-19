@@ -80,7 +80,13 @@ drupalI<-run_together(csv_folder, data_folder, drupal_folder, "ID","63", "2012",
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "ID","71", "2017", NULL, NULL, csvfile_name2, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","74", "2016", "74", NULL, csvfile_name6, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
 
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","7B", "2020", "7B", NULL, csvfile_name18, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
 religion_flag<-TRUE
+drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","7B", "2020", "7B", NULL, csvfile_name18, TRUE, caste=religion_flag, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
+
+
+
 drupalI<-run_together(csv_folder, data_folder, drupal_folder, "IA","74", "2016", "74", NULL, csvfile_name6, TRUE, caste=TRUE, region_flag, use_version, validatedcsv, survey_vesion=1, drupalI, indicator_selection)
 
 

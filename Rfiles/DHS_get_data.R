@@ -62,7 +62,7 @@ get_data<-function(df, rv, dataList, indvar, svnm, eth = NULL){
   else if (rv=="Overweight") datause<-  Overweight(df, dataList, k)
   else if (rv=="Wasting") datause<- Wasting(df, dataList, k)
   else if (rv=="EarlyChildhoodEducation") datause<-EarlyChildhoodEducation(df, dataList, k, svnm)
-  else if (rv=="ContraceptiveMethod") datause<- ContraceptiveMethod(df, dataList, k)
+  else if (rv=="ContraceptiveMethod") datause<- ContraceptiveMethod(df, dataList, k, svnm)
   else if (rv=="ProfessionalHelp") datause<- ProfessionalHelp(df, dataList, svnm)  ### no need for k for this one variable
   else if (rv=="HealthInsurance") datause<- HealthInsurance(df, dataList, k, mrDatalist)
   else if (rv=="InternetUse") datause<- InternetUse(df, dataList, k, svnm)
@@ -296,7 +296,8 @@ BasicWater<-function(datause, dataList, k, svnm){
   datause[,wtk]<-as.numeric(as.character(datause[,wtk]))
   onpremise<-(datause[,wtk]==996)
   datause[onpremise,wtk]<-0
-  more_30<- datause[,wtk]>=30
+  if(svnm=="IA7A") more_30<- datause[,wtk]>30
+  else more_30<- datause[,wtk]>=30
   datause$var2tab<-1
   iws_code<-water_code(svnm)
   datause$var2tab[datause[, k] %in% iws_code]<- 0
@@ -620,7 +621,7 @@ EarlyChildhoodEducation<-function(df, dataList, k, svnm){
   else if(svnm=="KY61") datause<-datause[datause$Age>=5 & datause$Age<=6, ]
   else  if(svnm %in% c('KH72', 'MV71', 'MM71', "NP61", 'TJ61')) datause<-datause[datause$Age>=3 & datause$Age<=4, ]
   else if(svnm %in% c("IA74")) datause<-datause[datause$Age>=3, ]  ## India claimed to have 3-6 yos, but the KR only have 3-4
-  
+  else if(svnm %in% c("IA7A")) datause<-datause[datause$Age>=2 & datause$Age<=4, ]  ## India claimed to have 2-4 yos
 
   datause$var2tab<-0 
   if(svnm=="IA74") datause$var2tab[datause[, k] %in% c(1,2)]<-1
@@ -634,7 +635,7 @@ EarlyChildhoodEducation<-function(df, dataList, k, svnm){
 }
 
 ######### IR response variables
-ContraceptiveMethod<-function(datause, dataList, k){
+ContraceptiveMethod<-function(datause, dataList, k, svnm){
   umnV<-dataList$VarName[dataList$NickName=="UnmetNeed"]
   umnK<-match(umnV, colnames(datause))
   if(length(umnK)==0) datause<-unmet_cal(datause)
@@ -642,7 +643,17 @@ ContraceptiveMethod<-function(datause, dataList, k){
     colnames(datause)[umnK]<- "UnmetNeed"
     datause$UnmetNeed<-as.numeric(as.character(datause$UnmetNeed))
   }
-  keep <- datause$UnmetNeed %in% c( 1, 2, 3, 4, 5, 6)  #suitable for both definitions
+  
+  if(svnm=="IA7A"){
+    # currently married only
+    msV<-dataList$VarName[dataList$NickName=="MarriageStatus"]
+    msK<-match(msV, colnames(datause))
+    colnames(datause)[msK]<- "MarriageStatus"
+    datause$MarriageStatus<-as.numeric(as.character(datause$MarriageStatus))
+    datause<-datause[datause$MarriageStatus %in% c(1), ]
+  }
+  
+  keep <- datause$UnmetNeed %in% c(1, 2, 3, 4, 5, 6)  #suitable for both definitions
   datause<-datause[keep, ]
   
   datause$var2tab<- 0
@@ -1189,11 +1200,11 @@ FinancialInclusion<-function(datause, dataList, k){
 
   for(i in c(1,2)){
     ki<-k[i]
+    print(ki)
     vi<-as.numeric(as.character(datause[,ki]))
     datause$var2tab[vi==1]<-1
-    vi[is.na(vi)]<-0
-    print(sum(datause$SampleWeight[vi==1])/tw)
-    
+    # print(sum(datause$SampleWeight[vi==1])/tw)
+    datause<-datause[!is.na(vi), ]
   }
 
   print(paste("average financial inclusion is ", sum(datause$var2tab*datause$SampleWeight)/sum(datause$SampleWeight)))
@@ -1431,7 +1442,7 @@ MotherEducation<-function(datause, dataList, k){
 }
 
 Caste<-function(datause, dataList, k, eth){
-    if(eth %in% c("IA71", "IA74")) {
+    if(eth %in% c("IA71", "IA74", "IA7B")) {
       
 #       Item S116: Belong to a scheduled caste, a scheduled tribe, other backwa
 #       ... tbd-name: '.RECODE6.REC91.S116'
@@ -1462,7 +1473,7 @@ Caste<-function(datause, dataList, k, eth){
 
 
 Religion<-function(datause, dataList, k, eth){
-  if(eth %in% c("IA71", "IA74")) {
+  if(eth %in% c("IA71", "IA74", "IA7B")) {
     
     datause$tmp<-as.numeric(as.character(datause[, k]))
     datause$Religion<-"MinorReligions"
@@ -1695,6 +1706,7 @@ water_code<-function(svnm){
   #### not clean
   if(svnm %in% c("ID63")) return(c(32, 33, 34, 35, 42, 43, 44, 45, 46, 51, 61, 62, 91, 96) )
   else if(svnm %in% c("ID71")) return(c(32, 33, 34, 35, 42, 43, 44, 45, 46, 61, 62, 91, 96) )
+  else if(svnm %in% c("IA7A")) return(c(32,  42, 43, 96) )
   else return(c(32, 33, 34, 35, 42, 43, 44, 45, 46,  62, 91, 96, 61) )
   ### 51-rain water  61-Tanker truck   71- Bottled water  
   ### 51, 61, 71,   some times Tanker truck is still not improved

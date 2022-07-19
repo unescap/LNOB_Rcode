@@ -32,9 +32,11 @@ source(paste(r_folder,"http_request.R",sep=""))
 # pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220321NEET/"
 # pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220323MICSVAWgap/"
 # pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220324Samoa2019/"
-pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220330ReloadAll/"
+# pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220330ReloadAll/"
+# pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220629India2020/"
+pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220718India2020Contraceptive/"
 
-  
+
 
 ### plan: to create one .rds file for each result, with a data structure that describe it
 ###       save all of the r data in one folder (created each time we start running use_version 3 in run_together)
@@ -59,7 +61,7 @@ gettingDrupalFiles<-function(api_base, key){
   
   geoid<-unique(treeDataDf$field_geo)
   
-  # geoid<-c('158')
+  geoid<-c('121')  # Afhan
   n<-0
   if(!is.null(geoid)){
     for(tid in geoid){
@@ -272,13 +274,13 @@ drupalFilesPush<-gettingDrupalFiles(api_base, key)
 
 
 
-# for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
-# # for (type in c("region_d_index", "region_tree_data")) {
-# # for (type in c("d_index", "tree_data")) {
-#     pubfolder<-paste(pubDatafolder, type, "/", sep="")
-#     print(pubfolder)
-#     push_together(pubfolder, drupalFilesPush, api_base, key)
-# }
+for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
+# for (type in c("region_d_index", "region_tree_data")) {
+# for (type in c("d_index", "tree_data")) {
+    pubfolder<-paste(pubDatafolder, type, "/", sep="")
+    print(pubfolder)
+    push_together(pubfolder, drupalFilesPush, api_base, key)
+}
 
 
 # print(r)
@@ -286,3 +288,8 @@ drupalFilesPush<-gettingDrupalFiles(api_base, key)
 # http_publish("242", api_base, key)
 # http_publish("346", api_base, key)
 
+### publish all
+# countryTID<-unique(drupalFilesPush$treeDataDf$field_geo)
+# library(xml2)
+# for (ci in countryTID2)
+#   http_publish(ci, api_base, key)

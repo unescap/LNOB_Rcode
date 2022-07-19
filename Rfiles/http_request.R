@@ -52,7 +52,7 @@ http_get <- function (endpoint, api_base, key) {
 # http_get("indicator_taxonomies")
 
 http_publish <- function (country, api_base, key) {
-  # print(request_body)
+  print(country)
   # request_body_json <- toJSON(request_body, auto_unbox = TRUE)
   h2 <- handle('')
   callText<-paste(api_base, "publish-data?geo=", country, sep="")
@@ -64,7 +64,7 @@ http_publish <- function (country, api_base, key) {
 
   print(callText)
   #return("ok")
-  return (content(result))
+  print (content(result))
   # return(result)
 }
 

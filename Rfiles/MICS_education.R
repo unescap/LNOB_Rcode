@@ -164,12 +164,20 @@ data_folder<-mics_data_folder
  
 
 
-df<-importMICSdata(data_folder,   "Samoa", "2019", "hh", "EU1", la=TRUE)
+# df<-importMICSdata(data_folder,   "Samoa", "2019", "hh", "EU1", la=TRUE)
+# print(table(df)/length(df))
+# print(table(df))
+# df<-importMICSdata(data_folder,   "Samoa", "2019", "hh", "EU1", la=FALSE)
+# print(table(df)/length(df))
+# print(table(df))
+
+df<-importMICSdata(data_folder,   "Samoa", "2019", "wm", "AF8", la=TRUE)
 print(table(df)/length(df))
 print(table(df))
-df<-importMICSdata(data_folder,   "Samoa", "2019", "hh", "EU1", la=FALSE)
+df<-importMICSdata(data_folder,   "Samoa", "2019", "wm", "AF8", la=FALSE)
 print(table(df)/length(df))
 print(table(df))
+
 
 
 # 
