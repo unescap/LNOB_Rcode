@@ -1,255 +1,255 @@
-"NickName","DataSet","Key1","Key2","Key3","UsualVar","Default","Type","IndicatorType","DataType","VarName","Search_result"
-"cluster_id","ch","cluster","number","","HH1","yes","and","ID","ID","HH1","Default"
-"RLNumber","ch","line","number","","LN","yes","and","ID","ID","LN","Default"
-"HouseholdNumber","ch","household","number","","HH2","yes","Only","ID","ID","HH2","Default"
-"Age","ch","age","months","","CAGE","no","and","IndependentV","numeric","CAGE","More than one columns, usual name chosen"
-"Ethnicity","ch","ethnicity","","","ETHNICITY","no","and","IndependentV","Factor",NA,"0 var names found"
-"MotherEducation","ch","education","mother","","MELEVEL","no","and","IndependentV","Factor","MELEVEL","1 var names found"
-"Residence","ch","area","","","HH6","no","Only","IndependentV","Factor","HH6","1 var names found"
-"Sex","ch","sex","","","HL4","no","Only","IndependentV","Factor","HL4","1 var names found"
-"NUnder5","ch","no keywords","","","No keywords","No keywords","No keywords","IndependentV","numeric","No keywords","Default"
-"PoorerHousehold","ch","wealth","index","quintile","WINDEX5","yes","Only","IndependentV","Factor","WINDEX5","Default"
-"Height","ch","height","centimetres","","AN4","no","and","NotUsed","numeric","AN11","1 var names found"
-"Weight","ch","weight","kilograms","","AN3","no","and","NotUsed","numeric","AN8","2 var names found"
-"NotOverweight","ch","weight for height","z-score","who","WAZ","no","and","ResponseV","numeric","WHZ2","1 var names found"
-"NotStunting","ch","height for age","z-score","who","HAZ","no","and","ResponseV","numeric","HAZ2","1 var names found"
-"NotWasting","ch","weight for height","z-score","who","WHZ","no","and","ResponseV","numeric","WHZ2","1 var names found"
-"Overweight","ch","weight for height","z-score","who","WAZ","no","and","ResponseV","numeric","WHZ2","1 var names found"
-"Stunting","ch","height for age","z-score","who","HAZ","no","and","ResponseV","numeric","HAZ2","1 var names found"
-"Wasting","ch","weight for height","z-score","who","WHZ","no","and","ResponseV","numeric","WHZ2","1 var names found"
-"ChildHealth","ch","child","measured","","AN4A","no","and","ResponseV0","Factor","AN12","1 var names found"
-"SampleWeight","ch","sample","weight","","CHWEIGHT","yes","Only","Weight","numeric","CHWEIGHT","Default"
-"Religion","ch","religion","","","RELIGION","no","and","IndependentV","Factor",NA,"0 var names found"
-"Language","ch","language","","","LANGUAGE","no","and","IndependentV","Factor","LANGUAGE","More than one columns, usual name chosen"
-"Region","ch","region","","","HH7","yes","Only","Region","Factor","HH7","Default"
-"Province","ch","province","","","HH7A","yes","Only","Province","Factor","HH7A","Default"
-"NickName","DataSet","Key1","Key2","Key3","UsualVar","Default","Type","IndicatorType","DataType","VarName","Search_result"
-"SharedToilet","hh","toilet","shared","","WS15","no","and","AuxResonpse","Factor","WS15","More than one columns, usual name chosen"
-"SoapB1","hh","bar","soap","","HW3BA","no","and","Handwash","Factor","HW7A","1 var names found"
-"SoapB3","hh","liquid","soap","","HW3BC","no","and","Handwash","Factor",NA,"0 var names found"
-"HandWashPlace","hh","wash","hand","place","HW1","no","and","Handwash","Factor","HW1","More than one columns, usual name chosen"
-"HandWashWater","hh","wash","hand","water","HW2","no","and","Handwash","Factor","HW2","1 var names found"
-"HandWashSoap","hh","soap","place","hand","HW3","no","and","Handwash","Factor","HW3","1 var names found"
-"Soap1","hh","bar","soap","","HW7A","no","and","Handwash","Factor","HW7A","1 var names found"
-"Soap2","hh","detergent","","","HW7B","no","and","Handwash","Factor","HW7B","More than one columns, usual name chosen"
-"Soap3","hh","ash","mud","","HW7C","no","and","Handwash","Factor",NA,"0 var names found"
-"SoapB2","hh","detergent","","","HW3BB","no","and","Handwash","Factor","","2 var names found"
-"cluster_id","hh","cluster number","","","HH1","yes","and","ID","ID","HH1","Default"
-"HouseholdNumber","hh","household number","","","HH2","yes","Only","ID","ID","HH2","Default"
-"Ethnicity","hh","ethnicity","household","head","ETHNICITY","no","and","IndependentV","Factor",NA,"0 var names found"
-"HHSex","hh","sex","household","head","HHSEX","no","and","IndependentV","Factor","HHSEX","1 var names found"
-"Language","hh","language","household","head","LANGUAGE","no","and","IndependentV","Factor","LANGUAGE","More than one columns, usual name chosen"
-"Religion","hh","religion","household","head","RELIGION","no","and","IndependentV","Factor","HC1A","1 var names found"
-"NUnder5","hh","children","under","5","HH14","no","and","IndependentV","numeric","HH51","1 var names found"
-"Residence","hh","area","","","HH6","no","Only","IndependentV","Factor","HH6","1 var names found"
-"HighestEducation","hh","no keywords","","","No keywords","No keywords","No keywords","IndependentV","Factor","No keywords","Default"
-"PoorerHousehold","hh","wealth","index","quintile","WINDEX5","yes","Only","IndependentV","Factor","WINDEX5","Default"
-"NumberMember","hh","number","member","","HH11","no","and","NotCrowded","numeric","HH48","1 var names found"
-"NumberRoom","hh","number","room","sleep","HC2","no","and","NotCrowded","numeric","HC3","1 var names found"
-"HouseholdBasic","hh","no keywords","","","WS1","No keywords","No keywords","ResponseV","Factor","WS1","Default"
-"HouseholdTechNeed","hh","no keywords","","","HC9B","No keywords","No keywords","ResponseV","Factor","HC9B","Default"
-"MultiDeprivation","hh","no keywords","","","HC15","No keywords","No keywords","ResponseV0","Factor","HC15","Default"
-"NotCrowded","hh","no keywords","","","No keywords","No keywords","No keywords","ResponseV0","Factor","No keywords","Default"
-"CleanWater","hh","main","source","drinking water","WS1","no","and","ResponseV","Factor","WS1","1 var names found"
-"BasicWater","hh","main","source","drinking water","WS1","no","and","ResponseV","Factor","WS1","1 var names found"
-"WaterTime","hh","time","get","water","WS4","no","and","AuxResonpse","Factor","WS4","1 var names found"
-"WaterLocation","hh","location","water","source","WS3","no","and","AuxResonpse","Factor","WS3","1 var names found"
-"HandWash","hh","no keywords","","","No keywords","No keywords","No keywords","ResponseV0","Factor","No keywords","Default"
-"CleanFuel","hh","cook","stove","type","EU1","no","and","ResponseV","Factor","EU1","More than one columns, usual name chosen"
-"AccessElectricity","hh","electricity","","","HC8A","no","and","ResponseV","Factor","HC8","1 var names found"
-"BankCardHH","hh","bank","have","own","HC19","no","or23","ResponseV","Factor","HC19","1 var names found"
-"Land","hh","land","own","have","HC15","no","or23","ResponseV","Factor","HC15","More than one columns, usual name chosen"
-"MobilePhoneHH","hh","mobile","phone","","HC9B","no","and","ResponseV","Factor","HC12","2 var names found"
-"SmartPhoneHH","hh","smart","phone","","HC9K","no","and","MobilePhoneHH","Factor","HC12AA","1 var names found"
-"SafeSanitation","hh","toilet","kind","type","WS8","no","or23","ResponseV","Factor","WS11","1 var names found"
-"SampleWeight","hh","sample weight","","","HHWEIGHT","yes","Only","Weight","numeric","HHWEIGHT","Default"
-"Region","hh","region","","","HH7","yes","Only","Region","Factor","HH7","Default"
-"Province","hh","province","","","HH7A","yes","Only","Province","Factor","HH7A","Default"
-"Internet","hh","internet","","","HC13","no","and","Learning","Factor","HC13","1 var names found"
-"Radio","hh","radio","","","HC7B","no","and","Learning","Factor","HC7B","1 var names found"
-"Television","hh","television","","","HC9A","no","and","Learning","Factor","HC9A","More than one columns, usual name chosen"
-"Telephone","hh","fixed","line","television","HC7A","no","and","Learning","Factor","HC7A","0 var names found"
-"MobilePhonehh","hh","mobile","phone","","HC12","no","and","Learning","Factor","HC12","More than one columns, usual name chosen"
-"Wall","hh","main material","exterior wall","","HC6","no","and","WallRoof","Factor","HC6","1 var names found"
-"Roof","hh","main material","roof","","HC5","no","and","WallRoof","Factor","HC5","1 var names found"
-"NickName","DataSet","Key1","Key2","Key3","UsualVar","Default","Type","IndicatorType","DataType","VarName","Search_result"
-"BirthYear","hl","birth","year","","HL5M","no","and","BirthRate","numeric","HL5Y","1 var names found"
-"BirthMonth","hl","birth","month","","HL5Y","no","and","BirthRate","numeric","HL5M","1 var names found"
-"MotherLineNumber","hl","mother","number","","MLINE","no","and","BirthRate","numeric","MLINE","More than one columns, usual name chosen"
-"cluster_id","hl","cluster","number","","HH1","yes","and","ID","ID","HH1","Default"
-"RLNumber","hl","line","number","","HL1","yes","and","ID","ID","HL1","Default"
-"HouseholdNumber","hl","household","number","","HH2","yes","and","ID","ID","HH2","Default"
-"Age","hl","age","","","HL6","no","Only","IndependentV","numeric","HL6","More than one columns, usual name chosen"
-"Ethnicity","hl","ethnicity","","","ETHNICITY","no","and","IndependentV","Factor",NA,"0 var names found"
-"Residence","hl","area","","","HH6","no","Only","IndependentV","Factor","HH6","1 var names found"
-"Sex","hl","sex","","","HL4","no","Only","IndependentV","Factor","HL4","1 var names found"
-"Education","hl","highest","level","education","ED5A","no","or23","IndependentV","Factor","ED5A","More than one columns, usual name chosen"
-"Grade","hl","highest","grade","completed","ED5B","no","or23","IndependentV","numeric","ED5B","1 var names found"
-"PoorerHousehold","hl","wealth","index","quintile","WINDEX5","yes","Only","IndependentV","Factor","WINDEX5","Default"
-"AdolescentBirthRate","hl","no keywords","","","No keywords","No keywords","No keywords","ResponseV0","numeric","No keywords","Default"
-"HigherEducation2535","hl","highest","level","education","ED4A","no","and","ResponseV","Factor","ED5A","1 var names found"
-"HigherEducation35plus","hl","highest","level","education","ED4A","no","and","ResponseV","Factor","ED5A","1 var names found"
-"SecondaryEducation2035","hl","highest","level","education","ED4A","no","and","ResponseV","Factor","ED5A","1 var names found"
-"SecondaryEducation35plus","hl","highest","level","education","ED4A","no","and","ResponseV","Factor","ED5A","1 var names found"
-"AdolescentBR","hl","no keywords","","","No keywords","No keywords","No keywords","ResponseV0","numeric","No keywords","Default"
-"SampleWeight","hl","sample weight","","","HHWEIGHT","yes","Only","Weight","numeric","HHWEIGHT","Default"
-"Religion","hl","religion","","","RELIGION","no","and","IndependentV","Factor",NA,"0 var names found"
-"Language","hl","language","","","LANGUAGE","no","and","IndependentV","Factor","LANGUAGE","1 var names found"
-"Region","hl","region","","","HH7","yes","Only","Region","Factor","HH7","Default"
-"Province","hl","province","","","HH7A","yes","Only","Province","Factor","HH7A","Default"
-"Covid1","hl","no keywords","","","No keywords","No keywords","No keywords","ResponseV","Factor","No keywords","Default"
-"Covid2","hl","no keywords","","","No keywords","No keywords","No keywords","ResponseV","Factor","No keywords","Default"
-"EducationHL","hl","highest","level","education","ED5A","no","or23","IndependentV","Factor","ED5A","More than one columns, usual name chosen"
-"aGroup","hl","age","","","HL6","no","Only","IndependentV","numeric","HL6","More than one columns, usual name chosen"
-"NickName","DataSet","Key1","Key2","Key3","UsualVar","Default","Type","IndicatorType","DataType","VarName","Search_result"
-"EarlyChildBearing","wm","no keywords","","","No keywords","No keywords","No keywords","ResponseV","Factor","No keywords","Default"
-"NoEarlyChildbearing","wm","no keywords","","","No keywords","No keywords","No keywords","ResponseV","Factor","No keywords","Default"
-"DateFB","wm","date","birth","first","WDOBFC","no","and","EarlyChildBearing","Date","WDOBFC","1 var names found"
-"cluster_id","wm","cluster","number","","HH1","yes","and","ID","ID","HH1","Default"
-"HouseholdNumber","wm","household","number","","HH2","yes","and","ID","ID","HH2","Default"
-"RLNumber","wm","line","number","","LN","yes","and","ID","ID","LN","Default"
-"Age","wm","age of woman","","","WB4","no","Only","IndependentV","numeric","WB4","1 var names found"
-"aGroup","wm","age of woman","","","WB4","no","Only","IndependentV","numeric","WB4","1 var names found"
-"CurrentWorking","wm","employed","last","month","WB11","no","and","IndependentV","Factor",NA,"0 var names found"
-"Education","wm","education","","","welevel","no","and","IndependentV","Factor","welevel","More than one columns, usual name chosen"
-"Ethnicity","wm","ethnicity","","","ETHNICITY","no","and","IndependentV","Factor",NA,"0 var names found"
-"Grade","wm","highest","grade","","WB5","no","and","IndependentV","numeric","WB6B","1 var names found"
-"MarriageStatus","wm","marital","union","status","MSTATUS","no","and","IndependentV","Factor","MSTATUS","1 var names found"
-"Residence","wm","area","","","HH7","no","Only","IndependentV","Factor","HH6","1 var names found"
-"NUnder5","wm","no keywords","","","No keywords","No keywords","No keywords","IndependentV","numeric","No keywords","Default"
-"PoorerHousehold","wm","wealth","index","quintile","WINDEX5","no","and","IndependentV","Factor","WINDEX5","More than one columns, usual name chosen"
-"ModernContra1","wm","current method","female","sterilization","CP4A","no","and","ModernContraceptive","Factor","CP4A","1 var names found"
-"ModernContra10","wm","current method","jelly","foam","CP4J","no","and","ModernContraceptive","Factor",NA,"0 var names found"
-"ModernContra3","wm","current method","injectables","","CP4D","no","and","ModernContraceptive","Factor","CP4D","1 var names found"
-"ModernContra4","wm","current method","implants","","CP4E","no","and","ModernContraceptive","Factor","CP4E","1 var names found"
-"ModernContra5","wm","current method","pill","","CP4F","no","and","ModernContraceptive","Factor","CP4F","More than one columns, usual name chosen"
-"ModernContra6","wm","current method","iud","","CP4C","no","and","ModernContraceptive","Factor","CP4C","1 var names found"
-"ModernContra7","wm","current method","male","condom","CP4G","no","and","ModernContraceptive","Factor","CP4G","More than one columns, usual name chosen"
-"ModernContra8","wm","current method","female","condom","CP4H","no","and","ModernContraceptive","Factor","CP4H","1 var names found"
-"ModernContra9","wm","current method","diaphragm","","CP4I","no","and","ModernContraceptive","Factor","CP4I","1 var names found"
-"ModernContra11","wm","lactational","amenorrhoea","","CP4K","no","and","ModernContraceptive","Factor",NA,"0 var names found"
-"ModernContra2","wm","current method","male","sterilization","CP4B","no","and","ModernContraceptive","Factor","CP4B","More than one columns, usual name chosen"
-"FrequencyNewspaper","wm","frequency","newspaper","","MT2","no","and","not used","Factor",NA,"0 var names found"
-"FrequencyRadio","wm","frequency","radio","","MT3","no","and","not used","Factor",NA,"0 var names found"
-"FrequencyTV","wm","frequency","tv","","MT4","no","and","not used","Factor",NA,"0 var names found"
-"ProfessionalAssitance5","wm","assistance","delivery","birth attendant","MN19F","no","and","ProfessionalHelp","Factor",NA,"0 var names found"
-"ProfessionalAssitance6","wm","assistance","delivery","health worker","MN19G","no","and","ProfessionalHelp","Factor",NA,"0 var names found"
-"ProfessionalAssitance1","wm","assistance","delivery","doctor","MN19A","no","and","ProfessionalHelp","Factor","MN19A","1 var names found"
-"ProfessionalAssitance2","wm","assistance","delivery","nurse","MN19D","no","and","ProfessionalHelp","Factor","MN19C","2 var names found"
-"ProfessionalAssitance3","wm","assistance","delivery","midwife","MN19B","no","and","ProfessionalHelp","Factor","MN19B","1 var names found"
-"ProfessionalAssitance3","wm","assistance","delivery","auxiliary","MN19C","no","and","ProfessionalHelp","Factor",NA,"0 var names found"
-"ProfessionalAssitance4","wm","assistance","delivery","feldsher","MN19D","no","and","ProfessionalHelp","Factor",NA,"0 var names found"
-"ProfessionalAssitance7","wm","assistance","delivery","gynaecologist","","no","and","ProfessionalHelp","Factor",NA,"0 var names found"
-"ProfessionalAssitance8","wm","assistance","delivery","physician","","no","and","ProfessionalHelp","Factor",NA,"0 var names found"
-"ProfessionalAssitance9","wm","assistance","delivery","qualified","","no","and","ProfessionalHelp","Factor",NA,"0 var names found"
-"ProfessionalHelp","wm","place","delivery","","MN18","no","and","ResponseV","Factor","MN20","1 var names found"
-"ReasonBeating","wm","no keywords","","","No keywords","No keywords","No keywords","ResponseV","Factor","No keywords","Default"
-"NoViolenceJustifiedAgainstWomen","wm","no keywords","","","No keywords","No keywords","No keywords","ResponseV","Factor","No keywords","Default"
-"BeatingForArgue","wm","beating","argues","","DV1C","no","and","ReasonBeating","Factor","DV1C","1 var names found"
-"BeatingForChildren","wm","beating","children","","DV1B","no","and","ReasonBeating","Factor","DV1B","1 var names found"
-"BeatingForCooking","wm","beating","burn","food","DV1E","no","and","ReasonBeating","Factor","DV1E","1 var names found"
-"BeatingForOut","wm","beating","out","","DV1A","no","and","ReasonBeating","Factor","DV1A","1 var names found"
-"BeatingForSex","wm","beating","refuse","sex","DV1D","no","and","ReasonBeating","Factor","DV1D","1 var names found"
-"MobilePhone","wm","mobile phone","own","have","MT11","no","or23","ResponseV","Factor",NA,"0 var names found"
-"ChildMarriage15","wm","age","first","marriage","WAGEM","no","and","ResponseV","Factor","WAGEM","More than one columns, usual name chosen"
-"ChildMarriage18","wm","age","first","marriage","WAGEM","no","and","ResponseV","Factor","WAGEM","More than one columns, usual name chosen"
-"NoChildMarriage15","wm","age","first","marriage","WAGEM","no","and","ResponseV","Factor","WAGEM","More than one columns, usual name chosen"
-"NoChildMarriage18","wm","age","first","marriage","WAGEM","no","and","ResponseV","Factor","WAGEM","More than one columns, usual name chosen"
-"ContraceptiveMethod","wm","avoid","pregnancy","currently","CP2","no","and","ResponseV","Factor","CP2","1 var names found"
-"HealthInsurance","wm","health","insurance","","WB18","no","and","ResponseV","Factor","WB18","More than one columns, usual name chosen"
-"InternetUse","wm","internet","last","months","MT10","no","and","ResponseV","Factor",NA,"0 var names found"
-"TeenPregnancy","wm","children","ever","born","CEB","no","and","ResponseV0","Factor","CEB","More than one columns, usual name chosen"
-"NumberBirths","wm","children","ever","born","CEB","no","and","IndependentV","Factor","CEB","More than one columns, usual name chosen"
-"PregnantNow","wm","currently","pregnant","","CP1","no","and","UnmetNeed","Factor","CP1","More than one columns, usual name chosen"
-"R1NoSex","wm","reason","no","sex","UN11A","no","and","UnmetNeed","Factor","UN12A","1 var names found"
-"AblePregnant","wm","able","pregnant","","UN10","no","and","UnmetNeed","Factor","UN11","1 var names found"
-"AgeFirstSex","wm","age","first","sex","SB1","no","and","UnmetNeed","numeric",NA,"0 var names found"
-"DateInterviewed","wm","interview","date","","WDOI","no","and","UnmetNeed","Date","WDOI","1 var names found"
-"DateLastBirth","wm","date","birth","last","WDOBLC","no","and","UnmetNeed","Date","WDOBLC","1 var names found"
-"DateMarried","wm","marriage","date","","WDOM","no","and","UnmetNeed","Date","WDOM","1 var names found"
-"EverContraception","wm","ever","avoid","pregnancy","CP2A","no","and","UnmetNeed","Factor","CP3","1 var names found"
-"InterviewComplete","wm","interview","result","","WM7","no","and","UnmetNeed","Factor","WM17","1 var names found"
-"InterviewM","wm","interview","month","","WM6M","no","and","UnmetNeed","numeric","WM6M","More than one columns, usual name chosen"
-"InterviewY","wm","interview","year","","WM6Y","no","and","UnmetNeed","numeric","WM6Y","More than one columns, usual name chosen"
-"LastBirthM","wm","month","last","birth","CM12M","no","and","UnmetNeed","numeric","CM15M","1 var names found"
-"LastBirthY","wm","year","last","birth","CM12Y","no","and","UnmetNeed","numeric","CM15Y","2 var names found"
-"LastPeriodN","wm","last","period","number","UN13N","no","and","UnmetNeed","numeric","UN14N","1 var names found"
-"LastPeriodU","wm","last","period","unit","UN13U","no","and","UnmetNeed","Factor","UN14U","1 var names found"
-"MonthFB","wm","month","first","birth","CM2M","no","and","UnmetNeed","numeric",NA,"0 var names found"
-"MonthWB","wm","month","woman","birth","WB1M","no","and","UnmetNeed","numeric","WB3M","1 var names found"
-"PregnantNowWanted","wm","wanted","pregnant","","UN2","no","and","UnmetNeed0","Factor","UN2","1 var names found"
-"R2Menopausal","wm","reason","menopausal","","UN11B","no","and","UnmetNeed","Factor",NA,"0 var names found"
-"R3NoPeriod","wm","reason","never","menstruated","UN11C","no","and","UnmetNeed","Factor","UN12C","1 var names found"
-"R4Hysterectomy","wm","reason","hysterectomy","","UN11D","no","and","UnmetNeed","Factor",NA,"0 var names found"
-"R5WantPregnant","wm","reason","trying","pregnant","UN11E","no","and","UnmetNeed","Factor","UN12E","1 var names found"
-"R6Amenorrheic","wm","reason","amenorrheic","","UN11F","no","and","UnmetNeed","Factor",NA,"0 var names found"
-"R7BreastFeed","wm","reason","breastfeeding","","UN11G","no","and","UnmetNeed","Factor","UN12G","1 var names found"
-"R8TooOld","wm","reason","too old","","UN11H","no","and","UnmetNeed","Factor","UN12H","1 var names found"
-"WaitN","wm","desired","wait","number","DB3N","no","and","UnmetNeed","numeric","UN8N","1 var names found"
-"WaitU","wm","desired","wait","unit","DB3U","no","and","UnmetNeed","Factor","UN8U","1 var names found"
-"WantChild","wm","another child","currently pregnant","not","UN7","no","and","UnmetNeed","Factor","UN7","More than one columns, usual name chosen"
-"WantChild2","wm","another child","currently pregnant","","UN5","no","and","UnmetNeed","Factor","UN5","More than one columns, usual name chosen"
-"WantedLast","wm","wanted","last","","DB2","no","and","UnmetNeed","Factor","DB2","1 var names found"
-"WantedLater","wm","wanted","later","","UN4","no","and","UnmetNeed","Factor","UN4","More than one columns, usual name chosen"
-"WMBirthDate","wm","date","birth","woman","WDOB","no","and","UnmetNeed","Date","WDOB","1 var names found"
-"YearFB","wm","year","first","birth","CM2Y","no","and","UnmetNeed","numeric","CM16BY","2 var names found"
-"YearWB","wm","year","woman","birth","WB1Y","no","and","UnmetNeed","numeric","WB3Y","1 var names found"
-"SampleWeight","wm","sample weight","","","wmweight","yes","Only","Weight","numeric","wmweight","Default"
-"Religion","wm","religion","","","RELIGION","no","and","IndependentV","Factor","VT22E","1 var names found"
-"Language","wm","language","","","LANGUAGE","no","and","IndependentV","Factor","LANGUAGE","More than one columns, usual name chosen"
-"Region","wm","region","","","HH7","yes","Only","Region","Factor","HH7","Default"
-"Province","wm","province","","","HH7A","yes","Only","Province","Factor","HH7A","Default"
-"BankFinance","wm","account","bank","financial","WB21","no","and","FinancialInclusion","Factor",NA,"0 var names found"
-"MobileFinance","wm","mobile","phone","financial","MT11A","no","and","FinancialInclusion","Factor",NA,"0 var names found"
-"FinancialInclusion","wm","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor","no keywords","Default"
-"Dseeing","wm","difficulty","seeing","","AF6","no","and","ResponseV","Factor",NA,"0 var names found"
-"Dhearing","wm","difficulty","hearing","","AF8","no","and","ResponseV","Factor",NA,"0 var names found"
-"Dwalking","wm","difficulty","walking","","AF9","no","and","ResponseV","Factor",NA,"0 var names found"
-"Dremembering","wm","difficulty","remembering","","AF10","no","and","ResponseV","Factor",NA,"0 var names found"
-"Dselfcare","wm","difficulty","self-care","","AF11","no","and","ResponseV","Factor",NA,"0 var names found"
-"Dcommunicating","wm","difficulty","communicating","","AF12","no","and","ResponseV","Factor",NA,"0 var names found"
-"NickName","DataSet","Key1","Key2","Key3","UsualVar","Default","Type","IndicatorType","DataType","VarName","Search_result"
-"cluster_id","mn","cluster","number","","HH1","yes","and","ID","ID","HH1","Default"
-"HouseholdNumber","mn","household","number","","HH2","yes","and","ID","ID","HH2","Default"
-"RLNumber","mn","line","number","","LN","yes","and","ID","ID","LN","Default"
-"Age","mn","age of man","","","MWB4","no","Only","IndependentV","numeric","MWB4","1 var names found"
-"aGroup","mn","age of man","","","MWB4","no","Only","IndependentV","numeric","MWB4","1 var names found"
-"CurrentWorking","mn","employed","last","month","MWB11","no","and","IndependentV","Factor",NA,"0 var names found"
-"Education","mn","education","","","mwelevel","no","and","IndependentV","Factor","mwelevel","More than one columns, usual name chosen"
-"Ethnicity","mn","ethnicity","","","ETHNICITY","no","and","IndependentV","Factor",NA,"0 var names found"
-"Grade","mn","highest","grade","","MWB6B","no","and","IndependentV","numeric","MWB6B","1 var names found"
-"MarriageStatus","mn","marital","union","status","MMSTATUS","no","and","IndependentV","Factor","MMSTATUS","1 var names found"
-"Residence","mn","area","","","HH6","no","Only","IndependentV","Factor","HH6","1 var names found"
-"NUnder5","mn","no keywords","","","No keywords","No keywords","No keywords","IndependentV","numeric","No keywords","Default"
-"PoorerHousehold","mn","wealth","index","quintile","WINDEX5","no","and","IndependentV","Factor","WINDEX5","More than one columns, usual name chosen"
-"FrequencyNewspaper","mn","frequency","newspaper","","MMT1","no","and","not used","Factor",NA,"0 var names found"
-"FrequencyRadio","mn","frequency","radio","","MMT2","no","and","not used","Factor",NA,"0 var names found"
-"FrequencyTV","mn","frequency","tv","","MMT3","no","and","not used","Factor",NA,"0 var names found"
-"MobilePhone","mn","mobile phone","own","have","MMT11","no","or23","MresponseV","Factor",NA,"0 var names found"
-"ChildMarriage15","mn","age","first","marriage","MWAGEM","no","and","MresponseV","numeric","MWAGEM","More than one columns, usual name chosen"
-"ChildMarriage18","mn","age","first","marriage","MWAGEM","no","and","MresponseV","numeric","MWAGEM","More than one columns, usual name chosen"
-"NoChildMarriage15","mn","age","first","marriage","MWAGEM","no","and","MresponseV","numeric","MWAGEM","More than one columns, usual name chosen"
-"NoChildMarriage18","mn","age","first","marriage","MWAGEM","no","and","MresponseV","numeric","MWAGEM","More than one columns, usual name chosen"
-"HealthInsurance","mn","health","insurance","","MWB18","no","and","MresponseV","Factor","MWB18","More than one columns, usual name chosen"
-"InternetUse","mn","internet","last","months","MMT10","no","and","MresponseV","Factor",NA,"0 var names found"
-"Religion","mn","religion","","","RELIGION","no","and","IndependentV","Factor","MVT22E","1 var names found"
-"Language","mn","language","","","LANGUAGE","no","and","IndependentV","Factor","LANGUAGE","More than one columns, usual name chosen"
-"Region","mn","region","","","HH7","yes","Only","Region","Factor","HH7","Default"
-"Province","mn","province","","","HH7A","yes","Only","Province","Factor","HH7A","Default"
-"BankFinance","mn","account","bank","financial","MWB21","no","and","FinancialInclusion","Factor",NA,"0 var names found"
-"MobileFinance","mn","mobile","phone","financial","MMT11A","no","and","FinancialInclusion","Factor",NA,"0 var names found"
-"FinancialInclusion","mn","no keywords","","","no keywords","no keywords","no keywords","MresponseV","Factor","no keywords","Default"
-"Dseeing","mn","difficulty","seeing","","MAF6","no","and","MresponseV","Factor",NA,"0 var names found"
-"Dhearing","mn","difficulty","hearing","","MAF8","no","and","MresponseV","Factor",NA,"0 var names found"
-"Dwalking","mn","difficulty","walking","","MAF9","no","and","MresponseV","Factor",NA,"0 var names found"
-"Dremembering","mn","difficulty","remembering","","MAF10","no","and","MresponseV","Factor",NA,"0 var names found"
-"Dselfcare","mn","difficulty","self-care","","MAF11","no","and","MresponseV","Factor",NA,"0 var names found"
-"Dcommunicating","mn","difficulty","communicating","","MAF12","no","and","MresponseV","Factor",NA,"0 var names found"
-"Covid","hl","no keywords","","","No keywords","No keywords","No keywords","ResponseV","Factor","No keywords","Default"
-"LearningHL","hl","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor","no keywords","added manually"
-"WaterOnsiteHL","hl","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor","no keywords","added manually"
-"HandwashHL","hl","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor","no keywords","added manually"
-"SafeSanitationHL","hl","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor","no keywords","added manually"
-"NotCrowdedHL","hl","no keywords","","","no keywords","no keywords","no keywords","ResponseV","Factor","no keywords","added manually"
-"aGroupHL","hl","age","","","HL6","no","Only","IndependentV","numeric","HL6","More than one columns, usual name chosen"
-"EarlyChildhoodEducation","ch","attend","early childhood education","programme","UB8","no","and","ResponseV","Factor","UB8","More than one columns, usual name chosen"
+NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType,VarName,Search_result
+cluster_id,ch,cluster,number,,HH1,yes,and,ID,ID,HH1,Default
+RLNumber,ch,line,number,,LN,yes,and,ID,ID,LN,Default
+HouseholdNumber,ch,household,number,,HH2,yes,Only,ID,ID,HH2,Default
+Age,ch,age,months,,CAGE,no,and,IndependentV,numeric,CAGE,"More than one columns, usual name chosen"
+Ethnicity,ch,ethnicity,,,ETHNICITY,no,and,IndependentV,Factor,NA,0 var names found
+MotherEducation,ch,education,mother,,MELEVEL,no,and,IndependentV,Factor,MELEVEL,1 var names found
+Residence,ch,area,,,HH6,no,Only,IndependentV,Factor,HH6,1 var names found
+Sex,ch,sex,,,HL4,no,Only,IndependentV,Factor,HL4,1 var names found
+NUnder5,ch,no keywords,,,No keywords,No keywords,No keywords,IndependentV,numeric,No keywords,Default
+PoorerHousehold,ch,wealth,index,quintile,WINDEX5,yes,Only,IndependentV,Factor,WINDEX5,Default
+Height,ch,height,centimetres,,AN4,no,and,NotUsed,numeric,AN11,1 var names found
+Weight,ch,weight,kilograms,,AN3,no,and,NotUsed,numeric,AN8,2 var names found
+NotOverweight,ch,weight for height,z-score,who,WAZ,no,and,ResponseV,numeric,WHZ2,1 var names found
+NotStunting,ch,height for age,z-score,who,HAZ,no,and,ResponseV,numeric,HAZ2,1 var names found
+NotWasting,ch,weight for height,z-score,who,WHZ,no,and,ResponseV,numeric,WHZ2,1 var names found
+Overweight,ch,weight for height,z-score,who,WAZ,no,and,ResponseV,numeric,WHZ2,1 var names found
+Stunting,ch,height for age,z-score,who,HAZ,no,and,ResponseV,numeric,HAZ2,1 var names found
+Wasting,ch,weight for height,z-score,who,WHZ,no,and,ResponseV,numeric,WHZ2,1 var names found
+ChildHealth,ch,child,measured,,AN4A,no,and,ResponseV0,Factor,AN12,1 var names found
+SampleWeight,ch,sample,weight,,CHWEIGHT,yes,Only,Weight,numeric,CHWEIGHT,Default
+Religion,ch,religion,,,RELIGION,no,and,IndependentV,Factor,NA,0 var names found
+Language,ch,language,,,LANGUAGE,no,and,IndependentV,Factor,LANGUAGE,"More than one columns, usual name chosen"
+Region,ch,region,,,HH7,yes,Only,Region,Factor,HH7,Default
+Province,ch,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
+NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType,VarName,Search_result
+SharedToilet,hh,toilet,shared,,WS15,no,and,AuxResonpse,Factor,WS15,"More than one columns, usual name chosen"
+SoapB1,hh,bar,soap,,HW3BA,no,and,Handwash,Factor,HW7A,1 var names found
+SoapB3,hh,liquid,soap,,HW3BC,no,and,Handwash,Factor,NA,0 var names found
+HandWashPlace,hh,wash,hand,place,HW1,no,and,Handwash,Factor,HW1,"More than one columns, usual name chosen"
+HandWashWater,hh,wash,hand,water,HW2,no,and,Handwash,Factor,HW2,1 var names found
+HandWashSoap,hh,soap,place,hand,HW3,no,and,Handwash,Factor,HW3,1 var names found
+Soap1,hh,bar,soap,,HW7A,no,and,Handwash,Factor,HW7A,1 var names found
+Soap2,hh,detergent,,,HW7B,no,and,Handwash,Factor,HW7B,"More than one columns, usual name chosen"
+Soap3,hh,ash,mud,,HW7C,no,and,Handwash,Factor,NA,0 var names found
+SoapB2,hh,detergent,,,HW3BB,no,and,Handwash,Factor,,2 var names found
+cluster_id,hh,cluster number,,,HH1,yes,and,ID,ID,HH1,Default
+HouseholdNumber,hh,household number,,,HH2,yes,Only,ID,ID,HH2,Default
+Ethnicity,hh,ethnicity,household,head,ETHNICITY,no,and,IndependentV,Factor,NA,0 var names found
+HHSex,hh,sex,household,head,HHSEX,no,and,IndependentV,Factor,HHSEX,1 var names found
+Language,hh,language,household,head,LANGUAGE,no,and,IndependentV,Factor,LANGUAGE,"More than one columns, usual name chosen"
+Religion,hh,religion,household,head,RELIGION,no,and,IndependentV,Factor,HC1A,1 var names found
+NUnder5,hh,children,under,5,HH14,no,and,IndependentV,numeric,HH51,1 var names found
+Residence,hh,area,,,HH6,no,Only,IndependentV,Factor,HH6,1 var names found
+HighestEducation,hh,no keywords,,,No keywords,No keywords,No keywords,IndependentV,Factor,No keywords,Default
+PoorerHousehold,hh,wealth,index,quintile,WINDEX5,yes,Only,IndependentV,Factor,WINDEX5,Default
+NumberMember,hh,number,member,,HH11,no,and,NotCrowded,numeric,HH48,1 var names found
+NumberRoom,hh,number,room,sleep,HC2,no,and,NotCrowded,numeric,HC3,1 var names found
+HouseholdBasic,hh,no keywords,,,WS1,No keywords,No keywords,ResponseV,Factor,WS1,Default
+HouseholdTechNeed,hh,no keywords,,,HC9B,No keywords,No keywords,ResponseV,Factor,HC9B,Default
+MultiDeprivation,hh,no keywords,,,HC15,No keywords,No keywords,ResponseV0,Factor,HC15,Default
+NotCrowded,hh,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor,No keywords,Default
+CleanWater,hh,main,source,drinking water,WS1,no,and,ResponseV,Factor,WS1,1 var names found
+BasicWater,hh,main,source,drinking water,WS1,no,and,ResponseV,Factor,WS1,1 var names found
+WaterTime,hh,time,get,water,WS4,no,and,AuxResonpse,Factor,WS4,1 var names found
+WaterLocation,hh,location,water,source,WS3,no,and,AuxResonpse,Factor,WS3,1 var names found
+HandWash,hh,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,Factor,No keywords,Default
+CleanFuel,hh,cook,stove,type,EU1,no,and,ResponseV,Factor,EU1,"More than one columns, usual name chosen"
+AccessElectricity,hh,electricity,,,HC8A,no,and,ResponseV,Factor,HC8,1 var names found
+BankCardHH,hh,bank,have,own,HC19,no,or23,ResponseV,Factor,HC19,1 var names found
+Land,hh,land,own,have,HC15,no,or23,ResponseV,Factor,HC15,"More than one columns, usual name chosen"
+MobilePhoneHH,hh,mobile,phone,,HC9B,no,and,ResponseV,Factor,HC12,2 var names found
+SmartPhoneHH,hh,smart,phone,,HC9K,no,and,MobilePhoneHH,Factor,HC12AA,1 var names found
+SafeSanitation,hh,toilet,kind,type,WS8,no,or23,ResponseV,Factor,WS11,1 var names found
+SampleWeight,hh,sample weight,,,HHWEIGHT,yes,Only,Weight,numeric,HHWEIGHT,Default
+Region,hh,region,,,HH7,yes,Only,Region,Factor,HH7,Default
+Province,hh,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
+Internet,hh,internet,,,HC13,no,and,Learning,Factor,HC13,1 var names found
+Radio,hh,radio,,,HC7B,no,and,Learning,Factor,HC7B,1 var names found
+Television,hh,television,,,HC9A,no,and,Learning,Factor,HC9A,"More than one columns, usual name chosen"
+Telephone,hh,fixed,line,television,HC7A,no,and,Learning,Factor,HC7A,0 var names found
+MobilePhonehh,hh,mobile,phone,,HC12,no,and,Learning,Factor,HC12,"More than one columns, usual name chosen"
+Wall,hh,main material,exterior wall,,HC6,no,and,WallRoof,Factor,HC6,1 var names found
+Roof,hh,main material,roof,,HC5,no,and,WallRoof,Factor,HC5,1 var names found
+NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType,VarName,Search_result
+BirthYear,hl,birth,year,,HL5M,no,and,BirthRate,numeric,HL5Y,1 var names found
+BirthMonth,hl,birth,month,,HL5Y,no,and,BirthRate,numeric,HL5M,1 var names found
+MotherLineNumber,hl,mother,number,,MLINE,no,and,BirthRate,numeric,MLINE,"More than one columns, usual name chosen"
+cluster_id,hl,cluster,number,,HH1,yes,and,ID,ID,HH1,Default
+RLNumber,hl,line,number,,HL1,yes,and,ID,ID,HL1,Default
+HouseholdNumber,hl,household,number,,HH2,yes,and,ID,ID,HH2,Default
+Age,hl,age,,,HL6,no,Only,IndependentV,numeric,HL6,"More than one columns, usual name chosen"
+Ethnicity,hl,ethnicity,,,ETHNICITY,no,and,IndependentV,Factor,NA,0 var names found
+Residence,hl,area,,,HH6,no,Only,IndependentV,Factor,HH6,1 var names found
+Sex,hl,sex,,,HL4,no,Only,IndependentV,Factor,HL4,1 var names found
+Education,hl,highest,level,education,ED5A,no,or23,IndependentV,Factor,ED5A,"More than one columns, usual name chosen"
+Grade,hl,highest,grade,completed,ED5B,no,or23,IndependentV,numeric,ED5B,1 var names found
+PoorerHousehold,hl,wealth,index,quintile,WINDEX5,yes,Only,IndependentV,Factor,WINDEX5,Default
+AdolescentBirthRate,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,numeric,No keywords,Default
+HigherEducation2535,hl,highest,level,education,ED4A,no,and,ResponseV,Factor,ED5A,1 var names found
+HigherEducation35plus,hl,highest,level,education,ED4A,no,and,ResponseV,Factor,ED5A,1 var names found
+SecondaryEducation2035,hl,highest,level,education,ED4A,no,and,ResponseV,Factor,ED5A,1 var names found
+SecondaryEducation35plus,hl,highest,level,education,ED4A,no,and,ResponseV,Factor,ED5A,1 var names found
+AdolescentBR,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV0,numeric,No keywords,Default
+SampleWeight,hl,sample weight,,,HHWEIGHT,yes,Only,Weight,numeric,HHWEIGHT,Default
+Religion,hl,religion,,,RELIGION,no,and,IndependentV,Factor,NA,0 var names found
+Language,hl,language,,,LANGUAGE,no,and,IndependentV,Factor,LANGUAGE,1 var names found
+Region,hl,region,,,HH7,yes,Only,Region,Factor,HH7,Default
+Province,hl,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
+Covid1,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
+Covid2,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
+EducationHL,hl,highest,level,education,ED5A,no,or23,IndependentV,Factor,ED5A,"More than one columns, usual name chosen"
+aGroup,hl,age,,,HL6,no,Only,IndependentV,numeric,HL6,"More than one columns, usual name chosen"
+NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType,VarName,Search_result
+EarlyChildBearing,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
+NoEarlyChildbearing,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
+DateFB,wm,date,birth,first,WDOBFC,no,and,EarlyChildBearing,Date,WDOBFC,1 var names found
+cluster_id,wm,cluster,number,,HH1,yes,and,ID,ID,HH1,Default
+HouseholdNumber,wm,household,number,,HH2,yes,and,ID,ID,HH2,Default
+RLNumber,wm,line,number,,LN,yes,and,ID,ID,LN,Default
+Age,wm,age of woman,,,WB4,no,Only,IndependentV,numeric,WB4,1 var names found
+aGroup,wm,age of woman,,,WB4,no,Only,IndependentV,numeric,WB4,1 var names found
+CurrentWorking,wm,employed,last,month,WB11,no,and,IndependentV,Factor,NA,0 var names found
+Education,wm,education,,,welevel,no,and,IndependentV,Factor,welevel,"More than one columns, usual name chosen"
+Ethnicity,wm,ethnicity,,,ETHNICITY,no,and,IndependentV,Factor,NA,0 var names found
+Grade,wm,highest,grade,,WB5,no,and,IndependentV,numeric,WB6B,1 var names found
+MarriageStatus,wm,marital,union,status,MSTATUS,no,and,IndependentV,Factor,MSTATUS,1 var names found
+Residence,wm,area,,,HH7,no,Only,IndependentV,Factor,HH6,1 var names found
+NUnder5,wm,no keywords,,,No keywords,No keywords,No keywords,IndependentV,numeric,No keywords,Default
+PoorerHousehold,wm,wealth,index,quintile,WINDEX5,no,and,IndependentV,Factor,WINDEX5,"More than one columns, usual name chosen"
+ModernContra1,wm,current method,female,sterilization,CP4A,no,and,ModernContraceptive,Factor,CP4A,1 var names found
+ModernContra10,wm,current method,jelly,foam,CP4J,no,and,ModernContraceptive,Factor,NA,0 var names found
+ModernContra3,wm,current method,injectables,,CP4D,no,and,ModernContraceptive,Factor,CP4D,1 var names found
+ModernContra4,wm,current method,implants,,CP4E,no,and,ModernContraceptive,Factor,CP4E,1 var names found
+ModernContra5,wm,current method,pill,,CP4F,no,and,ModernContraceptive,Factor,CP4F,"More than one columns, usual name chosen"
+ModernContra6,wm,current method,iud,,CP4C,no,and,ModernContraceptive,Factor,CP4C,1 var names found
+ModernContra7,wm,current method,male,condom,CP4G,no,and,ModernContraceptive,Factor,CP4G,"More than one columns, usual name chosen"
+ModernContra8,wm,current method,female,condom,CP4H,no,and,ModernContraceptive,Factor,CP4H,1 var names found
+ModernContra9,wm,current method,diaphragm,,CP4I,no,and,ModernContraceptive,Factor,CP4I,1 var names found
+ModernContra11,wm,lactational,amenorrhoea,,CP4K,no,and,ModernContraceptive,Factor,NA,0 var names found
+ModernContra2,wm,current method,male,sterilization,CP4B,no,and,ModernContraceptive,Factor,CP4B,"More than one columns, usual name chosen"
+FrequencyNewspaper,wm,frequency,newspaper,,MT2,no,and,not used,Factor,NA,0 var names found
+FrequencyRadio,wm,frequency,radio,,MT3,no,and,not used,Factor,NA,0 var names found
+FrequencyTV,wm,frequency,tv,,MT4,no,and,not used,Factor,NA,0 var names found
+ProfessionalAssitance5,wm,assistance,delivery,birth attendant,MN19F,no,and,ProfessionalHelp,Factor,NA,0 var names found
+ProfessionalAssitance6,wm,assistance,delivery,health worker,MN19G,no,and,ProfessionalHelp,Factor,NA,0 var names found
+ProfessionalAssitance1,wm,assistance,delivery,doctor,MN19A,no,and,ProfessionalHelp,Factor,MN19A,1 var names found
+ProfessionalAssitance2,wm,assistance,delivery,nurse,MN19D,no,and,ProfessionalHelp,Factor,MN19C,2 var names found
+ProfessionalAssitance3,wm,assistance,delivery,midwife,MN19B,no,and,ProfessionalHelp,Factor,MN19B,1 var names found
+ProfessionalAssitance3,wm,assistance,delivery,auxiliary,MN19C,no,and,ProfessionalHelp,Factor,NA,0 var names found
+ProfessionalAssitance4,wm,assistance,delivery,feldsher,MN19D,no,and,ProfessionalHelp,Factor,NA,0 var names found
+ProfessionalAssitance7,wm,assistance,delivery,gynaecologist,,no,and,ProfessionalHelp,Factor,NA,0 var names found
+ProfessionalAssitance8,wm,assistance,delivery,physician,,no,and,ProfessionalHelp,Factor,NA,0 var names found
+ProfessionalAssitance9,wm,assistance,delivery,qualified,,no,and,ProfessionalHelp,Factor,NA,0 var names found
+ProfessionalHelp,wm,place,delivery,,MN18,no,and,ResponseV,Factor,MN20,1 var names found
+ReasonBeating,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
+NoViolenceJustifiedAgainstWomen,wm,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
+BeatingForArgue,wm,beating,argues,,DV1C,no,and,ReasonBeating,Factor,DV1C,1 var names found
+BeatingForChildren,wm,beating,children,,DV1B,no,and,ReasonBeating,Factor,DV1B,1 var names found
+BeatingForCooking,wm,beating,burn,food,DV1E,no,and,ReasonBeating,Factor,DV1E,1 var names found
+BeatingForOut,wm,beating,out,,DV1A,no,and,ReasonBeating,Factor,DV1A,1 var names found
+BeatingForSex,wm,beating,refuse,sex,DV1D,no,and,ReasonBeating,Factor,DV1D,1 var names found
+MobilePhone,wm,mobile phone,own,have,MT11,no,or23,ResponseV,Factor,NA,0 var names found
+ChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,"More than one columns, usual name chosen"
+ChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,"More than one columns, usual name chosen"
+NoChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,"More than one columns, usual name chosen"
+NoChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,"More than one columns, usual name chosen"
+ContraceptiveMethod,wm,avoid,pregnancy,currently,CP2,no,and,ResponseV,Factor,CP2,1 var names found
+HealthInsurance,wm,health,insurance,,WB18,no,and,ResponseV,Factor,WB18,"More than one columns, usual name chosen"
+InternetUse,wm,internet,last,months,MT10,no,and,ResponseV,Factor,NA,0 var names found
+TeenPregnancy,wm,children,ever,born,CEB,no,and,ResponseV0,Factor,CEB,"More than one columns, usual name chosen"
+NumberBirths,wm,children,ever,born,CEB,no,and,IndependentV,Factor,CEB,"More than one columns, usual name chosen"
+PregnantNow,wm,currently,pregnant,,CP1,no,and,UnmetNeed,Factor,CP1,"More than one columns, usual name chosen"
+R1NoSex,wm,reason,no,sex,UN11A,no,and,UnmetNeed,Factor,UN12A,1 var names found
+AblePregnant,wm,able,pregnant,,UN10,no,and,UnmetNeed,Factor,UN11,1 var names found
+AgeFirstSex,wm,age,first,sex,SB1,no,and,UnmetNeed,numeric,NA,0 var names found
+DateInterviewed,wm,interview,date,,WDOI,no,and,UnmetNeed,Date,WDOI,1 var names found
+DateLastBirth,wm,date,birth,last,WDOBLC,no,and,UnmetNeed,Date,WDOBLC,1 var names found
+DateMarried,wm,marriage,date,,WDOM,no,and,UnmetNeed,Date,WDOM,1 var names found
+EverContraception,wm,ever,avoid,pregnancy,CP2A,no,and,UnmetNeed,Factor,CP3,1 var names found
+InterviewComplete,wm,interview,result,,WM7,no,and,UnmetNeed,Factor,WM17,1 var names found
+InterviewM,wm,interview,month,,WM6M,no,and,UnmetNeed,numeric,WM6M,"More than one columns, usual name chosen"
+InterviewY,wm,interview,year,,WM6Y,no,and,UnmetNeed,numeric,WM6Y,"More than one columns, usual name chosen"
+LastBirthM,wm,month,last,birth,CM12M,no,and,UnmetNeed,numeric,CM15M,1 var names found
+LastBirthY,wm,year,last,birth,CM12Y,no,and,UnmetNeed,numeric,CM15Y,2 var names found
+LastPeriodN,wm,last,period,number,UN13N,no,and,UnmetNeed,numeric,UN14N,1 var names found
+LastPeriodU,wm,last,period,unit,UN13U,no,and,UnmetNeed,Factor,UN14U,1 var names found
+MonthFB,wm,month,first,birth,CM2M,no,and,UnmetNeed,numeric,NA,0 var names found
+MonthWB,wm,month,woman,birth,WB1M,no,and,UnmetNeed,numeric,WB3M,1 var names found
+PregnantNowWanted,wm,wanted,pregnant,,UN2,no,and,UnmetNeed0,Factor,UN2,1 var names found
+R2Menopausal,wm,reason,menopausal,,UN11B,no,and,UnmetNeed,Factor,NA,0 var names found
+R3NoPeriod,wm,reason,never,menstruated,UN11C,no,and,UnmetNeed,Factor,UN12C,1 var names found
+R4Hysterectomy,wm,reason,hysterectomy,,UN11D,no,and,UnmetNeed,Factor,NA,0 var names found
+R5WantPregnant,wm,reason,trying,pregnant,UN11E,no,and,UnmetNeed,Factor,UN12E,1 var names found
+R6Amenorrheic,wm,reason,amenorrheic,,UN11F,no,and,UnmetNeed,Factor,NA,0 var names found
+R7BreastFeed,wm,reason,breastfeeding,,UN11G,no,and,UnmetNeed,Factor,UN12G,1 var names found
+R8TooOld,wm,reason,too old,,UN11H,no,and,UnmetNeed,Factor,UN12H,1 var names found
+WaitN,wm,desired,wait,number,DB3N,no,and,UnmetNeed,numeric,UN8N,1 var names found
+WaitU,wm,desired,wait,unit,DB3U,no,and,UnmetNeed,Factor,UN8U,1 var names found
+WantChild,wm,another child,currently pregnant,not,UN7,no,and,UnmetNeed,Factor,UN7,"More than one columns, usual name chosen"
+WantChild2,wm,another child,currently pregnant,,UN5,no,and,UnmetNeed,Factor,UN5,"More than one columns, usual name chosen"
+WantedLast,wm,wanted,last,,DB2,no,and,UnmetNeed,Factor,DB2,1 var names found
+WantedLater,wm,wanted,later,,UN4,no,and,UnmetNeed,Factor,UN4,"More than one columns, usual name chosen"
+WMBirthDate,wm,date,birth,woman,WDOB,no,and,UnmetNeed,Date,WDOB,1 var names found
+YearFB,wm,year,first,birth,CM2Y,no,and,UnmetNeed,numeric,CM16BY,2 var names found
+YearWB,wm,year,woman,birth,WB1Y,no,and,UnmetNeed,numeric,WB3Y,1 var names found
+SampleWeight,wm,sample weight,,,wmweight,yes,Only,Weight,numeric,wmweight,Default
+Religion,wm,religion,,,RELIGION,no,and,IndependentV,Factor,VT22E,1 var names found
+Language,wm,language,,,LANGUAGE,no,and,IndependentV,Factor,LANGUAGE,"More than one columns, usual name chosen"
+Region,wm,region,,,HH7,yes,Only,Region,Factor,HH7,Default
+Province,wm,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
+BankFinance,wm,account,bank,financial,WB21,no,and,FinancialInclusion,Factor,NA,0 var names found
+MobileFinance,wm,mobile,phone,financial,MT11A,no,and,FinancialInclusion,Factor,NA,0 var names found
+FinancialInclusion,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,Default
+Disability,wm,difficulty,seeing,,AF6,no,and,IndependentV,Factor,NA,0 var names found
+Disability,wm,difficulty,hearing,,AF8,no,and,IndependentV,Factor,NA,0 var names found
+Disability,wm,difficulty,walking,,AF9,no,and,IndependentV,Factor,NA,0 var names found
+Disability,wm,difficulty,remembering,,AF10,no,and,IndependentV,Factor,NA,0 var names found
+Disability,wm,difficulty,self-care,,AF11,no,and,IndependentV,Factor,NA,0 var names found
+Disability,wm,difficulty,communicating,,AF12,no,and,IndependentV,Factor,NA,0 var names found
+NickName,DataSet,Key1,Key2,Key3,UsualVar,Default,Type,IndicatorType,DataType,VarName,Search_result
+cluster_id,mn,cluster,number,,HH1,yes,and,ID,ID,HH1,Default
+HouseholdNumber,mn,household,number,,HH2,yes,and,ID,ID,HH2,Default
+RLNumber,mn,line,number,,LN,yes,and,ID,ID,LN,Default
+Age,mn,age of man,,,MWB4,no,Only,IndependentV,numeric,MWB4,1 var names found
+aGroup,mn,age of man,,,MWB4,no,Only,IndependentV,numeric,MWB4,1 var names found
+CurrentWorking,mn,employed,last,month,MWB11,no,and,IndependentV,Factor,NA,0 var names found
+Education,mn,education,,,mwelevel,no,and,IndependentV,Factor,mwelevel,"More than one columns, usual name chosen"
+Ethnicity,mn,ethnicity,,,ETHNICITY,no,and,IndependentV,Factor,NA,0 var names found
+Grade,mn,highest,grade,,MWB6B,no,and,IndependentV,numeric,MWB6B,1 var names found
+MarriageStatus,mn,marital,union,status,MMSTATUS,no,and,IndependentV,Factor,MMSTATUS,1 var names found
+Residence,mn,area,,,HH6,no,Only,IndependentV,Factor,HH6,1 var names found
+NUnder5,mn,no keywords,,,No keywords,No keywords,No keywords,IndependentV,numeric,No keywords,Default
+PoorerHousehold,mn,wealth,index,quintile,WINDEX5,no,and,IndependentV,Factor,WINDEX5,"More than one columns, usual name chosen"
+FrequencyNewspaper,mn,frequency,newspaper,,MMT1,no,and,not used,Factor,NA,0 var names found
+FrequencyRadio,mn,frequency,radio,,MMT2,no,and,not used,Factor,NA,0 var names found
+FrequencyTV,mn,frequency,tv,,MMT3,no,and,not used,Factor,NA,0 var names found
+MobilePhone,mn,mobile phone,own,have,MMT11,no,or23,MresponseV,Factor,NA,0 var names found
+ChildMarriage15,mn,age,first,marriage,MWAGEM,no,and,MresponseV,numeric,MWAGEM,"More than one columns, usual name chosen"
+ChildMarriage18,mn,age,first,marriage,MWAGEM,no,and,MresponseV,numeric,MWAGEM,"More than one columns, usual name chosen"
+NoChildMarriage15,mn,age,first,marriage,MWAGEM,no,and,MresponseV,numeric,MWAGEM,"More than one columns, usual name chosen"
+NoChildMarriage18,mn,age,first,marriage,MWAGEM,no,and,MresponseV,numeric,MWAGEM,"More than one columns, usual name chosen"
+HealthInsurance,mn,health,insurance,,MWB18,no,and,MresponseV,Factor,MWB18,"More than one columns, usual name chosen"
+InternetUse,mn,internet,last,months,MMT10,no,and,MresponseV,Factor,NA,0 var names found
+Religion,mn,religion,,,RELIGION,no,and,IndependentV,Factor,MVT22E,1 var names found
+Language,mn,language,,,LANGUAGE,no,and,IndependentV,Factor,LANGUAGE,"More than one columns, usual name chosen"
+Region,mn,region,,,HH7,yes,Only,Region,Factor,HH7,Default
+Province,mn,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
+BankFinance,mn,account,bank,financial,MWB21,no,and,FinancialInclusion,Factor,NA,0 var names found
+MobileFinance,mn,mobile,phone,financial,MMT11A,no,and,FinancialInclusion,Factor,NA,0 var names found
+FinancialInclusion,mn,no keywords,,,no keywords,no keywords,no keywords,MresponseV,Factor,no keywords,Default
+Disability,mn,difficulty,seeing,,MAF6,no,and,IndependentV,Factor,NA,0 var names found
+Disability,mn,difficulty,hearing,,MAF8,no,and,IndependentV,Factor,NA,0 var names found
+Disability,mn,difficulty,walking,,MAF9,no,and,IndependentV,Factor,NA,0 var names found
+Disability,mn,difficulty,remembering,,MAF10,no,and,IndependentV,Factor,NA,0 var names found
+Disability,mn,difficulty,self-care,,MAF11,no,and,IndependentV,Factor,NA,0 var names found
+Disability,mn,difficulty,communicating,,MAF12,no,and,IndependentV,Factor,NA,0 var names found
+Covid,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
+LearningHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
+WaterOnsiteHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
+HandwashHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
+SafeSanitationHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
+NotCrowdedHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
+aGroupHL,hl,age,,,HL6,no,Only,IndependentV,numeric,HL6,"More than one columns, usual name chosen"
+EarlyChildhoodEducation,ch,attend,early childhood education,programme,UB8,no,and,ResponseV,Factor,UB8,"More than one columns, usual name chosen"

@@ -39,6 +39,8 @@ output_data<-function(datause, survey_source, country_code, version_code, countr
   if(use_version==1 | (use_version==3 & validation)){
     
     if(region_flag){
+      if(country_code=="IA" & version_code=="7B") datause$REGION<-tolower(datause$REGION)
+        
       regionList<-unique(datause$REGION)
     } else regionList<-c("National")
 
@@ -193,6 +195,10 @@ construct_circum<-function(formula){
   if(grepl("Ethnicity", formula)) circumstances <- c(circumstances, "502")
   if(grepl("Language", formula)) circumstances <- c(circumstances, "505")
   if(grepl("Caste", formula)) circumstances <- c(circumstances, "504")
+  if(grepl("Disability", formula)) circumstances <- c(circumstances, "503")
+  if(grepl("ReligionX", formula)) circumstances <- c(circumstances, "506")
+  if(grepl("EthnicityX", formula)) circumstances <- c(circumstances, "507")
+  if(grepl("LanguageX", formula)) circumstances <- c(circumstances, "508")
   
   return(circumstances)
 }

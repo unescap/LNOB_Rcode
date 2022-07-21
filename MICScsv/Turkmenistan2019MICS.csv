@@ -202,12 +202,12 @@ Province,wm,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
 BankFinance,wm,account,bank,financial,WB21,no,and,FinancialInclusion,Factor,NA,0 var names found
 MobileFinance,wm,mobile,phone,financial,MT11A,no,and,FinancialInclusion,Factor,NA,0 var names found
 FinancialInclusion,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,Default
-Dseeing,wm,difficulty,seeing,,AF6,no,and,ResponseV,Factor,AF6,1 var names found
-Dhearing,wm,difficulty,hearing,,AF8,no,and,ResponseV,Factor,AF8,1 var names found
-Dwalking,wm,difficulty,walking,,AF9,no,and,ResponseV,Factor,AF9,1 var names found
-Dremembering,wm,difficulty,remembering,,AF10,no,and,ResponseV,Factor,AF10,1 var names found
-Dselfcare,wm,difficulty,self-care,,AF11,no,and,ResponseV,Factor,AF11,1 var names found
-Dcommunicating,wm,difficulty,communicating,,AF12,no,and,ResponseV,Factor,AF12,1 var names found
+Disability,wm,difficulty,seeing,,AF6,no,and,IndependentV,Factor,AF6,1 var names found
+Disability,wm,difficulty,hearing,,AF8,no,and,IndependentV,Factor,AF8,1 var names found
+Disability,wm,difficulty,walking,,AF9,no,and,IndependentV,Factor,AF9,1 var names found
+Disability,wm,difficulty,remembering,,AF10,no,and,IndependentV,Factor,AF10,1 var names found
+Disability,wm,difficulty,self-care,,AF11,no,and,IndependentV,Factor,AF11,1 var names found
+Disability,wm,difficulty,communicating,,AF12,no,and,IndependentV,Factor,AF12,1 var names found
 Covid,hl,no keywords,,,No keywords,No keywords,No keywords,ResponseV,Factor,No keywords,Default
 LearningHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually
 WaterOnsiteHL,hl,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,added manually

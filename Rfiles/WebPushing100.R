@@ -34,7 +34,9 @@ source(paste(r_folder,"http_request.R",sep=""))
 # pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220324Samoa2019/"
 # pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220330ReloadAll/"
 # pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220629India2020/"
-pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220718India2020Contraceptive/"
+# pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220718India2020Contraceptive/"
+# pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220720MICS_Disability/"
+pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220720India2020/"
 
 
 
@@ -61,7 +63,7 @@ gettingDrupalFiles<-function(api_base, key){
   
   geoid<-unique(treeDataDf$field_geo)
   
-  geoid<-c('121')  # Afhan
+  # geoid<-c('121')  # Afhan
   n<-0
   if(!is.null(geoid)){
     for(tid in geoid){
@@ -226,11 +228,13 @@ push_together<-function(resultFolder, drupalFiles, api_base, key){
       Sys.sleep(1)
       print(ct)
       endpoint <- "node-create"
+
       result <- http_post(endpoint,dt0, api_base, key)
       print(result)
       dt0<-list()
       ct<-ct+30
       num<-0
+
       print(paste("------", ct, "--------posted" ))
     }
   }

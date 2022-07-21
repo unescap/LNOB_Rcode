@@ -209,12 +209,12 @@ Province,wm,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
 BankFinance,wm,account,bank,financial,WB21,no,and,FinancialInclusion,Factor,NA,not found in data
 MobileFinance,wm,mobile,phone,financial,MT11A,no,and,FinancialInclusion,Factor,NA,not found in data
 FinancialInclusion,wm,no keywords,,,no keywords,no keywords,no keywords,ResponseV,Factor,no keywords,Default
-Dseeing,wm,difficulty,seeing,,AF6,no,and,ResponseV0,Factor,AF6,1 var names found
-Dhearing,wm,difficulty,hearing,,AF8,no,and,ResponseV0,Factor,AF8,1 var names found
-Dwalking,wm,difficulty,walking,,AF9,no,and,ResponseV0,Factor,AF9,1 var names found
-Dremembering,wm,difficulty,remembering,,AF10,no,and,ResponseV0,Factor,AF10,1 var names found
-Dselfcare,wm,difficulty,self-care,,AF11,no,and,ResponseV0,Factor,AF11,1 var names found
-Dcommunicating,wm,difficulty,communicating,,AF12,no,and,ResponseV0,Factor,AF12,1 var names found
+Disability,wm,difficulty,seeing,,AF6,no,and,IndependentV,Factor,AF6,1 var names found
+Disability,wm,difficulty,hearing,,AF8,no,and,IndependentV,Factor,AF8,1 var names found
+Disability,wm,difficulty,walking,,AF9,no,and,IndependentV,Factor,AF9,1 var names found
+Disability,wm,difficulty,remembering,,AF10,no,and,IndependentV,Factor,AF10,1 var names found
+Disability,wm,difficulty,self-care,,AF11,no,and,IndependentV,Factor,AF11,1 var names found
+Disability,wm,difficulty,communicating,,AF12,no,and,IndependentV,Factor,AF12,1 var names found
 Privacy,wm,privacy,,,DVD1,no,and,DomesticViolence,Factor,DVD1,1 var names found
 CurrentlyMarried,wm,currently married,living with a man,,MA1,no,and,DomesticViolence,Factor,MA1,1 var names found
 EverMarried,wm,ever married,lived with a man,,MA5,no,and,DomesticViolence,Factor,MA5,1 var names found
@@ -284,9 +284,9 @@ Province,mn,province,,,HH7A,yes,Only,Province,Factor,HH7A,Default
 BankFinance,mn,account,bank,financial,MWB21,no,and,FinancialInclusion,Factor,NA,not found in data
 MobileFinance,mn,mobile,phone,financial,MMT11A,no,and,FinancialInclusion,Factor,NA,not found in data
 FinancialInclusion,mn,no keywords,,,no keywords,no keywords,no keywords,MresponseV,Factor,no keywords,Default
-Dseeing,mn,difficulty,seeing,,MAF6,no,and,MresponseV,Factor,MAF6,1 var names found
-Dhearing,mn,difficulty,hearing,,MAF8,no,and,MresponseV,Factor,MAF8,1 var names found
-Dwalking,mn,difficulty,walking,,MAF9,no,and,MresponseV,Factor,MAF9,1 var names found
-Dremembering,mn,difficulty,remembering,,MAF10,no,and,MresponseV,Factor,MAF10,1 var names found
-Dselfcare,mn,difficulty,self-care,,MAF11,no,and,MresponseV,Factor,MAF11,1 var names found
-Dcommunicating,mn,difficulty,communicating,,MAF12,no,and,MresponseV,Factor,MAF12,1 var names found
+Disability,mn,difficulty,seeing,,MAF6,no,and,IndependentV,Factor,MAF6,1 var names found
+Disability,mn,difficulty,hearing,,MAF8,no,and,IndependentV,Factor,MAF8,1 var names found
+Disability,mn,difficulty,walking,,MAF9,no,and,IndependentV,Factor,MAF9,1 var names found
+Disability,mn,difficulty,remembering,,MAF10,no,and,IndependentV,Factor,MAF10,1 var names found
+Disability,mn,difficulty,self-care,,MAF11,no,and,IndependentV,Factor,MAF11,1 var names found
+Disability,mn,difficulty,communicating,,MAF12,no,and,IndependentV,Factor,MAF12,1 var names found
