@@ -11,7 +11,7 @@ source(paste(r_folder,"MICS_get_data.R",sep=""))
 run_together_rel<-function(source_folder, data_folder, output_folder, country_code, version_code,  csvfile_name, Flag_New=TRUE, religion=FALSE)
 {
   csvfile_name<-paste(country_code, version_code, csvfile_name, sep="")
-  logcsv<-paste(source_folder, "RelgionEthnicityLanguageTab.csv", sep="")
+  logcsv<-paste(source_folder, "RelgionEthnicityLanguageTab2.csv", sep="")
   print(paste(source_folder, csvfile_name, ".csv", sep=""))
   meta_data<-read.table(paste(source_folder, csvfile_name, ".csv", sep=""), sep=",", header=T, colClasses="character")
   rvList<-c("Religion", "Ethnicity", "Language")
@@ -34,7 +34,14 @@ run_together_rel<-function(source_folder, data_folder, output_folder, country_co
            print("·································")
            print(c(country_code, version_code, ds, rv))
            df<-as.numeric(as.character(df))
-           # df[is.na(df)]<-999
+           df[is.na(df)]<-999
+           if((country_code=="Nepal" & version_code=="2019")
+               | (country_code=="Vietnam" & version_code=="2010")
+              | (country_code=="VietNam" & version_code=="2013"))
+             df<-df[df<999]
+                                         # original code 9 is for no response or missing
+                                        # but for Naple 2019,Vietnam 2010,  9 is a valid code
+           else df<-df[!(df %in% c(9, 999))]
            tabdata0<-as.data.frame(table(df)/length(df)*100)
            tabdata0<-tabdata0[tabdata0[, 2]>0, ]
            total<-sum(tabdata0[, 2])
@@ -75,31 +82,30 @@ run_together_rel<-function(source_folder, data_folder, output_folder, country_co
 }
 
 
-# csvfile_name<-"MICS"
-# run_together_rel(csv_folder, data_folder, output_folder,"Afghanistan",	"2010",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Bangladesh", "2019",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Bhutan",	"2010",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Georgia", "2018",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder,"Kazakhstan",	"2010",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Kazakhstan", "2015",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Kiribati", "2019",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder,"Kyrgyzstan",	"2014",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Kyrgyzstan", "2018",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Lao",	"2011",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Lao", "2017",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder,"Mongolia",	"2013",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Mongolia", "2018",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Nepal", "2019",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Thailand",	"2012",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Thailand", "2015",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Thailand", "2019",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Tonga", "2019",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Turkmenistan", "2015",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Turkmenistan", "2019",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Tuvalu",	"2019",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "Vietnam",	"2010",  csvfile_name)
-# run_together_rel(csv_folder, data_folder, output_folder, "VietNam", "2013",  csvfile_name)
-
+csvfile_name<-"MICS"
+run_together_rel(csv_folder, data_folder, output_folder,"Afghanistan",	"2010",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Bangladesh", "2019",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Bhutan",	"2010",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Georgia", "2018",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder,"Kazakhstan",	"2010",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Kazakhstan", "2015",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Kiribati", "2019",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder,"Kyrgyzstan",	"2014",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Kyrgyzstan", "2018",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Lao",	"2011",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Lao", "2017",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder,"Mongolia",	"2013",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Mongolia", "2018",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Nepal", "2019",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Thailand",	"2012",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Thailand", "2015",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Thailand", "2019",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Tonga", "2019",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Turkmenistan", "2015",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Turkmenistan", "2019",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Tuvalu",	"2019",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "Vietnam",	"2010",  csvfile_name)
+run_together_rel(csv_folder, data_folder, output_folder, "VietNam", "2013",  csvfile_name)
 run_together_rel(csv_folder, data_folder, output_folder, "Samoa",	"2019",  csvfile_name)
 
 # checking water code

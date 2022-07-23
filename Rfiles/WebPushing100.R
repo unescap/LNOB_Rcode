@@ -36,7 +36,8 @@ source(paste(r_folder,"http_request.R",sep=""))
 # pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220629India2020/"
 # pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220718India2020Contraceptive/"
 # pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220720MICS_Disability/"
-pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220720India2020/"
+# pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220720India2020/"
+pubDatafolder<-"/home/yw/Workspace/rstudio/LNOB_Rcode/output/drupalData20220722_ReligionX_10/"
 
 
 
@@ -63,7 +64,7 @@ gettingDrupalFiles<-function(api_base, key){
   
   geoid<-unique(treeDataDf$field_geo)
   
-  # geoid<-c('121')  # Afhan
+  geoid<-geoid[!(geoid=="223")]  # Afhan
   n<-0
   if(!is.null(geoid)){
     for(tid in geoid){
@@ -273,13 +274,13 @@ checkingDrupalFiles<-function(drupalFiles, comm_vars){
   return(rbind(treeDataDf, dIndexDataDf, regionTreeDataDf, regionDDataDf) ) 
 }
 
-# 
-drupalFilesPush<-gettingDrupalFiles(api_base, key)
+# drupalFilesPush<-gettingDrupalFiles(api_base, key)
 
 
 
 for (type in c("d_index", "tree_data", "region_d_index", "region_tree_data")) {
-# for (type in c("region_d_index", "region_tree_data")) {
+# # for (type in c("region_d_index", "region_tree_data")) {
+
 # for (type in c("d_index", "tree_data")) {
     pubfolder<-paste(pubDatafolder, type, "/", sep="")
     print(pubfolder)

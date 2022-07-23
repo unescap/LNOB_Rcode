@@ -150,10 +150,10 @@ BeatingForCooking,wm,beating,burn,food,DV1E,no,and,ReasonBeating,Factor,DV1E,1 v
 BeatingForOut,wm,beating,out,,DV1A,no,and,ReasonBeating,Factor,DV1A,1 var names found
 BeatingForSex,wm,beating,refuse,sex,DV1D,no,and,ReasonBeating,Factor,DV1D,1 var names found
 MobilePhone,wm,mobile phone,own,have,MT11,no,or23,ResponseV,Factor,NA,0 var names found
-ChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,1 var names found
-ChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,1 var names found
-NoChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,1 var names found
-NoChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV,Factor,WAGEM,1 var names found
+ChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV0,Factor,WAGEM,1 var names found
+ChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV0,Factor,WAGEM,1 var names found
+NoChildMarriage15,wm,age,first,marriage,WAGEM,no,and,ResponseV0,Factor,WAGEM,1 var names found
+NoChildMarriage18,wm,age,first,marriage,WAGEM,no,and,ResponseV0,Factor,WAGEM,1 var names found
 ContraceptiveMethod,wm,avoid,pregnancy,currently,CP2,no,and,ResponseV,Factor,CP2,1 var names found
 HealthInsurance,wm,health,insurance,,WB18,no,and,ResponseV0,Factor,NA,0 var names found
 InternetUse,wm,internet,last,months,MT10,no,and,ResponseV,Factor,MT10,0 var names found

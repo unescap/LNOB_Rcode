@@ -7,7 +7,11 @@ build_tree<-function(source_folder, source1, country_code, version_code, datause
   # e is the flag on whether religion/ethnicity variables are included in the model
   if(e==FALSE) minb_chosen = 11 
   else minb_chosen = 19
-  if(grepl("Disability", formula_string)) minb_chosen = 19 ### 5% bucket size if disability is in the model
+  # if(grepl("Disability", formula_string)) minb_chosen = 11 ### 5% bucket size if disability is in the model
+  if(grepl("ReligionX", formula_string)) minb_chosen = 11 ### 5% bucket size if disability is in the model
+  if(grepl("EthnicityX", formula_string)) minb_chosen = 11 ### 5% bucket size if disability is in the model
+  if(grepl("LanguageX", formula_string)) minb_chosen = 11 ### 5% bucket size if disability is in the model
+
   min_node<-max(49, nrow(datause)/minb_chosen)
   
   if (datatype=="Factor") treemethod<-"anova"

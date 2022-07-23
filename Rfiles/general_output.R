@@ -191,14 +191,21 @@ validate<-function(country_code, version_code, rv, overallmean, validationdata){
 construct_circum<-function(formula){
   print(formula)
   circumstances <- c()
-  if(grepl("Religion", formula)) circumstances <- c(circumstances, "501")
-  if(grepl("Ethnicity", formula)) circumstances <- c(circumstances, "502")
-  if(grepl("Language", formula)) circumstances <- c(circumstances, "505")
+  if(grepl("Religion", formula)) {
+    if(grepl("ReligionX", formula)) circumstances <- c(circumstances, "506")
+    else circumstances <- c(circumstances, "501")
+  }
+  if(grepl("Ethnicity", formula)){
+    if(grepl("EthnicityX", formula)) circumstances <- c(circumstances, "507")
+    else circumstances <- c(circumstances, "502")
+    
+  }
+  if(grepl("Language", formula)) {
+    if(grepl("LanguageX", formula)) circumstances <- c(circumstances, "508")
+    else    circumstances <- c(circumstances, "505")
+  }
   if(grepl("Caste", formula)) circumstances <- c(circumstances, "504")
   if(grepl("Disability", formula)) circumstances <- c(circumstances, "503")
-  if(grepl("ReligionX", formula)) circumstances <- c(circumstances, "506")
-  if(grepl("EthnicityX", formula)) circumstances <- c(circumstances, "507")
-  if(grepl("LanguageX", formula)) circumstances <- c(circumstances, "508")
   
   return(circumstances)
 }
